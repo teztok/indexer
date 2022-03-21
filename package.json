@@ -20,10 +20,12 @@
   "author": "TezTok",
   "license": "MIT",
   "dependencies": {
+    "@ffmpeg-installer/ffmpeg": "^1.1.0",
     "@microsoft/signalr": "^6.0.3",
     "@taquito/utils": "^11.0.1",
     "backblaze-b2": "^1.7.0",
     "dotenv": "^10.0.0",
+    "ffprobe-binaries": "^4.3.1",
     "fluent-ffmpeg": "^2.1.2",
     "gm": "^1.23.1",
     "got": "^11.8.2",
@@ -35,6 +37,7 @@
     "lodash": "^4.17.21",
     "mime-types": "^2.1.34",
     "minimist": "^1.2.5",
+    "mmmagic": "^0.5.3",
     "pg": "^8.7.1",
     "superstruct": "^0.15.3",
     "winston": "^3.3.3"

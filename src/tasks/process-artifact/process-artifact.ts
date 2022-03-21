@@ -3,13 +3,12 @@ import fs from 'fs';
 import path from 'path';
 import { pipeline } from 'stream/promises';
 import ffmpeg from 'fluent-ffmpeg';
-//import { Magic, MAGIC_MIME_TYPE } from 'mmmagic';
+import { Magic, MAGIC_MIME_TYPE } from 'mmmagic';
 import gm from 'gm';
 import B2 from 'backblaze-b2';
 import { promisify } from 'util';
-//import ffmpegBin from '@ffmpeg-installer/ffmpeg';
-// @ts-Magic
-//import ffprobeBin from '@ffprobe-installer/ffprobe';
+import ffmpegBin from '@ffmpeg-installer/ffmpeg';
+import ffprobeBinPath from 'ffprobe-binaries';
 import { getWorkerUtils } from '../../lib/utils';
 import ipfsClient from '../../lib/ipfs-client';
 import dbConfig from '../../knexfile';
@@ -27,8 +26,8 @@ const im = gm.subClass({ imageMagick: true });
 
 const readFilePromise = promisify(fs.readFile);
 
-//ffmpeg.setFfmpegPath(ffmpegBin.path);
-//ffmpeg.setFfprobePath(ffprobeBin.path);
+ffmpeg.setFfmpegPath(ffmpegBin.path);
+ffmpeg.setFfprobePath(ffprobeBinPath);
 
 interface ProcessArtifactTaskPayload {
   artifact_uri: string;
@@ -49,8 +48,6 @@ const MIME_TYPE_TO_CONVERTER = {
 };
 
 async function detectMimeTypeFromBuffer(chunk: Buffer) {
-  return '';
-  /*
   const magic = new Magic(MAGIC_MIME_TYPE);
 
   return new Promise(function (resolve, reject) {
@@ -63,12 +60,9 @@ async function detectMimeTypeFromBuffer(chunk: Buffer) {
       resolve(result);
     });
   });
-  */
 }
 
 async function detectMimeTypeFromFile(inputPath: string): Promise<string> {
-  return '';
-  /*
   const magic = new Magic(MAGIC_MIME_TYPE);
 
   return new Promise(function (resolve, reject) {
@@ -81,7 +75,6 @@ async function detectMimeTypeFromFile(inputPath: string): Promise<string> {
       resolve(Array.isArray(result) ? result[0] : result);
     });
   });
-  */
 }
 
 async function getFilesize(inputPath: string): Promise<number> {
