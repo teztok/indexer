@@ -1,0 +1,23 @@
+version: '3'
+services:
+
+    teztok_database:
+        image: postgres
+        restart: always
+        volumes:
+            - ./data/postgres-dev/:/var/lib/postgresql/data/
+        ports:
+            - "6666:5432"
+        env_file:
+            - .env
+
+    teztok_hasura:
+        image: hasura/graphql-engine:v2.2.0
+        depends_on:
+            - teztok_database
+        restart: always
+        env_file:
+            - .env
+
+networks:
+    net:

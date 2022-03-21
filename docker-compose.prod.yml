@@ -1,0 +1,87 @@
+version: '3'
+services:
+
+    teztok_database:
+        image: postgres
+        restart: always
+        volumes:
+            - ./data/postgres/:/var/lib/postgresql/data/
+        env_file:
+            - .env.prod
+
+    teztok_ctrl:
+        image: teztok/indexer
+        restart: always
+        depends_on:
+            - teztok_database
+        build: .
+        volumes:
+            - ./data/:/usr/src/app/data/
+        env_file:
+            - .env.prod
+
+    teztok_event-producer:
+        image: teztok/indexer
+        restart: always
+        depends_on:
+            - teztok_ctrl
+        command: npm run start-worker:event-producer
+        volumes:
+            - ./data/:/usr/src/app/data/
+        env_file:
+            - .env.prod
+
+    teztok_event-processor:
+        image: teztok/indexer
+        restart: always
+        depends_on:
+            - teztok_ctrl
+        command: npm run start-worker:event-processor
+        volumes:
+            - ./data/:/usr/src/app/data/
+        env_file:
+            - .env.prod
+
+    teztok_fetch-metadata:
+        image: teztok/indexer
+        restart: always
+        depends_on:
+            - teztok_ctrl
+        command: npm run start-worker:fetch-metadata
+        volumes:
+            - ./data/:/usr/src/app/data/
+        env_file:
+            - .env.prod
+
+    teztok_process-artifact:
+        image: teztok/indexer
+        restart: always
+        depends_on:
+            - teztok_ctrl
+        command: npm run start-worker:process-artifact
+        volumes:
+            - ./data/:/usr/src/app/data/
+        env_file:
+            - .env.prod
+
+    teztok_rebuild-token:
+        image: teztok/indexer
+        restart: always
+        depends_on:
+            - teztok_ctrl
+        command: npm run start-worker:rebuild-token
+        volumes:
+            - ./data/:/usr/src/app/data/
+        env_file:
+            - .env.prod
+
+    teztok_hasura:
+        image: hasura/graphql-engine:v2.2.0
+        depends_on:
+            - teztok_database
+        restart: always
+        env_file:
+            - .env.prod
+
+networks:
+    net:

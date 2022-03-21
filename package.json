@@ -1,0 +1,68 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm run-script build && concurrently npm:start:ctrl npm:start-worker:*",
+    "start:ctrl": "node ./build/ctrl.js",
+    "start-worker:event-producer": "node ./build/spawn-workers.js event-producer",
+    "start-worker:event-processor": "node ./build/spawn-workers.js event-processor",
+    "start-worker:fetch-metadata": "node ./build/spawn-workers.js fetch-metadata",
+    "start-worker:process-artifact": "node ./build/spawn-workers.js process-artifact",
+    "start-worker:rebuild-token": "node ./build/spawn-workers.js rebuild-token",
+    "init:db": "npm run-script build && node ./build/scripts/init-db.js",
+    "format": "prettier --single-quote --tab-width 2 --print-width 140 --write 'src/**/*.@(js|ts|mjs)'",
+    "build": "tsc -p .",
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "author": "TezTok",
+  "license": "MIT",
+  "dependencies": {
+    "@microsoft/signalr": "^6.0.3",
+    "@taquito/utils": "^11.0.1",
+    "backblaze-b2": "^1.7.0",
+    "dotenv": "^10.0.0",
+    "fluent-ffmpeg": "^2.1.2",
+    "gm": "^1.23.1",
+    "got": "^11.8.2",
+    "graphile-worker": "^0.12.2",
+    "ipfs-http-client": "^55.0.0",
+    "is-ipfs": "^6.0.2",
+    "iso-datestring-validator": "^2.2.0",
+    "knex": "^0.95.11",
+    "lodash": "^4.17.21",
+    "mime-types": "^2.1.34",
+    "minimist": "^1.2.5",
+    "pg": "^8.7.1",
+    "superstruct": "^0.15.3",
+    "winston": "^3.3.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.16.0",
+    "@babel/preset-env": "^7.16.4",
+    "@babel/preset-typescript": "^7.16.0",
+    "@types/backblaze-b2": "^1.5.1",
+    "@types/fluent-ffmpeg": "^2.1.20",
+    "@types/gm": "^1.18.11",
+    "@types/jest": "^27.0.3",
+    "@types/lodash": "^4.14.177",
+    "@types/mime-types": "^2.1.1",
+    "@types/minimist": "^1.2.2",
+    "@types/mmmagic": "^0.4.30",
+    "@types/node": "^16.11.9",
+    "babel-jest": "^27.3.1",
+    "concurrently": "^7.0.0",
+    "jest": "^27.3.1",
+    "prettier": "^2.4.1",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.2"
+  },
+  "jest": {
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/build/"
+    ]
+  }
+}
