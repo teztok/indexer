@@ -81,7 +81,7 @@ export const MetadataSchema: Describe<Metadata> = type({
   isBooleanAmount: optional(defaulted(boolean(), false)),
   shouldPreferSymbol: optional(defaulted(boolean(), false)),
   formats: optional(array(FormatSchema)),
-  attributes: optional(array(AttributeSchema))
+  attributes: optional(array(AttributeSchema)),
 });
 
 export const MetadataBaseSchema: Describe<MetadataBase> = type({

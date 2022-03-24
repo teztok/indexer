@@ -49,6 +49,10 @@ import VersumCreateAuctionHandler, { VersumCreateAuctionEvent } from './versum_c
 import TeiaSwapHandler, { TeiaSwapEvent } from './teia_swap';
 import TeiaCancelSwapHandler, { TeiaCancelSwapEvent } from './teia_cancel_swap';
 import TeiaCollectHandler, { TeiaCollectEvent } from './teia_collect';
+import EightbidMintHandler, { EightbidMintEvent } from './8bid_mint';
+import EightbidSwapHandler, { EightbidSwapEvent } from './8bid_swap';
+import EightbidBuyHandler, { EightbidBuyEvent } from './8bid_buy';
+import EightbidCancelSwapHandler, { EightbidCancelSwapEvent } from './8bid_cancel_swap';
 
 export const handlers = [
   Fa2TransferHandler,
@@ -102,6 +106,10 @@ export const handlers = [
   TeiaSwapHandler,
   TeiaCancelSwapHandler,
   TeiaCollectHandler,
+  EightbidMintHandler,
+  EightbidSwapHandler,
+  EightbidBuyHandler,
+  EightbidCancelSwapHandler,
 ];
 
 export type AnyEvent =
@@ -155,4 +163,8 @@ export type AnyEvent =
   | VersumCreateAuctionEvent
   | TeiaSwapEvent
   | TeiaCancelSwapEvent
-  | TeiaCollectEvent;
+  | TeiaCollectEvent
+  | EightbidMintEvent
+  | EightbidSwapEvent
+  | EightbidBuyEvent
+  | EightbidCancelSwapEvent;

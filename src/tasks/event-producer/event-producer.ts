@@ -112,8 +112,10 @@ async function postProcessEvents(events: Array<Event>, handlers = defaultHandler
   return results;
 }
 
-const ignoredContractAddressesObj: Record<string, boolean> = config.ignoredContractAddresses
-  .reduce((lookup, address) => ({ [address]: true, ...lookup }), {});
+const ignoredContractAddressesObj: Record<string, boolean> = config.ignoredContractAddresses.reduce(
+  (lookup, address) => ({ [address]: true, ...lookup }),
+  {}
+);
 
 export async function produceEvents(payload: EventProducerTaskPayload) {
   const transactions = await getTransactions(payload.filters);

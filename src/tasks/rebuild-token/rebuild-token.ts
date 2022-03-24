@@ -29,6 +29,7 @@ import {
   VERSUM_CONTRACT_MARKETPLACE,
   BURN_ADDRESS,
   TEIA_CONTRACT_MARKETPLACE,
+  EIGHTBIDOU_CONTRACT_MARKETPLACE,
   SALE_INTERFACE,
 } from '../../consts';
 
@@ -70,6 +71,12 @@ export function compileToken(
   let mintPrice = null;
   let metadataUri = null;
   let mintedAt = null;
+
+  let name = null;
+  let description = null;
+  let eightbidCreatorName = null;
+  let eightbidRgb = null;
+  let isOnChainToken = false;
 
   for (const event of events) {
     if ('implements' in event && event.implements === SALE_INTERFACE) {
@@ -515,6 +522,53 @@ export function compileToken(
         break;
       }
 
+      case '8BID_MINT': {
+        isOnChainToken = true;
+        name = event.token_name;
+        description = event.token_description;
+        eightbidCreatorName = event.creator_name;
+        eightbidRgb = event.rgb;
+        artistAddress = event.artist_address;
+        break;
+      }
+
+      case '8BID_SWAP':
+        listings[createListingKey(EIGHTBIDOU_CONTRACT_MARKETPLACE, event.swap_id)] = {
+          type: '8BID_SWAP',
+          contract_address: EIGHTBIDOU_CONTRACT_MARKETPLACE,
+          created_at: event.timestamp,
+          swap_id: event.swap_id,
+          seller_address: event.seller_address,
+          amount: parseInt(event.amount, 10),
+          amount_left: parseInt(event.amount, 10),
+          price: event.price,
+          status: 'active',
+        };
+        break;
+
+      case '8BID_CANCEL_SWAP': {
+        const listingKey = createListingKey(EIGHTBIDOU_CONTRACT_MARKETPLACE, event.swap_id);
+        if (listingKey in listings) {
+          listings[listingKey].status = 'canceled';
+        }
+        break;
+      }
+
+      case '8BID_BUY': {
+        const listingKey = createListingKey(EIGHTBIDOU_CONTRACT_MARKETPLACE, event.swap_id);
+
+        if (listingKey in listings) {
+          const amountLeft = listings[listingKey].amount_left - parseInt(event.amount, 10);
+          listings[listingKey].amount_left = amountLeft;
+
+          if (amountLeft <= 0) {
+            listings[listingKey].status = 'sold_out';
+          }
+        }
+
+        break;
+      }
+
       default:
     }
   }
@@ -574,7 +628,7 @@ export function compileToken(
     token_id: tokenId,
 
     metadata_uri: metadataUri,
-    metadata_status: metadataStatus,
+    metadata_status: isOnChainToken ? 'processed' : metadataStatus,
 
     minted_at: mintedAt,
 
@@ -585,8 +639,8 @@ export function compileToken(
     artist_address: artistAddress,
 
     symbol: cleanString(get(metadata, 'symbol')),
-    name: cleanString(get(metadata, 'name')),
-    description: cleanString(get(metadata, 'description')),
+    name: name || cleanString(get(metadata, 'name')),
+    description: description || cleanString(get(metadata, 'description')),
     artifact_uri: cleanUri(get(metadata, 'artifactUri')),
     display_uri: cleanUri(get(metadata, 'displayUri')),
     thumbnail_uri: cleanUri(get(metadata, 'thumbnailUri')),
@@ -615,6 +669,9 @@ export function compileToken(
 
     sales_count: String(soldEditions),
     royalties,
+
+    eightbid_creator_name: eightbidCreatorName,
+    eightbid_rgb: eightbidRgb,
   };
 
   return {
