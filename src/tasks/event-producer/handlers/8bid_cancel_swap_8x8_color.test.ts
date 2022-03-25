@@ -1,8 +1,8 @@
-import EightbidCancelSwapHandler from './8bid_cancel_swap';
+import EightbidCancelSwap8x8ColorEvent from './8bid_cancel_swap_8x8_color';
 import { transactionsToEvents } from '../event-producer';
 import { Transactions } from '../../../types';
 
-test('creates 8BID_CANCEL_SWAP events', async () => {
+test('creates 8BID_CANCEL_SWAP_8X8_COLOR events', async () => {
   const transactions: Transactions = [
     {
       id: 180039728,
@@ -63,12 +63,12 @@ test('creates 8BID_CANCEL_SWAP events', async () => {
     },
   ];
 
-  const events = transactionsToEvents(transactions, [EightbidCancelSwapHandler]);
+  const events = transactionsToEvents(transactions, [EightbidCancelSwap8x8ColorEvent]);
 
   expect(events).toStrictEqual([
     {
-      id: 'dac294e3d10b2cb49ae94620951c4fd5',
-      type: '8BID_CANCEL_SWAP',
+      id: '6a0cc021b9485da14a6b5455e475a528',
+      type: '8BID_CANCEL_SWAP_8X8_COLOR',
       opid: 180039728,
       timestamp: '2022-02-28T05:34:04Z',
       level: 2155678,

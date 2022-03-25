@@ -3,13 +3,13 @@ import omit from 'lodash/omit';
 import { assert, object, string, Describe } from 'superstruct';
 import { ContractAddress, TezosAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
 import { Handler, TokenEvent, Transaction } from '../../../types';
-import { createEventId, findDiff } from '../../../lib/utils';
-import { EIGHTBIDOU_CONTRACT_MARKETPLACE } from '../../../consts';
+import { createEventId } from '../../../lib/utils';
+import { EIGHTBIDOU_8X8_COLOR_CONTRACT_MARKETPLACE } from '../../../consts';
 
-export const EVENT_TYPE_8BID_SWAP = '8BID_SWAP';
+export const EVENT_TYPE_8BID_SWAP_8X8_COLOR = '8BID_SWAP_8X8_COLOR';
 
-export interface EightbidSwapEvent extends TokenEvent {
-  type: typeof EVENT_TYPE_8BID_SWAP;
+export interface EightbidSwap8x8ColorEvent extends TokenEvent {
+  type: typeof EVENT_TYPE_8BID_SWAP_8X8_COLOR;
   seller_address: string;
   artist_address: string;
   swap_id: string;
@@ -18,7 +18,7 @@ export interface EightbidSwapEvent extends TokenEvent {
   royalties: string;
 }
 
-const EightbidSwapEventSchema: Describe<Omit<EightbidSwapEvent, 'type'>> = object({
+const EightbidSwapSchema: Describe<Omit<EightbidSwap8x8ColorEvent, 'type'>> = object({
   id: string(),
   opid: PositiveInteger,
   timestamp: IsoDateString,
@@ -33,12 +33,12 @@ const EightbidSwapEventSchema: Describe<Omit<EightbidSwapEvent, 'type'>> = objec
   amount: PgBigInt,
 });
 
-const EightbidSwapHandler: Handler<Transaction, EightbidSwapEvent> = {
-  type: EVENT_TYPE_8BID_SWAP,
+const EightbidSwap8x8ColorHandler: Handler<Transaction, EightbidSwap8x8ColorEvent> = {
+  type: EVENT_TYPE_8BID_SWAP_8X8_COLOR,
 
   accept: {
     entrypoint: 'swap',
-    target_address: EIGHTBIDOU_CONTRACT_MARKETPLACE,
+    target_address: EIGHTBIDOU_8X8_COLOR_CONTRACT_MARKETPLACE,
   },
 
   exec: (transaction) => {
@@ -50,11 +50,11 @@ const EightbidSwapHandler: Handler<Transaction, EightbidSwapEvent> = {
     const royalties = String(parseInt(get(transaction, 'parameter.value.royalties'), 10) * 10);
     const amount = get(transaction, 'parameter.value.nft_total_amount');
     const artistAddress = get(transaction, 'parameter.value.creator');
-    const id = createEventId(EVENT_TYPE_8BID_SWAP, transaction.id);
+    const id = createEventId(EVENT_TYPE_8BID_SWAP_8X8_COLOR, transaction.id);
 
-    const event: EightbidSwapEvent = {
+    const event: EightbidSwap8x8ColorEvent = {
       id,
-      type: EVENT_TYPE_8BID_SWAP,
+      type: EVENT_TYPE_8BID_SWAP_8X8_COLOR,
       opid: transaction.id,
       timestamp: transaction.timestamp,
       level: transaction.level,
@@ -69,10 +69,10 @@ const EightbidSwapHandler: Handler<Transaction, EightbidSwapEvent> = {
       amount: amount,
     };
 
-    assert(omit(event, ['type']), EightbidSwapEventSchema);
+    assert(omit(event, ['type']), EightbidSwapSchema);
 
     return event;
   },
 };
 
-export default EightbidSwapHandler;
+export default EightbidSwap8x8ColorHandler;

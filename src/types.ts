@@ -4,7 +4,7 @@ import {
   OBJKT_CONTRACT_MARKETPLACE,
   OBJKT_CONTRACT_MARKETPLACE_V2,
   FX_CONTRACT_MARKETPLACE,
-  EIGHTBIDOU_CONTRACT_MARKETPLACE,
+  EIGHTBIDOU_8X8_COLOR_CONTRACT_MARKETPLACE,
   VERSUM_CONTRACT_MARKETPLACE,
   TEIA_CONTRACT_MARKETPLACE,
 } from './consts';
@@ -341,9 +341,9 @@ export interface VersumListing extends Listing {
 }
 
 export interface EightbidListing extends Listing {
-  type: '8BID_SWAP';
+  type: '8BID_SWAP_8X8_COLOR';
   swap_id: string;
-  contract_address: typeof EIGHTBIDOU_CONTRACT_MARKETPLACE;
+  contract_address: typeof EIGHTBIDOU_8X8_COLOR_CONTRACT_MARKETPLACE;
 }
 
 export type AnyListing =

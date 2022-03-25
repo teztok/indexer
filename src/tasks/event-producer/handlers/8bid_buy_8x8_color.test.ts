@@ -1,8 +1,8 @@
-import EightbidBuyHandler from './8bid_buy';
+import EightbidBuy8x8ColorHandler from './8bid_buy_8x8_color';
 import { transactionsToEvents } from '../event-producer';
 import { Transactions } from '../../../types';
 
-test('creates 8BID_BUY events', async () => {
+test('creates 8BID_BUY_8X8_COLOR events', async () => {
   const transactions: Transactions = [
     {
       id: 176191154,
@@ -68,12 +68,12 @@ test('creates 8BID_BUY events', async () => {
     },
   ];
 
-  const events = transactionsToEvents(transactions, [EightbidBuyHandler]);
+  const events = transactionsToEvents(transactions, [EightbidBuy8x8ColorHandler]);
 
   expect(events).toStrictEqual([
     {
-      id: 'a4477dde3ea68ad1a31a631c61f24ea4',
-      type: '8BID_BUY',
+      id: 'ce12551dbdda234d846121273b677dcd',
+      type: '8BID_BUY_8X8_COLOR',
       implements: 'SALE',
       opid: 176191154,
       timestamp: '2022-02-20T15:38:00Z',
@@ -86,6 +86,7 @@ test('creates 8BID_BUY events', async () => {
       seller_address: 'tz2QhmKtUWRyArfaqfBedvVdidgKpCcckMXV',
       artist_address: 'tz2QhmKtUWRyArfaqfBedvVdidgKpCcckMXV',
       price: '800000',
+      total_price: '800000',
       amount: '1',
     },
   ]);

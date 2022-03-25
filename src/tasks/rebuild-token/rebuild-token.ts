@@ -29,7 +29,7 @@ import {
   VERSUM_CONTRACT_MARKETPLACE,
   BURN_ADDRESS,
   TEIA_CONTRACT_MARKETPLACE,
-  EIGHTBIDOU_CONTRACT_MARKETPLACE,
+  EIGHTBIDOU_8X8_COLOR_CONTRACT_MARKETPLACE,
   SALE_INTERFACE,
 } from '../../consts';
 
@@ -522,7 +522,7 @@ export function compileToken(
         break;
       }
 
-      case '8BID_MINT': {
+      case '8BID_MINT_8X8_COLOR': {
         isOnChainToken = true;
         name = event.token_name;
         description = event.token_description;
@@ -532,10 +532,10 @@ export function compileToken(
         break;
       }
 
-      case '8BID_SWAP':
-        listings[createListingKey(EIGHTBIDOU_CONTRACT_MARKETPLACE, event.swap_id)] = {
-          type: '8BID_SWAP',
-          contract_address: EIGHTBIDOU_CONTRACT_MARKETPLACE,
+      case '8BID_SWAP_8X8_COLOR':
+        listings[createListingKey(EIGHTBIDOU_8X8_COLOR_CONTRACT_MARKETPLACE, event.swap_id)] = {
+          type: '8BID_SWAP_8X8_COLOR',
+          contract_address: EIGHTBIDOU_8X8_COLOR_CONTRACT_MARKETPLACE,
           created_at: event.timestamp,
           swap_id: event.swap_id,
           seller_address: event.seller_address,
@@ -546,16 +546,16 @@ export function compileToken(
         };
         break;
 
-      case '8BID_CANCEL_SWAP': {
-        const listingKey = createListingKey(EIGHTBIDOU_CONTRACT_MARKETPLACE, event.swap_id);
+      case '8BID_CANCEL_SWAP_8X8_COLOR': {
+        const listingKey = createListingKey(EIGHTBIDOU_8X8_COLOR_CONTRACT_MARKETPLACE, event.swap_id);
         if (listingKey in listings) {
           listings[listingKey].status = 'canceled';
         }
         break;
       }
 
-      case '8BID_BUY': {
-        const listingKey = createListingKey(EIGHTBIDOU_CONTRACT_MARKETPLACE, event.swap_id);
+      case '8BID_BUY_8X8_COLOR': {
+        const listingKey = createListingKey(EIGHTBIDOU_8X8_COLOR_CONTRACT_MARKETPLACE, event.swap_id);
 
         if (listingKey in listings) {
           const amountLeft = listings[listingKey].amount_left - parseInt(event.amount, 10);

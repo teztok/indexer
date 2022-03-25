@@ -4,12 +4,12 @@ import { assert, object, string, Describe } from 'superstruct';
 import { TezosAddress, ContractAddress, IsoDateString, MetadataUri, PositiveInteger, PgBigInt } from '../../../lib/validators';
 import { Handler, MintEvent, Transaction } from '../../../types';
 import { createEventId } from '../../../lib/utils';
-import { EIGHTBIDOU_CONTRACT_FA2 } from '../../../consts';
+import { EIGHTBIDOU_8X8_COLOR_CONTRACT_FA2 } from '../../../consts';
 
-export const EVENT_TYPE_8BID_MINT = '8BID_MINT';
+export const EVENT_TYPE_8BID_MINT_8X8_COLOR = '8BID_MINT_8X8_COLOR';
 
-export interface EightbidMintEvent extends MintEvent {
-  type: typeof EVENT_TYPE_8BID_MINT;
+export interface EightbidMint8x8ColorEvent extends MintEvent {
+  type: typeof EVENT_TYPE_8BID_MINT_8X8_COLOR;
   editions: string;
   artist_address: string;
   token_name: string;
@@ -19,7 +19,7 @@ export interface EightbidMintEvent extends MintEvent {
   rgb: string;
 }
 
-const EightbidMintEventSchema: Describe<Omit<EightbidMintEvent, 'type'>> = object({
+const EightbidMint8x8ColorEventSchema: Describe<Omit<EightbidMint8x8ColorEvent, 'type'>> = object({
   id: string(),
   opid: PositiveInteger,
   timestamp: IsoDateString,
@@ -36,12 +36,12 @@ const EightbidMintEventSchema: Describe<Omit<EightbidMintEvent, 'type'>> = objec
   rgb: string(),
 });
 
-const EightbidMintHandler: Handler<Transaction, EightbidMintEvent> = {
-  type: EVENT_TYPE_8BID_MINT,
+const EightbidMint8x8ColorHandler: Handler<Transaction, EightbidMint8x8ColorEvent> = {
+  type: EVENT_TYPE_8BID_MINT_8X8_COLOR,
 
   accept: {
     entrypoint: 'mint',
-    target_address: EIGHTBIDOU_CONTRACT_FA2,
+    target_address: EIGHTBIDOU_8X8_COLOR_CONTRACT_FA2,
   },
 
   exec: (transaction) => {
@@ -54,11 +54,11 @@ const EightbidMintHandler: Handler<Transaction, EightbidMintEvent> = {
     const tokenDescription = Buffer.from(get(transaction, 'parameter.value.rgb.token_description'), 'hex').toString();
     const metadataUri = Buffer.from(get(transaction, 'parameter.value.token_meta.token_info.'), 'hex').toString();
     const tokenId = get(transaction, 'storage.token_index');
-    const id = createEventId(EVENT_TYPE_8BID_MINT, transaction.id);
+    const id = createEventId(EVENT_TYPE_8BID_MINT_8X8_COLOR, transaction.id);
 
-    const event: EightbidMintEvent = {
+    const event: EightbidMint8x8ColorEvent = {
       id,
-      type: EVENT_TYPE_8BID_MINT,
+      type: EVENT_TYPE_8BID_MINT_8X8_COLOR,
       opid: transaction.id,
       timestamp: transaction.timestamp,
       level: transaction.level,
@@ -74,10 +74,10 @@ const EightbidMintHandler: Handler<Transaction, EightbidMintEvent> = {
       metadata_uri: metadataUri,
     };
 
-    assert(omit(event, ['type']), EightbidMintEventSchema);
+    assert(omit(event, ['type']), EightbidMint8x8ColorEventSchema);
 
     return event;
   },
 };
 
-export default EightbidMintHandler;
+export default EightbidMint8x8ColorHandler;

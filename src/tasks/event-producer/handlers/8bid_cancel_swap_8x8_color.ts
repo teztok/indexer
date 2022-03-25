@@ -4,18 +4,18 @@ import { assert, object, string, Describe } from 'superstruct';
 import { ContractAddress, TezosAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
 import { Handler, TokenEvent, Transaction } from '../../../types';
 import { findDiff, createEventId } from '../../../lib/utils';
-import { EIGHTBIDOU_CONTRACT_MARKETPLACE } from '../../../consts';
+import { EIGHTBIDOU_8X8_COLOR_CONTRACT_MARKETPLACE } from '../../../consts';
 
-export const EVENT_TYPE_8BID_CANCEL_SWAP = '8BID_CANCEL_SWAP';
+export const EVENT_TYPE_8BID_CANCEL_SWAP_8X8_COLOR = '8BID_CANCEL_SWAP_8X8_COLOR';
 
-export interface EightbidCancelSwapEvent extends TokenEvent {
-  type: typeof EVENT_TYPE_8BID_CANCEL_SWAP;
+export interface EightbidCancelSwap8x8ColorEvent extends TokenEvent {
+  type: typeof EVENT_TYPE_8BID_CANCEL_SWAP_8X8_COLOR;
   swap_id: string;
   seller_address: string;
   artist_address: string;
 }
 
-const HenCancelSwapEventSchema: Describe<Omit<EightbidCancelSwapEvent, 'type'>> = object({
+const EightbidCancelSwap8x8ColorSchema: Describe<Omit<EightbidCancelSwap8x8ColorEvent, 'type'>> = object({
   id: string(),
   opid: PositiveInteger,
   timestamp: IsoDateString,
@@ -28,12 +28,12 @@ const HenCancelSwapEventSchema: Describe<Omit<EightbidCancelSwapEvent, 'type'>> 
   swap_id: PgBigInt,
 });
 
-const EightbidCancelSwapHandler: Handler<Transaction, EightbidCancelSwapEvent> = {
-  type: EVENT_TYPE_8BID_CANCEL_SWAP,
+const EightbidCancelSwap8x8ColorEvent: Handler<Transaction, EightbidCancelSwap8x8ColorEvent> = {
+  type: EVENT_TYPE_8BID_CANCEL_SWAP_8X8_COLOR,
 
   accept: {
     entrypoint: 'cancelswap',
-    target_address: EIGHTBIDOU_CONTRACT_MARKETPLACE,
+    target_address: EIGHTBIDOU_8X8_COLOR_CONTRACT_MARKETPLACE,
   },
 
   exec: (transaction) => {
@@ -43,11 +43,11 @@ const EightbidCancelSwapHandler: Handler<Transaction, EightbidCancelSwapEvent> =
     const tokenId = get(diff, 'content.value.nft_id');
     const sellerAddress = get(diff, 'content.value.seller');
     const artistAddress = get(diff, 'content.value.creator');
-    const id = createEventId(EVENT_TYPE_8BID_CANCEL_SWAP, transaction.id);
+    const id = createEventId(EVENT_TYPE_8BID_CANCEL_SWAP_8X8_COLOR, transaction.id);
 
-    const event: EightbidCancelSwapEvent = {
+    const event: EightbidCancelSwap8x8ColorEvent = {
       id,
-      type: EVENT_TYPE_8BID_CANCEL_SWAP,
+      type: EVENT_TYPE_8BID_CANCEL_SWAP_8X8_COLOR,
       opid: transaction.id,
       timestamp: transaction.timestamp,
       level: transaction.level,
@@ -58,10 +58,10 @@ const EightbidCancelSwapHandler: Handler<Transaction, EightbidCancelSwapEvent> =
       swap_id: swapId,
     };
 
-    assert(omit(event, ['type']), HenCancelSwapEventSchema);
+    assert(omit(event, ['type']), EightbidCancelSwap8x8ColorSchema);
 
     return event;
   },
 };
 
-export default EightbidCancelSwapHandler;
+export default EightbidCancelSwap8x8ColorEvent;
