@@ -1,8 +1,8 @@
-import EightbidBuy8x8ColorHandler from './8bid_buy_8x8_color';
+import EightbidBuy8x8ColorHandler from './8bid_8x8_color_buy';
 import { transactionsToEvents } from '../event-producer';
 import { Transactions } from '../../../types';
 
-test('creates 8BID_BUY_8X8_COLOR events', async () => {
+test('creates 8BID_8X8_COLOR_BUY events', async () => {
   const transactions: Transactions = [
     {
       id: 176191154,
@@ -72,8 +72,8 @@ test('creates 8BID_BUY_8X8_COLOR events', async () => {
 
   expect(events).toStrictEqual([
     {
-      id: 'ce12551dbdda234d846121273b677dcd',
-      type: '8BID_BUY_8X8_COLOR',
+      id: '2312f81ed878702058c8251b993505ea',
+      type: '8BID_8X8_COLOR_BUY',
       implements: 'SALE',
       opid: 176191154,
       timestamp: '2022-02-20T15:38:00Z',

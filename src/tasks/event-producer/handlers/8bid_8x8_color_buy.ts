@@ -6,10 +6,10 @@ import { Handler, TokenEvent, Transaction, SaleEventInterface } from '../../../t
 import { createEventId, findDiff } from '../../../lib/utils';
 import { EIGHTBIDOU_8X8_COLOR_CONTRACT_MARKETPLACE, SALE_INTERFACE } from '../../../consts';
 
-export const EVENT_TYPE_8BID_BUY_8X8_COLOR = '8BID_BUY_8X8_COLOR';
+export const EVENT_TYPE_8BID_8X8_COLOR_BUY = '8BID_8X8_COLOR_BUY';
 
 export interface EightbidBuy8x8ColorEvent extends TokenEvent {
-  type: typeof EVENT_TYPE_8BID_BUY_8X8_COLOR;
+  type: typeof EVENT_TYPE_8BID_8X8_COLOR_BUY;
   implements: SaleEventInterface;
   buyer_address: string;
   seller_address: string;
@@ -37,7 +37,7 @@ const EightbidBuy8x8ColorEventSchema: Describe<Omit<EightbidBuy8x8ColorEvent, 't
 });
 
 const EightbidBuy8x8ColorHandler: Handler<Transaction, EightbidBuy8x8ColorEvent> = {
-  type: EVENT_TYPE_8BID_BUY_8X8_COLOR,
+  type: EVENT_TYPE_8BID_8X8_COLOR_BUY,
 
   accept: {
     entrypoint: 'buy',
@@ -55,11 +55,11 @@ const EightbidBuy8x8ColorHandler: Handler<Transaction, EightbidBuy8x8ColorEvent>
     const sellerAddress = get(diff, 'content.value.seller');
     const artistAddress = get(diff, 'content.value.creator');
     const price = get(diff, 'content.value.payment');
-    const id = createEventId(EVENT_TYPE_8BID_BUY_8X8_COLOR, transaction.id);
+    const id = createEventId(EVENT_TYPE_8BID_8X8_COLOR_BUY, transaction.id);
 
     const event: EightbidBuy8x8ColorEvent = {
       id,
-      type: EVENT_TYPE_8BID_BUY_8X8_COLOR,
+      type: EVENT_TYPE_8BID_8X8_COLOR_BUY,
       opid: transaction.id,
       timestamp: transaction.timestamp,
       level: transaction.level,

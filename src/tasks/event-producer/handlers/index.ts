@@ -49,10 +49,14 @@ import VersumCreateAuctionHandler, { VersumCreateAuctionEvent } from './versum_c
 import TeiaSwapHandler, { TeiaSwapEvent } from './teia_swap';
 import TeiaCancelSwapHandler, { TeiaCancelSwapEvent } from './teia_cancel_swap';
 import TeiaCollectHandler, { TeiaCollectEvent } from './teia_collect';
-import EightbidMint8x8ColorHandler, { EightbidMint8x8ColorEvent } from './8bid_mint_8x8_color';
-import EightbidSwap8x8ColorHandler, { EightbidSwap8x8ColorEvent } from './8bid_swap_8x8_color';
-import EightbidBuy8x8ColorHandler, { EightbidBuy8x8ColorEvent } from './8bid_buy_8x8_color';
-import EightbidCancelSwap8x8ColorHandler, { EightbidCancelSwap8x8ColorEvent } from './8bid_cancel_swap_8x8_color';
+import EightbidMint8x8ColorHandler, { EightbidMint8x8ColorEvent } from './8bid_8x8_color_mint';
+import EightbidSwap8x8ColorHandler, { EightbidSwap8x8ColorEvent } from './8bid_8x8_color_swap';
+import EightbidBuy8x8ColorHandler, { EightbidBuy8x8ColorEvent } from './8bid_8x8_color_buy';
+import EightbidCancelSwap8x8ColorHandler, { EightbidCancelSwap8x8ColorEvent } from './8bid_8x8_color_cancel_swap';
+import EightbidMint24x24MonochromeHandler, { EightbidMint24x24MonochromeEvent } from './8bid_24x24_monochrome_mint';
+import EightbidSwap24x24MonochromeHandler, { EightbidSwap24x24MonochromeEvent } from './8bid_24x24_monochrome_swap';
+import EightbidBuy24x24MonochromeHandler, { EightbidBuy24x24MonochromeEvent } from './8bid_24x24_monochrome_buy';
+import EightbidCancelSwap24x24MonochromeHandler, { EightbidCancelSwap24x24MonochromeEvent } from './8bid_24x24_monochrome_cancel_swap';
 
 export const handlers = [
   Fa2TransferHandler,
@@ -110,6 +114,10 @@ export const handlers = [
   EightbidSwap8x8ColorHandler,
   EightbidBuy8x8ColorHandler,
   EightbidCancelSwap8x8ColorHandler,
+  EightbidMint24x24MonochromeHandler,
+  EightbidSwap24x24MonochromeHandler,
+  EightbidBuy24x24MonochromeHandler,
+  EightbidCancelSwap24x24MonochromeHandler,
 ];
 
 export type AnyEvent =
@@ -167,4 +175,8 @@ export type AnyEvent =
   | EightbidMint8x8ColorEvent
   | EightbidSwap8x8ColorEvent
   | EightbidBuy8x8ColorEvent
-  | EightbidCancelSwap8x8ColorEvent;
+  | EightbidCancelSwap8x8ColorEvent
+  | EightbidMint24x24MonochromeEvent
+  | EightbidSwap24x24MonochromeEvent
+  | EightbidBuy24x24MonochromeEvent
+  | EightbidCancelSwap24x24MonochromeEvent;

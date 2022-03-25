@@ -1646,11 +1646,11 @@ test('calculates price related properties correctly', () => {
   });
 });
 
-test('handles 8BID_MINT_8X8_COLOR events', () => {
+test('handles 8BID_8X8_COLOR_MINT events', () => {
   const events: Array<AnyEvent> = [
     {
       id: '14c9c6d982d4ec8d7eaef5b6717d07f9',
-      type: '8BID_MINT_8X8_COLOR',
+      type: '8BID_8X8_COLOR_MINT',
       opid: 176179849,
       timestamp: '2022-02-20T15:11:00Z',
       level: 2134259,
@@ -1680,11 +1680,11 @@ test('handles 8BID_MINT_8X8_COLOR events', () => {
   });
 });
 
-test('handles 8BID_SWAP_8X8_COLOR and 8BID_BUY_8X8_COLOR events', () => {
+test('handles 8BID_8X8_COLOR_SWAP and 8BID_8X8_COLOR_BUY events', () => {
   const events: Array<AnyEvent> = [
     {
       id: '9c088c24ac09615570079afb80975a3b',
-      type: '8BID_SWAP_8X8_COLOR',
+      type: '8BID_8X8_COLOR_SWAP',
       opid: 176179849,
       timestamp: '2022-02-20T15:11:00Z',
       level: 2134259,
@@ -1700,7 +1700,7 @@ test('handles 8BID_SWAP_8X8_COLOR and 8BID_BUY_8X8_COLOR events', () => {
     },
     {
       id: 'a4477dde3ea68ad1a31a631c61f24ea4',
-      type: '8BID_BUY_8X8_COLOR',
+      type: '8BID_8X8_COLOR_BUY',
       implements: 'SALE',
       opid: 176191154,
       timestamp: '2022-02-20T15:38:00Z',
@@ -1722,7 +1722,7 @@ test('handles 8BID_SWAP_8X8_COLOR and 8BID_BUY_8X8_COLOR events', () => {
 
   expect(listings).toEqual([
     {
-      type: '8BID_SWAP_8X8_COLOR',
+      type: '8BID_8X8_COLOR_SWAP',
       contract_address: 'KT1BvWGFENd4CXW5F3u4n31xKfJhmBGipoqF',
       created_at: '2022-02-20T15:11:00Z',
       swap_id: TEST_SWAP_ID,
@@ -1735,11 +1735,11 @@ test('handles 8BID_SWAP_8X8_COLOR and 8BID_BUY_8X8_COLOR events', () => {
   ]);
 });
 
-test('handles 8BID_SWAP_8X8_COLOR and 8BID_BUY_8X8_COLOR events, sold out case', () => {
+test('handles 8BID_8X8_COLOR_SWAP and 8BID_8X8_COLOR_BUY events, sold out case', () => {
   const events: Array<AnyEvent> = [
     {
       id: '9c088c24ac09615570079afb80975a3b',
-      type: '8BID_SWAP_8X8_COLOR',
+      type: '8BID_8X8_COLOR_SWAP',
       opid: 176179849,
       timestamp: '2022-02-20T15:11:00Z',
       level: 2134259,
@@ -1755,7 +1755,7 @@ test('handles 8BID_SWAP_8X8_COLOR and 8BID_BUY_8X8_COLOR events, sold out case',
     },
     {
       id: 'a4477dde3ea68ad1a31a631c61f24ea4',
-      type: '8BID_BUY_8X8_COLOR',
+      type: '8BID_8X8_COLOR_BUY',
       implements: 'SALE',
       opid: 176191154,
       timestamp: '2022-02-20T15:38:00Z',
@@ -1777,7 +1777,7 @@ test('handles 8BID_SWAP_8X8_COLOR and 8BID_BUY_8X8_COLOR events, sold out case',
 
   expect(listings).toEqual([
     {
-      type: '8BID_SWAP_8X8_COLOR',
+      type: '8BID_8X8_COLOR_SWAP',
       contract_address: 'KT1BvWGFENd4CXW5F3u4n31xKfJhmBGipoqF',
       created_at: '2022-02-20T15:11:00Z',
       swap_id: TEST_SWAP_ID,
@@ -1790,11 +1790,11 @@ test('handles 8BID_SWAP_8X8_COLOR and 8BID_BUY_8X8_COLOR events, sold out case',
   ]);
 });
 
-test('handles 8BID_CANCEL_SWAP_8X8_COLOR events', () => {
+test('handles 8BID_8X8_COLOR_CANCEL_SWAP events', () => {
   const events: Array<AnyEvent> = [
     {
       id: '9c088c24ac09615570079afb80975a3b',
-      type: '8BID_SWAP_8X8_COLOR',
+      type: '8BID_8X8_COLOR_SWAP',
       opid: 176179849,
       timestamp: '2022-02-20T15:11:00Z',
       level: 2134259,
@@ -1810,7 +1810,7 @@ test('handles 8BID_CANCEL_SWAP_8X8_COLOR events', () => {
     },
     {
       id: 'dac294e3d10b2cb49ae94620951c4fd5',
-      type: '8BID_CANCEL_SWAP_8X8_COLOR',
+      type: '8BID_8X8_COLOR_CANCEL_SWAP',
       opid: 180039728,
       timestamp: '2022-02-28T05:34:04Z',
       level: 2155678,
@@ -1826,8 +1826,201 @@ test('handles 8BID_CANCEL_SWAP_8X8_COLOR events', () => {
 
   expect(listings).toEqual([
     {
-      type: '8BID_SWAP_8X8_COLOR',
+      type: '8BID_8X8_COLOR_SWAP',
       contract_address: 'KT1BvWGFENd4CXW5F3u4n31xKfJhmBGipoqF',
+      created_at: '2022-02-20T15:11:00Z',
+      swap_id: TEST_SWAP_ID,
+      seller_address: 'tz2QhmKtUWRyArfaqfBedvVdidgKpCcckMXV',
+      amount: 1,
+      amount_left: 1,
+      price: TEST_PRICE,
+      status: 'canceled',
+    },
+  ]);
+});
+
+test('handles 8BID_24X24_MONOCHROME_MINT events', () => {
+  const events: Array<AnyEvent> = [
+    {
+      id: '14c9c6d982d4ec8d7eaef5b6717d07f9',
+      type: '8BID_24X24_MONOCHROME_MINT',
+      opid: 176179849,
+      timestamp: '2022-02-20T15:11:00Z',
+      level: 2134259,
+      fa2_address: 'KT1MxDwChiDwd6WBVs24g1NjERUoK622ZEFp',
+      token_id: '2',
+
+      editions: '9',
+      artist_address: 'tz1c6Uibt7Vjr7MEFEQpohEa2f311KxZyJoZ',
+      token_name: 'Cat001',
+      creator_name: 'Hrtk',
+      token_description: 'This is cat.',
+      metadata_uri: 'http://localhost:9999/',
+      rgb: '639bff639bff639bff639bff639bff639bff639bff639bff639bff222034639bff222034639bff639bff639bff639bff639bff222034222034222034639bff639bff639bff639bff639bff222034222034222034639bff639bff222034639bff639bff639bff222034222034222034222034639bff639bff639bff639bff222034222034222034222034639bff639bff639bff639bff222034639bff639bff222034639bff639bff639bff639bff639bff639bff639bff639bff639bff639bff',
+    },
+  ];
+
+  const { token } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
+
+  expect(token).toMatchObject({
+    metadata_status: 'processed',
+    name: 'Cat001',
+    description: 'This is cat.',
+    eightbid_rgb:
+      '639bff639bff639bff639bff639bff639bff639bff639bff639bff222034639bff222034639bff639bff639bff639bff639bff222034222034222034639bff639bff639bff639bff639bff222034222034222034639bff639bff222034639bff639bff639bff222034222034222034222034639bff639bff639bff639bff222034222034222034222034639bff639bff639bff639bff222034639bff639bff222034639bff639bff639bff639bff639bff639bff639bff639bff639bff639bff',
+    eightbid_creator_name: 'Hrtk',
+    artist_address: 'tz1c6Uibt7Vjr7MEFEQpohEa2f311KxZyJoZ',
+  });
+});
+
+test('handles 8BID_24X24_MONOCHROME_SWAP and 8BID_24X24_MONOCHROME_BUY events', () => {
+  const events: Array<AnyEvent> = [
+    {
+      id: '9c088c24ac09615570079afb80975a3b',
+      type: '8BID_24X24_MONOCHROME_SWAP',
+      opid: 176179849,
+      timestamp: '2022-02-20T15:11:00Z',
+      level: 2134259,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+
+      seller_address: 'tz2QhmKtUWRyArfaqfBedvVdidgKpCcckMXV',
+      artist_address: 'tz2QhmKtUWRyArfaqfBedvVdidgKpCcckMXV',
+      price: TEST_PRICE,
+      swap_id: TEST_SWAP_ID,
+      royalties: '100',
+      amount: '10',
+    },
+    {
+      id: 'a4477dde3ea68ad1a31a631c61f24ea4',
+      type: '8BID_24X24_MONOCHROME_BUY',
+      implements: 'SALE',
+      opid: 176191154,
+      timestamp: '2022-02-20T15:38:00Z',
+      level: 2134313,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+
+      swap_id: TEST_SWAP_ID,
+      buyer_address: 'tz1c6Uibt7Vjr7MEFEQpohEa2f311KxZyJoZ',
+      seller_address: 'tz2QhmKtUWRyArfaqfBedvVdidgKpCcckMXV',
+      artist_address: 'tz2QhmKtUWRyArfaqfBedvVdidgKpCcckMXV',
+      price: TEST_PRICE,
+      total_price: TEST_PRICE,
+      amount: '1',
+    },
+  ];
+
+  const { listings } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
+
+  expect(listings).toEqual([
+    {
+      type: '8BID_24X24_MONOCHROME_SWAP',
+      contract_address: 'KT1AHBvSo828QwscsjDjeUuep7MgApi8hXqA',
+      created_at: '2022-02-20T15:11:00Z',
+      swap_id: TEST_SWAP_ID,
+      seller_address: 'tz2QhmKtUWRyArfaqfBedvVdidgKpCcckMXV',
+      amount: 10,
+      amount_left: 9,
+      price: TEST_PRICE,
+      status: 'active',
+    },
+  ]);
+});
+
+test('handles 8BID_24X24_MONOCHROME_SWAP and 8BID_24X24_MONOCHROME_BUY events, sold out case', () => {
+  const events: Array<AnyEvent> = [
+    {
+      id: '9c088c24ac09615570079afb80975a3b',
+      type: '8BID_24X24_MONOCHROME_SWAP',
+      opid: 176179849,
+      timestamp: '2022-02-20T15:11:00Z',
+      level: 2134259,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+
+      seller_address: 'tz2QhmKtUWRyArfaqfBedvVdidgKpCcckMXV',
+      artist_address: 'tz2QhmKtUWRyArfaqfBedvVdidgKpCcckMXV',
+      price: TEST_PRICE,
+      swap_id: TEST_SWAP_ID,
+      royalties: '100',
+      amount: '1',
+    },
+    {
+      id: 'a4477dde3ea68ad1a31a631c61f24ea4',
+      type: '8BID_24X24_MONOCHROME_BUY',
+      implements: 'SALE',
+      opid: 176191154,
+      timestamp: '2022-02-20T15:38:00Z',
+      level: 2134313,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+
+      swap_id: TEST_SWAP_ID,
+      buyer_address: 'tz1c6Uibt7Vjr7MEFEQpohEa2f311KxZyJoZ',
+      seller_address: 'tz2QhmKtUWRyArfaqfBedvVdidgKpCcckMXV',
+      artist_address: 'tz2QhmKtUWRyArfaqfBedvVdidgKpCcckMXV',
+      price: TEST_PRICE,
+      total_price: TEST_PRICE,
+      amount: '1',
+    },
+  ];
+
+  const { listings } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
+
+  expect(listings).toEqual([
+    {
+      type: '8BID_24X24_MONOCHROME_SWAP',
+      contract_address: 'KT1AHBvSo828QwscsjDjeUuep7MgApi8hXqA',
+      created_at: '2022-02-20T15:11:00Z',
+      swap_id: TEST_SWAP_ID,
+      seller_address: 'tz2QhmKtUWRyArfaqfBedvVdidgKpCcckMXV',
+      amount: 1,
+      amount_left: 0,
+      price: TEST_PRICE,
+      status: 'sold_out',
+    },
+  ]);
+});
+
+test('handles 8BID_24X24_MONOCHROME_CANCEL_SWAP events', () => {
+  const events: Array<AnyEvent> = [
+    {
+      id: '9c088c24ac09615570079afb80975a3b',
+      type: '8BID_24X24_MONOCHROME_SWAP',
+      opid: 176179849,
+      timestamp: '2022-02-20T15:11:00Z',
+      level: 2134259,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+
+      seller_address: 'tz2QhmKtUWRyArfaqfBedvVdidgKpCcckMXV',
+      artist_address: 'tz2QhmKtUWRyArfaqfBedvVdidgKpCcckMXV',
+      price: TEST_PRICE,
+      swap_id: TEST_SWAP_ID,
+      royalties: '100',
+      amount: '1',
+    },
+    {
+      id: 'dac294e3d10b2cb49ae94620951c4fd5',
+      type: '8BID_24X24_MONOCHROME_CANCEL_SWAP',
+      opid: 180039728,
+      timestamp: '2022-02-28T05:34:04Z',
+      level: 2155678,
+      fa2_address: TEST_FA2_ADDRESS,
+      seller_address: 'tz2QhmKtUWRyArfaqfBedvVdidgKpCcckMXV',
+      artist_address: 'tz2QhmKtUWRyArfaqfBedvVdidgKpCcckMXV',
+      token_id: TEST_TOKEN_ID,
+      swap_id: TEST_SWAP_ID,
+    },
+  ];
+
+  const { listings } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
+
+  expect(listings).toEqual([
+    {
+      type: '8BID_24X24_MONOCHROME_SWAP',
+      contract_address: 'KT1AHBvSo828QwscsjDjeUuep7MgApi8hXqA',
       created_at: '2022-02-20T15:11:00Z',
       swap_id: TEST_SWAP_ID,
       seller_address: 'tz2QhmKtUWRyArfaqfBedvVdidgKpCcckMXV',

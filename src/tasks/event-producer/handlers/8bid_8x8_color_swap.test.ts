@@ -1,8 +1,8 @@
-import EightbidSwap8x8ColorHandler from './8bid_swap_8x8_color';
+import EightbidSwap8x8ColorHandler from './8bid_8x8_color_swap';
 import { transactionsToEvents } from '../event-producer';
 import { Transactions } from '../../../types';
 
-test('creates 8BID_SWAP_8X8_COLOR events', async () => {
+test('creates 8BID_8X8_COLOR_SWAP events', async () => {
   const transactions: Transactions = [
     {
       id: 176179849,
@@ -87,8 +87,8 @@ test('creates 8BID_SWAP_8X8_COLOR events', async () => {
 
   expect(events).toStrictEqual([
     {
-      id: '282fcf83ff89afe4f22b1f8f01e9be03',
-      type: '8BID_SWAP_8X8_COLOR',
+      id: '20c312b25e624526a8f6795315bba551',
+      type: '8BID_8X8_COLOR_SWAP',
       opid: 176179849,
       timestamp: '2022-02-20T15:11:00Z',
       level: 2134259,

@@ -6,10 +6,10 @@ import { Handler, TokenEvent, Transaction } from '../../../types';
 import { createEventId } from '../../../lib/utils';
 import { EIGHTBIDOU_8X8_COLOR_CONTRACT_MARKETPLACE } from '../../../consts';
 
-export const EVENT_TYPE_8BID_SWAP_8X8_COLOR = '8BID_SWAP_8X8_COLOR';
+export const EVENT_TYPE_8BID_8X8_COLOR_SWAP = '8BID_8X8_COLOR_SWAP';
 
 export interface EightbidSwap8x8ColorEvent extends TokenEvent {
-  type: typeof EVENT_TYPE_8BID_SWAP_8X8_COLOR;
+  type: typeof EVENT_TYPE_8BID_8X8_COLOR_SWAP;
   seller_address: string;
   artist_address: string;
   swap_id: string;
@@ -34,7 +34,7 @@ const EightbidSwapSchema: Describe<Omit<EightbidSwap8x8ColorEvent, 'type'>> = ob
 });
 
 const EightbidSwap8x8ColorHandler: Handler<Transaction, EightbidSwap8x8ColorEvent> = {
-  type: EVENT_TYPE_8BID_SWAP_8X8_COLOR,
+  type: EVENT_TYPE_8BID_8X8_COLOR_SWAP,
 
   accept: {
     entrypoint: 'swap',
@@ -50,11 +50,11 @@ const EightbidSwap8x8ColorHandler: Handler<Transaction, EightbidSwap8x8ColorEven
     const royalties = String(parseInt(get(transaction, 'parameter.value.royalties'), 10) * 10);
     const amount = get(transaction, 'parameter.value.nft_total_amount');
     const artistAddress = get(transaction, 'parameter.value.creator');
-    const id = createEventId(EVENT_TYPE_8BID_SWAP_8X8_COLOR, transaction.id);
+    const id = createEventId(EVENT_TYPE_8BID_8X8_COLOR_SWAP, transaction.id);
 
     const event: EightbidSwap8x8ColorEvent = {
       id,
-      type: EVENT_TYPE_8BID_SWAP_8X8_COLOR,
+      type: EVENT_TYPE_8BID_8X8_COLOR_SWAP,
       opid: transaction.id,
       timestamp: transaction.timestamp,
       level: transaction.level,

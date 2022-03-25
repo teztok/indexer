@@ -1,8 +1,8 @@
-import EightbidMint8x8ColorEvent from './8bid_mint_8x8_color';
+import EightbidMint8x8ColorHandler from './8bid_8x8_color_mint';
 import { transactionsToEvents } from '../event-producer';
 import { Transactions } from '../../../types';
 
-test('creates 8BID_MINT_8X8_COLOR events', async () => {
+test('creates 8BID_8X8_COLOR_MINT events', async () => {
   const transactions: Transactions = [
     {
       id: 176116207,
@@ -116,12 +116,12 @@ test('creates 8BID_MINT_8X8_COLOR events', async () => {
     },
   ];
 
-  const events = transactionsToEvents(transactions, [EightbidMint8x8ColorEvent]);
+  const events = transactionsToEvents(transactions, [EightbidMint8x8ColorHandler]);
 
   expect(events).toStrictEqual([
     {
-      id: '37120f74f49a2942810c52bb2f006b18',
-      type: '8BID_MINT_8X8_COLOR',
+      id: '57590120c122ca58d057632a893f959e',
+      type: '8BID_8X8_COLOR_MINT',
       opid: 176116207,
       timestamp: '2022-02-20T12:17:20Z',
       level: 2133914,
