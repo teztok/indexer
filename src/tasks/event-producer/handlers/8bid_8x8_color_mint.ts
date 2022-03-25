@@ -32,7 +32,7 @@ const EightbidMint8x8ColorEventSchema: Describe<Omit<EightbidMint8x8ColorEvent, 
   token_name: string(),
   creator_name: string(),
   token_description: string(),
-  metadata_uri: MetadataUri,
+  metadata_uri: string(),
   rgb: string(),
 });
 

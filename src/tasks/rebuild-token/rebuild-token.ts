@@ -524,7 +524,8 @@ export function compileToken(
       }
 
       case '8BID_8X8_COLOR_MINT':
-      case '8BID_24X24_MONOCHROME_MINT': {
+      case '8BID_24X24_MONOCHROME_MINT':
+      case '8BID_24X24_COLOR_MINT': {
         isOnChainToken = true;
         name = event.token_name;
         description = event.token_description;

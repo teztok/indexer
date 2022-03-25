@@ -2031,3 +2031,37 @@ test('handles 8BID_24X24_MONOCHROME_CANCEL_SWAP events', () => {
     },
   ]);
 });
+
+test('handles 8BID_24X24_COLOR_MINT events', () => {
+  const events: Array<AnyEvent> = [
+    {
+      id: '14c9c6d982d4ec8d7eaef5b6717d07f9',
+      type: '8BID_24X24_COLOR_MINT',
+      opid: 176179849,
+      timestamp: '2022-02-20T15:11:00Z',
+      level: 2134259,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: '2',
+
+      editions: '9',
+      artist_address: 'tz1c6Uibt7Vjr7MEFEQpohEa2f311KxZyJoZ',
+      token_name: 'Cat001',
+      creator_name: 'Hrtk',
+      token_description: 'This is cat.',
+      metadata_uri: 'http://localhost:9999/',
+      rgb: '639bff639bff639bff639bff639bff639bff639bff639bff639bff222034639bff222034639bff639bff639bff639bff639bff222034222034222034639bff639bff639bff639bff639bff222034222034222034639bff639bff222034639bff639bff639bff222034222034222034222034639bff639bff639bff639bff222034222034222034222034639bff639bff639bff639bff222034639bff639bff222034639bff639bff639bff639bff639bff639bff639bff639bff639bff639bff',
+    },
+  ];
+
+  const { token } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
+
+  expect(token).toMatchObject({
+    metadata_status: 'processed',
+    name: 'Cat001',
+    description: 'This is cat.',
+    eightbid_rgb:
+      '639bff639bff639bff639bff639bff639bff639bff639bff639bff222034639bff222034639bff639bff639bff639bff639bff222034222034222034639bff639bff639bff639bff639bff222034222034222034639bff639bff222034639bff639bff639bff222034222034222034222034639bff639bff639bff639bff222034222034222034222034639bff639bff639bff639bff222034639bff639bff222034639bff639bff639bff639bff639bff639bff639bff639bff639bff639bff',
+    eightbid_creator_name: 'Hrtk',
+    artist_address: 'tz1c6Uibt7Vjr7MEFEQpohEa2f311KxZyJoZ',
+  });
+});
