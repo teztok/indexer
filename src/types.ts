@@ -4,6 +4,8 @@ import {
   OBJKT_CONTRACT_MARKETPLACE,
   OBJKT_CONTRACT_MARKETPLACE_V2,
   FX_CONTRACT_MARKETPLACE,
+  EIGHTBIDOU_8X8_COLOR_CONTRACT_MARKETPLACE,
+  EIGHTBIDOU_24X24_MONOCHROME_CONTRACT_MARKETPLACE,
   VERSUM_CONTRACT_MARKETPLACE,
   TEIA_CONTRACT_MARKETPLACE,
 } from './consts';
@@ -274,6 +276,8 @@ export interface Token {
   //listings_count: string;
   royalties: Record<string, string>;
 
+  eightbid_creator_name: string | null;
+  eightbid_rgb: string | null;
   //average_sale: string;
   //median_sale: string;
   //last_sale_date: string;
@@ -337,7 +341,28 @@ export interface VersumListing extends Listing {
   burn_on_end: boolean;
 }
 
-export type AnyListing = HenListing | HenListingV2 | ObjktListing | ObjktListingV2 | FxListing | VersumListing | TeiaListing;
+export interface Eightbid8x8ColorListing extends Listing {
+  type: '8BID_8X8_COLOR_SWAP';
+  swap_id: string;
+  contract_address: typeof EIGHTBIDOU_8X8_COLOR_CONTRACT_MARKETPLACE;
+}
+
+export interface Eightbid24x24MonochromeListing extends Listing {
+  type: '8BID_24X24_MONOCHROME_SWAP';
+  swap_id: string;
+  contract_address: typeof EIGHTBIDOU_24X24_MONOCHROME_CONTRACT_MARKETPLACE;
+}
+
+export type AnyListing =
+  | HenListing
+  | HenListingV2
+  | ObjktListing
+  | ObjktListingV2
+  | FxListing
+  | VersumListing
+  | TeiaListing
+  | Eightbid8x8ColorListing
+  | Eightbid24x24MonochromeListing;
 
 export interface Offer {
   type: string;
