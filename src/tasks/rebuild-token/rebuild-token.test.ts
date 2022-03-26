@@ -559,6 +559,7 @@ test('handles OBJKT_MINT_ARTIST events', () => {
 
   expect(token).toMatchObject({
     artist_address: 'tz1UxW1chiPvekzf23ze4L17JY26jTUtHsMF',
+    objkt_artist_collection_id: '2437',
   });
 });
 

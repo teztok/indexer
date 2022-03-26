@@ -29,6 +29,7 @@ export async function up(knex: Knex): Promise<void> {
       table.text('right_uri');
       table.text('eightbid_creator_name');
       table.text('eightbid_rgb');
+      table.bigInteger('objkt_artist_collection_id');
       table.jsonb('attributes');
       table.bigInteger('price');
       table.bigInteger('mint_price');

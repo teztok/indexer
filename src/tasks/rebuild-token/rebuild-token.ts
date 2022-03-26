@@ -79,6 +79,8 @@ export function compileToken(
   let eightbidRgb = null;
   let isOnChainToken = false;
 
+  let objktArtistCollectionId = null;
+
   for (const event of events) {
     if ('implements' in event && event.implements === SALE_INTERFACE) {
       sales.push(event as SaleEvent);
@@ -225,6 +227,7 @@ export function compileToken(
 
       case 'OBJKT_MINT_ARTIST': {
         artistAddress = event.artist_address;
+        objktArtistCollectionId = event.collection_id;
         break;
       }
 
@@ -724,6 +727,8 @@ export function compileToken(
 
     eightbid_creator_name: eightbidCreatorName,
     eightbid_rgb: eightbidRgb,
+
+    objkt_artist_collection_id: objktArtistCollectionId,
   };
 
   return {

@@ -278,9 +278,8 @@ export interface Token {
 
   eightbid_creator_name: string | null;
   eightbid_rgb: string | null;
-  //average_sale: string;
-  //median_sale: string;
-  //last_sale_date: string;
+
+  objkt_artist_collection_id: string | null;
 }
 
 export interface Listing {
