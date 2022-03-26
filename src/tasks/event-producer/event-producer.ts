@@ -17,6 +17,7 @@ import { Task, Handler } from '../../types';
 
 interface EventProducerTaskPayload {
   filters: GetTransactionsFilters;
+  overwriteEvents?: boolean;
 }
 
 interface Operation {
@@ -129,10 +130,12 @@ export async function produceEvents(payload: EventProducerTaskPayload) {
     return !((event as TokenEvent).fa2_address in ignoredContractAddressesObj);
   });
 
-  try {
-    events = await eventsDao.getNotExistingEvents(events);
-  } catch (err) {
-    logger.error(`could not remove existing events`, err);
+  if (!payload.overwriteEvents) {
+    try {
+      events = await eventsDao.getNotExistingEvents(events);
+    } catch (err) {
+      logger.error(`could not remove existing events`, err);
+    }
   }
 
   console.log(`processing ${events.length} events.`, JSON.stringify(payload.filters));
