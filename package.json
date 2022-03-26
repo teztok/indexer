@@ -18,7 +18,6 @@
     "test:watch": "jest --watch"
   },
   "author": "TezTok",
-  "license": "MIT",
   "dependencies": {
     "@ffmpeg-installer/ffmpeg": "^1.1.0",
     "@microsoft/signalr": "^6.0.3",
