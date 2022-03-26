@@ -280,6 +280,7 @@ export interface Token {
   eightbid_rgb: string | null;
 
   objkt_artist_collection_id: string | null;
+  fx_issuer_id: string | null;
 }
 
 export interface Listing {

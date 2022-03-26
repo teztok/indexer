@@ -1172,6 +1172,7 @@ test('handles FX_MINT events', () => {
 
   expect(token).toMatchObject({
     artist_address: 'tz1fepn7jZsCYBqCDhpM63hzh9g2Ytqk4Tpv',
+    fx_issuer_id: '0',
     royalties: {
       tz1fepn7jZsCYBqCDhpM63hzh9g2Ytqk4Tpv: '100',
     },
@@ -1205,6 +1206,7 @@ test('handles FX_MINT_V2 events', () => {
 
   expect(token).toMatchObject({
     artist_address: 'tz1g2ZxQbaePfmpSwPQNRVNaF5aJdVmZWZgL',
+    fx_issuer_id: '5352',
     royalties: {
       tz1g2ZxQbaePfmpSwPQNRVNaF5aJdVmZWZgL: '200',
     },

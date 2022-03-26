@@ -80,6 +80,7 @@ export function compileToken(
   let isOnChainToken = false;
 
   let objktArtistCollectionId = null;
+  let fxIssuerId = null;
 
   for (const event of events) {
     if ('implements' in event && event.implements === SALE_INTERFACE) {
@@ -383,6 +384,7 @@ export function compileToken(
       case 'FX_MINT':
       case 'FX_MINT_V2': {
         artistAddress = event.artist_address;
+        fxIssuerId = event.issuer_id;
         royalties[artistAddress] = event.royalties;
 
         break;
@@ -729,6 +731,7 @@ export function compileToken(
     eightbid_rgb: eightbidRgb,
 
     objkt_artist_collection_id: objktArtistCollectionId,
+    fx_issuer_id: fxIssuerId,
   };
 
   return {
