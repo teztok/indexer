@@ -13,7 +13,7 @@ import snakeCase from 'lodash/snakeCase';
 import dbConfig from '../../knexfile';
 import db from '../../lib/db';
 import config from '../../lib/config';
-import { Task, Metadata, Token, Holders, AnyListing, AnyOffer, SaleEvent, Asset } from '../../types';
+import { Task, Metadata, Token, Holders, AnyListing, AnyOffer, SaleEvent, Asset, ObjktListingV2 } from '../../types';
 import { isValidTezosAddress } from '../../lib/validators';
 import { cleanString, cleanUri, cleanAttributes, cleanTags, cleanCreators, cleanFormats } from '../../lib/schemas';
 import * as eventsDao from '../../lib/daos/events';
@@ -614,6 +614,18 @@ export function compileToken(
   }
 
   const listingsArr = orderBy(Object.values(listings), ({ price }) => price);
+  const objktAskV2Listings = listingsArr.filter(({ type }) => type === 'OBJKT_ASK_V2') as Array<ObjktListingV2>;
+
+  for (const objktAskV2Listing of objktAskV2Listings) {
+    // TODO: consider handling other currencies?
+    if (['tez', 'otez'].includes(objktAskV2Listing.currency)) {
+      objktAskV2Listing.amount_left = Math.min(objktAskV2Listing.amount_left, holders[objktAskV2Listing.seller_address] || 0);
+      if (objktAskV2Listing.amount_left <= 0 && objktAskV2Listing.status === 'active') {
+        objktAskV2Listing.status = 'sold_out';
+      }
+    }
+  }
+
   const offersArr = orderBy(Object.values(offers), ({ price }) => price).reverse();
   const totalEditions = sum(Object.values(holders));
   const burnedEditions = BURN_ADDRESS in holders ? holders[BURN_ADDRESS] : 0;
