@@ -1,5 +1,7 @@
 import fs from 'fs';
 
+require('dotenv').config();
+
 const defaultConfig = {
   eventProducerConcurrency: 4,
   fetchMetadataConcurrency: 4,
@@ -10,7 +12,7 @@ const defaultConfig = {
   workerPollInterval: 500,
   startBlock: 1365000,
   maxBlocksPerIteration: 1000,
-  tzktApiUrl: 'https://api.mainnet.tzkt.io/v1',
+  tzktApiUrl: process.env.TZKT_API || 'https://api.mainnet.tzkt.io/v1',
   assetsUrl: 'https://assets.teztok.com/file/tezartifacts',
   metadataMaxFilesize: 1024 * 30, // 30kb
   thumbnailWidths: [320, 640, 960],
