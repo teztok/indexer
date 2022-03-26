@@ -26,7 +26,6 @@ const defaultConfig = {
     'KT18fp5rcTW7mbWDmzFwjLDUhs5MeJmagDSZ', // Wrapped Tokens Contract
     'KT1LRboPna9yQY9BrjtQYDS1DVxhKESK4VVd', // Wrap Governance Token
     'KT193D4vozYnhGJQVtw7CoxxqphqUEEwK6Vb', // Quipuswap Governance Token
-    'KT1A5P4ejnLix13jtadsfV9GCnXLMNnab8UT', // Kalamint
     'KT1Wa8yqRBpFCusJWgcQyjhRz7hUQAmFxW7j', // FLAME
     'KT1Xobej4mc6XgEjDoJoHtTKgbD1ELMvcQuL', // YOU Governance
     'KT1VHd7ysjnvxEzwtjBAmYAmasvVCfPpSkiG', // sCasino Tokens

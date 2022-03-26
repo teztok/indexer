@@ -122,7 +122,7 @@ export async function produceEvents(payload: EventProducerTaskPayload) {
   let events = await postProcessEvents(transactionsToEvents(transactions));
 
   events = events.filter((event) => {
-    if ('fa2_address' in event) {
+    if (!('fa2_address' in event)) {
       return true;
     }
 
