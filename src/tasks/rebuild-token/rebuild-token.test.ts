@@ -715,6 +715,19 @@ test('handles OBJKT_RETRACT_ASK events', () => {
 test('handles OBJKT_ASK_V2 and OBJKT_FULFILL_ASK_V2 events', () => {
   const events: Array<AnyEvent> = [
     {
+      id: 'bbbf0d6b108216ca4162179aed96f8f0',
+      type: 'SET_LEDGER',
+      opid: 1,
+      timestamp: '2021-01-01T03:39:21Z',
+      level: 1365242,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      holder_address: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
+      amount: '10',
+      is_mint: true,
+      price: TEST_PRICE,
+    },
+    {
       id: '22af9d5162ba6343a8ebaefe8de0e606',
       type: 'OBJKT_ASK_V2',
       opid: 170773706,
@@ -765,6 +778,19 @@ test('handles OBJKT_ASK_V2 and OBJKT_FULFILL_ASK_V2 events', () => {
 
 test('handles OBJKT_ASK_V2 and OBJKT_FULFILL_ASK_V2 events, sold out case', () => {
   const events: Array<AnyEvent> = [
+    {
+      id: 'bbbf0d6b108216ca4162179aed96f8f0',
+      type: 'SET_LEDGER',
+      opid: 1,
+      timestamp: '2021-01-01T03:39:21Z',
+      level: 1365242,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      holder_address: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
+      amount: '10',
+      is_mint: true,
+      price: TEST_PRICE,
+    },
     {
       id: '22af9d5162ba6343a8ebaefe8de0e606',
       type: 'OBJKT_ASK_V2',
@@ -817,6 +843,19 @@ test('handles OBJKT_ASK_V2 and OBJKT_FULFILL_ASK_V2 events, sold out case', () =
 test('handles OBJKT_RETRACT_ASK_V2 events', () => {
   const events: Array<AnyEvent> = [
     {
+      id: 'bbbf0d6b108216ca4162179aed96f8f0',
+      type: 'SET_LEDGER',
+      opid: 1,
+      timestamp: '2021-01-01T03:39:21Z',
+      level: 1365242,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      holder_address: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
+      amount: '10',
+      is_mint: true,
+      price: TEST_PRICE,
+    },
+    {
       id: '22af9d5162ba6343a8ebaefe8de0e606',
       type: 'OBJKT_ASK_V2',
       opid: 170773706,
@@ -857,6 +896,68 @@ test('handles OBJKT_RETRACT_ASK_V2 events', () => {
       price: TEST_PRICE,
       currency: 'tez',
       status: 'canceled',
+    },
+  ]);
+});
+
+test('handles OBJKT_ASK_V2 events, case where the seller transferred the token while the listing is still active', () => {
+  const events: Array<AnyEvent> = [
+    {
+      id: 'bbbf0d6b108216ca4162179aed96f8f0',
+      type: 'SET_LEDGER',
+      opid: 1,
+      timestamp: '2021-01-01T03:39:21Z',
+      level: 1365242,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      holder_address: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
+      amount: '10',
+      is_mint: true,
+      price: TEST_PRICE,
+    },
+    {
+      id: '22af9d5162ba6343a8ebaefe8de0e606',
+      type: 'OBJKT_ASK_V2',
+      opid: 170773706,
+      timestamp: '2022-02-10T13:01:54Z',
+      level: 2105745,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      ask_id: TEST_SWAP_ID,
+      seller_address: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
+      currency: 'tez',
+      price: TEST_PRICE,
+      amount: '10',
+    },
+    {
+      id: 'bbbf0d6b108216ca4162179aed96f8f0',
+      type: 'SET_LEDGER',
+      opid: 1,
+      timestamp: '2021-01-01T03:39:21Z',
+      level: 1365242,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      holder_address: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
+      amount: '0',
+      is_mint: false,
+      price: TEST_PRICE,
+    },
+  ];
+
+  const { listings } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
+
+  expect(listings).toMatchObject([
+    {
+      type: 'OBJKT_ASK_V2',
+      contract_address: 'KT1WvzYHCNBvDSdwafTHv7nJ1dWmZ8GCYuuC',
+      created_at: '2022-02-10T13:01:54Z',
+      ask_id: TEST_SWAP_ID,
+      seller_address: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
+      amount: 10,
+      amount_left: 0,
+      price: TEST_PRICE,
+      currency: 'tez',
+      status: 'sold_out', // technically it's not sold_out, because the tokens were just transferred
     },
   ]);
 });
