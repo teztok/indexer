@@ -339,6 +339,80 @@ test('creates SET_LEDGER events', async () => {
       storage: null,
       diffs: null,
     },
+    {
+      id: 190861006,
+      level: 2219948,
+      timestamp: '2022-03-23T09:40:44Z',
+      block: 'BLoB4JMUUbhNzXLRXkWQkHVh9Zx2HzU6HNwBzT1TuptuuUVUdoZ',
+      hash: 'oopLhJLjumQYaA3ryubFKtrkRQoBdewgBsqNwDqEb2zUQjobdGF',
+      counter: 11694432,
+      sender: {
+        address: 'KT1BvWGFENd4CXW5F3u4n31xKfJhmBGipoqF',
+      },
+      target: {
+        alias: '8bidou 8x8',
+        address: 'KT1MxDwChiDwd6WBVs24g1NjERUoK622ZEFp',
+      },
+      parameter: {
+        entrypoint: 'transfer',
+        value: [
+          {
+            txs: [
+              {
+                to_: 'KT1BvWGFENd4CXW5F3u4n31xKfJhmBGipoqF',
+                amount: '10',
+                token_id: '2213',
+              },
+            ],
+            from_: 'tz1XrutuvkFRG15HmV2gdon86F38NMMGMAXr',
+          },
+        ],
+      },
+      amount: 0,
+      status: 'applied',
+      hasInternals: false,
+      initiator: {
+        alias: 'Mark Knol',
+        address: 'tz1XrutuvkFRG15HmV2gdon86F38NMMGMAXr',
+      },
+      storage: {
+        rgb: 113218,
+        ledger: 113213,
+        metadata: 113217,
+        operators: 113214,
+        token_index: '2219',
+        token_metadata: 113216,
+        token_total_supply: 113215,
+      },
+      diffs: [
+        {
+          bigmap: 113213,
+          path: 'ledger',
+          action: 'add_key',
+          content: {
+            hash: 'expruR1DW4t37iSVtz6SMousHz9BU9NN7dsqdLsZAkmiwt2aPdZ9DS',
+            key: {
+              nat: '2213',
+              address: 'KT1BvWGFENd4CXW5F3u4n31xKfJhmBGipoqF',
+            },
+            value: '10',
+          },
+        },
+        {
+          bigmap: 113213,
+          path: 'ledger',
+          action: 'remove_key',
+          content: {
+            hash: 'exprugEenUr6dev2pi4Q246k3AFvyuiG7LAwUmUqKaSoffPia1khJX',
+            key: {
+              nat: '2213',
+              address: 'tz1XrutuvkFRG15HmV2gdon86F38NMMGMAXr',
+            },
+            value: '10',
+          },
+        },
+      ],
+    },
   ];
 
   const events = transactionsToEvents(transactions, [SetLedgerHandler]);
@@ -395,6 +469,32 @@ test('creates SET_LEDGER events', async () => {
       amount: '1',
       is_mint: true,
       price: '15000000',
+    },
+    {
+      id: '6eb5a65f2838468515dbe5d604a28160',
+      type: 'SET_LEDGER',
+      opid: 190861006,
+      timestamp: '2022-03-23T09:40:44Z',
+      level: 2219948,
+      fa2_address: 'KT1MxDwChiDwd6WBVs24g1NjERUoK622ZEFp',
+      token_id: '2213',
+      holder_address: 'KT1BvWGFENd4CXW5F3u4n31xKfJhmBGipoqF',
+      amount: '10',
+      is_mint: false,
+      price: '0',
+    },
+    {
+      id: '6803f17540f4b8197ef34e5cf354a0f3',
+      type: 'SET_LEDGER',
+      opid: 190861006,
+      timestamp: '2022-03-23T09:40:44Z',
+      level: 2219948,
+      fa2_address: 'KT1MxDwChiDwd6WBVs24g1NjERUoK622ZEFp',
+      token_id: '2213',
+      holder_address: 'tz1XrutuvkFRG15HmV2gdon86F38NMMGMAXr',
+      amount: '0',
+      is_mint: false,
+      price: '0',
     },
   ]);
 });

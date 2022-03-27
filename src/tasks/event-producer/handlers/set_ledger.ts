@@ -43,7 +43,7 @@ const SetLedgerHandler: Handler<Transaction, SetLedgerEvent> = {
       return false;
     }
 
-    const ledgerDiffs = filterDiffs(transaction.diffs, null, 'ledger', ['add_key', 'update_key']);
+    const ledgerDiffs = filterDiffs(transaction.diffs, null, 'ledger', ['add_key', 'update_key', 'remove_key']);
 
     if (!ledgerDiffs.length) {
       return false;
@@ -53,26 +53,21 @@ const SetLedgerHandler: Handler<Transaction, SetLedgerEvent> = {
       (diff) => isString(get(diff, 'content.value')) && isString(get(diff, 'content.key.nat')) && isString(get(diff, 'content.key.address'))
     );
 
-    if (!isValid) {
-      //logger.info(`invalid ledger diff found in transaction "${transaction.id}" target address: ${transaction.target.address}`);
-      //console.log('ledgerDiffs', ledgerDiffs);
-    }
-
     return isValid;
   },
 
   exec: (transaction, operation) => {
     const firstTransaction = operation.transactions[0];
     const fa2Address = get(transaction, 'target.address');
-    const ledgerDiffs = filterDiffs(transaction.diffs!, null, 'ledger', ['add_key', 'update_key']);
+    const ledgerDiffs = filterDiffs(transaction.diffs!, null, 'ledger', ['add_key', 'update_key', 'remove_key']);
 
     const events: Array<SetLedgerEvent> = ledgerDiffs
       .map((diff, idx) => {
         try {
           const tokenId = get(diff, 'content.key.nat');
           const holderAddress = get(diff, 'content.key.address');
-          const amount = get(diff, 'content.value');
-          const isMint = !ledgerDiffs.some((diff) => diff.action === 'update_key');
+          const amount = diff.action === 'remove_key' ? '0' : get(diff, 'content.value');
+          const isMint = !ledgerDiffs.some((diff) => diff.action === 'update_key' || diff.action === 'remove_key');
           const id = createEventId(EVENT_TYPE_SET_LEDGER, transaction.id, idx);
 
           const event: SetLedgerEvent = {

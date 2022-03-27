@@ -16,7 +16,12 @@ async function run() {
   }
 
   const count = process.argv[3] ? parseInt(process.argv[3], 10) : 1000;
-  const results = await db.select('*').from('graphile_worker.jobs').where('task_identifier', taskId).orderBy('id', process.argv[4] || 'asc').limit(count);
+  const results = await db
+    .select('*')
+    .from('graphile_worker.jobs')
+    .where('task_identifier', taskId)
+    .orderBy('id', process.argv[4] || 'asc')
+    .limit(count);
 
   for (let i = 0; i < results.length; i++) {
     const result = results[i];
