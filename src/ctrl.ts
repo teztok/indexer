@@ -5,6 +5,7 @@ import * as eventsDao from './lib/daos/events';
 import { getWorkerUtils } from './lib/utils';
 import logger from './lib/logger';
 import db from './lib/db';
+import { getTaskName } from './lib/utils';
 import { TokenEvent } from './types';
 
 export async function run() {
@@ -25,7 +26,7 @@ export async function run() {
       const max = Math.min(startBlock + config.maxBlocksPerIteration, msg.state);
 
       for (let i = startBlock; i <= max; i++) {
-        await workerUtils.addJob('event-producer', { filters: { level: i } }, { jobKey: `index-level-${i}` });
+        await workerUtils.addJob(getTaskName('event-producer'), { filters: { level: i } }, { jobKey: `index-level-${i}` });
       }
     } else if (msg.type === 2) {
       const lastValidBlock = msg.state;
@@ -36,7 +37,7 @@ export async function run() {
 
       for (const event of uniqInvalidTokenEvents) {
         await workerUtils.addJob(
-          'rebuild-token',
+          getTaskName('rebuild-token'),
           { fa2_address: event.fa2_address, token_id: event.token_id },
           { jobKey: `rebuild-token-${event.fa2_address}-${event.token_id}`, maxAttempts: 2 }
         );

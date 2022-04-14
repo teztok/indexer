@@ -13,6 +13,7 @@ import snakeCase from 'lodash/snakeCase';
 import dbConfig from '../../knexfile';
 import db from '../../lib/db';
 import config from '../../lib/config';
+import { getTaskName } from '../../lib/utils';
 import { Task, Metadata, Token, Holders, AnyListing, AnyOffer, SaleEvent, Asset, ObjktListingV2 } from '../../types';
 import { isValidTezosAddress } from '../../lib/validators';
 import { cleanString, cleanUri, cleanAttributes, cleanTags, cleanCreators, cleanFormats } from '../../lib/schemas';
@@ -837,7 +838,7 @@ const task: Task = {
       noHandleSignals: false,
       pollInterval: config.rebuildTokenPollInterval || config.workerPollInterval,
       taskList: {
-        'rebuild-token': async (payload) => {
+        [getTaskName('rebuild-token')]: async (payload) => {
           await rebuildToken(payload as RebuildTokenTaskPayload);
         },
       },

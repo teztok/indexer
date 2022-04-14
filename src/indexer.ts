@@ -1,4 +1,4 @@
-import { getWorkerUtils } from './lib/utils';
+import { getWorkerUtils, getTaskName } from './lib/utils';
 import { tasksByName } from './tasks/index';
 
 const indexer = {
@@ -8,7 +8,7 @@ const indexer = {
 
   addJob: async (taskName: string, payload: unknown) => {
     const workerUtils = await getWorkerUtils();
-    return workerUtils.addJob(taskName, payload);
+    return workerUtils.addJob(getTaskName(taskName), payload);
   },
 };
 

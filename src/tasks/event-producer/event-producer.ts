@@ -7,7 +7,7 @@ import isArray from 'lodash/isArray';
 import { run } from 'graphile-worker';
 import { handlers as defaultHandlers } from './handlers/index';
 import { Pattern, Patterns, Transaction, Transactions, GetTransactionsFilters, Event, TokenEvent, Token } from '../../types';
-import { getWorkerUtils, transactionMatchesPattern, getTransactions } from '../../lib/utils';
+import { getWorkerUtils, transactionMatchesPattern, getTransactions, getTaskName } from '../../lib/utils';
 import * as eventsDao from '../../lib/daos/events';
 import logger from '../../lib/logger';
 import config from '../../lib/config';
@@ -169,7 +169,7 @@ export async function produceEvents(payload: EventProducerTaskPayload) {
     }
   });
 
-  await workerUtils.addJob('event-processor', { events });
+  await workerUtils.addJob(getTaskName('event-processor'), { events });
 }
 
 const task: Task = {
@@ -182,7 +182,7 @@ const task: Task = {
       noHandleSignals: false,
       pollInterval: config.workerPollInterval,
       taskList: {
-        'event-producer': async (payload) => {
+        [getTaskName('event-producer')]: async (payload) => {
           await produceEvents(payload as EventProducerTaskPayload);
         },
       },

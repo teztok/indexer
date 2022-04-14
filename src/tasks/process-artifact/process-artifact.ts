@@ -9,7 +9,7 @@ import B2 from 'backblaze-b2';
 import { promisify } from 'util';
 import ffmpegBin from '@ffmpeg-installer/ffmpeg';
 import ffprobeBinPath from 'ffprobe-binaries';
-import { getWorkerUtils } from '../../lib/utils';
+import { getWorkerUtils, getTaskName } from '../../lib/utils';
 import ipfsClient from '../../lib/ipfs-client';
 import dbConfig from '../../knexfile';
 import { Task, ImageAsset, VideoAsset, Asset, AssetType } from '../../types';
@@ -469,7 +469,7 @@ export async function processArtifact(artifactUri: string) {
     if (tokens && tokens.length) {
       for (const token of tokens) {
         await workerUtils.addJob(
-          'rebuild-token',
+          getTaskName('rebuild-token'),
           { fa2_address: token.fa2_address, token_id: token.token_id },
           { jobKey: `rebuild-token-${token.fa2_address}-${token.token_id}`, maxAttempts: 2 }
         );
@@ -495,7 +495,7 @@ const task: Task = {
       noHandleSignals: false,
       pollInterval: config.workerPollInterval,
       taskList: {
-        'process-artifact': async (payload) => {
+        [getTaskName('process-artifact')]: async (payload) => {
           const p = payload as ProcessArtifactTaskPayload;
           await processArtifact(p.artifact_uri);
         },

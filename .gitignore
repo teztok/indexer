@@ -4,4 +4,4 @@ node_modules/
 .DS_Store
 build/
 data/postgres-dev/
-docker-compose.custom.yml
+docker-compose.custom*.yml

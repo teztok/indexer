@@ -5,7 +5,7 @@ import { pipeline } from 'stream/promises';
 import dbConfig from '../../knexfile';
 import { Task, MetadataBase } from '../../types';
 import { MetadataBaseSchema } from '../../lib/schemas';
-import { getWorkerUtils } from '../../lib/utils';
+import { getWorkerUtils, getTaskName } from '../../lib/utils';
 import logger from '../../lib/logger';
 import ipfsClient from '../../lib/ipfs-client';
 import * as metadataDao from '../../lib/daos/metadata';
@@ -103,7 +103,7 @@ async function processMetadata(metadataUri: string, helpers: JobHelpers) {
 
     if (metadata.artifactUri) {
       await workerUtils.addJob(
-        'process-artifact',
+        getTaskName('process-artifact'),
         { artifact_uri: metadata.artifactUri },
         { jobKey: `process-artifact-${metadata.artifactUri}`, maxAttempts: 3 }
       );
@@ -114,7 +114,7 @@ async function processMetadata(metadataUri: string, helpers: JobHelpers) {
     if (tokens && tokens.length) {
       for (const token of tokens) {
         await workerUtils.addJob(
-          'rebuild-token',
+          getTaskName('rebuild-token'),
           { fa2_address: token.fa2_address, token_id: token.token_id },
           { jobKey: `rebuild-token-${token.fa2_address}-${token.token_id}`, maxAttempts: 2 }
         );
@@ -148,7 +148,7 @@ const task: Task = {
       noHandleSignals: false,
       pollInterval: config.workerPollInterval,
       taskList: {
-        'fetch-metadata': async (payload, helpers) => {
+        [getTaskName('fetch-metadata')]: async (payload, helpers) => {
           const p = payload as FetchMetadataTaskPayload;
           await processMetadata(p.metadata_uri, helpers);
         },

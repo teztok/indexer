@@ -8,6 +8,8 @@ import config from './config';
 import { BigmapDiffs, BigmapDiff, BigmapDiffAction, KeysEnum, Pattern, Transaction, GetTransactionsFilters, Transactions } from '../types';
 import { CURRENCY_MAPPINGS } from '../consts';
 
+require('dotenv').config();
+
 export async function getLatestBlockLevel() {
   const count = await got(`${config.tzktApiUrl}/blocks/count`).json<number>();
 
@@ -121,4 +123,14 @@ export function extractObjktCurrency(currency: ObjktCurrency) {
   }
 
   return null;
+}
+
+export function getTaskName(name: string) {
+  const taskNamePrefix = process.env.TASK_NAME_PREFIX;
+
+  if (taskNamePrefix) {
+    return `${taskNamePrefix}_${name}`;
+  }
+
+  return name;
 }
