@@ -2169,3 +2169,125 @@ test('handles 8BID_24X24_COLOR_MINT events', () => {
     artist_address: 'tz1c6Uibt7Vjr7MEFEQpohEa2f311KxZyJoZ',
   });
 });
+
+test('handles FX_MINT_V3 events', () => {
+  const events: Array<AnyEvent> = [
+    {
+      id: '86bc7c8df4f3ab1e0ee5e154d23a290b',
+      type: 'FX_MINT_V3',
+      implements: 'SALE',
+      opid: 207515122,
+      timestamp: '2022-04-16T12:03:29Z',
+      level: 2285825,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      editions: '1',
+      seller_address: 'tz1MBrwe8EgiZJ5kgVEDnL5emVM294J5RiaW',
+      artist_address: 'tz1MBrwe8EgiZJ5kgVEDnL5emVM294J5RiaW',
+      buyer_address: 'tz1KfjPNG5riJC972A6vZXaDyzqqBxXCCmec',
+      issuer_id: '10966',
+      iteration: '3',
+      royalties: '130',
+      price: TEST_PRICE,
+      metadata_uri: 'ipfs://QmZZVBKapDg2wXzwpDxdmL9Ah665h9ZzeJ9gYdbTZ4GBzf',
+    },
+  ];
+
+  const { token } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
+
+  expect(token).toMatchObject({
+    artist_address: 'tz1MBrwe8EgiZJ5kgVEDnL5emVM294J5RiaW',
+    fx_issuer_id: '10966',
+  });
+});
+
+test('handles FX_LISTING and FX_LISTING_ACCEPT events', () => {
+  const events: Array<AnyEvent> = [
+    {
+      id: 'cdec227a895401fb08b5b14422626d6d',
+      type: 'FX_LISTING',
+      opid: 207514809,
+      timestamp: '2022-04-16T12:02:59Z',
+      level: 2285824,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      swap_id: TEST_SWAP_ID,
+      seller_address: 'tz1ck6scdncLedJyVViJfrfHwP3DVfxEBg5f',
+      price: TEST_PRICE,
+    },
+    {
+      id: '3af918e6fe110712a931195cd19e027c',
+      type: 'FX_LISTING_ACCEPT',
+      implements: 'SALE',
+      opid: 207520063,
+      timestamp: '2022-04-16T12:08:29Z',
+      level: 2285835,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      swap_id: TEST_SWAP_ID,
+      seller_address: 'tz1ck6scdncLedJyVViJfrfHwP3DVfxEBg5f',
+      buyer_address: 'tz1RxdMQhHoQKxmtwqEC8h5yLHVghHdEPqEk',
+      price: TEST_PRICE,
+    },
+  ];
+
+  const { listings } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
+
+  expect(listings).toMatchObject([
+    {
+      type: 'FX_LISTING',
+      contract_address: 'KT1GbyoDi7H1sfXmimXpptZJuCdHMh66WS9u',
+      created_at: '2022-04-16T12:02:59Z',
+      swap_id: TEST_SWAP_ID,
+      seller_address: 'tz1ck6scdncLedJyVViJfrfHwP3DVfxEBg5f',
+      amount: 1,
+      amount_left: 0,
+      price: TEST_PRICE,
+      status: 'sold_out',
+    },
+  ]);
+});
+
+test('handles FX_CANCEL_OFFER events', () => {
+  const events: Array<AnyEvent> = [
+    {
+      id: 'cdec227a895401fb08b5b14422626d6d',
+      type: 'FX_LISTING',
+      opid: 207514809,
+      timestamp: '2022-04-16T12:02:59Z',
+      level: 2285824,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      swap_id: TEST_SWAP_ID,
+      seller_address: 'tz1ck6scdncLedJyVViJfrfHwP3DVfxEBg5f',
+      price: TEST_PRICE,
+    },
+    {
+      id: '49285213fd457e9f5bd7f66ff74f59fb',
+      type: 'FX_LISTING_CANCEL',
+      opid: 207527459,
+      timestamp: '2022-04-16T12:14:59Z',
+      level: 2285848,
+      fa2_address: TEST_FA2_ADDRESS,
+      seller_address: 'tz1ck6scdncLedJyVViJfrfHwP3DVfxEBg5f',
+      token_id: TEST_TOKEN_ID,
+      swap_id: TEST_SWAP_ID,
+    },
+  ];
+
+  const { listings } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
+
+  expect(listings).toEqual([
+    {
+      type: 'FX_LISTING',
+      contract_address: 'KT1GbyoDi7H1sfXmimXpptZJuCdHMh66WS9u',
+      created_at: '2022-04-16T12:02:59Z',
+      swap_id: TEST_SWAP_ID,
+      seller_address: 'tz1ck6scdncLedJyVViJfrfHwP3DVfxEBg5f',
+      amount: 1,
+      amount_left: 1,
+      price: TEST_PRICE,
+      status: 'canceled',
+    },
+  ]);
+});
