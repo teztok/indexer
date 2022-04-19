@@ -4,6 +4,7 @@ import chunk from 'lodash/chunk';
 import { run } from 'graphile-worker';
 import dbConfig from '../../knexfile';
 import * as raribleDao from '../../lib/daos/rarible';
+import { getTaskName } from '../../lib/utils';
 import { Task } from '../../types';
 
 interface ActivitiesResult {
@@ -73,7 +74,7 @@ const task: Task = {
       noHandleSignals: false,
       pollInterval: 500,
       taskList: {
-        'rarible-fetch': async (payload) => {},
+        [getTaskName('rarible-fetch')]: async (payload) => {},
       },
     });
   },

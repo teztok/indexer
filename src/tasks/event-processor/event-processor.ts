@@ -2,6 +2,7 @@ import { run } from 'graphile-worker';
 import { processors } from './processors/index';
 import dbConfig from '../../knexfile';
 import config from '../../lib/config';
+import { getTaskName } from '../../lib/utils';
 import { Task, Event } from '../../types';
 
 interface EventProcessorTaskPayload {
@@ -28,7 +29,7 @@ const task: Task = {
       noHandleSignals: false,
       pollInterval: config.workerPollInterval,
       taskList: {
-        'event-processor': async (payload) => {
+        [getTaskName('event-processor')]: async (payload) => {
           await processEvents(payload as EventProcessorTaskPayload);
         },
       },

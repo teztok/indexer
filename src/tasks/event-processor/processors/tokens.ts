@@ -1,7 +1,6 @@
 import uniqBy from 'lodash/uniqBy';
 import { Processor, TokenEvent } from '../../../types';
-import { getWorkerUtils } from '../../../lib/utils';
-import * as metadataDao from '../../../lib/daos/metadata';
+import { getWorkerUtils, getTaskName } from '../../../lib/utils';
 
 const TokenProcessor: Processor = {
   accept: (event) => 'fa2_address' in event && 'token_id' in event,
@@ -15,7 +14,7 @@ const TokenProcessor: Processor = {
 
     for (const event of uniqEvents) {
       await workerUtils.addJob(
-        'rebuild-token',
+        getTaskName('rebuild-token'),
         { fa2_address: event.fa2_address, token_id: event.token_id },
         { jobKey: `rebuild-token-${event.fa2_address}-${event.token_id}`, maxAttempts: 2 }
       );

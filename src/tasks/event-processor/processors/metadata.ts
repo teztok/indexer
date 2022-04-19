@@ -1,7 +1,6 @@
 import uniqBy from 'lodash/uniqBy';
-import keyBy from 'lodash/keyBy';
 import { Processor, MetadataEvent } from '../../../types';
-import { getWorkerUtils } from '../../../lib/utils';
+import { getWorkerUtils, getTaskName } from '../../../lib/utils';
 import * as metadataDao from '../../../lib/daos/metadata';
 
 const MetadataProcessor: Processor = {
@@ -26,7 +25,11 @@ const MetadataProcessor: Processor = {
       await metadataDao.add(rows);
 
       for (const uri of notExistingUris) {
-        await workerUtils.addJob('fetch-metadata', { metadata_uri: uri }, { jobKey: `resolve-metadata-${uri}`, maxAttempts: 6 });
+        await workerUtils.addJob(
+          getTaskName('fetch-metadata'),
+          { metadata_uri: uri },
+          { jobKey: `resolve-metadata-${uri}`, maxAttempts: 6 }
+        );
       }
     }
   },
