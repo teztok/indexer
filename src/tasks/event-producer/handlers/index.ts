@@ -24,11 +24,14 @@ import FxMintIssuerHandler, { FxMintIssuerEvent } from './fx_mint_issuer';
 import FxMintIssuerV2Handler, { FxMintIssuerV2Event } from './fx_mint_issuer_v2';
 import FxAssignMetadataHandler, { FxAssignMetadataEvent } from './fx_assign_metadata';
 import FxCollectHandler, { FxCollectEvent } from './fx_collect';
+import FxListingAcceptHandler, { FxListingAcceptEvent } from './fx_listing_accept';
 import FxMintHandler, { FxMintEvent } from './fx_mint';
 import FxMintV2Handler, { FxMintV2Event } from './fx_mint_v2';
 import FxMintV3Handler, { FxMintV3Event } from './fx_mint_v3';
 import FxOfferHandler, { FxOfferEvent } from './fx_offer';
+import FxListingHandler, { FxListingEvent } from './fx_listing';
 import FxCancelOfferHandler, { FxCancelOfferEvent } from './fx_cancel_offer';
+import FxListingCancelHandler, { FxListingCancelEvent } from './fx_listing_cancel';
 import ObjktCreateEnglishAuctionHandler, { ObjktCreateEnglishAuctionEvent } from './objkt_create_english_auction';
 import ObjktBidEnglishAuctionHandler, { ObjktBidEnglishAuctionEvent } from './objkt_bid_english_auction';
 import ObjktCancelEnglishAuctionHandler, { ObjktCancelEnglishAuctionEvent } from './objkt_cancel_english_auction';
@@ -96,11 +99,14 @@ export const handlers = [
   FxMintIssuerV2Handler,
   FxAssignMetadataHandler,
   FxCollectHandler,
+  FxListingAcceptHandler,
   FxMintHandler,
   FxMintV2Handler,
   FxMintV3Handler,
   FxOfferHandler,
+  FxListingHandler,
   FxCancelOfferHandler,
+  FxListingCancelHandler,
   SetMetadataHandler,
   VersumMintHandler,
   VersumSwapHandler,
@@ -152,11 +158,14 @@ export type AnyEvent =
   | FxMintIssuerV2Event
   | FxAssignMetadataEvent
   | FxCollectEvent
+  | FxListingAcceptEvent
   | FxMintEvent
   | FxMintV2Event
   | FxMintV3Event
   | FxOfferEvent
+  | FxListingEvent
   | FxCancelOfferEvent
+  | FxListingCancelEvent
   | ObjktCreateEnglishAuctionEvent
   | ObjktBidEnglishAuctionEvent
   | ObjktCancelEnglishAuctionEvent
