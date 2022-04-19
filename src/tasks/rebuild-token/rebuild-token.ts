@@ -27,6 +27,7 @@ import {
   OBJKT_CONTRACT_MARKETPLACE,
   OBJKT_CONTRACT_MARKETPLACE_V2,
   FX_CONTRACT_MARKETPLACE,
+  FX_CONTRACT_MARKETPLACE_V3,
   VERSUM_CONTRACT_MARKETPLACE,
   BURN_ADDRESS,
   TEIA_CONTRACT_MARKETPLACE,
@@ -391,8 +392,18 @@ export function compileToken(
         break;
       }
 
+      case 'FX_MINT_V3': {
+        artistAddress = event.artist_address;
+        fxIssuerId = event.issuer_id;
+
+        // TODO: support split royalities
+        // royalties[artistAddress] = event.royalties;
+
+        break;
+      }
+
       case 'FX_OFFER': {
-        listings[createListingKey(OBJKT_CONTRACT_MARKETPLACE, event.offer_id)] = {
+        listings[createListingKey(FX_CONTRACT_MARKETPLACE, event.offer_id)] = {
           type: 'FX_OFFER',
           contract_address: FX_CONTRACT_MARKETPLACE,
           created_at: event.timestamp,
@@ -408,7 +419,7 @@ export function compileToken(
       }
 
       case 'FX_COLLECT': {
-        const listingKey = createListingKey(OBJKT_CONTRACT_MARKETPLACE, event.offer_id);
+        const listingKey = createListingKey(FX_CONTRACT_MARKETPLACE, event.offer_id);
 
         if (listingKey in listings) {
           listings[listingKey].amount_left = 0;
@@ -419,7 +430,44 @@ export function compileToken(
       }
 
       case 'FX_CANCEL_OFFER': {
-        const listingKey = createListingKey(OBJKT_CONTRACT_MARKETPLACE, event.offer_id);
+        const listingKey = createListingKey(FX_CONTRACT_MARKETPLACE, event.offer_id);
+
+        if (listingKey in listings) {
+          listings[listingKey].status = 'canceled';
+        }
+
+        break;
+      }
+
+      case 'FX_LISTING': {
+        listings[createListingKey(FX_CONTRACT_MARKETPLACE_V3, event.swap_id)] = {
+          type: 'FX_LISTING',
+          contract_address: FX_CONTRACT_MARKETPLACE_V3,
+          created_at: event.timestamp,
+          swap_id: event.swap_id,
+          seller_address: event.seller_address,
+          amount: 1,
+          amount_left: 1,
+          price: event.price,
+          status: 'active',
+        };
+
+        break;
+      }
+
+      case 'FX_LISTING_ACCEPT': {
+        const listingKey = createListingKey(FX_CONTRACT_MARKETPLACE_V3, event.swap_id);
+
+        if (listingKey in listings) {
+          listings[listingKey].amount_left = 0;
+          listings[listingKey].status = 'sold_out';
+        }
+
+        break;
+      }
+
+      case 'FX_LISTING_CANCEL': {
+        const listingKey = createListingKey(FX_CONTRACT_MARKETPLACE_V3, event.swap_id);
 
         if (listingKey in listings) {
           listings[listingKey].status = 'canceled';

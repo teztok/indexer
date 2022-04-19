@@ -4,6 +4,7 @@ import {
   OBJKT_CONTRACT_MARKETPLACE,
   OBJKT_CONTRACT_MARKETPLACE_V2,
   FX_CONTRACT_MARKETPLACE,
+  FX_CONTRACT_MARKETPLACE_V3,
   EIGHTBIDOU_8X8_COLOR_CONTRACT_MARKETPLACE,
   EIGHTBIDOU_24X24_MONOCHROME_CONTRACT_MARKETPLACE,
   VERSUM_CONTRACT_MARKETPLACE,
@@ -331,6 +332,12 @@ export interface FxListing extends Listing {
   contract_address: typeof FX_CONTRACT_MARKETPLACE;
 }
 
+export interface FxListingV3 extends Listing {
+  type: 'FX_LISTING';
+  swap_id: string;
+  contract_address: typeof FX_CONTRACT_MARKETPLACE_V3;
+}
+
 export interface VersumListing extends Listing {
   type: 'VERSUM_SWAP';
   swap_id: string;
@@ -359,6 +366,7 @@ export type AnyListing =
   | ObjktListing
   | ObjktListingV2
   | FxListing
+  | FxListingV3
   | VersumListing
   | TeiaListing
   | Eightbid8x8ColorListing
