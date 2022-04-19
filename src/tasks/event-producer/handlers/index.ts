@@ -26,6 +26,7 @@ import FxAssignMetadataHandler, { FxAssignMetadataEvent } from './fx_assign_meta
 import FxCollectHandler, { FxCollectEvent } from './fx_collect';
 import FxMintHandler, { FxMintEvent } from './fx_mint';
 import FxMintV2Handler, { FxMintV2Event } from './fx_mint_v2';
+import FxMintV3Handler, { FxMintV3Event } from './fx_mint_v3';
 import FxOfferHandler, { FxOfferEvent } from './fx_offer';
 import FxCancelOfferHandler, { FxCancelOfferEvent } from './fx_cancel_offer';
 import ObjktCreateEnglishAuctionHandler, { ObjktCreateEnglishAuctionEvent } from './objkt_create_english_auction';
@@ -97,6 +98,7 @@ export const handlers = [
   FxCollectHandler,
   FxMintHandler,
   FxMintV2Handler,
+  FxMintV3Handler,
   FxOfferHandler,
   FxCancelOfferHandler,
   SetMetadataHandler,
@@ -152,6 +154,7 @@ export type AnyEvent =
   | FxCollectEvent
   | FxMintEvent
   | FxMintV2Event
+  | FxMintV3Event
   | FxOfferEvent
   | FxCancelOfferEvent
   | ObjktCreateEnglishAuctionEvent
