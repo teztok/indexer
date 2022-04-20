@@ -15,7 +15,6 @@ export interface SetLedgerEvent extends TokenEvent {
   holder_address: string;
   amount: string;
   is_mint: boolean;
-  price: string;
 }
 
 const SetLedgerEventSchema: Describe<Omit<SetLedgerEvent, 'type'>> = object({
@@ -29,7 +28,6 @@ const SetLedgerEventSchema: Describe<Omit<SetLedgerEvent, 'type'>> = object({
   holder_address: TezosAddress,
   amount: PgBigInt,
   is_mint: boolean(),
-  price: PgBigInt,
 });
 
 const SetLedgerHandler: Handler<Transaction, SetLedgerEvent> = {
@@ -58,7 +56,6 @@ const SetLedgerHandler: Handler<Transaction, SetLedgerEvent> = {
   },
 
   exec: (transaction, operation) => {
-    const firstTransaction = operation.transactions[0];
     const fa2Address = get(transaction, 'target.address');
     const ledgerDiffs = filterDiffs(transaction.diffs!, null, 'ledger', ['add_key', 'update_key', 'remove_key']);
 
@@ -83,7 +80,6 @@ const SetLedgerHandler: Handler<Transaction, SetLedgerEvent> = {
             holder_address: holderAddress,
             amount: amount,
             is_mint: isMint,
-            price: String(firstTransaction.amount),
           };
 
           assert(omit(event, ['type']), SetLedgerEventSchema);

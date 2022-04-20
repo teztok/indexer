@@ -71,7 +71,6 @@ export function compileToken(
 
   let artistAddress = null;
   let minterAddress = null;
-  let mintPrice = null;
   let metadataUri = null;
   let mintedAt = null;
 
@@ -95,7 +94,6 @@ export function compileToken(
 
         if (event.is_mint) {
           minterAddress = event.holder_address;
-          mintPrice = event.price;
           mintedAt = event.timestamp;
         }
         break;
@@ -765,7 +763,6 @@ export function compileToken(
     assets: assetsWithUri && assetsWithUri.length ? assetsWithUri : null,
 
     price: cheapestPrice,
-    mint_price: mintPrice,
     last_sales_price: lastSalePrice,
     highest_sales_price: highestSalePrice,
     lowest_sales_price: lowestSalePrice,

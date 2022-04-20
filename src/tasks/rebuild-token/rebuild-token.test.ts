@@ -32,7 +32,6 @@ test('handles SET_LEDGER events', () => {
       holder_address: 'tz1UBZUkXpKGhYsP5KtzDNqLLchwF4uHrGjw',
       amount: '1',
       is_mint: true,
-      price: TEST_PRICE,
     },
   ];
 
@@ -40,7 +39,6 @@ test('handles SET_LEDGER events', () => {
 
   expect(token).toMatchObject({
     minted_at: '2021-03-01T03:39:21Z',
-    mint_price: TEST_PRICE,
     minter_address: 'tz1UBZUkXpKGhYsP5KtzDNqLLchwF4uHrGjw',
   });
 
@@ -756,7 +754,6 @@ test('handles OBJKT_ASK_V2 and OBJKT_FULFILL_ASK_V2 events', () => {
       holder_address: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
       amount: '10',
       is_mint: true,
-      price: TEST_PRICE,
     },
     {
       id: '22af9d5162ba6343a8ebaefe8de0e606',
@@ -823,7 +820,6 @@ test('handles OBJKT_ASK_V2 and OBJKT_FULFILL_ASK_V2 events, sold out case', () =
       holder_address: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
       amount: '10',
       is_mint: true,
-      price: TEST_PRICE,
     },
     {
       id: '22af9d5162ba6343a8ebaefe8de0e606',
@@ -890,7 +886,6 @@ test('handles OBJKT_RETRACT_ASK_V2 events', () => {
       holder_address: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
       amount: '10',
       is_mint: true,
-      price: TEST_PRICE,
     },
     {
       id: '22af9d5162ba6343a8ebaefe8de0e606',
@@ -953,7 +948,6 @@ test('handles OBJKT_ASK_V2 events, case where the seller transferred the token w
       holder_address: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
       amount: '10',
       is_mint: true,
-      price: TEST_PRICE,
     },
     {
       id: '22af9d5162ba6343a8ebaefe8de0e606',
@@ -982,7 +976,6 @@ test('handles OBJKT_ASK_V2 events, case where the seller transferred the token w
       holder_address: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
       amount: '0',
       is_mint: false,
-      price: TEST_PRICE,
     },
   ];
 

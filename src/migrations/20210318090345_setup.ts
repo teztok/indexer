@@ -33,7 +33,6 @@ export async function up(knex: Knex): Promise<void> {
       table.bigInteger('fx_issuer_id');
       table.jsonb('attributes');
       table.bigInteger('price');
-      table.bigInteger('mint_price');
       table.bigInteger('last_sales_price');
       table.bigInteger('highest_sales_price');
       table.bigInteger('lowest_sales_price');

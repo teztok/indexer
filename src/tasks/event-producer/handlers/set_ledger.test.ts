@@ -430,7 +430,6 @@ test('creates SET_LEDGER events', async () => {
       holder_address: 'tz1UBZUkXpKGhYsP5KtzDNqLLchwF4uHrGjw',
       amount: '1',
       is_mint: true,
-      price: '0',
     },
     {
       id: '8f9943d837df16081b5d7cce3f95ca66',
@@ -444,7 +443,6 @@ test('creates SET_LEDGER events', async () => {
       holder_address: 'tz1ZdMfzmWLb8mu22jE7rZ8Y3t9iKezM68cq',
       amount: '0',
       is_mint: false,
-      price: '0',
     },
     {
       id: '019d7c3e99af0896036d98cfe962ae8d',
@@ -458,7 +456,6 @@ test('creates SET_LEDGER events', async () => {
       holder_address: 'tz1dfERyYcVRPG4WkZPf8k9TeRvc6i2gqBPx',
       amount: '100',
       is_mint: false,
-      price: '0',
     },
     {
       id: '204c4024ff18ea5ec82c81f07cddbb8e',
@@ -472,7 +469,6 @@ test('creates SET_LEDGER events', async () => {
       holder_address: 'tz1XBqVe91Rdao2wJFANPH9yAHsuu66GrqB5',
       amount: '1',
       is_mint: true,
-      price: '15000000',
     },
     {
       id: '6eb5a65f2838468515dbe5d604a28160',
@@ -486,7 +482,6 @@ test('creates SET_LEDGER events', async () => {
       holder_address: 'KT1BvWGFENd4CXW5F3u4n31xKfJhmBGipoqF',
       amount: '10',
       is_mint: false,
-      price: '0',
     },
     {
       id: '6803f17540f4b8197ef34e5cf354a0f3',
@@ -500,7 +495,6 @@ test('creates SET_LEDGER events', async () => {
       holder_address: 'tz1XrutuvkFRG15HmV2gdon86F38NMMGMAXr',
       amount: '0',
       is_mint: false,
-      price: '0',
     },
   ]);
 });
