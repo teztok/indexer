@@ -66,6 +66,7 @@ test('creates FX_CANCEL_OFFER events', async () => {
       id: '1827a4f5e8c51832e1c5598f1932f3bf',
       type: 'FX_CANCEL_OFFER',
       opid: 108312464,
+      ophash: 'ooFDnSYyKxZjEfsyvr54k1ZZFKpQ36yhPrSEF1KTmTqXo59BP2g',
       timestamp: '2021-11-11T10:26:38Z',
       level: 18543631,
       fa2_address: 'KT1KEa8z6vWXDJrVqtMrAeDVzsvxat3kHaCE',

@@ -336,6 +336,7 @@ test('creates FX_MINT_V3 events', async () => {
       type: 'FX_MINT_V3',
       implements: 'SALE',
       opid: 207515122,
+      ophash: 'opCMWDeQkyFBeNGVMTb3AtPVzDqpM15WmNRPp7GdojVVvyBFpVU',
       timestamp: '2022-04-16T12:03:29Z',
       level: 2285825,
       fa2_address: 'KT1U6EHmNxJTkvaWJ4ThczG4FSDaHC21ssvi',

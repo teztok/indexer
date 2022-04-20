@@ -21,6 +21,7 @@ const ObjktMintArtistEventSchema: Describe<Omit<ObjktMintArtistEvent, 'type'>> =
   level: PositiveInteger,
   fa2_address: ContractAddress,
   token_id: string(),
+  ophash: string(),
 
   artist_address: TezosAddress,
   collection_id: PgBigInt,
@@ -54,6 +55,7 @@ const HenMintHandler: Handler<Transaction, ObjktMintArtistEvent> = {
       id,
       type: EVENT_TYPE_OBJKT_MINT_ARTIST,
       opid: transaction.id,
+      ophash: transaction.hash,
       timestamp: transaction.timestamp,
       fa2_address: fa2Address,
       token_id: tokenId,

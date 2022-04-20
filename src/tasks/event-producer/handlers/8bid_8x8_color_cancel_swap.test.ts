@@ -70,6 +70,7 @@ test('creates 8BID_8X8_COLOR_CANCEL_SWAP events', async () => {
       id: '17a9522f79b6f0e8becc21310683edba',
       type: '8BID_8X8_COLOR_CANCEL_SWAP',
       opid: 180039728,
+      ophash: 'opNKCTs8UWiMphKdA3ibUMx2zKtiM1G63MVJHSAfoxSnVRqpE6Y',
       timestamp: '2022-02-28T05:34:04Z',
       level: 2155678,
       fa2_address: 'KT1MxDwChiDwd6WBVs24g1NjERUoK622ZEFp',

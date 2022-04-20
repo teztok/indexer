@@ -80,6 +80,7 @@ test('creates 8BID_8X8_COLOR_BUY events', async () => {
       level: 2134313,
       fa2_address: 'KT1MxDwChiDwd6WBVs24g1NjERUoK622ZEFp',
       token_id: '6',
+      ophash: 'ooPh82iDd78ghxcrn1xx2zpiWmPiYY9s57KTJ4cL1xCHfEk25W2',
 
       swap_id: '4',
       buyer_address: 'tz1c6Uibt7Vjr7MEFEQpohEa2f311KxZyJoZ',

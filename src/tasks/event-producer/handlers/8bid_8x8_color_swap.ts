@@ -25,6 +25,8 @@ const EightbidSwapSchema: Describe<Omit<EightbidSwap8x8ColorEvent, 'type'>> = ob
   level: PositiveInteger,
   fa2_address: ContractAddress,
   token_id: string(),
+  ophash: string(),
+
   artist_address: TezosAddress,
   seller_address: TezosAddress,
   swap_id: PgBigInt,
@@ -56,6 +58,7 @@ const EightbidSwap8x8ColorHandler: Handler<Transaction, EightbidSwap8x8ColorEven
       id,
       type: EVENT_TYPE_8BID_8X8_COLOR_SWAP,
       opid: transaction.id,
+      ophash: transaction.hash,
       timestamp: transaction.timestamp,
       level: transaction.level,
       fa2_address: fa2Address,

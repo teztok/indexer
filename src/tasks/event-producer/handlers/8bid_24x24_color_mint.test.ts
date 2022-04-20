@@ -122,6 +122,7 @@ test('creates 8BID_24X24_COLOR_MINT events', async () => {
       id: '6b1c521f30320f7fb97756c8925781aa',
       type: '8BID_24X24_COLOR_MINT',
       opid: 184363860,
+      ophash: 'ooaDMx42ezZs8518kzU37ECJ3oLb1tB8JAtDULHaFfpyaJEX3E2',
       timestamp: '2022-03-09T09:58:14Z',
       level: 2181380,
       fa2_address: 'KT1VikAWA8wQHLZgHoAGL7Z9kCjgbCEnvWA3',

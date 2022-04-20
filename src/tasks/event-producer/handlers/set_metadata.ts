@@ -21,6 +21,7 @@ const SetMetadataEventSchema: Describe<Omit<SetMetadataEvent, 'type'>> = object(
   level: PositiveInteger,
   fa2_address: ContractAddress,
   token_id: string(),
+  ophash: string(),
 
   metadata_uri: MetadataUri,
 });
@@ -83,6 +84,7 @@ const SetMetadataHandler: Handler<Transaction, SetMetadataEvent> = {
             id,
             type: EVENT_TYPE_SET_METADATA,
             opid: transaction.id,
+            ophash: transaction.hash,
             timestamp: transaction.timestamp,
             level: transaction.level,
             fa2_address: fa2Address,

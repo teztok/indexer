@@ -21,9 +21,10 @@ const ObjktRetractAskEventSchema: Describe<Omit<ObjktRetractAskEvent, 'type'>> =
   timestamp: IsoDateString,
   level: PositiveInteger,
   fa2_address: ContractAddress,
+  token_id: string(),
+  ophash: string(),
   artist_address: TezosAddress,
   seller_address: TezosAddress,
-  token_id: string(),
   ask_id: PgBigInt,
 });
 
@@ -48,6 +49,7 @@ const ObjktRetractAskHandler: Handler<Transaction, ObjktRetractAskEvent> = {
       id,
       type: EVENT_TYPE_OBJKT_RETRACT_ASK,
       opid: transaction.id,
+      ophash: transaction.hash,
       level: transaction.level,
       timestamp: transaction.timestamp,
       fa2_address: fa2Address,

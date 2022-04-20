@@ -35,6 +35,8 @@ const Fa2TransferEventSchema: Describe<Omit<Fa2TransferEvent, 'type'>> = object(
   level: PositiveInteger,
   fa2_address: ContractAddress,
   token_id: string(),
+  ophash: string(),
+
   from_address: TezosAddress,
   to_address: TezosAddress,
   amount: PgBigInt,
@@ -70,6 +72,7 @@ const Fa2TransferHandler: Handler<Transaction, Fa2TransferEvent> = {
             id,
             type: EVENT_TYPE_FA2_TRANSFER,
             opid: transaction.id,
+            ophash: transaction.hash,
             timestamp: transaction.timestamp,
             level: transaction.level,
             fa2_address: fa2Address,

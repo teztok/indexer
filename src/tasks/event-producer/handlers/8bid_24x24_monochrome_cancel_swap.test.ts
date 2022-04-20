@@ -71,6 +71,7 @@ test('creates 8BID_24X24_MONOCHROME_CANCEL_SWAP events', async () => {
       id: '16a4fc791f16234aaaaea3d50148d1cd',
       type: '8BID_24X24_MONOCHROME_CANCEL_SWAP',
       opid: 187474659,
+      ophash: 'ooSSZ6R13zjEgXaAn2EZVst7EbAcsa5L3GPH3i3ZUnHh5z7XZPd',
       timestamp: '2022-03-16T00:46:54Z',
       level: 2199713,
       fa2_address: 'KT1TR1ErEQPTdtaJ7hbvKTJSa1tsGnHGZTpf',

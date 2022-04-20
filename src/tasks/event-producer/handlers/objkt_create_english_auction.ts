@@ -28,6 +28,7 @@ const ObjktCreateEnglishAuctionEventSchema: Describe<Omit<ObjktCreateEnglishAuct
   level: PositiveInteger,
   fa2_address: ContractAddress,
   token_id: string(),
+  ophash: string(),
 
   seller_address: TezosAddress,
   artist_address: TezosAddress,
@@ -74,6 +75,7 @@ const ObjktCreateEnglishAuctionHandler: Handler<Transaction, ObjktCreateEnglishA
       id,
       type: EVENT_TYPE_OBJKT_CREATE_ENGLISH_AUCTION,
       opid: transaction.id,
+      ophash: transaction.hash,
       timestamp: transaction.timestamp,
       level: transaction.level,
       fa2_address: fa2Address,

@@ -25,6 +25,7 @@ const ObjktOfferEventSchema: Describe<Omit<ObjktOfferEvent, 'type'>> = object({
   level: PositiveInteger,
   fa2_address: ContractAddress,
   token_id: string(),
+  ophash: string(),
 
   offer_id: PgBigInt,
   buyer_address: TezosAddress,
@@ -58,6 +59,7 @@ const ObjktAskHandler: Handler<Transaction, ObjktOfferEvent> = {
       id,
       type: EVENT_TYPE_OBJKT_OFFER,
       opid: transaction.id,
+      ophash: transaction.hash,
       level: transaction.level,
       timestamp: transaction.timestamp,
       fa2_address: fa2Address,

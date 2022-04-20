@@ -67,6 +67,7 @@ test('creates HEN_CANCEL_SWAP events', async () => {
       id: '6bea92eae881041d0a391d276ff8b06d',
       type: 'HEN_CANCEL_SWAP',
       opid: 52568900,
+      ophash: 'opWNB6fjWxNEPQ5k78RUYJdQSBdeukbuyPm9ZqDLaeHtrRJYT23',
       timestamp: '2021-05-31T08:08:46Z',
       level: 1495010,
       fa2_address: 'KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton',

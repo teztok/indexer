@@ -96,6 +96,7 @@ test('creates VERSUM_CANCEL_SWAP events', async () => {
       id: '574dc83f1eee4120ac0318be9b88f53f',
       type: 'VERSUM_CANCEL_SWAP',
       opid: 137968798,
+      ophash: 'oovMV5TDcmGX98NDHP9EC96VyQNhvb75s9SYjhk6YXFXpgCzZrV',
       timestamp: '2022-01-12T11:33:10Z',
       level: 2024496,
       fa2_address: 'KT1LjmAdYQCLBjwv4S2oFkEzyHVkomAf5MrW',

@@ -103,6 +103,7 @@ test('creates VERSUM_CREATE_AUCTION events', async () => {
       id: 'd3c3d1c147e211a0c3c8ef1d989459f2',
       type: 'VERSUM_CREATE_AUCTION',
       opid: 138299001,
+      ophash: 'onupngKsa1ZTLSUC3Kf3whsAK482qbJuK3wNw4A4E2UthS45gSt',
       timestamp: '2022-01-13T02:29:50Z',
       level: 2026273,
       fa2_address: 'KT1LjmAdYQCLBjwv4S2oFkEzyHVkomAf5MrW',

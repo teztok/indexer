@@ -24,6 +24,7 @@ const FxCancelOfferEventSchema: Describe<Omit<FxCancelOfferEvent, 'type'>> = obj
   seller_address: TezosAddress,
   artist_address: TezosAddress,
   token_id: string(),
+  ophash: string(),
   offer_id: PgBigInt,
 });
 
@@ -48,6 +49,7 @@ const FxCancelOfferHandler: Handler<Transaction, FxCancelOfferEvent> = {
       id,
       type: EVENT_TYPE_FX_CANCEL_OFFER,
       opid: transaction.id,
+      ophash: transaction.hash,
       timestamp: transaction.timestamp,
       level: transaction.level,
       fa2_address: fa2Address,

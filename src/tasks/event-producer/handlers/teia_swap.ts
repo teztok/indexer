@@ -25,6 +25,7 @@ const TeiaSwapEventSchema: Describe<Omit<TeiaSwapEvent, 'type'>> = object({
   level: PositiveInteger,
   fa2_address: ContractAddress,
   token_id: string(),
+  ophash: string(),
 
   artist_address: TezosAddress,
   seller_address: TezosAddress,
@@ -57,6 +58,7 @@ const TeiaSwapHandler: Handler<Transaction, TeiaSwapEvent> = {
       id,
       type: EVENT_TYPE_TEIA_SWAP,
       opid: transaction.id,
+      ophash: transaction.hash,
       timestamp: transaction.timestamp,
       level: transaction.level,
       fa2_address: fa2Address,

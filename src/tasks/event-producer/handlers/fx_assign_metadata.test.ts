@@ -86,6 +86,7 @@ test('creates FX_ASSIGN_METADATA events', async () => {
       id: '6ab8d21f564035e64f4086050649910f',
       type: 'FX_ASSIGN_METADATA',
       opid: 104377961,
+      ophash: 'onvDoT2ZnvsaHXDEAnZaLbyKycnFWiaGNh4QtsDhmt6EQTD44AC',
       timestamp: '2021-11-03T12:29:02Z',
       level: 1832239,
       fa2_address: 'KT1KEa8z6vWXDJrVqtMrAeDVzsvxat3kHaCE',

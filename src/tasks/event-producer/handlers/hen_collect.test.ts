@@ -72,6 +72,7 @@ test('creates HEN_COLLECT events', async () => {
       type: 'HEN_COLLECT',
       implements: 'SALE',
       opid: 52568902,
+      ophash: 'opV2QaCSsGMJ9xwBh9jyNBy4mMFVvtyy7Jf7pYky4qAFprmeoN7',
       timestamp: '2021-05-31T08:08:46Z',
       level: 1495010,
       fa2_address: 'KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton',

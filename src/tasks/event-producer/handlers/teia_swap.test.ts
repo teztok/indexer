@@ -77,6 +77,7 @@ test('creates TEIA_SWAP events', async () => {
       opid: 165058185,
       timestamp: '2022-01-31T16:11:58Z',
       level: 2078143,
+      ophash: 'ooXPdUMYcYUKi9VBbsYdyp4hPUfzgLVsts8aAUh6UqUT2RBhQW7',
       fa2_address: 'KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton',
       token_id: '531011',
       seller_address: 'tz1g6JRCpsEnD2BLiAzPNK3GBD1fKicV9rCx',

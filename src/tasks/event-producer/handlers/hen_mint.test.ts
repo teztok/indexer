@@ -112,6 +112,7 @@ test('creates HEN_MINT events', async () => {
       id: 'fbf621a7b2f699d41a7a8ca205e1a1be',
       type: 'HEN_MINT',
       opid: 112502347,
+      ophash: 'oo28HoW9LEbrA28M7XbDEvRmPqaA7QxPVmYbAUoAcKNAgXdDokB',
       timestamp: '2021-11-20T08:09:22Z',
       level: 1879134,
       fa2_address: 'KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton',

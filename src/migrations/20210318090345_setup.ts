@@ -87,6 +87,7 @@ export async function up(knex: Knex): Promise<void> {
       table.timestamp('end_time');
       table.boolean('burn_on_end');
       table.text('currency');
+
       table.enum('status', ['active', 'sold_out', 'canceled']).notNullable();
 
       table.index('fa2_address');
@@ -120,6 +121,7 @@ export async function up(knex: Knex): Promise<void> {
       table.timestamp('timestamp').notNullable();
       table.text('type');
       table.string('fa2_address', 36);
+      table.text('ophash');
       table.text('token_id');
       table.enum('implements', ['SALE']);
       table.string('from_address', 36);
@@ -164,6 +166,7 @@ export async function up(knex: Knex): Promise<void> {
 
       table.index('implements');
       table.index('type');
+      table.index('ophash');
       table.index('from_address');
       table.index('to_address');
       table.index('seller_address');

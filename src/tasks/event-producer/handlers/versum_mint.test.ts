@@ -281,6 +281,7 @@ test('creates VERSUM_MINT events', async () => {
       id: '7789e974871b157d3dd3ef4db60c2410',
       type: 'VERSUM_MINT',
       opid: 137729490,
+      ophash: 'ono5r7ZwqCXoSJwN6M6wtoDx2Nh17aFprgd2jHofmBijkvWR9hm',
       timestamp: '2022-01-12T00:14:30Z',
       level: 2023174,
       fa2_address: 'KT1LjmAdYQCLBjwv4S2oFkEzyHVkomAf5MrW',

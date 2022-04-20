@@ -22,6 +22,7 @@ const TeiaCancelSwapEventSchema: Describe<Omit<TeiaCancelSwapEvent, 'type'>> = o
   level: PositiveInteger,
   fa2_address: ContractAddress,
   token_id: string(),
+  ophash: string(),
 
   seller_address: TezosAddress,
   artist_address: TezosAddress,
@@ -57,6 +58,7 @@ const TeiaCancelSwapHandler: Handler<Transaction, TeiaCancelSwapEvent> = {
       id,
       type: EVENT_TYPE_TEIA_CANCEL_SWAP,
       opid: transaction.id,
+      ophash: transaction.hash,
       timestamp: transaction.timestamp,
       level: transaction.level,
       fa2_address: fa2Address,

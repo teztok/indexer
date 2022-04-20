@@ -99,6 +99,7 @@ test('creates FX_MINT_ISSUER_V2 events', async () => {
       id: '9c42bd93829ed6d7eeddf67426e9689e',
       type: 'FX_MINT_ISSUER_V2',
       opid: 134127011,
+      ophash: 'op6hVzzcNYBQy1uaWrCjvigAyLyjSEysyruJZovvzEXMgtU4v9G',
       timestamp: '2022-01-05T03:43:00Z',
       level: 2004367,
       fa2_address: 'KT1KEa8z6vWXDJrVqtMrAeDVzsvxat3kHaCE',

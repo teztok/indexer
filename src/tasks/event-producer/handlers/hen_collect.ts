@@ -25,6 +25,7 @@ const HenCollectEventSchema: Describe<Omit<HenCollectEvent, 'type' | 'implements
   level: PositiveInteger,
   fa2_address: ContractAddress,
   token_id: string(),
+  ophash: string(),
 
   seller_address: TezosAddress,
   buyer_address: TezosAddress,
@@ -65,6 +66,7 @@ const HenMintHandler: Handler<Transaction, HenCollectEvent> = {
       type: EVENT_TYPE_HEN_COLLECT,
       implements: SALE_INTERFACE,
       opid: transaction.id,
+      ophash: transaction.hash,
       timestamp: transaction.timestamp,
       level: transaction.level,
       fa2_address: fa2Address,

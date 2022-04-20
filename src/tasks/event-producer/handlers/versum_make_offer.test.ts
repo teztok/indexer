@@ -99,6 +99,7 @@ test('creates VERSUM_MAKE_OFFER events', async () => {
       id: '713b7a038e6fd989d286263ef628fffd',
       type: 'VERSUM_MAKE_OFFER',
       opid: 138091385,
+      ophash: 'ooyFgRmoJ2SpuNAnF64KsLvrchaSX1G41zfxroJsLhEjw1TqFsA',
       timestamp: '2022-01-12T17:02:50Z',
       level: 2025153,
       fa2_address: 'KT1LjmAdYQCLBjwv4S2oFkEzyHVkomAf5MrW',

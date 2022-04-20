@@ -30,6 +30,7 @@ const ObjktBuyDutchAuctionEventV2Schema: Describe<Omit<ObjktBuyDutchAuctionV2Eve
   level: PositiveInteger,
   fa2_address: ContractAddress,
   token_id: string(),
+  ophash: string(),
 
   currency: string(),
   seller_address: TezosAddress,
@@ -76,6 +77,7 @@ const ObjktBuyDutchAuctionHandlerV2: Handler<Transaction, ObjktBuyDutchAuctionV2
       type: EVENT_TYPE_OBJKT_BUY_DUTCH_AUCTION_V2,
       implements: SALE_INTERFACE,
       opid: transaction.id,
+      ophash: transaction.hash,
       timestamp: transaction.timestamp,
       level: transaction.level,
       currency: currency,

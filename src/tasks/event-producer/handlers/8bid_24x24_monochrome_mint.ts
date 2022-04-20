@@ -26,6 +26,7 @@ const EightbidMint24x24MonochromeSchema: Describe<Omit<EightbidMint24x24Monochro
   level: PositiveInteger,
   fa2_address: ContractAddress,
   token_id: string(),
+  ophash: string(),
 
   editions: PgBigInt,
   artist_address: TezosAddress,
@@ -60,6 +61,7 @@ const EightbidMint24x24MonochromeHandler: Handler<Transaction, EightbidMint24x24
       id,
       type: EVENT_TYPE_8BID_24X24_MONOCHROME_MINT,
       opid: transaction.id,
+      ophash: transaction.hash,
       timestamp: transaction.timestamp,
       level: transaction.level,
       fa2_address: fa2Address,

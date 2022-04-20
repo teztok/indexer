@@ -75,6 +75,7 @@ test('creates OBJKT_MINT_ARTIST events', async () => {
       id: '13c2af1e341001696d0a94f320bfec6c',
       type: 'OBJKT_MINT_ARTIST',
       opid: 114017578,
+      ophash: 'ooCVLqTMQATVgMgLUjzjr8qEPtaymbfqb6RYjxL3GgbsFtj9P6K',
       timestamp: '2021-11-23T14:31:52Z',
       level: 1888131,
       fa2_address: 'KT1NYs2KnP8ckRWbhDDBLC5u7TLNG9zRVCv6',

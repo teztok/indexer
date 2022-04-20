@@ -82,6 +82,7 @@ test('creates OBJKT_FULFILL_OFFER events', async () => {
       type: 'OBJKT_FULFILL_OFFER',
       implements: 'SALE',
       opid: 171012851,
+      ophash: 'onk171Yp9EzB9n7QdrDSr84LHaaueadTPsmruwhRPUypvwRTFSv',
       timestamp: '2022-02-10T19:35:24Z',
       level: 2106532,
       price: '8000000',

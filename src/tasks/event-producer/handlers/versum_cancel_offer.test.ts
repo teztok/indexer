@@ -91,6 +91,7 @@ test('creates VERSUM_CANCEL_OFFER events', async () => {
       id: 'ce6e23490d06cdea60e5fb10b4be132c',
       type: 'VERSUM_CANCEL_OFFER',
       opid: 138283703,
+      ophash: 'opTywBtgtkXmwtaA6Upxg3FCd4Bt1myYQruo3dk31qshH11kmJ4',
       timestamp: '2022-01-13T01:39:50Z',
       level: 2026173,
       fa2_address: 'KT1LjmAdYQCLBjwv4S2oFkEzyHVkomAf5MrW',

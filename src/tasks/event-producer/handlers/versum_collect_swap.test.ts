@@ -100,6 +100,7 @@ test('creates VERSUM_COLLECT_SWAP events', async () => {
       type: 'VERSUM_COLLECT_SWAP',
       implements: 'SALE',
       opid: 137973176,
+      ophash: 'opLGZbDreaAqJFCSxsxh8FiyEJK9h4ymhPWBbitydF3Qxgr2Bbr',
       timestamp: '2022-01-12T11:46:40Z',
       level: 2024523,
       fa2_address: 'KT1LjmAdYQCLBjwv4S2oFkEzyHVkomAf5MrW',

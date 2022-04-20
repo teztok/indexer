@@ -109,6 +109,7 @@ test('creates VERSUM_SWAP events', async () => {
       id: 'a7024b237e0a8fbcaea2ca7c3f13e58f',
       type: 'VERSUM_SWAP',
       opid: 137968317,
+      ophash: 'oohAGvd43tRkbn29GT8CCJhoudi5h1yfoGg8XjTs5NYiT5JmoxV',
       timestamp: '2022-01-12T11:31:40Z',
       level: 2024493,
       fa2_address: 'KT1LjmAdYQCLBjwv4S2oFkEzyHVkomAf5MrW',

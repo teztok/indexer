@@ -25,6 +25,7 @@ const ObjktFulfillAskEventSchema: Describe<Omit<ObjktFulfillAskEvent, 'type' | '
   level: PositiveInteger,
   fa2_address: ContractAddress,
   token_id: string(),
+  ophash: string(),
 
   ask_id: PgBigInt,
   seller_address: TezosAddress,
@@ -57,6 +58,7 @@ const ObjktFulfillAskHandler: Handler<Transaction, ObjktFulfillAskEvent> = {
       type: EVENT_TYPE_OBJKT_FULFILL_ASK,
       implements: SALE_INTERFACE,
       opid: transaction.id,
+      ophash: transaction.hash,
       level: transaction.level,
       timestamp: transaction.timestamp,
       price,

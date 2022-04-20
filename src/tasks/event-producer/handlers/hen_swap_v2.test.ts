@@ -69,6 +69,7 @@ test('creates HEN_SWAP_V2 events', async () => {
       id: 'e209b0de7efae600d9f9ef8d227b60e6',
       type: 'HEN_SWAP_V2',
       opid: 112502455,
+      ophash: 'opV4pGWPrYT9cycQeFtccT8wiceefEfvnhJXRLSV1fknXgDRbsk',
       timestamp: '2021-11-20T08:09:52Z',
       level: 1879135,
       fa2_address: 'KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton',

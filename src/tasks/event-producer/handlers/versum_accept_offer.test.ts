@@ -92,6 +92,7 @@ test('creates VERSUM_ACCEPT_OFFER events', async () => {
       type: 'VERSUM_ACCEPT_OFFER',
       implements: 'SALE',
       opid: 138277717,
+      ophash: 'opAhBB1X3yqK8F77GxatkxY2ghEbQXpZrutcf3jHxaaR1zf5XbG',
       timestamp: '2022-01-13T01:19:50Z',
       level: 2026133,
       fa2_address: 'KT1LjmAdYQCLBjwv4S2oFkEzyHVkomAf5MrW',

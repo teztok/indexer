@@ -24,6 +24,7 @@ export interface Event {
   timestamp: string;
   level: number;
   opid: number;
+  ophash: string;
 }
 
 export interface TokenEvent extends Event {

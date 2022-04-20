@@ -66,6 +66,7 @@ test('creates OBJKT_FULFILL_BID events', async () => {
       type: 'OBJKT_FULFILL_BID',
       implements: 'SALE',
       opid: 57868742,
+      ophash: 'ooYKthbXPxwVJBjrNaZnG7c3ubMS6aoHfqiQnQ9DBvrp1g4ei6s',
       timestamp: '2021-07-01T20:33:38Z',
       level: 1539503,
       fa2_address: 'KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton',

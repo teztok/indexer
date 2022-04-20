@@ -70,6 +70,7 @@ test('creates OBJKT_BID events', async () => {
       id: '6527967e1eb9f9161bf1bd9bba35a8a8',
       type: 'OBJKT_BID',
       opid: 57748983,
+      ophash: 'onwKwGyCPt2RQoBrrAMSRkQqXSrJP4TYPAgwm879VJhMH5on71t',
       timestamp: '2021-06-30T23:14:02Z',
       level: 1538313,
       fa2_address: 'KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton',

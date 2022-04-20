@@ -82,6 +82,7 @@ test('creates OBJKT_FULFILL_ASK_V2 events', async () => {
       type: 'OBJKT_FULFILL_ASK_V2',
       implements: 'SALE',
       opid: 170995822,
+      ophash: 'ongfvZydFy7468gbUTukLEs4VpGyvxFvjWWrAxSNxvYHH7CsPHp',
       timestamp: '2022-02-10T18:48:24Z',
       level: 2106438,
       price: '5000000',
@@ -91,7 +92,6 @@ test('creates OBJKT_FULFILL_ASK_V2 events', async () => {
       seller_address: 'tz1f6Kdmw8tCgirihestPV4duyXzdMaFCmAw',
       buyer_address: 'tz1cgAJDiPHM8HYX8nfvRuXgaBEZeJFgGw3K',
       amount: '1',
-      // artist_address: 'tz1iZ2TPEShFC8TqHsXLA9RXdV7tSv8E3aLe', TODO: add
     },
   ]);
 });

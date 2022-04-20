@@ -76,6 +76,7 @@ test('creates 8BID_24X24_MONOCHROME_BUY events', async () => {
       type: '8BID_24X24_MONOCHROME_BUY',
       implements: 'SALE',
       opid: 186213124,
+      ophash: 'ooVGg25ubei68nVR3MyR9qcuHfGy1mpb2xmZgFkW8Z1YqBhyzgC',
       timestamp: '2022-03-13T06:49:14Z',
       level: 2192305,
       fa2_address: 'KT1TR1ErEQPTdtaJ7hbvKTJSa1tsGnHGZTpf',

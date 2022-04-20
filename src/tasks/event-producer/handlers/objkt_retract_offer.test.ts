@@ -77,6 +77,7 @@ test('creates OBJKT_RETRACT_OFFER events', async () => {
       id: 'bb47c9392cbb7ddbc34c57daa75ea11c',
       type: 'OBJKT_RETRACT_OFFER',
       opid: 171015759,
+      ophash: 'oobCioNDbY7Bin5XvSBZx1E9ddsPuJvbuMA4CBNmkgxSqK5Qroe',
       timestamp: '2022-02-10T19:42:54Z',
       level: 2106547,
       fa2_address: 'KT1UJubKkif4y4W8MFFfJ3BNum717n92LmUK',

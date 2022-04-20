@@ -22,6 +22,7 @@ const ObjktRetractOfferEventSchema: Describe<Omit<ObjktRetractOfferEvent, 'type'
   level: PositiveInteger,
   fa2_address: ContractAddress,
   token_id: string(),
+  ophash: string(),
 
   artist_address: optional(TezosAddress),
   buyer_address: TezosAddress,
@@ -49,6 +50,7 @@ const ObjktRetractOfferHandler: Handler<Transaction, ObjktRetractOfferEvent> = {
       id,
       type: EVENT_TYPE_OBJKT_RETRACT_OFFER,
       opid: transaction.id,
+      ophash: transaction.hash,
       level: transaction.level,
       timestamp: transaction.timestamp,
       fa2_address: fa2Address,

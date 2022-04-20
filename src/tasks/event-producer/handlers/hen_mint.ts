@@ -21,6 +21,7 @@ const HenMintEventSchema: Describe<Omit<HenMintEvent, 'type'>> = object({
   level: PositiveInteger,
   fa2_address: ContractAddress,
   token_id: string(),
+  ophash: string(),
 
   artist_address: TezosAddress,
   royalties: PgBigInt,
@@ -55,6 +56,7 @@ const HenMintHandler: Handler<Transaction, HenMintEvent> = {
       id,
       type: EVENT_TYPE_HEN_MINT,
       opid: transaction.id,
+      ophash: transaction.hash,
       timestamp: transaction.timestamp,
       level: transaction.level,
       fa2_address: fa2Address,

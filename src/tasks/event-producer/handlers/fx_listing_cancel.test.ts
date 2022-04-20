@@ -76,6 +76,7 @@ test('creates FX_LISTING_CANCEL events', async () => {
       id: '49285213fd457e9f5bd7f66ff74f59fb',
       type: 'FX_LISTING_CANCEL',
       opid: 207527459,
+      ophash: 'oodG3h8rToYUxngHFnX78Kh4NrtyTndyNPXkGhVVjCTfM11kBNa',
       timestamp: '2022-04-16T12:14:59Z',
       level: 2285848,
       fa2_address: 'KT1U6EHmNxJTkvaWJ4ThczG4FSDaHC21ssvi',

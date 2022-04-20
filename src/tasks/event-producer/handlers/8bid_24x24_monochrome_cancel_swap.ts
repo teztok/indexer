@@ -22,6 +22,7 @@ const EightbidCancelSwap24x24MonochromeSchema: Describe<Omit<EightbidCancelSwap2
   level: PositiveInteger,
   fa2_address: ContractAddress,
   token_id: string(),
+  ophash: string(),
 
   seller_address: TezosAddress,
   artist_address: TezosAddress,
@@ -49,12 +50,13 @@ const EightbidCancelSwap8x8ColorEvent: Handler<Transaction, EightbidCancelSwap24
       id,
       type: EVENT_TYPE_8BID_24X24_MONOCHROME_CANCEL_SWAP,
       opid: transaction.id,
+      ophash: transaction.hash,
       timestamp: transaction.timestamp,
       level: transaction.level,
       fa2_address: fa2Address,
+      token_id: tokenId,
       seller_address: sellerAddress,
       artist_address: artistAddress,
-      token_id: tokenId,
       swap_id: swapId,
     };
 

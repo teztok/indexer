@@ -22,6 +22,7 @@ const HenSwapEventSchema: Describe<Omit<HenCancelSwapEvent, 'type'>> = object({
   fa2_address: ContractAddress,
   seller_address: TezosAddress,
   token_id: string(),
+  ophash: string(),
   swap_id: PgBigInt,
 });
 
@@ -53,6 +54,7 @@ const HenSwapHandler: Handler<Transaction, HenCancelSwapEvent> = {
       id,
       type: EVENT_TYPE_HEN_CANCEL_SWAP,
       opid: transaction.id,
+      ophash: transaction.hash,
       timestamp: transaction.timestamp,
       level: transaction.level,
       fa2_address: fa2Address,
