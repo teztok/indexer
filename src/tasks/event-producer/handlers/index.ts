@@ -22,7 +22,6 @@ import ObjktRetractBidHandler, { ObjktRetractBidEvent } from './objkt_retract_bi
 import ObjktRetractOfferHandler, { ObjktRetractOfferEvent } from './objkt_retract_offer';
 import FxMintIssuerHandler, { FxMintIssuerEvent } from './fx_mint_issuer';
 import FxMintIssuerV2Handler, { FxMintIssuerV2Event } from './fx_mint_issuer_v2';
-import FxAssignMetadataHandler, { FxAssignMetadataEvent } from './fx_assign_metadata';
 import FxCollectHandler, { FxCollectEvent } from './fx_collect';
 import FxListingAcceptHandler, { FxListingAcceptEvent } from './fx_listing_accept';
 import FxMintHandler, { FxMintEvent } from './fx_mint';
@@ -97,7 +96,6 @@ export const handlers = [
   ObjktBuyDutchAuctionV2Handler,
   FxMintIssuerHandler,
   FxMintIssuerV2Handler,
-  FxAssignMetadataHandler,
   FxCollectHandler,
   FxListingAcceptHandler,
   FxMintHandler,
@@ -156,7 +154,6 @@ export type AnyEvent =
   | ObjktSettleEnglishAuctionEvent
   | FxMintIssuerEvent
   | FxMintIssuerV2Event
-  | FxAssignMetadataEvent
   | FxCollectEvent
   | FxListingAcceptEvent
   | FxMintEvent
