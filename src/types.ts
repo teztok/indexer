@@ -237,6 +237,10 @@ export interface Token {
   fa2_address: string;
   token_id: string;
 
+  last_processed_event_id: string | null;
+  last_processed_event_timestamp: string | null;
+  last_processed_event_level: number | null;
+
   metadata_uri: string | null;
   metadata_status: string;
 

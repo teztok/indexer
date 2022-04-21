@@ -700,6 +700,7 @@ export function compileToken(
     }
   }
 
+  const lastEvent = events.length ? events[events.length - 1] : null;
   const listingsArr = orderBy(Object.values(listings), ({ price }) => price);
   const objktAskV2Listings = listingsArr.filter(({ type }) => type === 'OBJKT_ASK_V2') as Array<ObjktListingV2>;
 
@@ -766,6 +767,10 @@ export function compileToken(
   const token: Token = {
     fa2_address: fa2Address,
     token_id: tokenId,
+
+    last_processed_event_id: lastEvent ? lastEvent.id : null,
+    last_processed_event_timestamp: lastEvent ? lastEvent.timestamp : null,
+    last_processed_event_level: lastEvent ? lastEvent.level : null,
 
     metadata_uri: metadataUri,
     metadata_status: isOnChainToken ? 'processed' : metadataStatus,

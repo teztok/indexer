@@ -15,6 +15,52 @@ test('sets the basic information of the token', () => {
     fa2_address: TEST_FA2_ADDRESS,
     token_id: TEST_TOKEN_ID,
     metadata_status: 'unprocessed',
+    last_processed_event_id: null,
+    last_processed_event_timestamp: null,
+    last_processed_event_level: null,
+  });
+});
+
+test('sets last_processed_event_id and last_processed_event_timestamp properties', () => {
+  const events: Array<AnyEvent> = [
+    {
+      id: 'c4e96250646f5ec6e3ca1c93fcd790a3',
+      type: 'HEN_SWAP',
+      opid: 43578954,
+      ophash: TEST_OPHASH,
+      timestamp: '2021-03-21T23:31:18Z',
+      level: 1395008,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      seller_address: 'tz1NufWtpqS3nfR8VW1xFyWq4GWqb969keeR',
+      swap_id: TEST_SWAP_ID,
+      price: TEST_PRICE,
+      amount: '80',
+    },
+    {
+      id: 'faa13edecca7cc1294fd1432ad0cfbe3',
+      type: 'HEN_COLLECT',
+      implements: 'SALE',
+      opid: 52568902,
+      ophash: TEST_OPHASH,
+      timestamp: '2021-05-31T08:08:46Z',
+      level: 1495010,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      buyer_address: 'tz1XGTjeqid5naxSviH3CBcfz944qHM6bNeD',
+      seller_address: 'tz1NufWtpqS3nfR8VW1xFyWq4GWqb969keeR',
+      swap_id: TEST_SWAP_ID,
+      amount: '1',
+      price: TEST_PRICE,
+    },
+  ];
+
+  const { token } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
+
+  expect(token).toMatchObject({
+    last_processed_event_id: 'faa13edecca7cc1294fd1432ad0cfbe3',
+    last_processed_event_timestamp: '2021-05-31T08:08:46Z',
+    last_processed_event_level: 1495010,
   });
 });
 
