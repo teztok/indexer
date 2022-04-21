@@ -1262,6 +1262,7 @@ test('handles FX_MINT events', () => {
   expect(token).toMatchObject({
     artist_address: 'tz1fepn7jZsCYBqCDhpM63hzh9g2Ytqk4Tpv',
     fx_issuer_id: '0',
+    fx_iteration: '3',
     royalties: {
       tz1fepn7jZsCYBqCDhpM63hzh9g2Ytqk4Tpv: '100',
     },
@@ -1297,6 +1298,7 @@ test('handles FX_MINT_V2 events', () => {
   expect(token).toMatchObject({
     artist_address: 'tz1g2ZxQbaePfmpSwPQNRVNaF5aJdVmZWZgL',
     fx_issuer_id: '5352',
+    fx_iteration: '128',
     royalties: {
       tz1g2ZxQbaePfmpSwPQNRVNaF5aJdVmZWZgL: '200',
     },
@@ -2324,6 +2326,7 @@ test('handles FX_MINT_V3 events', () => {
   expect(token).toMatchObject({
     artist_address: 'tz1MBrwe8EgiZJ5kgVEDnL5emVM294J5RiaW',
     fx_issuer_id: '10966',
+    fx_iteration: '3',
   });
 });
 

@@ -34,6 +34,7 @@ export async function up(knex: Knex): Promise<void> {
       table.text('eightbid_rgb');
       table.bigInteger('objkt_artist_collection_id');
       table.bigInteger('fx_issuer_id');
+      table.bigInteger('fx_iteration');
       table.jsonb('attributes');
       table.bigInteger('price');
       table.bigInteger('last_sales_price');
