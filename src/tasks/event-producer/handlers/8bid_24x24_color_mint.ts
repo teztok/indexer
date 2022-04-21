@@ -1,7 +1,7 @@
 import get from 'lodash/get';
 import omit from 'lodash/omit';
-import { assert, object, string, Describe } from 'superstruct';
-import { TezosAddress, ContractAddress, IsoDateString, MetadataUri, PositiveInteger, PgBigInt } from '../../../lib/validators';
+import { assert, object, string, optional, Describe } from 'superstruct';
+import { TezosAddress, ContractAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
 import { Handler, MintEvent, Transaction } from '../../../types';
 import { createEventId } from '../../../lib/utils';
 import { EIGHTBIDOU_24X24_COLOR_CONTRACT_FA2 } from '../../../consts';
@@ -15,7 +15,7 @@ export interface EightbidMint24x24ColorEvent extends MintEvent {
   token_name: string;
   creator_name: string;
   token_description: string;
-  metadata_uri: string;
+  metadata_uri?: string;
   rgb: string;
 }
 
@@ -33,7 +33,7 @@ const EightbidMint24x24ColorSchema: Describe<Omit<EightbidMint24x24ColorEvent, '
   token_name: string(),
   creator_name: string(),
   token_description: string(),
-  metadata_uri: string(),
+  metadata_uri: optional(string()),
   rgb: string(),
 });
 
@@ -53,7 +53,8 @@ const EightbidMint24x24ColorHandler: Handler<Transaction, EightbidMint24x24Color
     const tokenName = Buffer.from(get(transaction, 'parameter.value.rgb.token_name'), 'hex').toString();
     const creatorName = Buffer.from(get(transaction, 'parameter.value.rgb.creator_name'), 'hex').toString();
     const tokenDescription = Buffer.from(get(transaction, 'parameter.value.rgb.token_description'), 'hex').toString();
-    const metadataUri = Buffer.from(get(transaction, 'parameter.value.token_meta.token_info.'), 'hex').toString();
+    const metadataUriRaw = get(transaction, 'parameter.value.token_meta.token_info.');
+    const metadataUri = metadataUriRaw ? Buffer.from(metadataUriRaw, 'hex').toString() : null;
     const tokenId = get(transaction, 'storage.token_index');
     const id = createEventId(EVENT_TYPE_8BID_24X24_COLOR_MINT, transaction.id);
 
@@ -73,8 +74,11 @@ const EightbidMint24x24ColorHandler: Handler<Transaction, EightbidMint24x24Color
       token_description: tokenDescription,
       rgb: rgb,
       creator_name: creatorName,
-      metadata_uri: metadataUri,
     };
+
+    if (metadataUri) {
+      event.metadata_uri = metadataUri;
+    }
 
     assert(omit(event, ['type']), EightbidMint24x24ColorSchema);
 
