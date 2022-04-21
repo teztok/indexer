@@ -266,15 +266,27 @@ export interface Token {
   attributes: Array<Attribute> | null;
 
   price: string | null; // the cheapest price
+
   last_sales_price: string | null;
   highest_sales_price: string | null;
   lowest_sales_price: string | null;
   first_sales_price: string | null;
 
+  current_price_to_last_sales_price_diff: string | null;
+  current_price_to_last_sales_price_pct: string | null;
+
+  current_price_to_highest_sales_price_diff: string | null;
+  current_price_to_highest_sales_price_pct: string | null;
+
+  current_price_to_lowest_sales_price_diff: string | null;
+  current_price_to_lowest_sales_price_pct: string | null;
+
+  current_price_to_first_sales_price_diff: string | null;
+  current_price_to_first_sales_price_pct: string | null;
+
   last_sale_at: string | null;
 
   sales_count: string;
-  //listings_count: string;
   royalties: Record<string, string>;
 
   eightbid_creator_name: string | null;

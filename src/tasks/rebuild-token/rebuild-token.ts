@@ -1,7 +1,6 @@
 import { run } from 'graphile-worker';
 import get from 'lodash/get';
 import sum from 'lodash/sum';
-import keyBy from 'lodash/keyBy';
 import maxBy from 'lodash/maxBy';
 import minBy from 'lodash/minBy';
 import orderBy from 'lodash/orderBy';
@@ -53,6 +52,42 @@ function calcVersumSwapPrice(startPrice: number, endPrice: number, amount: numbe
   }
 
   return startPrice + (amount - amountLeft) * priceAdjPerCollect;
+}
+
+export function calcPriceDiff(currentPrice: string | null, otherPrice: string | null): string | null {
+  if (currentPrice === null || otherPrice === null) {
+    return null;
+  }
+
+  const currentPriceNum = parseInt(currentPrice, 10);
+  const otherPriceNum = parseInt(otherPrice, 10);
+
+  return String(currentPriceNum - otherPriceNum);
+}
+
+export function calcPricePct(currentPrice: string | null, otherPrice: string | null): string | null {
+  if (currentPrice === null || otherPrice === null) {
+    return null;
+  }
+
+  const currentPriceNum = parseInt(currentPrice, 10);
+  const otherPriceNum = parseInt(otherPrice, 10);
+
+  if (currentPriceNum === 0 && otherPriceNum === 0) {
+    return '0';
+  }
+
+  if (otherPriceNum === 0) {
+    // mathematically not 100% correct. 0 is treated as 1 so that we don't have to deal with infinity.
+    return currentPrice;
+  }
+
+  if (currentPriceNum === 0) {
+    // price dropped 100% to 0
+    return '-100';
+  }
+
+  return String(Math.floor((currentPriceNum / otherPriceNum - 1) * 100));
 }
 
 export function compileToken(
@@ -697,6 +732,7 @@ export function compileToken(
   const highestSalePrice = highestSale ? highestSale.price : null;
   const lowestSale = minBy(sales, ({ price }) => parseInt(price, 10));
   const lowestSalePrice = lowestSale ? lowestSale.price : null;
+  const firstSalePrice = sales.length ? sales[0].price : null;
   const tags = cleanTags(get(metadata, 'tags'));
 
   if (artistAddress === null) {
@@ -766,7 +802,19 @@ export function compileToken(
     last_sales_price: lastSalePrice,
     highest_sales_price: highestSalePrice,
     lowest_sales_price: lowestSalePrice,
-    first_sales_price: sales.length ? sales[0].price : null,
+    first_sales_price: firstSalePrice,
+
+    current_price_to_last_sales_price_diff: calcPriceDiff(cheapestPrice, lastSalePrice),
+    current_price_to_last_sales_price_pct: calcPricePct(cheapestPrice, lastSalePrice),
+
+    current_price_to_highest_sales_price_diff: calcPriceDiff(cheapestPrice, highestSalePrice),
+    current_price_to_highest_sales_price_pct: calcPricePct(cheapestPrice, highestSalePrice),
+
+    current_price_to_lowest_sales_price_diff: calcPriceDiff(cheapestPrice, lowestSalePrice),
+    current_price_to_lowest_sales_price_pct: calcPricePct(cheapestPrice, lowestSalePrice),
+
+    current_price_to_first_sales_price_diff: calcPriceDiff(cheapestPrice, firstSalePrice),
+    current_price_to_first_sales_price_pct: calcPricePct(cheapestPrice, firstSalePrice),
 
     last_sale_at: lastSaleAt,
 

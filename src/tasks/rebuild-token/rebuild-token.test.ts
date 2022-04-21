@@ -1,4 +1,4 @@
-import { compileToken } from './rebuild-token';
+import { compileToken, calcPriceDiff, calcPricePct } from './rebuild-token';
 import { AnyEvent } from '../event-producer/handlers/index';
 
 const TEST_FA2_ADDRESS = 'KT1PHubm9HtyQEJ4BBpMTVomq6mhbfNZ9z5w';
@@ -2374,4 +2374,27 @@ test('handles FX_CANCEL_OFFER events', () => {
       status: 'canceled',
     },
   ]);
+});
+
+test('calcs the correct price diffs', () => {
+  expect(calcPriceDiff(null, '10000000')).toBe(null);
+  expect(calcPriceDiff('15000000', null)).toBe(null);
+  expect(calcPriceDiff(null, null)).toBe(null);
+  expect(calcPriceDiff('15000000', '10000000')).toBe('5000000');
+  expect(calcPriceDiff('15000000', '20000000')).toBe('-5000000');
+  expect(calcPriceDiff('15000000', '15000000')).toBe('0');
+  expect(calcPriceDiff('0', '0')).toBe('0');
+});
+
+test('calcs the correct price percentages', () => {
+  expect(calcPricePct(null, '10000000')).toBe(null);
+  expect(calcPricePct('15000000', null)).toBe(null);
+  expect(calcPricePct(null, null)).toBe(null);
+  expect(calcPricePct('15000000', '10000000')).toBe('50');
+  expect(calcPricePct('20000000', '10000000')).toBe('100');
+  expect(calcPricePct('15000000', '20000000')).toBe('-25');
+  expect(calcPricePct('15000000', '15000000')).toBe('0');
+  expect(calcPricePct('15000000', '0')).toBe('15000000');
+  expect(calcPricePct('0', '15000000')).toBe('-100');
+  expect(calcPricePct('0', '0')).toBe('0');
 });
