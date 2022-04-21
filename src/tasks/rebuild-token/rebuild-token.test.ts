@@ -1078,7 +1078,9 @@ test('handles OBJKT_BID and OBJKT_FULFILL_BID events', () => {
     },
   ];
 
-  const { offers } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
+  const { offers, token } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
+
+  expect(token.highest_offer_price).toBe(null);
 
   expect(offers).toEqual([
     {
@@ -2423,6 +2425,45 @@ test('handles FX_CANCEL_OFFER events', () => {
       status: 'canceled',
     },
   ]);
+});
+
+test('sets the highest_offer_price property', () => {
+  const events: Array<AnyEvent> = [
+    {
+      id: '6527967e1eb9f9161bf1bd9bba35a8a8',
+      type: 'OBJKT_BID',
+      opid: 57748983,
+      ophash: TEST_OPHASH,
+      timestamp: '2021-06-30T23:14:02Z',
+      level: 1538313,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      bid_id: '1',
+      buyer_address: 'tz1QGCWjNpYmcS6T9qFGYSam25e36WeFUCK4',
+      artist_address: 'tz1aWL8AMR6CH4NMdUuiLekQbQ5TPYMzvtuQ',
+      royalties: '200',
+      price: '1000',
+    },
+    {
+      id: '6527967e1eb9f9161bf1bd9bba35a8a9',
+      type: 'OBJKT_BID',
+      opid: 57748984,
+      ophash: TEST_OPHASH,
+      timestamp: '2021-06-30T23:14:02Z',
+      level: 1538313,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      bid_id: '2',
+      buyer_address: 'tz1QGCWjNpYmcS6T9qFGYSam25e36WeFUCK4',
+      artist_address: 'tz1aWL8AMR6CH4NMdUuiLekQbQ5TPYMzvtuQ',
+      royalties: '200',
+      price: '5000',
+    },
+  ];
+
+  const { token } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
+
+  expect(token.highest_offer_price).toBe('5000');
 });
 
 test('calcs the correct price diffs', () => {

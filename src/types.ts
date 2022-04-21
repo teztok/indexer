@@ -288,6 +288,8 @@ export interface Token {
   current_price_to_first_sales_price_diff: string | null;
   current_price_to_first_sales_price_pct: string | null;
 
+  highest_offer_price: string | null;
+
   last_sale_at: string | null;
 
   sales_count: string;

@@ -49,6 +49,7 @@ export async function up(knex: Knex): Promise<void> {
       table.bigInteger('current_price_to_lowest_sales_price_pct');
       table.bigInteger('current_price_to_first_sales_price_diff');
       table.bigInteger('current_price_to_first_sales_price_pct');
+      table.bigInteger('highest_offer_price');
       table.timestamp('last_sale_at');
       table.bigInteger('sales_count');
       table.jsonb('royalties');

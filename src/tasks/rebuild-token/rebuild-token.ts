@@ -729,6 +729,12 @@ export function compileToken(
   );
   const cheapestPrice = cheapestListing ? cheapestListing.price : null;
 
+  const highestOffer = maxBy(
+    offersArr.filter(({ status }) => status === 'active'),
+    ({ price }) => parseInt(price, 10)
+  );
+  const highestOfferPrice = highestOffer ? highestOffer.price : null;
+
   const lastSale = maxBy(sales, ({ timestamp }) => timestamp);
   const lastSalePrice = lastSale ? lastSale.price : null;
   const lastSaleAt = lastSale ? lastSale.timestamp : null;
@@ -823,6 +829,8 @@ export function compileToken(
 
     current_price_to_first_sales_price_diff: calcPriceDiff(cheapestPrice, firstSalePrice),
     current_price_to_first_sales_price_pct: calcPricePct(cheapestPrice, firstSalePrice),
+
+    highest_offer_price: highestOfferPrice,
 
     last_sale_at: lastSaleAt,
 
