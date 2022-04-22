@@ -1,6 +1,7 @@
 import { produceEvents } from '../tasks/event-producer/event-producer';
 import { processEvents } from '../tasks/event-processor/event-processor';
 import { rebuildToken } from '../tasks/rebuild-token/rebuild-token';
+import { getTaskName } from '../lib/utils';
 import db from '../lib/db';
 
 const tasks: Record<string, (payload: any) => {}> = {
@@ -19,7 +20,7 @@ async function run() {
   const results = await db
     .select('*')
     .from('graphile_worker.jobs')
-    .where('task_identifier', taskId)
+    .where('task_identifier', getTaskName(taskId))
     .orderBy('id', process.argv[4] || 'asc')
     .limit(count);
 
