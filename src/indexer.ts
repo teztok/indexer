@@ -8,7 +8,7 @@ const indexer = {
 
   addJob: async (taskName: string, payload: unknown) => {
     const workerUtils = await getWorkerUtils();
-    return workerUtils.addJob(getTaskName(taskName), payload);
+    return workerUtils.addJob(taskName, payload);
   },
 };
 
