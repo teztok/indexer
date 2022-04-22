@@ -28,6 +28,9 @@ export async function run() {
       for (let i = startBlock; i <= max; i++) {
         await workerUtils.addJob(getTaskName('event-producer'), { filters: { level: i } }, { jobKey: `index-level-${i}` });
       }
+
+      // TODO: sometimes some transactions get missed in the first run. this is a temporariy workaround.
+      await workerUtils.addJob(getTaskName('event-producer'), { filters: { level: max - 5 } }, { jobKey: `index-level-${max - 5}` });
     } else if (msg.type === 2) {
       const lastValidBlock = msg.state;
       logger.info(`reorg: revert to level ${lastValidBlock}`);
