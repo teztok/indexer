@@ -186,6 +186,17 @@ export function compileToken(
       case 'HEN_SWAP_V2': {
         const listingKey = createListingKey(HEN_CONTRACT_MARKETPLACE_V2, event.swap_id);
 
+        const royaltiesArr = Object.entries(royalties);
+
+        if (royaltiesArr.length) {
+          const [mintArtistAddress, mintRoyalties] = royaltiesArr[0];
+
+          if (mintArtistAddress !== event.artist_address || mintRoyalties !== event.royalties) {
+            // fraudulent swap, ignore
+            break;
+          }
+        }
+
         listings[listingKey] = {
           type: 'HEN_SWAP_V2',
           contract_address: HEN_CONTRACT_MARKETPLACE_V2,
@@ -225,8 +236,20 @@ export function compileToken(
         break;
       }
 
-      case 'TEIA_SWAP':
-        listings[createListingKey(TEIA_CONTRACT_MARKETPLACE, event.swap_id)] = {
+      case 'TEIA_SWAP': {
+        const listingKey = createListingKey(TEIA_CONTRACT_MARKETPLACE, event.swap_id);
+        const royaltiesArr = Object.entries(royalties);
+
+        if (royaltiesArr.length) {
+          const [mintArtistAddress, mintRoyalties] = royaltiesArr[0];
+
+          if (mintArtistAddress !== event.artist_address || mintRoyalties !== event.royalties) {
+            // fraudulent swap, ignore
+            break;
+          }
+        }
+
+        listings[listingKey] = {
           type: 'TEIA_SWAP',
           contract_address: TEIA_CONTRACT_MARKETPLACE,
           created_at: event.timestamp,
@@ -237,7 +260,9 @@ export function compileToken(
           price: event.price,
           status: 'active',
         };
+
         break;
+      }
 
       case 'TEIA_CANCEL_SWAP': {
         const listingKey = createListingKey(TEIA_CONTRACT_MARKETPLACE, event.swap_id);
@@ -625,8 +650,17 @@ export function compileToken(
         break;
       }
 
-      case '8BID_8X8_COLOR_SWAP':
-        listings[createListingKey(EIGHTBIDOU_8X8_COLOR_CONTRACT_MARKETPLACE, event.swap_id)] = {
+      case '8BID_8X8_COLOR_SWAP': {
+        const listingKey = createListingKey(EIGHTBIDOU_8X8_COLOR_CONTRACT_MARKETPLACE, event.swap_id);
+
+        if (artistAddress) {
+          if (event.artist_address !== artistAddress || parseInt(event.royalties, 10) !== 100) {
+            // potential fraudulent listing
+            break;
+          }
+        }
+
+        listings[listingKey] = {
           type: '8BID_8X8_COLOR_SWAP',
           contract_address: EIGHTBIDOU_8X8_COLOR_CONTRACT_MARKETPLACE,
           created_at: event.timestamp,
@@ -638,6 +672,7 @@ export function compileToken(
           status: 'active',
         };
         break;
+      }
 
       case '8BID_8X8_COLOR_CANCEL_SWAP': {
         const listingKey = createListingKey(EIGHTBIDOU_8X8_COLOR_CONTRACT_MARKETPLACE, event.swap_id);
@@ -662,8 +697,17 @@ export function compileToken(
         break;
       }
 
-      case '8BID_24X24_MONOCHROME_SWAP':
-        listings[createListingKey(EIGHTBIDOU_24X24_MONOCHROME_CONTRACT_MARKETPLACE, event.swap_id)] = {
+      case '8BID_24X24_MONOCHROME_SWAP': {
+        const listingKey = createListingKey(EIGHTBIDOU_24X24_MONOCHROME_CONTRACT_MARKETPLACE, event.swap_id);
+
+        if (artistAddress) {
+          if (event.artist_address !== artistAddress || parseInt(event.royalties, 10) !== 100) {
+            // potential fraudulent listing
+            break;
+          }
+        }
+
+        listings[listingKey] = {
           type: '8BID_24X24_MONOCHROME_SWAP',
           contract_address: EIGHTBIDOU_24X24_MONOCHROME_CONTRACT_MARKETPLACE,
           created_at: event.timestamp,
@@ -675,6 +719,7 @@ export function compileToken(
           status: 'active',
         };
         break;
+      }
 
       case '8BID_24X24_MONOCHROME_CANCEL_SWAP': {
         const listingKey = createListingKey(EIGHTBIDOU_24X24_MONOCHROME_CONTRACT_MARKETPLACE, event.swap_id);
