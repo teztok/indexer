@@ -14,7 +14,11 @@ if (!isNumber(argv.start) || !isNumber(argv.end) || !(argv.end >= argv.start)) {
 async function run() {
   for (let current = argv.start; current <= argv.end; current++) {
     console.log(`added level ${current} to queue`);
-    await indexer.addJob(getTaskName('event-producer'), { filters: { level: current }, overwriteEvents: !!argv.overwrite });
+    await indexer.addJob(getTaskName('event-producer'), {
+      filters: { level: current },
+      overwriteEvents: !!argv.overwrite,
+      overwriteLevel: !!argv.overwrite,
+    });
   }
 }
 

@@ -18,6 +18,7 @@ import { Task, Handler } from '../../types';
 interface EventProducerTaskPayload {
   filters: GetTransactionsFilters;
   overwriteEvents?: boolean;
+  overwriteLevel?: boolean;
 }
 
 interface Operation {
@@ -155,6 +156,10 @@ export async function produceEvents(payload: EventProducerTaskPayload) {
   await db.transaction(async (trx) => {
     for (const chunkOfTokens of chunk(tokens, 50)) {
       await db('tokens').insert(chunkOfTokens).onConflict(['fa2_address', 'token_id']).ignore().transacting(trx);
+    }
+
+    if (payload.overwriteLevel && payload.filters.level) {
+      await db('events').where('level', '=', payload.filters.level).del().transacting(trx);
     }
 
     for (const chunkOfEvents of chunk(events, 50)) {
