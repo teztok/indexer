@@ -178,6 +178,7 @@ export async function up(knex: Knex): Promise<void> {
       table.boolean('is_mint');
       table.boolean('burn_on_end');
 
+      table.index('level');
       table.index('implements');
       table.index('type');
       table.index('ophash');
