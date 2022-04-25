@@ -1,6 +1,84 @@
-import SetLedgerHandler from './set_ledger';
+import SetLedgerHandler, { isValidMultiAssetLedgerEntry, extractAddressAndTokenIdFromBigmapDiffKey } from './set_ledger';
 import { Transactions } from '../../../types';
 import { transactionsToEvents } from '../event-producer';
+
+test('extracts holderAddress and tokenId from bigmap-diff key', () => {
+  expect(
+    extractAddressAndTokenIdFromBigmapDiffKey({
+      owner: 'tz2X2bjEgFbB663WkkqHsHNLx1GzXkqvcxpL',
+      token_id: '2',
+    })
+  ).toEqual({
+    holderAddress: 'tz2X2bjEgFbB663WkkqHsHNLx1GzXkqvcxpL',
+    tokenId: '2',
+  });
+
+  expect(
+    extractAddressAndTokenIdFromBigmapDiffKey({
+      address: 'tz1UBZUkXpKGhYsP5KtzDNqLLchwF4uHrGjw',
+      nat: '152',
+    })
+  ).toEqual({
+    holderAddress: 'tz1UBZUkXpKGhYsP5KtzDNqLLchwF4uHrGjw',
+    tokenId: '152',
+  });
+
+  expect(() => {
+    extractAddressAndTokenIdFromBigmapDiffKey(null);
+  }).toThrow();
+
+  expect(() => {
+    extractAddressAndTokenIdFromBigmapDiffKey({
+      address: 'foo',
+      nat: '152',
+    });
+  }).toThrow();
+
+  expect(() => {
+    extractAddressAndTokenIdFromBigmapDiffKey({
+      address: 'tz1UBZUkXpKGhYsP5KtzDNqLLchwF4uHrGjw',
+      nat: '152234823947152234823947152234823947152234823947152234823947152234823947152234823947152234823947152234823947152234823947152234823947152234823947',
+    });
+  }).toThrow();
+
+  expect(() => {
+    extractAddressAndTokenIdFromBigmapDiffKey({
+      address: 'tz1UBZUkXpKGhYsP5KtzDNqLLchwF4uHrGjw',
+    });
+  }).toThrow();
+
+  expect(() => {
+    extractAddressAndTokenIdFromBigmapDiffKey({
+      address: 'tz1UBZUkXpKGhYsP5KtzDNqLLchwF4uHrGjw',
+      nat: '152',
+      baz: 'test',
+    });
+  }).toThrow();
+});
+
+test('checks if a diff entry is a valid multi-asset', () => {
+  expect(
+    isValidMultiAssetLedgerEntry({
+      hash: 'expruZkxjTyNjtSAg9hnGDdEpS6kY6b5gjdaN9aE2xVr9wGrTBqNbP',
+      key: {
+        owner: 'tz2X2bjEgFbB663WkkqHsHNLx1GzXkqvcxpL',
+        token_id: '2',
+      },
+      value: '1',
+    })
+  ).toBe(true);
+
+  expect(
+    isValidMultiAssetLedgerEntry({
+      hash: 'expruZkxjTyNjtSAg9hnGDdEpS6kY6b5gjdaN9aE2xVr9wGrTBqNbP',
+      key: {
+        owner: 'tz2X2bjEgFbB663WkkqHsHNLx1GzXkqvcxpL',
+        token_id: '2',
+      },
+      value: 'foo',
+    })
+  ).toBe(false);
+});
 
 test('creates SET_LEDGER events', async () => {
   const transactions: Transactions = [
@@ -413,6 +491,78 @@ test('creates SET_LEDGER events', async () => {
         },
       ],
     },
+    {
+      id: 185310949,
+      level: 2187033,
+      timestamp: '2022-03-11T10:10:04Z',
+      block: 'BMWpcykkEXjfU2W14wUprEU7JrsvXTcBfkrut3BR35qGrxPkmLL',
+      hash: 'ootJMtSR9vBpNvsk1hZm63wgBLu5fFY9Mu1riNaxMkWqkjyaSkA',
+      counter: 50147075,
+      sender: {
+        address: 'tz2EV1f4dheCSYBDbxqjrx1Jyd6HffisKC8u',
+      },
+      target: {
+        address: 'KT1CzVSa18hndYupV9NcXy3Qj7p8YFDZKVQv',
+      },
+      amount: 0,
+      parameter: {
+        entrypoint: 'transfer',
+        value: [
+          {
+            txs: [
+              {
+                to_: 'tz2X2bjEgFbB663WkkqHsHNLx1GzXkqvcxpL',
+                amount: '1',
+                token_id: '2',
+              },
+            ],
+            from_: 'tz2EV1f4dheCSYBDbxqjrx1Jyd6HffisKC8u',
+          },
+        ],
+      },
+      status: 'applied',
+      hasInternals: false,
+      initiator: null,
+      storage: {
+        admin: 'tz1bWgKiizRZxCyQzJhDtiGmu3jduyaauKmW',
+        ledger: 127310,
+        minted: 127313,
+        metadata: 127315,
+        operators: 127311,
+        transmuter: 'KT1WvV2rPBQUFUqtCWmnnj8JX2gkmDtMBzQi',
+        token_limits: 127314,
+        frozen_ledger: 127312,
+        token_metadata: 127316,
+      },
+      diffs: [
+        {
+          bigmap: 127310,
+          path: 'ledger',
+          action: 'add_key',
+          content: {
+            hash: 'expruZkxjTyNjtSAg9hnGDdEpS6kY6b5gjdaN9aE2xVr9wGrTBqNbP',
+            key: {
+              owner: 'tz2X2bjEgFbB663WkkqHsHNLx1GzXkqvcxpL',
+              token_id: '2',
+            },
+            value: '1',
+          },
+        },
+        {
+          bigmap: 127310,
+          path: 'ledger',
+          action: 'remove_key',
+          content: {
+            hash: 'exprvLCwU4re5DnUyjpDCsY8thXVKMT2QfK7Qw2eRwAYYRTvQzdpyf',
+            key: {
+              owner: 'tz2EV1f4dheCSYBDbxqjrx1Jyd6HffisKC8u',
+              token_id: '2',
+            },
+            value: '1',
+          },
+        },
+      ],
+    },
   ];
 
   const events = transactionsToEvents(transactions, [SetLedgerHandler]);
@@ -458,19 +608,6 @@ test('creates SET_LEDGER events', async () => {
       is_mint: false,
     },
     {
-      id: '204c4024ff18ea5ec82c81f07cddbb8e',
-      type: 'SET_LEDGER',
-      opid: 73113737,
-      ophash: 'ooPfj1wFuJgUCkmmFMkgSvsMQCQ6g2uisedy1ktd8u7xys4PjXD',
-      timestamp: '2021-08-31T19:12:48Z',
-      level: 1654751,
-      fa2_address: 'KT1LHHLso8zQWQWg1HUukajdxxbkGfNoHjh6',
-      token_id: '3680',
-      holder_address: 'tz1XBqVe91Rdao2wJFANPH9yAHsuu66GrqB5',
-      amount: '1',
-      is_mint: true,
-    },
-    {
       id: '6eb5a65f2838468515dbe5d604a28160',
       type: 'SET_LEDGER',
       opid: 190861006,
@@ -493,6 +630,32 @@ test('creates SET_LEDGER events', async () => {
       fa2_address: 'KT1MxDwChiDwd6WBVs24g1NjERUoK622ZEFp',
       token_id: '2213',
       holder_address: 'tz1XrutuvkFRG15HmV2gdon86F38NMMGMAXr',
+      amount: '0',
+      is_mint: false,
+    },
+    {
+      id: '6d3101b19a564d0eb79b8b2f60bd0bef',
+      type: 'SET_LEDGER',
+      opid: 185310949,
+      ophash: 'ootJMtSR9vBpNvsk1hZm63wgBLu5fFY9Mu1riNaxMkWqkjyaSkA',
+      timestamp: '2022-03-11T10:10:04Z',
+      level: 2187033,
+      fa2_address: 'KT1CzVSa18hndYupV9NcXy3Qj7p8YFDZKVQv',
+      token_id: '2',
+      holder_address: 'tz2X2bjEgFbB663WkkqHsHNLx1GzXkqvcxpL',
+      amount: '1',
+      is_mint: false,
+    },
+    {
+      id: 'efbdd73bb7d8107256c178deecde2f0d',
+      type: 'SET_LEDGER',
+      opid: 185310949,
+      ophash: 'ootJMtSR9vBpNvsk1hZm63wgBLu5fFY9Mu1riNaxMkWqkjyaSkA',
+      timestamp: '2022-03-11T10:10:04Z',
+      level: 2187033,
+      fa2_address: 'KT1CzVSa18hndYupV9NcXy3Qj7p8YFDZKVQv',
+      token_id: '2',
+      holder_address: 'tz2EV1f4dheCSYBDbxqjrx1Jyd6HffisKC8u',
       amount: '0',
       is_mint: false,
     },

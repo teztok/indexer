@@ -56,17 +56,19 @@ export type KeysEnum<T> = { [P in keyof Required<T>]: string };
 
 export type BigmapDiffAction = 'add_key' | 'update_key' | 'remove_key';
 
-export type BigmapDiffKey = string | { nat: string; address: string };
+export type BigmapDiffKey = string | { nat: string; address: string } | unknown;
+
+export type BigmapDiffContent = {
+  hash: string;
+  key: BigmapDiffKey;
+  value: unknown;
+};
 
 export interface BigmapDiff {
   bigmap: number;
   path: string;
   action: BigmapDiffAction;
-  content: {
-    hash: string;
-    key: BigmapDiffKey;
-    value: unknown;
-  };
+  content: BigmapDiffContent;
 }
 
 export type BigmapDiffs = Array<BigmapDiff>;

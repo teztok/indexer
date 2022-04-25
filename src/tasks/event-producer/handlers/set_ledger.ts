@@ -1,10 +1,11 @@
 import get from 'lodash/get';
 import isString from 'lodash/isString';
 import omit from 'lodash/omit';
+import isPlainObject from 'lodash/isPlainObject';
 import { assert, object, Describe, string, is, boolean } from 'superstruct';
 import { TezosAddress, ContractAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
 import { TokenStorageSchema } from '../../../lib/schemas';
-import { Handler, TokenEvent, Transaction } from '../../../types';
+import { Handler, TokenEvent, Transaction, BigmapDiffContent, BigmapDiffKey } from '../../../types';
 import { createEventId, filterDiffs } from '../../../lib/utils';
 import logger from '../../../lib/logger';
 
@@ -30,6 +31,48 @@ const SetLedgerEventSchema: Describe<Omit<SetLedgerEvent, 'type'>> = object({
   is_mint: boolean(),
 });
 
+export function extractAddressAndTokenIdFromBigmapDiffKey(key: BigmapDiffKey) {
+  if (!isPlainObject(key)) {
+    throw new Error('key of bigmap diff is not an object');
+  }
+
+  const keyPair = Object.values(key as Object);
+
+  if (keyPair.length !== 2) {
+    throw new Error('key of bigmap diff is not a pair');
+  }
+
+  if (is(keyPair[0], TezosAddress) && is(keyPair[1], PgBigInt)) {
+    return {
+      holderAddress: keyPair[0],
+      tokenId: keyPair[1],
+    };
+  }
+
+  if (is(keyPair[1], TezosAddress) && is(keyPair[0], PgBigInt)) {
+    return {
+      holderAddress: keyPair[1],
+      tokenId: keyPair[0],
+    };
+  }
+
+  throw new Error('key of bigmap diff has an invalid scheme');
+}
+
+export function isValidMultiAssetLedgerEntry(entry: BigmapDiffContent) {
+  if (!is(entry.value, PgBigInt)) {
+    return false;
+  }
+
+  try {
+    extractAddressAndTokenIdFromBigmapDiffKey(entry.key);
+  } catch (err) {
+    return false;
+  }
+
+  return true;
+}
+
 const SetLedgerHandler: Handler<Transaction, SetLedgerEvent> = {
   type: EVENT_TYPE_SET_LEDGER,
 
@@ -48,22 +91,17 @@ const SetLedgerHandler: Handler<Transaction, SetLedgerEvent> = {
       return false;
     }
 
-    const isValid = ledgerDiffs.every(
-      (diff) => isString(get(diff, 'content.value')) && isString(get(diff, 'content.key.nat')) && isString(get(diff, 'content.key.address'))
-    );
-
-    return isValid;
+    return ledgerDiffs.every((diff) => isValidMultiAssetLedgerEntry(diff.content));
   },
 
-  exec: (transaction, operation) => {
+  exec: (transaction) => {
     const fa2Address = get(transaction, 'target.address');
     const ledgerDiffs = filterDiffs(transaction.diffs!, null, 'ledger', ['add_key', 'update_key', 'remove_key']);
 
     const events: Array<SetLedgerEvent> = ledgerDiffs
       .map((diff, idx) => {
         try {
-          const tokenId = get(diff, 'content.key.nat');
-          const holderAddress = get(diff, 'content.key.address');
+          const { tokenId, holderAddress } = extractAddressAndTokenIdFromBigmapDiffKey(get(diff, 'content.key'));
           const amount = diff.action === 'remove_key' ? '0' : get(diff, 'content.value');
           const isMint = !ledgerDiffs.some((diff) => diff.action === 'update_key' || diff.action === 'remove_key');
           const id = createEventId(EVENT_TYPE_SET_LEDGER, transaction.id, idx);
