@@ -82,7 +82,7 @@ const ObjktConcludeEnglishAuctionHandler: Handler<Transaction, ObjktConcludeEngl
     const priceIncrement = get(diff, 'content.value.price_increment');
     const highestBidderAddress = get(diff, 'content.value.highest_bidder');
     const currentPrice = get(diff, 'content.value.current_price');
-    const id = createEventId(EVENT_TYPE_OBJKT_CONCLUDE_ENGLISH_AUCTION, transaction.id);
+    const id = createEventId(EVENT_TYPE_OBJKT_CONCLUDE_ENGLISH_AUCTION, transaction);
 
     const event: ObjktConcludeEnglishAuctionEvent = {
       id,

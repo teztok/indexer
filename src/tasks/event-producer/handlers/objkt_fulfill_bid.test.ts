@@ -11,6 +11,7 @@ test('creates OBJKT_FULFILL_BID events', async () => {
       block: 'BL3qXa1pr8ahc7LPo9WAgFX5UhPgL6yUxCBiq4WQVsK7J4TfJpN',
       hash: 'ooYKthbXPxwVJBjrNaZnG7c3ubMS6aoHfqiQnQ9DBvrp1g4ei6s',
       counter: 14989745,
+      nonce: null,
       sender: {
         alias: 'oddcr0w',
         address: 'tz1WybfACSmvJfjz1NGHtshLvhLkNJtUfNzN',
@@ -62,7 +63,7 @@ test('creates OBJKT_FULFILL_BID events', async () => {
 
   expect(events).toStrictEqual([
     {
-      id: '18086521a42e1aa5510678a04a9c428b',
+      id: '0ff64371eb9a1f841a5418c70026ac41',
       type: 'OBJKT_FULFILL_BID',
       implements: 'SALE',
       opid: 57868742,

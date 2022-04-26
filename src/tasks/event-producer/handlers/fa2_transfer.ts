@@ -66,7 +66,7 @@ const Fa2TransferHandler: Handler<Transaction, Fa2TransferEvent> = {
     for (const transferItem of transferItems) {
       for (const tx of transferItem.txs) {
         try {
-          const id = createEventId(EVENT_TYPE_FA2_TRANSFER, transaction.id, idx++);
+          const id = createEventId(EVENT_TYPE_FA2_TRANSFER, transaction, idx++);
 
           const event: Fa2TransferEvent = {
             id,

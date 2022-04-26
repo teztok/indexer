@@ -65,7 +65,7 @@ const ObjktCreateDutchAuctionHandler: Handler<Transaction, ObjktCreateDutchAucti
     const endTime = get(transaction, 'parameter.value.end_time');
     const royalties = get(transaction, 'parameter.value.royalties');
     const auctionId = String(parseInt(get(transaction, 'storage.auction_id'), 10) - 1);
-    const id = createEventId(EVENT_TYPE_OBJKT_CREATE_DUTCH_AUCTION, transaction.id);
+    const id = createEventId(EVENT_TYPE_OBJKT_CREATE_DUTCH_AUCTION, transaction);
 
     const event: ObjktCreateDutchAuctionEvent = {
       id,

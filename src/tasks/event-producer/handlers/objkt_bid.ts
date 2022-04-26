@@ -48,7 +48,7 @@ const ObjktBidHandler: Handler<Transaction, ObjktBidEvent> = {
     const artistAddress = get(transaction, 'parameter.value.artist');
     const royalties = get(transaction, 'parameter.value.royalties');
     const price = String(get(transaction, 'amount'));
-    const id = createEventId(EVENT_TYPE_OBJKT_BID, transaction.id);
+    const id = createEventId(EVENT_TYPE_OBJKT_BID, transaction);
 
     const event: ObjktBidEvent = {
       id,

@@ -67,7 +67,7 @@ const ObjktSettleEnglishAuctionHandler: Handler<Transaction, ObjktSettleEnglishA
     const highestBidderAddress = get(diff, 'content.value.highest_bidder');
     const currentPrice = get(diff, 'content.value.current_price');
     const currencyAddress = get(diff, 'content.value.currency.fa12');
-    const id = createEventId(EVENT_TYPE_OBJKT_SETTLE_ENGLISH_AUCTION, transaction.id);
+    const id = createEventId(EVENT_TYPE_OBJKT_SETTLE_ENGLISH_AUCTION, transaction);
 
     const event: ObjktSettleEnglishAuctionEvent = {
       id,

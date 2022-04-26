@@ -11,6 +11,7 @@ test('creates HEN_COLLECT_V2 events', async () => {
       block: 'BLy97rwKBbkbJGKyj8geGHBSveDzSRfnnhBx2kGPSRrTafowCU1',
       hash: 'ookTzCAFU1WV67E39MwkN4zQAQ18NfjEdxtPFkvTk7LSCsjUW4M',
       counter: 33889428,
+      nonce: null,
       sender: {
         address: 'tz1Td886MhUexDnvpfdh5YEnbmEy11VCjvtf',
       },
@@ -60,7 +61,7 @@ test('creates HEN_COLLECT_V2 events', async () => {
 
   expect(events).toStrictEqual([
     {
-      id: '83c832b52b893f197797b8ed6a9c8b78',
+      id: 'dca7b1b93ed7ee201c06f6f4ffc3aca2',
       type: 'HEN_COLLECT_V2',
       implements: 'SALE',
       opid: 112502500,

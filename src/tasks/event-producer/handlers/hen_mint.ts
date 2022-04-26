@@ -50,7 +50,7 @@ const HenMintHandler: Handler<Transaction, HenMintEvent> = {
     const editions = get(transaction, 'parameter.value.amount');
     const fa2Address = get(transaction, 'storage.objkt');
     const metadataUri = Buffer.from(get(mintTransaction, 'parameter.value.token_info.'), 'hex').toString();
-    const id = createEventId(EVENT_TYPE_HEN_MINT, transaction.id);
+    const id = createEventId(EVENT_TYPE_HEN_MINT, transaction);
 
     const event: HenMintEvent = {
       id,

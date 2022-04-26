@@ -49,7 +49,7 @@ const FxOfferHandler: Handler<Transaction, FxOfferEvent> = {
 
     const offerId = String(parseInt(get(transaction, 'storage.counter'), 10) - 1);
     const fa2Address = get(transaction, 'storage.objkts');
-    const id = createEventId(EVENT_TYPE_FX_OFFER, transaction.id);
+    const id = createEventId(EVENT_TYPE_FX_OFFER, transaction);
 
     const event: FxOfferEvent = {
       id,

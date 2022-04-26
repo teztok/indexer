@@ -57,7 +57,7 @@ const EightbidBuy24x24MonochromeHandler: Handler<Transaction, EightbidBuy24x24Mo
     const sellerAddress = get(diff, 'content.value.seller');
     const artistAddress = get(diff, 'content.value.creator');
     const price = get(diff, 'content.value.payment');
-    const id = createEventId(EVENT_TYPE_8BID_24X24_MONOCHROME_BUY, transaction.id);
+    const id = createEventId(EVENT_TYPE_8BID_24X24_MONOCHROME_BUY, transaction);
 
     const event: EightbidBuy24x24MonochromeEvent = {
       id,

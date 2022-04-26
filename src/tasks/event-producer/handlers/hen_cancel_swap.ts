@@ -48,7 +48,7 @@ const HenSwapHandler: Handler<Transaction, HenCancelSwapEvent> = {
     const diff = findDiff(transaction.diffs!, 523, 'swaps', 'remove_key', swapId);
     const tokenId = get(diff, 'content.value.objkt_id');
     const sellerAddress = get(diff, 'content.value.issuer');
-    const id = createEventId(EVENT_TYPE_HEN_CANCEL_SWAP, transaction.id);
+    const id = createEventId(EVENT_TYPE_HEN_CANCEL_SWAP, transaction);
 
     const event: HenCancelSwapEvent = {
       id,

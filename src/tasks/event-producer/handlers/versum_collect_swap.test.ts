@@ -11,6 +11,7 @@ test('creates VERSUM_COLLECT_SWAP events', async () => {
       block: 'BLeEnaeDZhBxXpmeAjL624sLA4RNuKbvQf3V4aHQdTYGeQZfzNC',
       hash: 'opLGZbDreaAqJFCSxsxh8FiyEJK9h4ymhPWBbitydF3Qxgr2Bbr',
       counter: 11841070,
+      nonce: null,
       sender: {
         alias: 'bors__nft',
         address: 'tz1fb6jz7rh4H7AojLShvhiXKaSNDyvkH7sM',
@@ -96,7 +97,7 @@ test('creates VERSUM_COLLECT_SWAP events', async () => {
 
   expect(events).toStrictEqual([
     {
-      id: 'ae92a3dd0fb91abf83c49dcc32849f7a',
+      id: 'c699bdec549bc6624565d0e80d894b5a',
       type: 'VERSUM_COLLECT_SWAP',
       implements: 'SALE',
       opid: 137973176,

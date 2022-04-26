@@ -58,7 +58,7 @@ const VersumSwapHandler: Handler<Transaction, VersumSwapEvent> = {
     const currency = get(transaction, 'parameter.value.currency');
     const amount = get(transaction, 'parameter.value.token_amount');
     const burnOnEnd = get(transaction, 'parameter.value.burn_on_end');
-    const id = createEventId(EVENT_TYPE_VERSUM_SWAP, transaction.id);
+    const id = createEventId(EVENT_TYPE_VERSUM_SWAP, transaction);
 
     if (currency !== null) {
       throw new Error('unsupported currency');

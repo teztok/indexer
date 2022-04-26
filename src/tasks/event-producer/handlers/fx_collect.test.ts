@@ -11,6 +11,7 @@ test('creates FX_COLLECT events', async () => {
       block: 'BM4NuEfD8TW2FLywiz5JTBWqiW9TGHkutCxqwvYoiQX6Xge5TpD',
       hash: 'opGhFbP2TobRH3ChmnfkyvS6PeLNLrJi4hjiwp2UJo5jqECFjL2',
       counter: 1583451,
+      nonce: null,
       sender: {
         address: 'tz1UXV2pDd8DM3Jicru3o6fZZfHeKnBYbs4H',
       },
@@ -62,7 +63,7 @@ test('creates FX_COLLECT events', async () => {
 
   expect(events).toStrictEqual([
     {
-      id: '4f40de0024177327dc0653206a0c9678',
+      id: 'ee4eb6ba24c70bc2d8e225a6e75d570d',
       type: 'FX_COLLECT',
       implements: 'SALE',
       opid: 108221561,

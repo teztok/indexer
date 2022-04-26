@@ -89,6 +89,7 @@ test('creates SET_LEDGER events', async () => {
       block: 'BMPAfxwn8rgQdhgvHJ479aF5sLPQ3uocSTkeZLDpLapf4Wqp34J',
       hash: 'onyoeuGPkxxXdKXYLwdzZ91nyaRFW4qVLKqkfwJv6j8Mt5cWb8C',
       counter: 4957695,
+      nonce: null,
       sender: {
         alias: 'hic et nunc Minter',
         address: 'KT1Hkg5qeNhfwpKW4fXvq7HGZB9z2EnmCCA9',
@@ -162,6 +163,7 @@ test('creates SET_LEDGER events', async () => {
       block: 'BMedZBvdqk8Sv2anm4JXUjhhX6HnHaYFVdJYWm57xvWtbju8qvA',
       hash: 'ooDEeiWKwk7eL4DgUELErf6qkycYisbehWZsU3R1M2XWA5DKW2P',
       counter: 10511770,
+      nonce: null,
       sender: {
         alias: 'KOSHA',
         address: 'tz1ZdMfzmWLb8mu22jE7rZ8Y3t9iKezM68cq',
@@ -234,6 +236,7 @@ test('creates SET_LEDGER events', async () => {
       block: 'BM3iDeDvCVmwpM2cky9cqRbYzB1e9dt1Et8FNb2h6nxZYpuHxyc',
       hash: 'ooPfj1wFuJgUCkmmFMkgSvsMQCQ6g2uisedy1ktd8u7xys4PjXD',
       counter: 14390193,
+      nonce: null,
       sender: {
         address: 'tz1XBqVe91Rdao2wJFANPH9yAHsuu66GrqB5',
       },
@@ -278,6 +281,7 @@ test('creates SET_LEDGER events', async () => {
       block: 'BM3iDeDvCVmwpM2cky9cqRbYzB1e9dt1Et8FNb2h6nxZYpuHxyc',
       hash: 'ooPfj1wFuJgUCkmmFMkgSvsMQCQ6g2uisedy1ktd8u7xys4PjXD',
       counter: 14390193,
+      nonce: 1,
       sender: {
         alias: 'Tezzardz Crowdsale',
         address: 'KT1DdxmJujm3u2ZNkYwV24qLBJ6iR7sc58B9',
@@ -374,6 +378,7 @@ test('creates SET_LEDGER events', async () => {
       block: 'BM3iDeDvCVmwpM2cky9cqRbYzB1e9dt1Et8FNb2h6nxZYpuHxyc',
       hash: 'ooPfj1wFuJgUCkmmFMkgSvsMQCQ6g2uisedy1ktd8u7xys4PjXD',
       counter: 14390193,
+      nonce: 2,
       sender: {
         alias: 'Tezzardz Crowdsale',
         address: 'KT1DdxmJujm3u2ZNkYwV24qLBJ6iR7sc58B9',
@@ -399,6 +404,7 @@ test('creates SET_LEDGER events', async () => {
       block: 'BM3iDeDvCVmwpM2cky9cqRbYzB1e9dt1Et8FNb2h6nxZYpuHxyc',
       hash: 'ooPfj1wFuJgUCkmmFMkgSvsMQCQ6g2uisedy1ktd8u7xys4PjXD',
       counter: 14390193,
+      nonce: 3,
       sender: {
         alias: 'Tezzardz Crowdsale',
         address: 'KT1DdxmJujm3u2ZNkYwV24qLBJ6iR7sc58B9',
@@ -424,6 +430,7 @@ test('creates SET_LEDGER events', async () => {
       block: 'BLoB4JMUUbhNzXLRXkWQkHVh9Zx2HzU6HNwBzT1TuptuuUVUdoZ',
       hash: 'oopLhJLjumQYaA3ryubFKtrkRQoBdewgBsqNwDqEb2zUQjobdGF',
       counter: 11694432,
+      nonce: null,
       sender: {
         address: 'KT1BvWGFENd4CXW5F3u4n31xKfJhmBGipoqF',
       },
@@ -498,6 +505,7 @@ test('creates SET_LEDGER events', async () => {
       block: 'BMWpcykkEXjfU2W14wUprEU7JrsvXTcBfkrut3BR35qGrxPkmLL',
       hash: 'ootJMtSR9vBpNvsk1hZm63wgBLu5fFY9Mu1riNaxMkWqkjyaSkA',
       counter: 50147075,
+      nonce: null,
       sender: {
         address: 'tz2EV1f4dheCSYBDbxqjrx1Jyd6HffisKC8u',
       },
@@ -569,7 +577,7 @@ test('creates SET_LEDGER events', async () => {
 
   expect(events).toStrictEqual([
     {
-      id: 'bbbf0d6b108216ca4162179aed96f8f0',
+      id: '354fb63356b430b339d04250a5fa6e65',
       type: 'SET_LEDGER',
       opid: 42065345,
       ophash: 'onyoeuGPkxxXdKXYLwdzZ91nyaRFW4qVLKqkfwJv6j8Mt5cWb8C',
@@ -582,7 +590,7 @@ test('creates SET_LEDGER events', async () => {
       is_mint: true,
     },
     {
-      id: '8f9943d837df16081b5d7cce3f95ca66',
+      id: '24fa886117ad30c88583c51eab12711b',
       type: 'SET_LEDGER',
       opid: 42083287,
       ophash: 'ooDEeiWKwk7eL4DgUELErf6qkycYisbehWZsU3R1M2XWA5DKW2P',
@@ -595,7 +603,7 @@ test('creates SET_LEDGER events', async () => {
       is_mint: false,
     },
     {
-      id: '019d7c3e99af0896036d98cfe962ae8d',
+      id: 'f58d89c87461f104631e2015037e30b6',
       type: 'SET_LEDGER',
       opid: 42083287,
       ophash: 'ooDEeiWKwk7eL4DgUELErf6qkycYisbehWZsU3R1M2XWA5DKW2P',
@@ -608,7 +616,7 @@ test('creates SET_LEDGER events', async () => {
       is_mint: false,
     },
     {
-      id: '6eb5a65f2838468515dbe5d604a28160',
+      id: 'cd2f8fc883455aeb42d1bec81f5d00d5',
       type: 'SET_LEDGER',
       opid: 190861006,
       ophash: 'oopLhJLjumQYaA3ryubFKtrkRQoBdewgBsqNwDqEb2zUQjobdGF',
@@ -621,7 +629,7 @@ test('creates SET_LEDGER events', async () => {
       is_mint: false,
     },
     {
-      id: '6803f17540f4b8197ef34e5cf354a0f3',
+      id: '1a80d530bace83c7b031d2842557ecdb',
       type: 'SET_LEDGER',
       opid: 190861006,
       ophash: 'oopLhJLjumQYaA3ryubFKtrkRQoBdewgBsqNwDqEb2zUQjobdGF',
@@ -634,7 +642,7 @@ test('creates SET_LEDGER events', async () => {
       is_mint: false,
     },
     {
-      id: '6d3101b19a564d0eb79b8b2f60bd0bef',
+      id: 'eb341a14514b840b7c90593aa31b7742',
       type: 'SET_LEDGER',
       opid: 185310949,
       ophash: 'ootJMtSR9vBpNvsk1hZm63wgBLu5fFY9Mu1riNaxMkWqkjyaSkA',
@@ -647,7 +655,7 @@ test('creates SET_LEDGER events', async () => {
       is_mint: false,
     },
     {
-      id: 'efbdd73bb7d8107256c178deecde2f0d',
+      id: '6b7351feda83fa84e6eb8de25eb1af05',
       type: 'SET_LEDGER',
       opid: 185310949,
       ophash: 'ootJMtSR9vBpNvsk1hZm63wgBLu5fFY9Mu1riNaxMkWqkjyaSkA',

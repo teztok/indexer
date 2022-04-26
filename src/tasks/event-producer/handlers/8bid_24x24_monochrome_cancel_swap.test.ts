@@ -11,6 +11,7 @@ test('creates 8BID_24X24_MONOCHROME_CANCEL_SWAP events', async () => {
       block: 'BMUMg7Xp21gKBmc6e4WT8zaDvHqfLtFuzZiSmKq2rRfte4rKckm',
       hash: 'ooSSZ6R13zjEgXaAn2EZVst7EbAcsa5L3GPH3i3ZUnHh5z7XZPd',
       counter: 14678340,
+      nonce: null,
       sender: {
         alias: 'mare-mon',
         address: 'tz1Tx4yqNmhVXFDrRTMfG5J1Wntb3JaAiQ93',
@@ -68,7 +69,7 @@ test('creates 8BID_24X24_MONOCHROME_CANCEL_SWAP events', async () => {
 
   expect(events).toStrictEqual([
     {
-      id: '16a4fc791f16234aaaaea3d50148d1cd',
+      id: 'baaba786ed881dbdc2e56c6ddb77827c',
       type: '8BID_24X24_MONOCHROME_CANCEL_SWAP',
       opid: 187474659,
       ophash: 'ooSSZ6R13zjEgXaAn2EZVst7EbAcsa5L3GPH3i3ZUnHh5z7XZPd',

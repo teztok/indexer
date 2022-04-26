@@ -11,6 +11,7 @@ test('creates VERSUM_MINT events', async () => {
       block: 'BLy67RAWHwoVqnwMjKry3SwFH8krNg9YQD91nhmJDESiC3frmDx',
       hash: 'ono5r7ZwqCXoSJwN6M6wtoDx2Nh17aFprgd2jHofmBijkvWR9hm',
       counter: 44861645,
+      nonce: null,
       sender: {
         address: 'tz1QjLDuXQrFL2kQyT7NVUXKi1E3U998CmCg',
       },
@@ -278,7 +279,7 @@ test('creates VERSUM_MINT events', async () => {
 
   expect(events).toStrictEqual([
     {
-      id: '7789e974871b157d3dd3ef4db60c2410',
+      id: '0a975d0309022733024925640529136b',
       type: 'VERSUM_MINT',
       opid: 137729490,
       ophash: 'ono5r7ZwqCXoSJwN6M6wtoDx2Nh17aFprgd2jHofmBijkvWR9hm',

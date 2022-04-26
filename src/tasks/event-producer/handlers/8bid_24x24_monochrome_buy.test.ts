@@ -11,6 +11,7 @@ test('creates 8BID_24X24_MONOCHROME_BUY events', async () => {
       block: 'BM9wRvR9DekWUj7SayxZ1rKNUCedxD7bCvQ1RCaeGBJHXkjmS98',
       hash: 'ooVGg25ubei68nVR3MyR9qcuHfGy1mpb2xmZgFkW8Z1YqBhyzgC',
       counter: 14230187,
+      nonce: null,
       sender: {
         alias: 'HrtkAssh',
         address: 'tz1c6Uibt7Vjr7MEFEQpohEa2f311KxZyJoZ',
@@ -72,7 +73,7 @@ test('creates 8BID_24X24_MONOCHROME_BUY events', async () => {
 
   expect(events).toStrictEqual([
     {
-      id: '1e75eb32fcf32be7661130f5bdf9ff1a',
+      id: '9520de88d0b2f2733e7cd780ac157e1b',
       type: '8BID_24X24_MONOCHROME_BUY',
       implements: 'SALE',
       opid: 186213124,

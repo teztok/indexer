@@ -52,7 +52,7 @@ const HenCancelSwapHandler: Handler<Transaction, HenCancelSwapV2Event> = {
     const tokenId = get(diff, 'content.value.objkt_id');
     const sellerAddress = get(diff, 'content.value.issuer');
     const artistAddress = get(diff, 'content.value.creator');
-    const id = createEventId(EVENT_TYPE_HEN_CANCEL_SWAP_V2, transaction.id);
+    const id = createEventId(EVENT_TYPE_HEN_CANCEL_SWAP_V2, transaction);
 
     const event: HenCancelSwapV2Event = {
       id,

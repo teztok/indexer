@@ -50,7 +50,7 @@ const ObjktFulfillBidHandler: Handler<Transaction, ObjktFulfillBidEvent> = {
     const artistAddress = get(diff, 'content.value.artist');
     const buyerAddress = get(diff, 'content.value.issuer');
     const price = get(diff, 'content.value.xtz_per_objkt');
-    const id = createEventId(EVENT_TYPE_OBJKT_FULFILL_BID, transaction.id);
+    const id = createEventId(EVENT_TYPE_OBJKT_FULFILL_BID, transaction);
 
     const event: ObjktFulfillBidEvent = {
       id,

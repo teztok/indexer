@@ -11,6 +11,7 @@ test('creates FX_LISTING_ACCEPT events', async () => {
       block: 'BMGf93FJ9FjHWZciyads7XsCm6pcZRzVXLuEqSHzGPCeJ4Bpr4J',
       hash: 'onpRaiL2DF3sxcXmApjw12skXQkkxxCWzP66mtG493Km7MCe5T4',
       counter: 24098778,
+      nonce: null,
       sender: {
         address: 'tz1RxdMQhHoQKxmtwqEC8h5yLHVghHdEPqEk',
       },
@@ -72,7 +73,7 @@ test('creates FX_LISTING_ACCEPT events', async () => {
 
   expect(events).toStrictEqual([
     {
-      id: '3af918e6fe110712a931195cd19e027c',
+      id: '7c8e38ff24cf4bf8a492367bbcb8d178',
       type: 'FX_LISTING_ACCEPT',
       implements: 'SALE',
       opid: 207520063,

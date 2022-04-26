@@ -11,6 +11,7 @@ test('creates 8BID_8X8_COLOR_BUY events', async () => {
       block: 'BMVHYRUbSodkn5Cv4Ao66oWxt49h1ZNHD4Ezi2Y84LQaZoWDXmp',
       hash: 'ooPh82iDd78ghxcrn1xx2zpiWmPiYY9s57KTJ4cL1xCHfEk25W2',
       counter: 14230119,
+      nonce: null,
       sender: {
         alias: 'HrtkAssh',
         address: 'tz1c6Uibt7Vjr7MEFEQpohEa2f311KxZyJoZ',
@@ -72,7 +73,7 @@ test('creates 8BID_8X8_COLOR_BUY events', async () => {
 
   expect(events).toStrictEqual([
     {
-      id: '2312f81ed878702058c8251b993505ea',
+      id: '20f7603ef608888fd5318fda54f923e4',
       type: '8BID_8X8_COLOR_BUY',
       implements: 'SALE',
       opid: 176191154,

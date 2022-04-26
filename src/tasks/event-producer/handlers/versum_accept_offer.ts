@@ -53,7 +53,7 @@ const VersumAcceptOfferHandler: Handler<Transaction, VersumAcceptOfferEvent> = {
     const price = get(diff, 'content.value.price_in_nat');
     const buyerAddress = get(diff, 'content.value.buyer');
     const sellerAddress = get(transaction, 'sender.address');
-    const id = createEventId(EVENT_TYPE_VERSUM_ACCEPT_OFFER, transaction.id);
+    const id = createEventId(EVENT_TYPE_VERSUM_ACCEPT_OFFER, transaction);
 
     const event: VersumAcceptOfferEvent = {
       id,

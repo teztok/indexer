@@ -11,6 +11,7 @@ test('creates OBJKT_SETTLE_ENGLISH_AUCTION events', async () => {
       block: 'BLU81fg6FkKNsqR8GRhPNdnAcS3WihF1qeNp2uKNMnoP6Vvk7Ss',
       hash: 'ooedR95DFKAsEGvGnkTZcGQofiaKzmNwdbC43g5rTiCzvrfdcDZ',
       counter: 49889104,
+      nonce: null,
       sender: {
         address: 'tz1PLNscHFFHxYZLXnaeSxDqnC7pvM5Ran6E',
       },
@@ -78,6 +79,7 @@ test('creates OBJKT_SETTLE_ENGLISH_AUCTION events', async () => {
       block: 'BMXFA4Gghepia1MUQwfU5GprxnZjyaeKuCSCCQENEeUp1zbRuvm',
       hash: 'opL5UYA8haCtw7qRRBp5tv935J87F35PBhjEiChexni7KbNcyNT',
       counter: 49889121,
+      nonce: null,
       sender: {
         address: 'tz1PLNscHFFHxYZLXnaeSxDqnC7pvM5Ran6E',
       },
@@ -144,7 +146,7 @@ test('creates OBJKT_SETTLE_ENGLISH_AUCTION events', async () => {
 
   expect(events).toStrictEqual([
     {
-      id: '1f161b85b8c7e0754af403ce3b3e126c',
+      id: '5303063ae5a90985791521865c8f281b',
       type: 'OBJKT_SETTLE_ENGLISH_AUCTION',
       opid: 170948586,
       ophash: 'ooedR95DFKAsEGvGnkTZcGQofiaKzmNwdbC43g5rTiCzvrfdcDZ',
@@ -165,7 +167,7 @@ test('creates OBJKT_SETTLE_ENGLISH_AUCTION events', async () => {
       auction_id: '1000002',
     },
     {
-      id: '5bf4b61e94dd0d5abe87e594c781c97d',
+      id: '8767acf20785f23a3830833f8d9ee975',
       type: 'OBJKT_SETTLE_ENGLISH_AUCTION',
       implements: 'SALE',
       opid: 171048203,

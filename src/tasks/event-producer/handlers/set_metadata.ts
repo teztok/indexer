@@ -78,7 +78,7 @@ const SetMetadataHandler: Handler<Transaction, SetMetadataEvent> = {
         try {
           const tokenId = get(diff, 'content.value.token_id');
           const metadataUri = Buffer.from(get(diff, 'content.value.token_info.'), 'hex').toString();
-          const id = createEventId(EVENT_TYPE_SET_METADATA, transaction.id, idx);
+          const id = createEventId(EVENT_TYPE_SET_METADATA, transaction, idx);
 
           const event: SetMetadataEvent = {
             id,

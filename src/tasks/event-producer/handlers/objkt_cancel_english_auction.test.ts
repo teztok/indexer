@@ -12,6 +12,7 @@ test('creates OBJKT_CANCEL_ENGLISH_AUCTION events', async () => {
       block: 'BLBHAQJwU9nwTYy5QUtRGr88kYpVz2thUReP8VLJ29P3t9nKn4t',
       hash: 'opQMLHEQcC9GC5AHogJTjc4Q5hGGpiL2vunfX2zbHN6mKWbNyZs',
       counter: 17742665,
+      nonce: null,
       sender: {
         alias: 'CryptoGotchiz',
         address: 'tz1RgnLSzM48rnwAqwiYf51CAXxEgxDzASrJ',
@@ -71,6 +72,7 @@ test('creates OBJKT_CANCEL_ENGLISH_AUCTION events', async () => {
       block: 'BKttvJ4PcAjCVieyWwkhoNRDUNVJ8YQMkVbRRdXnmgrQbFsx7YV',
       hash: 'opUSYQcb7PiRENmpDaZfqjr9qz37fPtk6TmgKRooyQiugMQKWUV',
       counter: 15206656,
+      nonce: null,
       sender: {
         alias: 'BODMONTING  ',
         address: 'tz2CPZAqqT8m2TTVnwPR6T68jvA9EBfhzUQZ',
@@ -128,7 +130,7 @@ test('creates OBJKT_CANCEL_ENGLISH_AUCTION events', async () => {
   expect(events).toStrictEqual([
     // CONTRACT V1
     {
-      id: 'be86a69f653246402230ddf236af5b8f',
+      id: 'c52695d2caa35bef6880ee39c491ecbb',
       type: 'OBJKT_CANCEL_ENGLISH_AUCTION',
       opid: 57869065,
       ophash: 'opQMLHEQcC9GC5AHogJTjc4Q5hGGpiL2vunfX2zbHN6mKWbNyZs',
@@ -151,7 +153,7 @@ test('creates OBJKT_CANCEL_ENGLISH_AUCTION events', async () => {
 
     // CONTRACT V2
     {
-      id: '847dfe7ee21d66e041bb663b7fdf4e9e',
+      id: 'd9f15fbb70664774f3b63e2592a4e31c',
       type: 'OBJKT_CANCEL_ENGLISH_AUCTION',
       opid: 58466763,
       ophash: 'opUSYQcb7PiRENmpDaZfqjr9qz37fPtk6TmgKRooyQiugMQKWUV',

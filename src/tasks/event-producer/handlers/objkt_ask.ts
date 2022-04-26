@@ -51,7 +51,7 @@ const ObjktAskHandler: Handler<Transaction, ObjktAskEvent> = {
     const royalties = get(transaction, 'parameter.value.royalties');
     const price = get(transaction, 'parameter.value.price');
     const amount = get(transaction, 'parameter.value.amount');
-    const id = createEventId(EVENT_TYPE_OBJKT_ASK, transaction.id);
+    const id = createEventId(EVENT_TYPE_OBJKT_ASK, transaction);
 
     const event: ObjktAskEvent = {
       id,

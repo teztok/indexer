@@ -44,7 +44,7 @@ const ObjktRetractOfferHandler: Handler<Transaction, ObjktRetractOfferEvent> = {
     const tokenId = get(diff, 'content.value.token.token_id');
     //const artistAddress = get(diff, 'content.value.artist');
     const buyerAddress = get(diff, 'content.value.creator');
-    const id = createEventId(EVENT_TYPE_OBJKT_RETRACT_OFFER, transaction.id);
+    const id = createEventId(EVENT_TYPE_OBJKT_RETRACT_OFFER, transaction);
 
     const event: ObjktRetractOfferEvent = {
       id,

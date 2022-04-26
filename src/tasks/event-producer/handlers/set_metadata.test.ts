@@ -11,6 +11,7 @@ test('creates SET_METADATA events', async () => {
       block: 'BL9xqjjom8B9wsp6RgMkFjKzNmYKyDqY4nH7Scqvgp9ut4FK1zJ',
       hash: 'opLcz2WHyyiAWQRwBRpggB2kwF9ZyxWJyAEEqV5uRaNtjqP47Sj',
       counter: 4957696,
+      nonce: null,
       sender: {
         alias: 'hic et nunc Minter',
         address: 'KT1Hkg5qeNhfwpKW4fXvq7HGZB9z2EnmCCA9',
@@ -99,6 +100,7 @@ test('creates SET_METADATA events', async () => {
       block: 'BM4HoT8pyzRi7RErJ3cCMtAV4KBiXmyWb5qATaApaV8RNawua5M',
       hash: 'op6aQByDMQpBKWieNcdCx9MFuxKZEB2kAtViMhXN4H45EXBLKns',
       counter: 34009593,
+      nonce: null,
       sender: {
         address: 'tz1e8XGv6ngNoLt1ZNkEi6sG1A39yF48iwdS',
       },
@@ -172,6 +174,7 @@ test('creates SET_METADATA events', async () => {
       block: 'BLAtU5Z9LVT7wQfnEzVZqbfvj3vRGgnDmnogz9d74XeujyrAx11',
       hash: 'opG7tkzJknmCJTLzg7pzWsuoLVj24cpe8QRGEZrgcL2PqP3HK8j',
       counter: 23575948,
+      nonce: null,
       sender: {
         alias: 'Tezzardz Crowdsale',
         address: 'KT1DdxmJujm3u2ZNkYwV24qLBJ6iR7sc58B9',
@@ -255,7 +258,7 @@ test('creates SET_METADATA events', async () => {
 
   expect(events).toStrictEqual([
     {
-      id: '27851a5ec3ce985ce7322f1a6d7891aa',
+      id: '3e6fc37df1c97531849c5cdd89710dc5',
       type: 'SET_METADATA',
       opid: 42073252,
       ophash: 'opLcz2WHyyiAWQRwBRpggB2kwF9ZyxWJyAEEqV5uRaNtjqP47Sj',
@@ -266,7 +269,7 @@ test('creates SET_METADATA events', async () => {
       metadata_uri: 'ipfs://QmeaqRBUiw4cJiNKEcW2noc7egLd5GgBqLcHHqUhauJAHN',
     },
     {
-      id: '9ab130814ff910d4d96303c1b2cf7c7f',
+      id: 'a3f7cbc80432eef9aa3ce326b78574d9',
       type: 'SET_METADATA',
       opid: 104380647,
       ophash: 'op6aQByDMQpBKWieNcdCx9MFuxKZEB2kAtViMhXN4H45EXBLKns',
@@ -277,7 +280,7 @@ test('creates SET_METADATA events', async () => {
       metadata_uri: 'ipfs://QmagGPYiTPQQV1i9WMwGQ2zhgDeWqHefgtbBmWwGkr7tbY',
     },
     {
-      id: '03fa4cee5d21885dd5f4e89ad1b2b9ef',
+      id: 'd3a299bf58d318ba1c31e5203ae90eb5',
       type: 'SET_METADATA',
       opid: 73077463,
       ophash: 'opG7tkzJknmCJTLzg7pzWsuoLVj24cpe8QRGEZrgcL2PqP3HK8j',

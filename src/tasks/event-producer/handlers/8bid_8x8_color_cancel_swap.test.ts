@@ -11,6 +11,7 @@ test('creates 8BID_8X8_COLOR_CANCEL_SWAP events', async () => {
       block: 'BLZqs2YxK8aQb2gFrMeuYSw34jjdzvahCFwQQ7Cs315VoqqEAPZ',
       hash: 'opNKCTs8UWiMphKdA3ibUMx2zKtiM1G63MVJHSAfoxSnVRqpE6Y',
       counter: 17084239,
+      nonce: null,
       sender: {
         address: 'tz1MeusHSyoorMrxixCWfsn8k7jYg597rsxq',
       },
@@ -67,7 +68,7 @@ test('creates 8BID_8X8_COLOR_CANCEL_SWAP events', async () => {
 
   expect(events).toStrictEqual([
     {
-      id: '17a9522f79b6f0e8becc21310683edba',
+      id: 'dbd13b9ec97038b38a0760ea2e4f3b13',
       type: '8BID_8X8_COLOR_CANCEL_SWAP',
       opid: 180039728,
       ophash: 'opNKCTs8UWiMphKdA3ibUMx2zKtiM1G63MVJHSAfoxSnVRqpE6Y',

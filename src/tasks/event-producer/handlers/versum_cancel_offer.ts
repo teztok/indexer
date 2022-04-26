@@ -49,7 +49,7 @@ const VersumCancelOfferHandler: Handler<Transaction, VersumCancelOfferEvent> = {
     const buyerAddress = get(diff, 'content.value.buyer');
     const amount = get(diff, 'content.value.token_amount');
     const price = get(diff, 'content.value.price_in_nat');
-    const id = createEventId(EVENT_TYPE_VERSUM_CANCEL_OFFER, transaction.id);
+    const id = createEventId(EVENT_TYPE_VERSUM_CANCEL_OFFER, transaction);
 
     const event: VersumCancelOfferEvent = {
       id,

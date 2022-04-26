@@ -66,7 +66,7 @@ const ObjktBuyDutchAuctionHandlerV2: Handler<Transaction, ObjktBuyDutchAuctionV2
     const endPrice = get(diff, 'content.value.end_price');
     const amount = get(diff, 'content.value.editions');
     const currency = extractObjktCurrency(get(diff, 'content.value.currency'));
-    const id = createEventId(EVENT_TYPE_OBJKT_BUY_DUTCH_AUCTION_V2, transaction.id);
+    const id = createEventId(EVENT_TYPE_OBJKT_BUY_DUTCH_AUCTION_V2, transaction);
 
     if (!currency) {
       throw new Error(`currency not set`);

@@ -56,7 +56,7 @@ const EightbidMint24x24MonochromeHandler: Handler<Transaction, EightbidMint24x24
     const metadataUriRaw = get(transaction, 'parameter.value.token_meta.token_info.');
     const metadataUri = metadataUriRaw ? Buffer.from(metadataUriRaw, 'hex').toString() : null;
     const tokenId = get(transaction, 'storage.token_index');
-    const id = createEventId(EVENT_TYPE_8BID_24X24_MONOCHROME_MINT, transaction.id);
+    const id = createEventId(EVENT_TYPE_8BID_24X24_MONOCHROME_MINT, transaction);
 
     const event: EightbidMint24x24MonochromeEvent = {
       id,

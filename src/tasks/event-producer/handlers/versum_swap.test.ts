@@ -11,6 +11,7 @@ test('creates VERSUM_SWAP events', async () => {
       block: 'BKn23i8Jgk74iqMSdzcS5MYhXh3SSTWjCwLaBgqXGXsWFJmfXLB',
       hash: 'oohAGvd43tRkbn29GT8CCJhoudi5h1yfoGg8XjTs5NYiT5JmoxV',
       counter: 11859811,
+      nonce: null,
       sender: {
         alias: 'Chris Randall',
         address: 'tz1ibTknNagJCgQPgcbPvJhpSyS5vxgdyFt4',
@@ -106,7 +107,7 @@ test('creates VERSUM_SWAP events', async () => {
 
   expect(events).toStrictEqual([
     {
-      id: 'a7024b237e0a8fbcaea2ca7c3f13e58f',
+      id: '64c3bf2a54911d5f7c5e204df7b84aa5',
       type: 'VERSUM_SWAP',
       opid: 137968317,
       ophash: 'oohAGvd43tRkbn29GT8CCJhoudi5h1yfoGg8XjTs5NYiT5JmoxV',

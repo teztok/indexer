@@ -11,6 +11,7 @@ test('creates OBJKT_FULFILL_ASK_V2 events', async () => {
       block: 'BMZECLrfH4bQiru5zy5k8gFnkYZ4GKe5MgNBRWyinVdXmHhjLW2',
       hash: 'ongfvZydFy7468gbUTukLEs4VpGyvxFvjWWrAxSNxvYHH7CsPHp',
       counter: 47761711,
+      nonce: null,
       sender: {
         address: 'tz1cgAJDiPHM8HYX8nfvRuXgaBEZeJFgGw3K',
       },
@@ -78,7 +79,7 @@ test('creates OBJKT_FULFILL_ASK_V2 events', async () => {
 
   expect(events).toStrictEqual([
     {
-      id: '9909b01937459a2ba0d6facf413b5ee1',
+      id: '9b28bc033018d56d4ebd6cd25fcaafde',
       type: 'OBJKT_FULFILL_ASK_V2',
       implements: 'SALE',
       opid: 170995822,

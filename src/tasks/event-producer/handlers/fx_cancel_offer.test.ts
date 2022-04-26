@@ -11,6 +11,7 @@ test('creates FX_CANCEL_OFFER events', async () => {
       block: 'BKuNvimbV1DtKEm9NMTtXTNFVE2MgpxGmtYgWDdnLUvGwBGujta',
       hash: 'ooFDnSYyKxZjEfsyvr54k1ZZFKpQ36yhPrSEF1KTmTqXo59BP2g',
       counter: 17580944,
+      nonce: null,
       sender: {
         alias: 'pale kirill',
         address: 'tz1U9ZoiU5HRvQD29kjK1roSUiLDamMrjDJ9',
@@ -63,7 +64,7 @@ test('creates FX_CANCEL_OFFER events', async () => {
 
   expect(events).toStrictEqual([
     {
-      id: '1827a4f5e8c51832e1c5598f1932f3bf',
+      id: '967af174379728f2bbbf326a27fcf56e',
       type: 'FX_CANCEL_OFFER',
       opid: 108312464,
       ophash: 'ooFDnSYyKxZjEfsyvr54k1ZZFKpQ36yhPrSEF1KTmTqXo59BP2g',

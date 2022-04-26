@@ -12,6 +12,7 @@ test('creates OBJKT_BUY_DUTCH_AUCTION_V2 events', async () => {
       block: 'BLcUoPRymxTT4ChZGRx1QLbGgpigdUyWEor6WNhD81Lqa29Kwmf',
       hash: 'op9ZQRPjVLUk4rf2gF7eryecDjhyV7W5Uy39SG3PRXASfEPTonk',
       counter: 14628159,
+      nonce: null,
       sender: {
         alias: 'Space Renders',
         address: 'tz1eRQV8dkcRkBYasFKnna66UWMv43Q49B7J',
@@ -68,6 +69,7 @@ test('creates OBJKT_BUY_DUTCH_AUCTION_V2 events', async () => {
       block: 'BMFcEQrDMQAxfTGR5Rtjq2U8N97hGw6ypZ27MJXLhes7dzbzcg4',
       hash: 'onsQp1MdkaDo5TwfKUR6dKRkEXexJEEhEx3x1RFppxWAD68Bws1',
       counter: 11985762,
+      nonce: null,
       sender: {
         alias: 'Joe Looney',
         address: 'tz1btmyPUfG55dqtToFqhnN7Y8HZjGz6N2aM',
@@ -122,7 +124,7 @@ test('creates OBJKT_BUY_DUTCH_AUCTION_V2 events', async () => {
   expect(events).toStrictEqual([
     // CONTRACT V1
     {
-      id: '76da4eaa40a57d2dc2cf76f7e992ae99',
+      id: '5a04d5ba32a31e9297e696b9d4b868e7',
       type: 'OBJKT_BUY_DUTCH_AUCTION',
       implements: 'SALE',
       opid: 57895477,
@@ -145,7 +147,7 @@ test('creates OBJKT_BUY_DUTCH_AUCTION_V2 events', async () => {
 
     // CONTRACT V2
     {
-      id: 'd3b30c50788f8ebf0703376d66525874',
+      id: 'a14e2535b3fb4b8c655dbb5ecc086c0b',
       type: 'OBJKT_BUY_DUTCH_AUCTION',
       implements: 'SALE',
       opid: 57906043,

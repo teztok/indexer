@@ -54,7 +54,7 @@ const FxListingAcceptHandler: Handler<Transaction, FxListingAcceptEvent> = {
     const sellerAddress = get(diff, 'content.value.seller');
     const buyerAddress = get(transaction, 'sender.address');
     const price = get(diff, 'content.value.price');
-    const id = createEventId(EVENT_TYPE_FX_LISTING_ACCEPT, transaction.id);
+    const id = createEventId(EVENT_TYPE_FX_LISTING_ACCEPT, transaction);
 
     const event: FxListingAcceptEvent = {
       id,

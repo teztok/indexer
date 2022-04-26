@@ -87,6 +87,7 @@ export interface Transaction {
   block: string;
   hash: string;
   counter: number;
+  nonce: null | number;
   sender: {
     alias?: string;
     address: string;

@@ -79,7 +79,7 @@ const ObjktBuyDutchAuctionHandler: Handler<Transaction, ObjktBuyDutchAuctionEven
     const startPrice = get(diff, 'content.value.start_price');
     const endPrice = get(diff, 'content.value.end_price');
     const royalties = get(diff, 'content.value.royalties');
-    const id = createEventId(EVENT_TYPE_OBJKT_BUY_DUTCH_AUCTION, transaction.id);
+    const id = createEventId(EVENT_TYPE_OBJKT_BUY_DUTCH_AUCTION, transaction);
 
     const event: ObjktBuyDutchAuctionEvent = {
       id,

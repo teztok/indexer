@@ -12,6 +12,7 @@ test('creates OBJKT_CONCLUDE_ENGLISH_AUCTION events', async () => {
       block: 'BKww8AS66LkqTMFcv2TRpCLRAK7uiW8SDuUn2fU8mtgQTRfhBzC',
       hash: 'opRG9N6L9Vw1dTW5Kf5JLVe2vciHk9kcumDu6MvhNJ7cTzqrLQP',
       counter: 15585812,
+      nonce: null,
       sender: {
         address: 'tz1LcDMi4TAPL31ZRvkYDm4fAXFWRugCzxPY',
       },
@@ -70,6 +71,7 @@ test('creates OBJKT_CONCLUDE_ENGLISH_AUCTION events', async () => {
       block: 'BKjEKqppv97Zzpe7ewiUgpcNp9BvnaBX8A7RpWfynpzWcSk8bZD',
       hash: 'ooKPmcXR3gTm6sHTWZffvsppf3MeMNQw2K273uNRR3mPyzRUsBv',
       counter: 17174944,
+      nonce: null,
       sender: {
         alias: 'Scubage',
         address: 'tz1Q71RJHgo7gvLtcXwMdsG7B4EccY9SmJiS',
@@ -127,7 +129,7 @@ test('creates OBJKT_CONCLUDE_ENGLISH_AUCTION events', async () => {
   expect(events).toStrictEqual([
     // CONTRACT V1
     {
-      id: '6965606cee9f964a319a1488411e36d3',
+      id: 'd0af1df418979106366cc3967f36612a',
       type: 'OBJKT_CONCLUDE_ENGLISH_AUCTION',
       implements: 'SALE',
       opid: 57887905,
@@ -151,7 +153,7 @@ test('creates OBJKT_CONCLUDE_ENGLISH_AUCTION events', async () => {
 
     // CONTRACT V2
     {
-      id: '6ae69441b0fa64347981cc12401c0deb',
+      id: '1b34b84763027267bb20c8e8fa79a527',
       type: 'OBJKT_CONCLUDE_ENGLISH_AUCTION',
       implements: 'SALE',
       opid: 58462934,

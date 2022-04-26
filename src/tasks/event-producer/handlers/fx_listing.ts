@@ -48,7 +48,7 @@ const FxOfferHandler: Handler<Transaction, FxListingEvent> = {
 
     const fa2Address = GENTK_VERSION_TO_FA2_CONTRACT_MAPPING[gentkVersion];
     const swapId = String(parseInt(get(transaction, 'storage.listings_count'), 10) - 1);
-    const id = createEventId(EVENT_TYPE_FX_LISTING, transaction.id);
+    const id = createEventId(EVENT_TYPE_FX_LISTING, transaction);
 
     const event: FxListingEvent = {
       id,

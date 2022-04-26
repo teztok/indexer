@@ -11,6 +11,7 @@ test('creates HEN_CANCEL_SWAP events', async () => {
       block: 'BLkpsMYFS3ueoDCXxhE6LBv2RuFBEU1je9XW5QHrb4bZWSfC5gX',
       hash: 'opWNB6fjWxNEPQ5k78RUYJdQSBdeukbuyPm9ZqDLaeHtrRJYT23',
       counter: 15453486,
+      nonce: null,
       sender: {
         address: 'tz1X83DwmuDfx8Md5uDg72DNy1jPvJKbG8ay',
       },
@@ -64,7 +65,7 @@ test('creates HEN_CANCEL_SWAP events', async () => {
 
   expect(events).toStrictEqual([
     {
-      id: '6bea92eae881041d0a391d276ff8b06d',
+      id: 'f66f10d5516ecd9685fbab77190da758',
       type: 'HEN_CANCEL_SWAP',
       opid: 52568900,
       ophash: 'opWNB6fjWxNEPQ5k78RUYJdQSBdeukbuyPm9ZqDLaeHtrRJYT23',

@@ -58,7 +58,7 @@ const TeiaCollectHandler: Handler<Transaction, TeiaCollectEvent> = {
     const sellerAddress = get(diff, 'content.value.issuer');
     const tokenId = get(diff, 'content.value.objkt_id');
     const price = get(diff, 'content.value.xtz_per_objkt');
-    const id = createEventId(EVENT_TYPE_TEIA_COLLECT, transaction.id);
+    const id = createEventId(EVENT_TYPE_TEIA_COLLECT, transaction);
 
     const event: TeiaCollectEvent = {
       id,

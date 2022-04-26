@@ -11,6 +11,7 @@ test('creates FX_LISTING_CANCEL events', async () => {
       block: 'BL7MdPXpjqCikMjWR6HXUjgjMgr7c9NDzGnDHayLmSuyfLoFMm8',
       hash: 'oodG3h8rToYUxngHFnX78Kh4NrtyTndyNPXkGhVVjCTfM11kBNa',
       counter: 12802269,
+      nonce: null,
       sender: {
         alias: 'CyberBruxo',
         address: 'tz1ZGnmYWGtEyjUWYGgLd9V9fmKdnYMtjBCd',
@@ -73,7 +74,7 @@ test('creates FX_LISTING_CANCEL events', async () => {
 
   expect(events).toStrictEqual([
     {
-      id: '49285213fd457e9f5bd7f66ff74f59fb',
+      id: '27666d2c535910fcd142dd848b5e9f5f',
       type: 'FX_LISTING_CANCEL',
       opid: 207527459,
       ophash: 'oodG3h8rToYUxngHFnX78Kh4NrtyTndyNPXkGhVVjCTfM11kBNa',

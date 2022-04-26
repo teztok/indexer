@@ -42,7 +42,7 @@ const VersumMintHandler: Handler<Transaction, VersumMintEvent> = {
     const editions = get(transaction, 'parameter.value.amount');
     const fa2Address = get(transaction, 'target.address');
     const metadataUri = Buffer.from(get(transaction, 'parameter.value.metadata.'), 'hex').toString();
-    const id = createEventId(EVENT_TYPE_VERSUM_MINT, transaction.id);
+    const id = createEventId(EVENT_TYPE_VERSUM_MINT, transaction);
 
     const event: VersumMintEvent = {
       id,

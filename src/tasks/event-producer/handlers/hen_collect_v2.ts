@@ -58,7 +58,7 @@ const HenMintHandler: Handler<Transaction, HenCollectV2Event> = {
     const sellerAddress = get(diff, 'content.value.issuer');
     const tokenId = get(diff, 'content.value.objkt_id');
     const price = get(diff, 'content.value.xtz_per_objkt');
-    const id = createEventId(EVENT_TYPE_HEN_COLLECT_V2, transaction.id);
+    const id = createEventId(EVENT_TYPE_HEN_COLLECT_V2, transaction);
 
     const event: HenCollectV2Event = {
       id,

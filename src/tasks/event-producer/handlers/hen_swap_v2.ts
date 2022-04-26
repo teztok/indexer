@@ -50,7 +50,7 @@ const HenSwapHandler: Handler<Transaction, HenSwapV2Event> = {
     const price = get(transaction, 'parameter.value.xtz_per_objkt');
     const royalties = get(transaction, 'parameter.value.royalties');
     const amount = get(transaction, 'parameter.value.objkt_amount');
-    const id = createEventId(EVENT_TYPE_HEN_SWAP_V2, transaction.id);
+    const id = createEventId(EVENT_TYPE_HEN_SWAP_V2, transaction);
     const diff = findDiff(transaction.diffs!, 6072, 'swaps', 'add_key', swapId);
     const artistAddress = get(diff, 'content.value.creator');
 

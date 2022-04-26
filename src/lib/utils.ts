@@ -3,6 +3,7 @@ import { makeWorkerUtils, WorkerUtils } from 'graphile-worker';
 import uniqBy from 'lodash/uniqBy';
 import crypto from 'crypto';
 import get from 'lodash/get';
+import { metrohash128 } from 'metrohash';
 import dbConfig from '../knexfile';
 import config from './config';
 import { BigmapDiffs, BigmapDiff, BigmapDiffAction, KeysEnum, Pattern, Transaction, GetTransactionsFilters, Transactions } from '../types';
@@ -74,8 +75,14 @@ export function transactionMatchesPattern(transaction: Transaction, pattern: Pat
   return Object.entries(pattern).every(([key, val]) => get(transaction, PATTERN_TO_PATH[key as keyof Pattern]) === val);
 }
 
-export function createEventId(handlerName: string, opid: number, idx: number = 0) {
-  return crypto.createHash('md5').update(`${handlerName}:${opid}:${idx}`).digest('hex');
+export function createEventId(handlerName: string, transaction: Transaction, idx: number = 0) {
+  if (!('hash' in transaction && 'counter' in transaction && 'nonce' in transaction)) {
+    throw new Error('transaction does not have all the properties needed (counter, hash and nonce) to create an eventId.');
+  }
+
+  return metrohash128(
+    `${handlerName}:${transaction.hash}:${transaction.counter}:${transaction.nonce !== null ? transaction.nonce : 'unset'}:${idx}`
+  );
 }
 
 export async function getTransactions(filters: GetTransactionsFilters, perPage: number = 2000, maxPages: number = 20) {
@@ -89,7 +96,7 @@ export async function getTransactions(filters: GetTransactionsFilters, perPage: 
         offset: currentPage * perPage,
         limit: perPage,
         status: 'applied',
-        select: 'id,level,timestamp,block,hash,counter,sender,target,amount,parameter,status,hasInternals,initiator,storage,diffs',
+        select: 'id,level,timestamp,block,hash,counter,nonce,sender,target,amount,parameter,status,hasInternals,initiator,storage,diffs',
       },
     }).json<Transactions>();
 

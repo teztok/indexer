@@ -11,6 +11,7 @@ test('creates TEIA_COLLECT events', async () => {
       block: 'BLzNMAnsG5EXTQ4kUTJYQzspK3QssmRbttZV9D8DFq2rmoSAJSo',
       hash: 'ooRqvsxG3oUDNxxTSKGeZ32JhGCYysXCvYiwenEBoCLjQYvSgdr',
       counter: 25647210,
+      nonce: null,
       sender: {
         address: 'tz1abTpHKkdo5YTM1DosZZVx9p8cjv4hMMTB',
       },
@@ -64,7 +65,7 @@ test('creates TEIA_COLLECT events', async () => {
 
   expect(events).toStrictEqual([
     {
-      id: '49d7b043d413f87043282e2ce0bc5306',
+      id: 'f30c224a44f260e03bcf4984a4c7cc40',
       type: 'TEIA_COLLECT',
       implements: 'SALE',
       opid: 164940000,

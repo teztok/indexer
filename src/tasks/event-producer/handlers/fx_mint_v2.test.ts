@@ -11,6 +11,7 @@ test('creates FX_MINT_V2 events', async () => {
       block: 'BLXQThovdfacizRtfHydtXnGtoMcu8ANs7B6RxLnb3wENk6nxps',
       hash: 'onwRTp6PfiVEbxG5sXsSYXh8apc4waWZrkC4Wv5hveoVsGaZQ1i',
       counter: 29011077,
+      nonce: null,
       sender: {
         address: 'tz1fyPAaCtU5nQ8SAW6QLnCHjSarXzNKjFd6',
       },
@@ -91,6 +92,7 @@ test('creates FX_MINT_V2 events', async () => {
       block: 'BLXQThovdfacizRtfHydtXnGtoMcu8ANs7B6RxLnb3wENk6nxps',
       hash: 'onwRTp6PfiVEbxG5sXsSYXh8apc4waWZrkC4Wv5hveoVsGaZQ1i',
       counter: 29011077,
+      nonce: 1,
       sender: {
         alias: 'FXHASH Generative Tokens issuer',
         address: 'KT1XCoGnfupWk7Sp8536EfrxcP73LmT68Nyr',
@@ -116,6 +118,7 @@ test('creates FX_MINT_V2 events', async () => {
       block: 'BLXQThovdfacizRtfHydtXnGtoMcu8ANs7B6RxLnb3wENk6nxps',
       hash: 'onwRTp6PfiVEbxG5sXsSYXh8apc4waWZrkC4Wv5hveoVsGaZQ1i',
       counter: 29011077,
+      nonce: 2,
       sender: {
         alias: 'FXHASH Generative Tokens issuer',
         address: 'KT1XCoGnfupWk7Sp8536EfrxcP73LmT68Nyr',
@@ -141,6 +144,7 @@ test('creates FX_MINT_V2 events', async () => {
       block: 'BLXQThovdfacizRtfHydtXnGtoMcu8ANs7B6RxLnb3wENk6nxps',
       hash: 'onwRTp6PfiVEbxG5sXsSYXh8apc4waWZrkC4Wv5hveoVsGaZQ1i',
       counter: 29011077,
+      nonce: 3,
       sender: {
         alias: 'FXHASH Generative Tokens issuer',
         address: 'KT1XCoGnfupWk7Sp8536EfrxcP73LmT68Nyr',
@@ -233,7 +237,7 @@ test('creates FX_MINT_V2 events', async () => {
 
   expect(events).toStrictEqual([
     {
-      id: '554a3b44246492d7001402559134fece',
+      id: 'e1f5c01fe170db2713ec0341dbb52c32',
       type: 'FX_MINT_V2',
       implements: 'SALE',
       opid: 134087297,

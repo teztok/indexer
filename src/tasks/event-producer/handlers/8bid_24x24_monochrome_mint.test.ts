@@ -11,6 +11,7 @@ test('creates 8BID_24X24_MONOCHROME_MINT events', async () => {
       block: 'BLYxDTm2E3v988Dahy4GyYQChSDJ3i4nc7zptrwHJFh955Li4kj',
       hash: 'ooE6bwEzFDKv7p1AuaJSVkZHNcTEtmRgRTP9kCTq2jzfaNLN1ig',
       counter: 14230173,
+      nonce: null,
       sender: {
         alias: 'HrtkAssh',
         address: 'tz1c6Uibt7Vjr7MEFEQpohEa2f311KxZyJoZ',
@@ -119,7 +120,7 @@ test('creates 8BID_24X24_MONOCHROME_MINT events', async () => {
 
   expect(events).toStrictEqual([
     {
-      id: 'a824fe70d42bdb8a5a7ae4d03a874f20',
+      id: '8bd192908b8ffb9e766eab98f15b27db',
       type: '8BID_24X24_MONOCHROME_MINT',
       opid: 185960332,
       ophash: 'ooE6bwEzFDKv7p1AuaJSVkZHNcTEtmRgRTP9kCTq2jzfaNLN1ig',

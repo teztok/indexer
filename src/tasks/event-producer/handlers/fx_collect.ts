@@ -49,7 +49,7 @@ const FxCollectHandler: Handler<Transaction, FxCollectEvent> = {
     const buyerAddress = get(transaction, 'sender.address');
     const price = get(diff, 'content.value.price');
     const fa2Address = get(transaction, 'storage.objkts');
-    const id = createEventId(EVENT_TYPE_FX_COLLECT, transaction.id);
+    const id = createEventId(EVENT_TYPE_FX_COLLECT, transaction);
 
     const event: FxCollectEvent = {
       id,
