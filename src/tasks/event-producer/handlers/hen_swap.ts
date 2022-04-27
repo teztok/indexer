@@ -45,7 +45,7 @@ const HenSwapHandler: Handler<Transaction, HenSwapEvent> = {
     const tokenId = get(transaction, 'parameter.value.objkt_id');
     const price = get(transaction, 'parameter.value.xtz_per_objkt');
     const amount = get(transaction, 'parameter.value.objkt_amount');
-    const id = createEventId(EVENT_TYPE_HEN_SWAP, transaction.id);
+    const id = createEventId(EVENT_TYPE_HEN_SWAP, transaction);
 
     const event: HenSwapEvent = {
       id,

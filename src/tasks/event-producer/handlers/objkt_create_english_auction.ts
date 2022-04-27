@@ -69,7 +69,7 @@ const ObjktCreateEnglishAuctionHandler: Handler<Transaction, ObjktCreateEnglishA
     const royalties = get(transaction, 'parameter.value.royalties');
     const priceIncrement = get(transaction, 'parameter.value.price_increment');
     const auctionId = String(parseInt(get(transaction, 'storage.auction_id'), 10) - 1);
-    const id = createEventId(EVENT_TYPE_OBJKT_CREATE_ENGLISH_AUCTION, transaction.id);
+    const id = createEventId(EVENT_TYPE_OBJKT_CREATE_ENGLISH_AUCTION, transaction);
 
     const event: ObjktCreateEnglishAuctionEvent = {
       id,

@@ -11,6 +11,7 @@ test('creates FX_MINT events', async () => {
       block: 'BMGV3iEqNrb51LWVf1yvHUMTVz9pguKmNzCu6jyj8hUc8ghrMLg',
       hash: 'ongfG6YnyQMdZJL4GoGtsEGZYgtSCw7EUX8EZLAAg2F7XMTFfsx',
       counter: 13620447,
+      nonce: null,
       sender: {
         alias: 'RallyRolly',
         address: 'tz1VP6GUGdHdjCLzVFqRjBwsie3uw5UM4D1p',
@@ -88,6 +89,7 @@ test('creates FX_MINT events', async () => {
       block: 'BMGV3iEqNrb51LWVf1yvHUMTVz9pguKmNzCu6jyj8hUc8ghrMLg',
       hash: 'ongfG6YnyQMdZJL4GoGtsEGZYgtSCw7EUX8EZLAAg2F7XMTFfsx',
       counter: 13620447,
+      nonce: 1,
       sender: {
         alias: 'FXHASH Generative Tokens issuer',
         address: 'KT1AEVuykWeuuFX7QkEAMNtffzwhe1Z98hJS',
@@ -114,6 +116,7 @@ test('creates FX_MINT events', async () => {
       block: 'BMGV3iEqNrb51LWVf1yvHUMTVz9pguKmNzCu6jyj8hUc8ghrMLg',
       hash: 'ongfG6YnyQMdZJL4GoGtsEGZYgtSCw7EUX8EZLAAg2F7XMTFfsx',
       counter: 13620447,
+      nonce: 2,
       sender: {
         alias: 'FXHASH Generative Tokens issuer',
         address: 'KT1AEVuykWeuuFX7QkEAMNtffzwhe1Z98hJS',
@@ -139,6 +142,7 @@ test('creates FX_MINT events', async () => {
       block: 'BMGV3iEqNrb51LWVf1yvHUMTVz9pguKmNzCu6jyj8hUc8ghrMLg',
       hash: 'ongfG6YnyQMdZJL4GoGtsEGZYgtSCw7EUX8EZLAAg2F7XMTFfsx',
       counter: 13620447,
+      nonce: 3,
       sender: {
         alias: 'FXHASH Generative Tokens issuer',
         address: 'KT1AEVuykWeuuFX7QkEAMNtffzwhe1Z98hJS',
@@ -232,7 +236,7 @@ test('creates FX_MINT events', async () => {
 
   expect(events).toStrictEqual([
     {
-      id: 'be7400d5607a33e269818e23002f1e14',
+      id: 'bfbb224b73a1b9dcd8e1d792aa26c3b4',
       type: 'FX_MINT',
       implements: 'SALE',
       opid: 104481628,

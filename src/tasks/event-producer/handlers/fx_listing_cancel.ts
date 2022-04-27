@@ -46,7 +46,7 @@ const FxListingCancelHandler: Handler<Transaction, FxListingCancelEvent> = {
 
     const fa2Address = GENTK_VERSION_TO_FA2_CONTRACT_MAPPING[gentkVersion];
     const sellerAddress = get(diff, 'content.value.seller');
-    const id = createEventId(EVENT_TYPE_FX_LISTING_CANCEL, transaction.id);
+    const id = createEventId(EVENT_TYPE_FX_LISTING_CANCEL, transaction);
 
     const event: FxListingCancelEvent = {
       id,

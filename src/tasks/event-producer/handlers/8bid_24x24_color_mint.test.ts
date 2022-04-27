@@ -11,6 +11,7 @@ test('creates 8BID_24X24_COLOR_MINT events', async () => {
       block: 'BMQcTywjXBEaNqkacbNZ9v4fWXxEVEogUe8RrCvy1YDqxLSXWti',
       hash: 'ooaDMx42ezZs8518kzU37ECJ3oLb1tB8JAtDULHaFfpyaJEX3E2',
       counter: 14678282,
+      nonce: null,
       sender: {
         alias: 'mare-mon',
         address: 'tz1Tx4yqNmhVXFDrRTMfG5J1Wntb3JaAiQ93',
@@ -119,7 +120,7 @@ test('creates 8BID_24X24_COLOR_MINT events', async () => {
 
   expect(events).toStrictEqual([
     {
-      id: '6b1c521f30320f7fb97756c8925781aa',
+      id: '19696e6b17a6ac03bcb9342fefd4e137',
       type: '8BID_24X24_COLOR_MINT',
       opid: 184363860,
       ophash: 'ooaDMx42ezZs8518kzU37ECJ3oLb1tB8JAtDULHaFfpyaJEX3E2',

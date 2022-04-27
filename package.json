@@ -34,6 +34,7 @@
     "iso-datestring-validator": "^2.2.0",
     "knex": "^0.95.11",
     "lodash": "^4.17.21",
+    "metrohash": "^2.8.0",
     "mime-types": "^2.1.34",
     "minimist": "^1.2.5",
     "mmmagic": "^0.5.3",

@@ -11,6 +11,7 @@ test('creates FX_OFFER events', async () => {
       block: 'BLJjV1oqmyWEqdUP5ERtAyPJZEEnsKEBnksLBP56X2Wdm6ZRsta',
       hash: 'opPSkU97R9eG2MdambtBCfBxZjY423YrTi8jgDUDQXHLk9QRBH5',
       counter: 24290205,
+      nonce: null,
       sender: {
         alias: 'Hulumala',
         address: 'tz1LtsGqb8D5ss2SCWFGkKQfYTbgMEkS6hmD',
@@ -68,7 +69,7 @@ test('creates FX_OFFER events', async () => {
 
   expect(events).toStrictEqual([
     {
-      id: '09dc1892db6dd3292ebafe02633593bd',
+      id: 'bab0f1a0f1431ca72c88ad054bf7b453',
       type: 'FX_OFFER',
       opid: 108176851,
       ophash: 'opPSkU97R9eG2MdambtBCfBxZjY423YrTi8jgDUDQXHLk9QRBH5',

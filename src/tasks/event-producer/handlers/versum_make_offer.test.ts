@@ -11,6 +11,7 @@ test('creates VERSUM_MAKE_OFFER events', async () => {
       block: 'BKuLBG4Q4kyAqyuYHcvarAFW8HuwU5tj3Xy83Ma3d2tFDcjxhxR',
       hash: 'ooyFgRmoJ2SpuNAnF64KsLvrchaSX1G41zfxroJsLhEjw1TqFsA',
       counter: 32739436,
+      nonce: null,
       sender: {
         address: 'tz1NBAh46Vyz7CdNLpnZ68jpN6nBFH4LSboy',
       },
@@ -96,7 +97,7 @@ test('creates VERSUM_MAKE_OFFER events', async () => {
 
   expect(events).toStrictEqual([
     {
-      id: '713b7a038e6fd989d286263ef628fffd',
+      id: '2ef9f4a190ec7f78b67d2e5d3e9d3cf0',
       type: 'VERSUM_MAKE_OFFER',
       opid: 138091385,
       ophash: 'ooyFgRmoJ2SpuNAnF64KsLvrchaSX1G41zfxroJsLhEjw1TqFsA',

@@ -11,6 +11,7 @@ test('creates VERSUM_CANCEL_OFFER events', async () => {
       block: 'BKiYvTsApxH8AYwWVfuojAFKAUMdmeEeirjyec8BEh5DNoT4W9K',
       hash: 'opTywBtgtkXmwtaA6Upxg3FCd4Bt1myYQruo3dk31qshH11kmJ4',
       counter: 12783162,
+      nonce: null,
       sender: {
         alias: 'chriswallace',
         address: 'tz1Ym9Ued9v2N2wwsrtQ52HRGGn7qDmzuUZU',
@@ -88,7 +89,7 @@ test('creates VERSUM_CANCEL_OFFER events', async () => {
 
   expect(events).toStrictEqual([
     {
-      id: 'ce6e23490d06cdea60e5fb10b4be132c',
+      id: 'd58e1176b647844d9ddccc6b0e6bbced',
       type: 'VERSUM_CANCEL_OFFER',
       opid: 138283703,
       ophash: 'opTywBtgtkXmwtaA6Upxg3FCd4Bt1myYQruo3dk31qshH11kmJ4',

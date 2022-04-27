@@ -11,6 +11,7 @@ test('creates OBJKT_BUY_DUTCH_AUCTION_V2 events', async () => {
       block: 'BLJPP6uFrPKxCER4tcSyPDet2NR4C1SL444SfvodCZjkRFw3eda',
       hash: 'ooniyKbJChaGDmwmVY7JHUZ3imUJvkUPHgVeaEvHC1qaGrhj53X',
       counter: 47965252,
+      nonce: null,
       sender: {
         address: 'tz1ZZdLNgiA1ESH8MdrjzTzdypWPz8RKasc2',
       },
@@ -79,7 +80,7 @@ test('creates OBJKT_BUY_DUTCH_AUCTION_V2 events', async () => {
 
   expect(events).toStrictEqual([
     {
-      id: '36c5272dcbfbce45ffe588ba919017c0',
+      id: '9199866c3b0d44fa6b9ee8fd51f60166',
       type: 'OBJKT_BUY_DUTCH_AUCTION_V2',
       implements: 'SALE',
       opid: 172704907,

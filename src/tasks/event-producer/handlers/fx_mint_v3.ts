@@ -68,7 +68,7 @@ const FxMintIssuerHandler: Handler<Transaction, FxMintV3Event> = {
     const price = String(get(transaction, 'amount'));
     const fa2Address = FX_CONTRACT_FA2_V3;
     const metadataUri = Buffer.from(get(fa2MintTransaction, 'parameter.value.metadata.'), 'hex').toString();
-    const id = createEventId(EVENT_TYPE_FX_MINT_V3, transaction.id);
+    const id = createEventId(EVENT_TYPE_FX_MINT_V3, transaction);
 
     const event: FxMintV3Event = {
       id,

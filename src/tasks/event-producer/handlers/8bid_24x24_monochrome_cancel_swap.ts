@@ -44,7 +44,7 @@ const EightbidCancelSwap8x8ColorEvent: Handler<Transaction, EightbidCancelSwap24
     const tokenId = get(diff, 'content.value.nft_id');
     const sellerAddress = get(diff, 'content.value.seller');
     const artistAddress = get(diff, 'content.value.creator');
-    const id = createEventId(EVENT_TYPE_8BID_24X24_MONOCHROME_CANCEL_SWAP, transaction.id);
+    const id = createEventId(EVENT_TYPE_8BID_24X24_MONOCHROME_CANCEL_SWAP, transaction);
 
     const event: EightbidCancelSwap24x24MonochromeEvent = {
       id,

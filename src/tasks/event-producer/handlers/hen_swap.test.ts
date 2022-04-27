@@ -11,6 +11,7 @@ test('creates HEN_SWAP events', async () => {
       block: 'BLu4DtSzzv9MM5U4HgBCapBQqc2qWPQ4GyzCy6PsFu7SwKAaNJS',
       hash: 'onhcvyLbwrdZo869rc83zEH9SLVWFjAGUsfVa4p3UzSTVhRTA2Q',
       counter: 10650227,
+      nonce: null,
       sender: {
         alias: 'Sebuh Honarchian',
         address: 'tz1NufWtpqS3nfR8VW1xFyWq4GWqb969keeR',
@@ -69,7 +70,7 @@ test('creates HEN_SWAP events', async () => {
 
   expect(events).toStrictEqual([
     {
-      id: 'c4e96250646f5ec6e3ca1c93fcd790a3',
+      id: 'cdc0278ca02af6c1e9942b7961222579',
       type: 'HEN_SWAP',
       opid: 43578954,
       ophash: 'onhcvyLbwrdZo869rc83zEH9SLVWFjAGUsfVa4p3UzSTVhRTA2Q',

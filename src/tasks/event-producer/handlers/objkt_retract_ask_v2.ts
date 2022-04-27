@@ -43,7 +43,7 @@ const ObjktRetractAskV2Handler: Handler<Transaction, ObjktRetractAskV2Event> = {
     const tokenId = get(diff, 'content.value.token.token_id');
     //const artistAddress = get(diff, 'content.value.artist');
     const sellerAddress = get(diff, 'content.value.creator');
-    const id = createEventId(EVENT_TYPE_OBJKT_RETRACT_ASK_V2, transaction.id);
+    const id = createEventId(EVENT_TYPE_OBJKT_RETRACT_ASK_V2, transaction);
 
     const event: ObjktRetractAskV2Event = {
       id,

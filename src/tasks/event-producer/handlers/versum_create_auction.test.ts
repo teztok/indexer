@@ -11,6 +11,7 @@ test('creates VERSUM_CREATE_AUCTION events', async () => {
       block: 'BLNPuvqa9jgd1x5BNGS6jNUssMXYeroCzmun4hGSv74Li1g7RbT',
       hash: 'onupngKsa1ZTLSUC3Kf3whsAK482qbJuK3wNw4A4E2UthS45gSt',
       counter: 14611620,
+      nonce: null,
       sender: {
         alias: 'Cthulucene',
         address: 'tz1hrPrHQ1WncBaYTfEWta2LZzqGKVgdTukd',
@@ -100,7 +101,7 @@ test('creates VERSUM_CREATE_AUCTION events', async () => {
 
   expect(events).toStrictEqual([
     {
-      id: 'd3c3d1c147e211a0c3c8ef1d989459f2',
+      id: '1cb21f2735b9973c948563eb34ccaf6a',
       type: 'VERSUM_CREATE_AUCTION',
       opid: 138299001,
       ophash: 'onupngKsa1ZTLSUC3Kf3whsAK482qbJuK3wNw4A4E2UthS45gSt',

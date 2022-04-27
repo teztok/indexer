@@ -11,6 +11,7 @@ test('creates FX_MINT_V3 events', async () => {
       block: 'BMWzhWE4pSb3gcaZagQbkVHPQRPYYcSHscT7zQxfE6L9Sk2MbwR',
       hash: 'opCMWDeQkyFBeNGVMTb3AtPVzDqpM15WmNRPp7GdojVVvyBFpVU',
       counter: 30635919,
+      nonce: null,
       sender: {
         alias: 'zoari',
         address: 'tz1KfjPNG5riJC972A6vZXaDyzqqBxXCCmec',
@@ -120,6 +121,7 @@ test('creates FX_MINT_V3 events', async () => {
       block: 'BMWzhWE4pSb3gcaZagQbkVHPQRPYYcSHscT7zQxfE6L9Sk2MbwR',
       hash: 'opCMWDeQkyFBeNGVMTb3AtPVzDqpM15WmNRPp7GdojVVvyBFpVU',
       counter: 30635919,
+      nonce: 1,
       sender: {
         address: 'KT1BJC12dG17CVvPKJ1VYaNnaT5mzfnUTwXv',
       },
@@ -144,6 +146,7 @@ test('creates FX_MINT_V3 events', async () => {
       block: 'BMWzhWE4pSb3gcaZagQbkVHPQRPYYcSHscT7zQxfE6L9Sk2MbwR',
       hash: 'opCMWDeQkyFBeNGVMTb3AtPVzDqpM15WmNRPp7GdojVVvyBFpVU',
       counter: 30635919,
+      nonce: 2,
       sender: {
         address: 'KT1BJC12dG17CVvPKJ1VYaNnaT5mzfnUTwXv',
       },
@@ -178,6 +181,7 @@ test('creates FX_MINT_V3 events', async () => {
       block: 'BMWzhWE4pSb3gcaZagQbkVHPQRPYYcSHscT7zQxfE6L9Sk2MbwR',
       hash: 'opCMWDeQkyFBeNGVMTb3AtPVzDqpM15WmNRPp7GdojVVvyBFpVU',
       counter: 30635919,
+      nonce: 3,
       sender: {
         address: 'KT1P2BXYb894MekrCcSrnidzQYPVqitLoVLc',
       },
@@ -203,6 +207,7 @@ test('creates FX_MINT_V3 events', async () => {
       block: 'BMWzhWE4pSb3gcaZagQbkVHPQRPYYcSHscT7zQxfE6L9Sk2MbwR',
       hash: 'opCMWDeQkyFBeNGVMTb3AtPVzDqpM15WmNRPp7GdojVVvyBFpVU',
       counter: 30635919,
+      nonce: 4,
       sender: {
         address: 'KT1BJC12dG17CVvPKJ1VYaNnaT5mzfnUTwXv',
       },
@@ -228,6 +233,7 @@ test('creates FX_MINT_V3 events', async () => {
       block: 'BMWzhWE4pSb3gcaZagQbkVHPQRPYYcSHscT7zQxfE6L9Sk2MbwR',
       hash: 'opCMWDeQkyFBeNGVMTb3AtPVzDqpM15WmNRPp7GdojVVvyBFpVU',
       counter: 30635919,
+      nonce: 5,
       sender: {
         address: 'KT1BJC12dG17CVvPKJ1VYaNnaT5mzfnUTwXv',
       },
@@ -332,7 +338,7 @@ test('creates FX_MINT_V3 events', async () => {
 
   expect(events).toStrictEqual([
     {
-      id: '86bc7c8df4f3ab1e0ee5e154d23a290b',
+      id: 'e25c712bf09b5051784cd7d88499a726',
       type: 'FX_MINT_V3',
       implements: 'SALE',
       opid: 207515122,

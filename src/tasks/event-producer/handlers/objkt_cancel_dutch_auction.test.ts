@@ -12,6 +12,7 @@ test('creates OBJKT_CANCEL_DUTCH_AUCTION events', async () => {
       block: 'BM4hyuF4ES1XFJAbAD9JNvP5GFFPMHYq6j5SJ9CT7kaoTDBZ5EQ',
       hash: 'oouRQNsvwwaE1Dvzcb7xi2f54XUe24MzJMxHv6CkzocrKUv5GTR',
       counter: 15585727,
+      nonce: null,
       sender: {
         address: 'tz1LcDMi4TAPL31ZRvkYDm4fAXFWRugCzxPY',
       },
@@ -67,6 +68,7 @@ test('creates OBJKT_CANCEL_DUTCH_AUCTION events', async () => {
       block: 'BKxAHXCdP6naK4xgmUNHofwGCMjxMZNb9UTX2CPyAmXigHP22mt',
       hash: 'oo34bQ3Zy9VwRTWm2KRFPzRkBDdNc5PUtTyMRWzFqS3eTmZVoQ4',
       counter: 13535114,
+      nonce: null,
       sender: {
         alias: 'austinnuma',
         address: 'tz1Rm5QmNUnQetDKSVW8srM29hjPRiQCgqJx',
@@ -121,7 +123,7 @@ test('creates OBJKT_CANCEL_DUTCH_AUCTION events', async () => {
   expect(events).toStrictEqual([
     // CONTRACT V1
     {
-      id: '042ff06f22ae995e0bf0ee0c9086426a',
+      id: '3a2d95c86a33e59bada1efdc88e8c3b2',
       type: 'OBJKT_CANCEL_DUTCH_AUCTION',
       opid: 57874781,
       ophash: 'oouRQNsvwwaE1Dvzcb7xi2f54XUe24MzJMxHv6CkzocrKUv5GTR',
@@ -141,7 +143,7 @@ test('creates OBJKT_CANCEL_DUTCH_AUCTION events', async () => {
 
     // CONTRACT V2
     {
-      id: '242830be0396346160c8cdccafedaeeb',
+      id: 'ab54147103040c72f5bb2de8b3965ae7',
       type: 'OBJKT_CANCEL_DUTCH_AUCTION',
       opid: 58511167,
       ophash: 'oo34bQ3Zy9VwRTWm2KRFPzRkBDdNc5PUtTyMRWzFqS3eTmZVoQ4',

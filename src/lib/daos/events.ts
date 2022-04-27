@@ -47,7 +47,3 @@ export async function getTokenEvents(fa2Address: string, tokenId: string) {
     .orderBy('timestamp')
     .orderBy('opid');
 }
-
-export async function getByEventTypes(eventTypes: Array<string>) {
-  return db(TABLE).select('opid', 'type', 'fa2_address', 'swap_id', 'level').whereIn('type', eventTypes).orderBy('opid');
-}

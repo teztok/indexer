@@ -11,6 +11,7 @@ test('creates HEN_MINT events', async () => {
       block: 'BLjkrXDZxqQosF7gBzcq61yoqhuFjfB9TpY3Af4p2aNEi1cU6j2',
       hash: 'oo28HoW9LEbrA28M7XbDEvRmPqaA7QxPVmYbAUoAcKNAgXdDokB',
       counter: 36645942,
+      nonce: null,
       sender: {
         address: 'tz1XUcZvBxAMMSqeMsfA4tunmEfTUcbEXQ88',
       },
@@ -68,6 +69,7 @@ test('creates HEN_MINT events', async () => {
       block: 'BLjkrXDZxqQosF7gBzcq61yoqhuFjfB9TpY3Af4p2aNEi1cU6j2',
       hash: 'oo28HoW9LEbrA28M7XbDEvRmPqaA7QxPVmYbAUoAcKNAgXdDokB',
       counter: 36645942,
+      nonce: 1,
       sender: {
         alias: 'hic et nunc Minter',
         address: 'KT1Hkg5qeNhfwpKW4fXvq7HGZB9z2EnmCCA9',
@@ -109,7 +111,7 @@ test('creates HEN_MINT events', async () => {
 
   expect(events).toStrictEqual([
     {
-      id: 'fbf621a7b2f699d41a7a8ca205e1a1be',
+      id: '339d569daacae576a29e29fd9255dcde',
       type: 'HEN_MINT',
       opid: 112502347,
       ophash: 'oo28HoW9LEbrA28M7XbDEvRmPqaA7QxPVmYbAUoAcKNAgXdDokB',

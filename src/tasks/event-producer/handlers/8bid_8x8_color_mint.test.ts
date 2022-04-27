@@ -11,6 +11,7 @@ test('creates 8BID_8X8_COLOR_MINT events', async () => {
       block: 'BMb1SCCau6APoQtRe9QLSZ8PkTvDTiUZZWqkNU3F2JFfYqJaxiD',
       hash: 'oooEQUknW8M7nxiLtY5kc66ic3CPzkonyVj7RK8FJdj3MjYQAZ4',
       counter: 14230109,
+      nonce: null,
       sender: {
         alias: 'HrtkAssh',
         address: 'tz1c6Uibt7Vjr7MEFEQpohEa2f311KxZyJoZ',
@@ -121,6 +122,7 @@ test('creates 8BID_8X8_COLOR_MINT events', async () => {
       block: 'BMb1SCCau6APoQtRe9QLSZ8PkTvDTiUZZWqkNU3F2JFfYqJaxiD',
       hash: 'oooEQUknW8M7nxiLtY5kc66ic3CPzkonyVj7RK8FJdj3MjYQAZ4',
       counter: 14230109,
+      nonce: null,
       sender: {
         alias: 'HrtkAssh',
         address: 'tz1c6Uibt7Vjr7MEFEQpohEa2f311KxZyJoZ',
@@ -227,7 +229,7 @@ test('creates 8BID_8X8_COLOR_MINT events', async () => {
 
   expect(events).toStrictEqual([
     {
-      id: '57590120c122ca58d057632a893f959e',
+      id: 'e92dc9d3d9b3977a19a3f365012fdc06',
       type: '8BID_8X8_COLOR_MINT',
       opid: 176116207,
       ophash: 'oooEQUknW8M7nxiLtY5kc66ic3CPzkonyVj7RK8FJdj3MjYQAZ4',
@@ -245,7 +247,7 @@ test('creates 8BID_8X8_COLOR_MINT events', async () => {
       rgb: '639bff639bff639bff639bff639bff639bff639bff639bff639bff222034639bff222034639bff639bff639bff639bff639bff222034222034222034639bff639bff639bff639bff639bff222034222034222034639bff639bff222034639bff639bff639bff222034222034222034222034639bff639bff639bff639bff222034222034222034222034639bff639bff639bff639bff222034639bff639bff222034639bff639bff639bff639bff639bff639bff639bff639bff639bff639bff',
     },
     {
-      id: '58de7edd7b8b967bdd7f5650ebf88fca',
+      id: 'e92dc9d3d9b3977a19a3f365012fdc06',
       type: '8BID_8X8_COLOR_MINT',
       opid: 176116208,
       ophash: 'oooEQUknW8M7nxiLtY5kc66ic3CPzkonyVj7RK8FJdj3MjYQAZ4',

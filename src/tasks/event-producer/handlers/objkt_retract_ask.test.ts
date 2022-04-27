@@ -11,6 +11,7 @@ test('creates OBJKT_RETRACT_ASK events', async () => {
       block: 'BLd4oNukefgdQNfyedWXBWREZVfJgAaEKsaduffDDam4w2Mm8F5',
       hash: 'oneRH5srxEAdS4WZCm8J36EuqvgRuL8TXP4G59zVfFBXxrrvHRZ',
       counter: 30042373,
+      nonce: null,
       sender: {
         address: 'tz1ioqD76urZw1oY5CUXDjzfp1uPqSNrgKC1',
       },
@@ -62,7 +63,7 @@ test('creates OBJKT_RETRACT_ASK events', async () => {
 
   expect(events).toStrictEqual([
     {
-      id: '55aba6d3c44a18470a7b517fc328bc04',
+      id: 'd6c18bdfe93f3dc3478e239a77fbe241',
       type: 'OBJKT_RETRACT_ASK',
       opid: 112502627,
       ophash: 'oneRH5srxEAdS4WZCm8J36EuqvgRuL8TXP4G59zVfFBXxrrvHRZ',

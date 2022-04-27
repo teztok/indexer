@@ -11,6 +11,7 @@ test('creates OBJKT_OFFER events', async () => {
       block: 'BLMaq3CFwvQoPb1gFsGgKfNHq6xXgUQvRg99cwbuTWX41TeKzGy',
       hash: 'opZYkyKKwUdFW9KnU17QMHesHH74DRJEKSKi2PELt8mV4MK6pk6',
       counter: 20552030,
+      nonce: null,
       sender: {
         address: 'tz2A1H2nqwm2ZYzyRsFs1iWPsCjdmWd4Srmz',
       },
@@ -92,7 +93,7 @@ test('creates OBJKT_OFFER events', async () => {
 
   expect(events).toStrictEqual([
     {
-      id: '20d0768554f43551632182f124a1dcc3',
+      id: '7fe66d5dfe53bb837a5f2ba2e8aa63de',
       type: 'OBJKT_OFFER',
       opid: 170991604,
       ophash: 'opZYkyKKwUdFW9KnU17QMHesHH74DRJEKSKi2PELt8mV4MK6pk6',

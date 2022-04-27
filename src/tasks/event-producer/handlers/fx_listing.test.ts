@@ -11,6 +11,7 @@ test('creates FX_LISTING events', async () => {
       block: 'BLWTzH4exQsgNgRnmidHupNtty5LPhodzHMrGMPtW6kSqFxcUvn',
       hash: 'oouuaCvwnFkyR21cVWGs1tfHJojx5X3F8ywC8EmSxtG8xgFmkBR',
       counter: 41683191,
+      nonce: null,
       sender: {
         address: 'tz1ck6scdncLedJyVViJfrfHwP3DVfxEBg5f',
       },
@@ -79,6 +80,7 @@ test('creates FX_LISTING events', async () => {
       block: 'BKmZjxWhfeFHxJ87zt81GWZR2T2Hic2AZr9cwWg7pe8ZsfB5Dci',
       hash: 'op9GNf8V92qJZvWnhMp5UxmbCoU8PXtBaYFE7DedsMBqniCenKR',
       counter: 57459211,
+      nonce: null,
       sender: {
         address: 'tz1Lup7XznCYm746dZQScwDgfP8bjYbB1See',
       },
@@ -146,7 +148,7 @@ test('creates FX_LISTING events', async () => {
 
   expect(events).toStrictEqual([
     {
-      id: 'cdec227a895401fb08b5b14422626d6d',
+      id: 'f859e6a826e1fb498d9a1d2e185b8f5e',
       type: 'FX_LISTING',
       opid: 207514809,
       ophash: 'oouuaCvwnFkyR21cVWGs1tfHJojx5X3F8ywC8EmSxtG8xgFmkBR',
@@ -159,7 +161,7 @@ test('creates FX_LISTING events', async () => {
       price: '135000000',
     },
     {
-      id: '9beaebaa87a3b35f348db8585e1abbf8',
+      id: '59ac33757e388050d130c957610ef81d',
       type: 'FX_LISTING',
       opid: 207517629,
       ophash: 'op9GNf8V92qJZvWnhMp5UxmbCoU8PXtBaYFE7DedsMBqniCenKR',

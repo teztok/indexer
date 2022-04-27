@@ -11,6 +11,7 @@ test('creates OBJKT_MINT_ARTIST events', async () => {
       block: 'BKy3PaADCcGUS9qwoAf672gsRECFdz619GLcc6PuPRXkhkTeuRd',
       hash: 'ooCVLqTMQATVgMgLUjzjr8qEPtaymbfqb6RYjxL3GgbsFtj9P6K',
       counter: 33152955,
+      nonce: null,
       sender: {
         alias: 'GhoulishGroom',
         address: 'tz1UxW1chiPvekzf23ze4L17JY26jTUtHsMF',
@@ -40,6 +41,7 @@ test('creates OBJKT_MINT_ARTIST events', async () => {
       block: 'BKy3PaADCcGUS9qwoAf672gsRECFdz619GLcc6PuPRXkhkTeuRd',
       hash: 'ooCVLqTMQATVgMgLUjzjr8qEPtaymbfqb6RYjxL3GgbsFtj9P6K',
       counter: 33152955,
+      nonce: 1,
       sender: {
         alias: 'objkt.com Minting Factory',
         address: 'KT1Aq4wWmVanpQhq4TTfjZXB5AjFpx15iQMM',
@@ -72,7 +74,7 @@ test('creates OBJKT_MINT_ARTIST events', async () => {
 
   expect(events).toStrictEqual([
     {
-      id: '13c2af1e341001696d0a94f320bfec6c',
+      id: '52c6d9b475119edd31fe2ed8c2df2822',
       type: 'OBJKT_MINT_ARTIST',
       opid: 114017578,
       ophash: 'ooCVLqTMQATVgMgLUjzjr8qEPtaymbfqb6RYjxL3GgbsFtj9P6K',

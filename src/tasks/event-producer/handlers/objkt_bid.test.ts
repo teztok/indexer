@@ -11,6 +11,7 @@ test('creates OBJKT_BID events', async () => {
       block: 'BL5xTVbe9scory2BMWjXBCceDFmhRprmFzaSgArS6G6i5o2CvWw',
       hash: 'onwKwGyCPt2RQoBrrAMSRkQqXSrJP4TYPAgwm879VJhMH5on71t',
       counter: 11549406,
+      nonce: null,
       sender: {
         alias: 'NFT PROTECTOR',
         address: 'tz1QGCWjNpYmcS6T9qFGYSam25e36WeFUCK4',
@@ -67,7 +68,7 @@ test('creates OBJKT_BID events', async () => {
 
   expect(events).toStrictEqual([
     {
-      id: '6527967e1eb9f9161bf1bd9bba35a8a8',
+      id: '4c9eeb94825ad7e270dd5e5f7788e6f6',
       type: 'OBJKT_BID',
       opid: 57748983,
       ophash: 'onwKwGyCPt2RQoBrrAMSRkQqXSrJP4TYPAgwm879VJhMH5on71t',

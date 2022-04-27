@@ -11,6 +11,7 @@ test('creates OBJKT_ASK_V2 events', async () => {
       block: 'BMYhQDTNkmSgKxabkJoNekLQvwACCqtMo2Wa27ZuBze9zFUGfCw',
       hash: 'opVpgjZYgKLYFw5nXKkBcE8EMJMNTXhUNjWCKVsUY5643BgwRxX',
       counter: 15958364,
+      nonce: null,
       sender: {
         alias: 'oktu',
         address: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
@@ -94,7 +95,7 @@ test('creates OBJKT_ASK_V2 events', async () => {
 
   expect(events).toStrictEqual([
     {
-      id: '22af9d5162ba6343a8ebaefe8de0e606',
+      id: 'cf1adf9ddf988178882d8535e64a88cd',
       type: 'OBJKT_ASK_V2',
       opid: 170773706,
       ophash: 'opVpgjZYgKLYFw5nXKkBcE8EMJMNTXhUNjWCKVsUY5643BgwRxX',

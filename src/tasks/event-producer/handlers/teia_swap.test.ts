@@ -11,6 +11,7 @@ test('creates TEIA_SWAP events', async () => {
       block: 'BLgooNQreUiZeTJbPdjPmM6MPmADfCFjPbGMmeQNMuLnh557qiC',
       hash: 'ooXPdUMYcYUKi9VBbsYdyp4hPUfzgLVsts8aAUh6UqUT2RBhQW7',
       counter: 11464227,
+      nonce: null,
       sender: {
         alias: 'Javier Gracia Carpio',
         address: 'tz1g6JRCpsEnD2BLiAzPNK3GBD1fKicV9rCx',
@@ -72,7 +73,7 @@ test('creates TEIA_SWAP events', async () => {
 
   expect(events).toStrictEqual([
     {
-      id: '234f1106ea02a634ecc8332e844ff4e4',
+      id: 'e0e7cf8e7fd29b13d31027cde56b9d13',
       type: 'TEIA_SWAP',
       opid: 165058185,
       timestamp: '2022-01-31T16:11:58Z',

@@ -11,6 +11,7 @@ test('creates HEN_COLLECT events', async () => {
       block: 'BLkpsMYFS3ueoDCXxhE6LBv2RuFBEU1je9XW5QHrb4bZWSfC5gX',
       hash: 'opV2QaCSsGMJ9xwBh9jyNBy4mMFVvtyy7Jf7pYky4qAFprmeoN7',
       counter: 12980780,
+      nonce: null,
       sender: {
         alias: 'NFTweak',
         address: 'tz1XGTjeqid5naxSviH3CBcfz944qHM6bNeD',
@@ -68,7 +69,7 @@ test('creates HEN_COLLECT events', async () => {
 
   expect(events).toStrictEqual([
     {
-      id: 'faa13edecca7cc1294fd1432ad0cfbe3',
+      id: 'd8e1bffb1c654469f4a4cacd6a9a9e1a',
       type: 'HEN_COLLECT',
       implements: 'SALE',
       opid: 52568902,

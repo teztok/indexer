@@ -53,7 +53,7 @@ const ObjktAskHandler: Handler<Transaction, ObjktAskV2Event> = {
     const expiryTime = get(transaction, 'parameter.value.expiry_time');
     const currency = Object.keys(get(transaction, 'parameter.value.currency'))[0];
     const price = get(transaction, 'parameter.value.amount');
-    const id = createEventId(EVENT_TYPE_OBJKT_ASK_V2, transaction.id);
+    const id = createEventId(EVENT_TYPE_OBJKT_ASK_V2, transaction);
 
     // TODO: add artist
 

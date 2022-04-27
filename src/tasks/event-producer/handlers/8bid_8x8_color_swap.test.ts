@@ -11,6 +11,7 @@ test('creates 8BID_8X8_COLOR_SWAP events', async () => {
       block: 'BLMJhNy9RXendzaVDcQNBwvmDZ1gw7HJyv7WfL4Vi33nNcBgvbf',
       hash: 'opP8yzCTfFhtupychoashg3ncWfmNRrYUKcaYDXykSvxjBH4eHB',
       counter: 21441756,
+      nonce: null,
       sender: {
         address: 'tz2QhmKtUWRyArfaqfBedvVdidgKpCcckMXV',
       },
@@ -87,7 +88,7 @@ test('creates 8BID_8X8_COLOR_SWAP events', async () => {
 
   expect(events).toStrictEqual([
     {
-      id: '20c312b25e624526a8f6795315bba551',
+      id: '0f1fee30447c591954e030d6f016c796',
       type: '8BID_8X8_COLOR_SWAP',
       opid: 176179849,
       ophash: 'opP8yzCTfFhtupychoashg3ncWfmNRrYUKcaYDXykSvxjBH4eHB',

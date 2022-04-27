@@ -104,7 +104,7 @@ const SetLedgerHandler: Handler<Transaction, SetLedgerEvent> = {
           const { tokenId, holderAddress } = extractAddressAndTokenIdFromBigmapDiffKey(get(diff, 'content.key'));
           const amount = diff.action === 'remove_key' ? '0' : get(diff, 'content.value');
           const isMint = !ledgerDiffs.some((diff) => diff.action === 'update_key' || diff.action === 'remove_key');
-          const id = createEventId(EVENT_TYPE_SET_LEDGER, transaction.id, idx);
+          const id = createEventId(EVENT_TYPE_SET_LEDGER, transaction, idx);
 
           const event: SetLedgerEvent = {
             id,

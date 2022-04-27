@@ -52,7 +52,7 @@ const TeiaCancelSwapHandler: Handler<Transaction, TeiaCancelSwapEvent> = {
     const sellerAddress = get(diff, 'content.value.issuer');
     const artistAddress = get(diff, 'content.value.creator');
     const fa2Address = get(diff, 'content.value.fa2');
-    const id = createEventId(EVENT_TYPE_TEIA_CANCEL_SWAP, transaction.id);
+    const id = createEventId(EVENT_TYPE_TEIA_CANCEL_SWAP, transaction);
 
     const event: TeiaCancelSwapEvent = {
       id,

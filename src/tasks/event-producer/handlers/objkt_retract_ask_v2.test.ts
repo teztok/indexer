@@ -11,6 +11,7 @@ test('creates OBJKT_RETRACT_ASK_V2 events', async () => {
       block: 'BL5kmR1eB3BjdPgHCQXa4qwx6RnUYUPZxt7NHmocJkikHzB24D4',
       hash: 'oojWNEJFyjfyu3iN8Ye657zaFFSpcs1ipdKFEgd4LJsPJaWr9vx',
       counter: 15958366,
+      nonce: null,
       sender: {
         alias: 'oktu',
         address: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
@@ -76,7 +77,7 @@ test('creates OBJKT_RETRACT_ASK_V2 events', async () => {
 
   expect(events).toStrictEqual([
     {
-      id: 'fe0383a5510b522499102bf7be229feb',
+      id: 'e7056c4786a7fd3369164ca5e1363bf5',
       type: 'OBJKT_RETRACT_ASK_V2',
       opid: 170780901,
       ophash: 'oojWNEJFyjfyu3iN8Ye657zaFFSpcs1ipdKFEgd4LJsPJaWr9vx',

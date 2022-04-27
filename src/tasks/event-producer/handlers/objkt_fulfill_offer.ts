@@ -50,7 +50,7 @@ const ObjktFulfillOfferHandler: Handler<Transaction, ObjktFulfillOfferEvent> = {
     const tokenId = get(diff, 'content.value.token.token_id') || get(transaction, 'parameter.value.token_id');
     const buyerAddress = get(diff, 'content.value.creator');
     //const artistAddress = get(diff, 'content.value.artist');
-    const id = createEventId(EVENT_TYPE_OBJKT_FULFILL_OFFER, transaction.id);
+    const id = createEventId(EVENT_TYPE_OBJKT_FULFILL_OFFER, transaction);
 
     const event: ObjktFulfillOfferEvent = {
       id,

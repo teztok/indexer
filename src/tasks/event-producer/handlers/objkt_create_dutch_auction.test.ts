@@ -12,6 +12,7 @@ test('creates OBJKT_CREATE_DUTCH_AUCTION events', async () => {
       block: 'BKkP6eew5H9TSmtsqLUhNt16EfV5Bav853xJJb4szU2PybE59Pq',
       hash: 'ooarNnsqbFSahJSkmq9XbqnJ7WEA79DjBqy9ryYJ7e2k1uPYPDe',
       counter: 15585705,
+      nonce: null,
       sender: {
         address: 'tz1LcDMi4TAPL31ZRvkYDm4fAXFWRugCzxPY',
       },
@@ -76,6 +77,7 @@ test('creates OBJKT_CREATE_DUTCH_AUCTION events', async () => {
       block: 'BLGeQsPpyzMwZp64wbC4DYzbJYTGMauLiJqvtZosoPVUqXNes7j',
       hash: 'onhbqVTvyApfTSEqoKiR2exUK2PyLJr1c2c75ut9WFq9uD7zHFo',
       counter: 11549442,
+      nonce: null,
       sender: {
         alias: 'NFT PROTECTOR',
         address: 'tz1QGCWjNpYmcS6T9qFGYSam25e36WeFUCK4',
@@ -139,7 +141,7 @@ test('creates OBJKT_CREATE_DUTCH_AUCTION events', async () => {
   expect(events).toStrictEqual([
     // CONTRACT V1
     {
-      id: '15ac6f54f853cc958998a9384a5327da',
+      id: '797994d94c029ca9116c03d0f9018f78',
       type: 'OBJKT_CREATE_DUTCH_AUCTION',
       opid: 57871184,
       ophash: 'ooarNnsqbFSahJSkmq9XbqnJ7WEA79DjBqy9ryYJ7e2k1uPYPDe',
@@ -159,7 +161,7 @@ test('creates OBJKT_CREATE_DUTCH_AUCTION events', async () => {
 
     // CONTRACT V2
     {
-      id: '53ae4749eb4a0d51e5eacddbc9a9c7b2',
+      id: 'b46d51acb342b921c066a0188bf213b3',
       type: 'OBJKT_CREATE_DUTCH_AUCTION',
       opid: 58421438,
       ophash: 'onhbqVTvyApfTSEqoKiR2exUK2PyLJr1c2c75ut9WFq9uD7zHFo',

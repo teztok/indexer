@@ -21,7 +21,6 @@ import * as metadataDao from '../../lib/daos/metadata';
 import * as assetsDao from '../../lib/daos/assets';
 import { AnyEvent } from '../event-producer/handlers/index';
 import {
-  HEN_CONTRACT_MARKETPLACE,
   HEN_CONTRACT_MARKETPLACE_V2,
   OBJKT_CONTRACT_MARKETPLACE,
   OBJKT_CONTRACT_MARKETPLACE_V2,

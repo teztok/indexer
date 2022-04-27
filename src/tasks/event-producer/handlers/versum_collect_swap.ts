@@ -83,7 +83,7 @@ const VersumCollectSwapHandler: Handler<Transaction, VersumCollectEvent> = {
     const fa2Address = get(diff, 'content.value.token.address');
     const tokenId = get(diff, 'content.value.token.nat');
     const sellerAddress = get(diff, 'content.value.seller');
-    const id = createEventId(EVENT_TYPE_VERSUM_COLLECT_SWAP, transaction.id);
+    const id = createEventId(EVENT_TYPE_VERSUM_COLLECT_SWAP, transaction);
 
     const event: VersumCollectEvent = {
       id,

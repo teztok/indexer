@@ -48,7 +48,7 @@ const VersumMakeOfferHandler: Handler<Transaction, VersumMakeOfferEvent> = {
     const offerId = String(parseInt(get(transaction, 'storage.offer_counter'), 10) - 1);
     const buyerAddress = get(transaction, 'sender.address');
     const price = String(get(transaction, 'amount'));
-    const id = createEventId(EVENT_TYPE_VERSUM_MAKE_OFFER, transaction.id);
+    const id = createEventId(EVENT_TYPE_VERSUM_MAKE_OFFER, transaction);
 
     const event: VersumMakeOfferEvent = {
       id,

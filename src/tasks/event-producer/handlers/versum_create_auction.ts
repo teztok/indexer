@@ -50,7 +50,7 @@ const VersumCreateAuctionHandler: Handler<Transaction, VersumCreateAuctionEvent>
     const endTime = get(transaction, 'parameter.value.end_timestamp');
     const auctionId = String(parseInt(get(transaction, 'storage.auction_counter'), 10) - 1);
     const amount = get(transaction, 'parameter.value.token_amount');
-    const id = createEventId(EVENT_TYPE_VERSUM_CREATE_AUCTION, transaction.id);
+    const id = createEventId(EVENT_TYPE_VERSUM_CREATE_AUCTION, transaction);
 
     const event: VersumCreateAuctionEvent = {
       id,

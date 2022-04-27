@@ -52,7 +52,7 @@ const EightbidSwap8x8ColorHandler: Handler<Transaction, EightbidSwap8x8ColorEven
     const royalties = String(parseInt(get(transaction, 'parameter.value.royalties'), 10) * 10);
     const amount = get(transaction, 'parameter.value.nft_total_amount');
     const artistAddress = get(transaction, 'parameter.value.creator');
-    const id = createEventId(EVENT_TYPE_8BID_8X8_COLOR_SWAP, transaction.id);
+    const id = createEventId(EVENT_TYPE_8BID_8X8_COLOR_SWAP, transaction);
 
     const event: EightbidSwap8x8ColorEvent = {
       id,

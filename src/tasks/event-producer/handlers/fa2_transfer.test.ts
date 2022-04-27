@@ -11,6 +11,7 @@ test('creates FA2_TRANSFER events', async () => {
       block: 'BLkpsMYFS3ueoDCXxhE6LBv2RuFBEU1je9XW5QHrb4bZWSfC5gX',
       hash: 'op8dmZUuY4qu2Kp7Hok9DQVMzXr1YZrsLaA2C4svAmtQCiaXmNZ',
       counter: 14596089,
+      nonce: null,
       sender: {
         alias: 'hic et nunc Minter',
         address: 'KT1Hkg5qeNhfwpKW4fXvq7HGZB9z2EnmCCA9',
@@ -52,7 +53,7 @@ test('creates FA2_TRANSFER events', async () => {
 
   expect(events).toStrictEqual([
     {
-      id: 'eb8c302cdafd7a647e11faecfcf005d9',
+      id: 'ea1d4a084007c5e24fcd7dcd3a8b9092',
       type: 'FA2_TRANSFER',
       opid: 52568926,
       ophash: 'op8dmZUuY4qu2Kp7Hok9DQVMzXr1YZrsLaA2C4svAmtQCiaXmNZ',
@@ -65,7 +66,7 @@ test('creates FA2_TRANSFER events', async () => {
       token_id: '58486',
     },
     {
-      id: '808cdf5971acca39f248906bccd2dc81',
+      id: '3d242c7ad9ae4f9ce1a274326f759c66',
       type: 'FA2_TRANSFER',
       opid: 52568926,
       ophash: 'op8dmZUuY4qu2Kp7Hok9DQVMzXr1YZrsLaA2C4svAmtQCiaXmNZ',

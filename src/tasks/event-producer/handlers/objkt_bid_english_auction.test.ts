@@ -12,6 +12,7 @@ test('creates OBJKT_BID_ENGLISH_AUCTION events', async () => {
       block: 'BMV6WeHhU2mJs6bxHBo15uoTZoMoket5HjUaNQT2odfDUB7hCya',
       hash: 'ooSw7p1J4Sb6pKudZcMyFRrWY8VqHxwTbYdvj2x38yotj4UtPnQ',
       counter: 15957416,
+      nonce: null,
       sender: {
         alias: 'oktu',
         address: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
@@ -71,6 +72,7 @@ test('creates OBJKT_BID_ENGLISH_AUCTION events', async () => {
       block: 'BLmfVaKa3phf68dXz733fAxk6gprNuHayw8mLzVQaTN4H9HY5QR',
       hash: 'onycyVTAu3pfiCFR5ov3mgxJ5gpHdBXnD9sFRqAmpHwsPy4HVVP',
       counter: 13551602,
+      nonce: null,
       sender: {
         alias: 'Anderlaxe',
         address: 'tz1h7JN75F7sg53wwYof4Q877yjuLRDg6q94',
@@ -128,7 +130,7 @@ test('creates OBJKT_BID_ENGLISH_AUCTION events', async () => {
   expect(events).toStrictEqual([
     // CONTRACT V1
     {
-      id: 'c0d067b802789245261cb42c863c3d3d',
+      id: '51b53820922027495226e9a5cc142e28',
       type: 'OBJKT_BID_ENGLISH_AUCTION',
       opid: 57869529,
       ophash: 'ooSw7p1J4Sb6pKudZcMyFRrWY8VqHxwTbYdvj2x38yotj4UtPnQ',
@@ -153,7 +155,7 @@ test('creates OBJKT_BID_ENGLISH_AUCTION events', async () => {
 
     // CONTRACT V2
     {
-      id: '90053d94db796ee00fcdd89b06ff1460',
+      id: '5b3cc388cea60c156f7fd4bcd4a6be8e',
       type: 'OBJKT_BID_ENGLISH_AUCTION',
       opid: 58454271,
       ophash: 'onycyVTAu3pfiCFR5ov3mgxJ5gpHdBXnD9sFRqAmpHwsPy4HVVP',

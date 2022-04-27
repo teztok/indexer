@@ -11,6 +11,7 @@ test('creates OBJKT_FULFILL_OFFER events', async () => {
       block: 'BMMUEoqZY6RAZxx3VFm7vaNFiimwy1jfPFAL6pnRUSXtpwGKt3E',
       hash: 'onk171Yp9EzB9n7QdrDSr84LHaaueadTPsmruwhRPUypvwRTFSv',
       counter: 34838814,
+      nonce: null,
       sender: {
         alias: 'Narisofka',
         address: 'tz2PSYEYJff71Vi2qnUd5kUu7efMRzaCEnK2',
@@ -79,6 +80,7 @@ test('creates OBJKT_FULFILL_OFFER events', async () => {
       block: 'BLiMKSBbstJynTFMCqP7zAtZpvA4xcLt4zR31BX5L99UtXAyRQ3',
       hash: 'oobEcddAjV1UWi7EjEgpWT6ZrDLDrGGCRrqxqBdZ7u17PB6WNvT',
       counter: 41306227,
+      nonce: null,
       sender: {
         alias: 'pseudosufism',
         address: 'tz2WCHSSnwGmXt6CiHUXhLwgZvuEji3sc8Gv',
@@ -147,7 +149,7 @@ test('creates OBJKT_FULFILL_OFFER events', async () => {
 
   expect(events).toStrictEqual([
     {
-      id: '6912624af7a500ed5b0fb043d1fc3b20',
+      id: '2db458940eee108424784a6d2e8df705',
       type: 'OBJKT_FULFILL_OFFER',
       implements: 'SALE',
       opid: 171012851,
@@ -162,7 +164,7 @@ test('creates OBJKT_FULFILL_OFFER events', async () => {
       buyer_address: 'tz1aLySy25NTVivCzPhCfHsVwZ38ZT2u7tAi',
     },
     {
-      id: 'dedc2158555b15d20945bcc271c7e897',
+      id: 'e3687c05811922d0f1bd5d244652c252',
       type: 'OBJKT_FULFILL_OFFER',
       implements: 'SALE',
       opid: 212174403,

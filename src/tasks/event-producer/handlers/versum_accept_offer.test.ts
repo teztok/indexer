@@ -11,6 +11,7 @@ test('creates VERSUM_ACCEPT_OFFER events', async () => {
       block: 'BMXjvS7DJnbpHWWygNkS4agJmKj1VasvQaFv6EwptiADfABPctg',
       hash: 'opAhBB1X3yqK8F77GxatkxY2ghEbQXpZrutcf3jHxaaR1zf5XbG',
       counter: 11372518,
+      nonce: null,
       sender: {
         alias: 'mumu the stan',
         address: 'tz1cALmpTf7EeeSBXHAX2rcnR4WAP8tSWkt6',
@@ -88,7 +89,7 @@ test('creates VERSUM_ACCEPT_OFFER events', async () => {
 
   expect(events).toStrictEqual([
     {
-      id: '802cd42c75cea1519d22232fe1bd27f0',
+      id: '9fdfb4e496480ada4e7f57f9315289c9',
       type: 'VERSUM_ACCEPT_OFFER',
       implements: 'SALE',
       opid: 138277717,

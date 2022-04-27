@@ -52,7 +52,7 @@ const TeiaSwapHandler: Handler<Transaction, TeiaSwapEvent> = {
     const royalties = get(transaction, 'parameter.value.royalties');
     const amount = get(transaction, 'parameter.value.objkt_amount');
     const artistAddress = get(transaction, 'parameter.value.creator');
-    const id = createEventId(TEIA_CONTRACT_MARKETPLACE, transaction.id);
+    const id = createEventId(TEIA_CONTRACT_MARKETPLACE, transaction);
 
     const event: TeiaSwapEvent = {
       id,

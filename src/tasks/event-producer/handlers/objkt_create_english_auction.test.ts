@@ -12,6 +12,7 @@ test('creates OBJKT_CREATE_ENGLISH_AUCTION events', async () => {
       block: 'BLJ75y1e8Tx51cozNorBfJuZVa8nbyuBDcFT8dVn83j6ZcsxfH5',
       hash: 'opTh8g5Fn7VvkgfGPjH9w1TAAtUn5o5AT5VUfKtkippyG2WGd18',
       counter: 11549426,
+      nonce: null,
       sender: {
         alias: 'NFT PROTECTOR',
         address: 'tz1QGCWjNpYmcS6T9qFGYSam25e36WeFUCK4',
@@ -81,6 +82,7 @@ test('creates OBJKT_CREATE_ENGLISH_AUCTION events', async () => {
       block: 'BLjBqoNqV9yM6QEkfEV6khLy6PqWNiDAnWeQ3RxZNnuPxMp6F2h',
       hash: 'ooQMF1GJGfZHpckAVpG75EYhtY1zyegLsUgKJG1NWT919MGfWvy',
       counter: 16578242,
+      nonce: null,
       sender: {
         alias: 'jeremy torman',
         address: 'tz1aH8sCGaEMR994eGb5LKCuN8BBEHuJr8Am',
@@ -148,7 +150,7 @@ test('creates OBJKT_CREATE_ENGLISH_AUCTION events', async () => {
   expect(events).toStrictEqual([
     // CONTRACT V1
     {
-      id: '0401a454e6168b6777c9f5410a898ca1',
+      id: 'b753c9cb2672f33224390231e3c7e9e9',
       type: 'OBJKT_CREATE_ENGLISH_AUCTION',
       opid: 57866989,
       ophash: 'opTh8g5Fn7VvkgfGPjH9w1TAAtUn5o5AT5VUfKtkippyG2WGd18',
@@ -169,7 +171,7 @@ test('creates OBJKT_CREATE_ENGLISH_AUCTION events', async () => {
 
     // CONTRACT V2
     {
-      id: '09eb8778feb498f6da22c348b2c835d1',
+      id: 'c73891188f858152859b3884826f6069',
       type: 'OBJKT_CREATE_ENGLISH_AUCTION',
       opid: 58437179,
       ophash: 'ooQMF1GJGfZHpckAVpG75EYhtY1zyegLsUgKJG1NWT919MGfWvy',

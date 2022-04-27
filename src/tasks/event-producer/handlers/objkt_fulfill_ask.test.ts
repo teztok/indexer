@@ -11,6 +11,7 @@ test('creates OBJKT_FULFILL_ASK events', async () => {
       block: 'BLjkrXDZxqQosF7gBzcq61yoqhuFjfB9TpY3Af4p2aNEi1cU6j2',
       hash: 'oo2yJpe2TEt46sogwpB6BzX9uAaACUm3r32e8MqXudKCtW5vvU4',
       counter: 36171881,
+      nonce: null,
       sender: {
         address: 'tz2BGeJJpQGg2FL3nB5fjMVT2gSdtC9i7ges',
       },
@@ -62,7 +63,7 @@ test('creates OBJKT_FULFILL_ASK events', async () => {
 
   expect(events).toStrictEqual([
     {
-      id: 'e8c44ce566ba34356dc0c06586721b7e',
+      id: 'd464efe758e5f456134e0250709c062d',
       type: 'OBJKT_FULFILL_ASK',
       implements: 'SALE',
       opid: 112502358,

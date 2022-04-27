@@ -11,6 +11,7 @@ test('creates FX_MINT_ISSUER_V2 events', async () => {
       block: 'BL36YkiiTMUKFUiAsCzWM6ke77i6FwwBBLgV1GJ4cfXBVEYZWrG',
       hash: 'op6hVzzcNYBQy1uaWrCjvigAyLyjSEysyruJZovvzEXMgtU4v9G',
       counter: 42417551,
+      nonce: null,
       sender: {
         address: 'tz1d4N1HZBv77gWA5sLzP4mrVoW88zSqL3iK',
       },
@@ -96,7 +97,7 @@ test('creates FX_MINT_ISSUER_V2 events', async () => {
 
   expect(events).toStrictEqual([
     {
-      id: '9c42bd93829ed6d7eeddf67426e9689e',
+      id: 'dfc5399abd6cf6d22ba0c725da618f6e',
       type: 'FX_MINT_ISSUER_V2',
       opid: 134127011,
       ophash: 'op6hVzzcNYBQy1uaWrCjvigAyLyjSEysyruJZovvzEXMgtU4v9G',
