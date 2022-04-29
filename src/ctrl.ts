@@ -3,10 +3,43 @@ import uniqBy from 'lodash/uniqBy';
 import config from './lib/config';
 import * as eventsDao from './lib/daos/events';
 import { getWorkerUtils } from './lib/utils';
+import { rebuildToken } from './tasks/rebuild-token/rebuild-token';
 import logger from './lib/logger';
 import db from './lib/db';
 import { getTaskName } from './lib/utils';
 import { TokenEvent } from './types';
+
+let isRebuildingTokens = false;
+
+// TODO: solve this properly
+async function rebuildOutstandingTokens(max = 200) {
+  isRebuildingTokens = true;
+
+  try {
+    const results = await db
+      .select('*')
+      .from('graphile_worker.jobs')
+      .where('task_identifier', getTaskName('rebuild-token'))
+      .orderBy('id', 'desc')
+      .limit(max);
+
+    for (let i = 0; i < results.length; i++) {
+      const result = results[i];
+      console.log(`rebuilding token ${i}`);
+
+      try {
+        await rebuildToken!(result.payload);
+        await db('graphile_worker.jobs').where('id', result.id).del();
+      } catch (err) {
+        console.log('err', err);
+      }
+    }
+  } catch (err) {
+    console.log('failed to rebuild tokens', err);
+  }
+
+  isRebuildingTokens = false;
+}
 
 export async function run() {
   const connection = new HubConnectionBuilder().withUrl(`${config.tzktApiUrl}/events`).build();
@@ -45,6 +78,11 @@ export async function run() {
           { jobKey: `rebuild-token-${event.fa2_address}-${event.token_id}`, maxAttempts: 2 }
         );
       }
+    }
+
+    if (!isRebuildingTokens) {
+      // temp workaround to the problem that indexer is sometimes lagging...
+      rebuildOutstandingTokens(200);
     }
   });
 
