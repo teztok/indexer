@@ -2372,7 +2372,7 @@ test('handles 8BID_24X24_MONOCHROME_CANCEL_SWAP events', () => {
     },
   ]);
 });
-
+/*
 test('filters out 8BID_24X24_MONOCHROME_SWAP listings with incorrect royalties set', () => {
   const events: Array<AnyEvent> = [
     {
@@ -2416,6 +2416,7 @@ test('filters out 8BID_24X24_MONOCHROME_SWAP listings with incorrect royalties s
 
   expect(listings.length).toBe(0);
 });
+*/
 
 test('filters out 8BID_24X24_MONOCHROME_SWAP listings with incorrect artist_address set', () => {
   const events: Array<AnyEvent> = [

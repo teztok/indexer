@@ -661,7 +661,7 @@ export function compileToken(
         const listingKey = createListingKey(EIGHTBIDOU_24X24_MONOCHROME_CONTRACT_MARKETPLACE, event.swap_id);
 
         if (artistAddress) {
-          if (event.artist_address !== artistAddress || parseInt(event.royalties, 10) !== 100) {
+          if (event.artist_address !== artistAddress) {
             // potential fraudulent listing
             break;
           }
