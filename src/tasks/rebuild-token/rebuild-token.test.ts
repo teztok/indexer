@@ -2665,7 +2665,7 @@ test('sets the highest_offer_price property', () => {
   expect(token.highest_offer_price).toBe('5000');
 });
 
-test('calculates sales count correctly', () => {
+test('calculates sales count and sales volume correctly', () => {
   const events: Array<AnyEvent> = [
     {
       id: 'faa13edecca7cc1294fd1432ad0cfbe3',
@@ -2707,6 +2707,7 @@ test('calculates sales count correctly', () => {
   const { token } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'processed');
 
   expect(token.sales_count).toBe('3');
+  expect(token.sales_volume).toBe('6000');
 });
 
 test('calcs the correct price diffs', () => {

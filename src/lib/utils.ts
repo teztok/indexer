@@ -141,3 +141,11 @@ export function getTaskName(name: string) {
 
   return name;
 }
+
+export function isTezLikeCurrency(currency: unknown) {
+  if (!currency) {
+    return true;
+  }
+
+  return currency === 'tez' || currency === 'otez';
+}

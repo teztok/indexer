@@ -12,7 +12,7 @@ import snakeCase from 'lodash/snakeCase';
 import dbConfig from '../../knexfile';
 import db from '../../lib/db';
 import config from '../../lib/config';
-import { getTaskName } from '../../lib/utils';
+import { getTaskName, isTezLikeCurrency } from '../../lib/utils';
 import { Task, Metadata, Token, Holders, AnyListing, AnyOffer, SaleEvent, Asset, ObjktListingV2 } from '../../types';
 import { isValidTezosAddress } from '../../lib/validators';
 import { cleanString, cleanUri, cleanAttributes, cleanTags, cleanCreators, cleanFormats } from '../../lib/schemas';
@@ -727,6 +727,11 @@ export function compileToken(
   const burnedEditions = BURN_ADDRESS in holders ? holders[BURN_ADDRESS] : 0;
   const editions = totalEditions - burnedEditions;
   const soldEditions = sales.reduce((counter, event) => counter + (event.amount ? parseInt(event.amount, 0) : 1), 0);
+  const salesVolume = sales.reduce((volume, event) => {
+    const amount = event.amount ? parseInt(event.amount, 0) : 1;
+    const price = parseInt(event.price, 10);
+    return volume + (isTezLikeCurrency(event.currency) ? amount * price : 0);
+  }, 0);
 
   const cheapestListing = minBy(
     listingsArr.filter(({ status }) => status === 'active'),
@@ -840,6 +845,7 @@ export function compileToken(
     last_sale_at: lastSaleAt,
 
     sales_count: String(soldEditions),
+    sales_volume: String(salesVolume),
     royalties,
 
     eightbid_creator_name: eightbidCreatorName,

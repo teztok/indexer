@@ -48,6 +48,7 @@ export interface SaleEvent {
   opid: number;
   price: string;
   amount?: string;
+  currency?: string;
   implements: SaleEventInterface;
 }
 
@@ -297,6 +298,7 @@ export interface Token {
   last_sale_at: string | null;
 
   sales_count: string;
+  sales_volume: string;
   royalties: Record<string, string>;
 
   eightbid_creator_name: string | null;
