@@ -1,5 +1,6 @@
 import { compileToken, calcPriceDiff, calcPricePct } from './rebuild-token';
 import { AnyEvent } from '../event-producer/handlers/index';
+import { EVENT_TYPE_FX_COLLECT } from '../event-producer/handlers/fx_collect';
 
 const TEST_FA2_ADDRESS = 'KT1PHubm9HtyQEJ4BBpMTVomq6mhbfNZ9z5w';
 const TEST_TOKEN_ID = '1';
@@ -2017,7 +2018,7 @@ test('handles 8BID_8X8_COLOR_SWAP and 8BID_8X8_COLOR_BUY events, sold out case',
     },
   ];
 
-  const { listings } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
+  const { token, listings } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
 
   expect(listings).toEqual([
     {
@@ -2662,6 +2663,50 @@ test('sets the highest_offer_price property', () => {
   const { token } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
 
   expect(token.highest_offer_price).toBe('5000');
+});
+
+test('calculates sales count correctly', () => {
+  const events: Array<AnyEvent> = [
+    {
+      id: 'faa13edecca7cc1294fd1432ad0cfbe3',
+      type: 'HEN_COLLECT',
+      implements: 'SALE',
+      opid: 52568902,
+      ophash: TEST_OPHASH,
+      timestamp: '2021-05-31T08:08:46Z',
+      level: 1495010,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      buyer_address: 'tz1XGTjeqid5naxSviH3CBcfz944qHM6bNeD',
+      seller_address: 'tz1NufWtpqS3nfR8VW1xFyWq4GWqb969keeR',
+      swap_id: TEST_SWAP_ID,
+      price: TEST_PRICE,
+      amount: '1',
+    },
+    {
+      id: 'a4477dde3ea68ad1a31a631c61f24ea4',
+      type: '8BID_8X8_COLOR_BUY',
+      implements: 'SALE',
+      opid: 176191154,
+      ophash: TEST_OPHASH,
+      timestamp: '2022-02-20T15:38:00Z',
+      level: 2134313,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+
+      swap_id: TEST_SWAP_ID,
+      buyer_address: 'tz1c6Uibt7Vjr7MEFEQpohEa2f311KxZyJoZ',
+      seller_address: 'tz2QhmKtUWRyArfaqfBedvVdidgKpCcckMXV',
+      artist_address: 'tz2QhmKtUWRyArfaqfBedvVdidgKpCcckMXV',
+      price: TEST_PRICE,
+      total_price: '4000',
+      amount: '2',
+    },
+  ];
+
+  const { token } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'processed');
+
+  expect(token.sales_count).toBe('3');
 });
 
 test('calcs the correct price diffs', () => {

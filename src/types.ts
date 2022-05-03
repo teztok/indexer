@@ -47,6 +47,7 @@ export interface SaleEvent {
   timestamp: string;
   opid: number;
   price: string;
+  amount?: string;
   implements: SaleEventInterface;
 }
 

@@ -726,7 +726,7 @@ export function compileToken(
   const totalEditions = sum(Object.values(holders));
   const burnedEditions = BURN_ADDRESS in holders ? holders[BURN_ADDRESS] : 0;
   const editions = totalEditions - burnedEditions;
-  const soldEditions = sales.length;
+  const soldEditions = sales.reduce((counter, event) => counter + (event.amount ? parseInt(event.amount, 0) : 1), 0);
 
   const cheapestListing = minBy(
     listingsArr.filter(({ status }) => status === 'active'),
