@@ -1,6 +1,5 @@
 import { compileToken, calcPriceDiff, calcPricePct } from './rebuild-token';
 import { AnyEvent } from '../event-producer/handlers/index';
-import { EVENT_TYPE_FX_COLLECT } from '../event-producer/handlers/fx_collect';
 
 const TEST_FA2_ADDRESS = 'KT1PHubm9HtyQEJ4BBpMTVomq6mhbfNZ9z5w';
 const TEST_TOKEN_ID = '1';
