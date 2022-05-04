@@ -43,9 +43,7 @@ export interface MintEvent extends TokenEvent {
 
 export type SaleEventInterface = 'SALE';
 
-export interface SaleEvent {
-  timestamp: string;
-  opid: number;
+export interface SaleEvent extends Event {
   price: string;
   amount?: string;
   currency?: string;

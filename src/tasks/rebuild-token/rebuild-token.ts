@@ -726,9 +726,12 @@ export function compileToken(
   const totalEditions = sum(Object.values(holders));
   const burnedEditions = BURN_ADDRESS in holders ? holders[BURN_ADDRESS] : 0;
   const editions = totalEditions - burnedEditions;
-  const soldEditions = sales.reduce((counter, event) => counter + (event.amount ? parseInt(event.amount, 0) : 1), 0);
+  const soldEditions = sales.reduce(
+    (counter, event) => counter + (event.amount && event.type.startsWith('8BID_') ? parseInt(event.amount, 0) : 1),
+    0
+  );
   const salesVolume = sales.reduce((volume, event) => {
-    const amount = event.amount ? parseInt(event.amount, 0) : 1;
+    const amount = event.amount && event.type.startsWith('8BID_') ? parseInt(event.amount, 0) : 1;
     const price = parseInt(event.price, 10);
     return volume + (isTezLikeCurrency(event.currency) ? amount * price : 0);
   }, 0);

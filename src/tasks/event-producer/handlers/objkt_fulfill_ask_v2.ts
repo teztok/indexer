@@ -52,7 +52,7 @@ const ObjktFulfillAskV2Handler: Handler<Transaction, ObjktFulfillAskV2Event> = {
     const buyerAddress = get(transaction, 'sender.address');
     //const artistAddress = get(diff, 'content.value.artist');
     const sellerAddress = get(diff, 'content.value.creator');
-    const amount = get(diff, 'content.value.editions');
+    const amount = get(diff, 'content.value.editions'); // TODO: change in editions?
     const id = createEventId(EVENT_TYPE_OBJKT_FULFILL_ASK_V2, transaction);
 
     const event: ObjktFulfillAskV2Event = {
