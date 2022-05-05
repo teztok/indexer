@@ -5,6 +5,7 @@ export async function up(knex: Knex): Promise<void> {
     .createTable('tokens', (table) => {
       table.string('fa2_address', 36).notNullable();
       table.text('token_id').notNullable();
+      table.text('platform');
       table.string('last_processed_event_id');
       table.timestamp('last_processed_event_timestamp');
       table.bigInteger('last_processed_event_level');
@@ -55,6 +56,7 @@ export async function up(knex: Knex): Promise<void> {
       table.bigInteger('sales_volume');
       table.jsonb('royalties');
 
+      table.index('platform');
       table.index('last_processed_event_timestamp');
       table.index('last_processed_event_level');
       table.index('metadata_uri');

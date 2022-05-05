@@ -236,9 +236,13 @@ export interface VideoAsset {
 
 export type Asset = ImageAsset | VideoAsset;
 
+export type Platform = 'HEN' | 'FXHASH' | 'OBJKT' | 'VERSUM' | '8BIDOU' | null;
+
 export interface Token {
   fa2_address: string;
   token_id: string;
+
+  platform: Platform;
 
   last_processed_event_id: string | null;
   last_processed_event_timestamp: string | null;
@@ -248,7 +252,7 @@ export interface Token {
   metadata_status: string;
 
   editions: string; // burned ones excluded
-  burned_editions: string; // how many editions were burned
+  burned_editions: string;
 
   minted_at: string | null;
 

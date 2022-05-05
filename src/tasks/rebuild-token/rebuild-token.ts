@@ -13,7 +13,7 @@ import dbConfig from '../../knexfile';
 import db from '../../lib/db';
 import config from '../../lib/config';
 import { getTaskName, isTezLikeCurrency } from '../../lib/utils';
-import { Task, Metadata, Token, Holders, AnyListing, AnyOffer, SaleEvent, Asset, ObjktListingV2 } from '../../types';
+import { Task, Platform, Metadata, Token, Holders, AnyListing, AnyOffer, SaleEvent, Asset, ObjktListingV2 } from '../../types';
 import { isValidTezosAddress } from '../../lib/validators';
 import { cleanString, cleanUri, cleanAttributes, cleanTags, cleanCreators, cleanFormats } from '../../lib/schemas';
 import * as eventsDao from '../../lib/daos/events';
@@ -103,6 +103,8 @@ export function compileToken(
   const sales: Array<SaleEvent> = [];
   const royalties: Record<string, string> = {};
 
+  let platform: Platform = null;
+
   let artistAddress = null;
   let minterAddress = null;
   let metadataUri = null;
@@ -139,6 +141,7 @@ export function compileToken(
         break;
 
       case 'HEN_MINT':
+        platform = 'HEN';
         artistAddress = event.artist_address;
         royalties[artistAddress] = event.royalties;
         break;
@@ -248,6 +251,7 @@ export function compileToken(
       }
 
       case 'OBJKT_MINT_ARTIST': {
+        platform = 'OBJKT';
         artistAddress = event.artist_address;
         objktArtistCollectionId = event.collection_id;
         break;
@@ -404,6 +408,7 @@ export function compileToken(
 
       case 'FX_MINT':
       case 'FX_MINT_V2': {
+        platform = 'FXHASH';
         artistAddress = event.artist_address;
         fxIssuerId = event.issuer_id;
         fxIteration = event.iteration;
@@ -413,6 +418,7 @@ export function compileToken(
       }
 
       case 'FX_MINT_V3': {
+        platform = 'FXHASH';
         artistAddress = event.artist_address;
         fxIssuerId = event.issuer_id;
         fxIteration = event.iteration;
@@ -498,6 +504,7 @@ export function compileToken(
       }
 
       case 'VERSUM_MINT': {
+        platform = 'VERSUM';
         artistAddress = event.artist_address;
         // TODO: support split royalities
         // royalties[artistAddress] = event.royalties;
@@ -601,6 +608,7 @@ export function compileToken(
       case '8BID_8X8_COLOR_MINT':
       case '8BID_24X24_MONOCHROME_MINT':
       case '8BID_24X24_COLOR_MINT': {
+        platform = '8BIDOU';
         isOnChainToken = true;
         name = event.token_name;
         description = event.token_description;
@@ -789,6 +797,8 @@ export function compileToken(
   const token: Token = {
     fa2_address: fa2Address,
     token_id: tokenId,
+
+    platform,
 
     last_processed_event_id: lastEvent ? lastEvent.id : null,
     last_processed_event_timestamp: lastEvent ? lastEvent.timestamp : null,

@@ -136,6 +136,7 @@ test('handles HEN_MINT events', () => {
   const { token } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
 
   expect(token).toMatchObject({
+    platform: 'HEN',
     artist_address: 'tz1XUcZvBxAMMSqeMsfA4tunmEfTUcbEXQ88',
     royalties: {
       tz1XUcZvBxAMMSqeMsfA4tunmEfTUcbEXQ88: '100',
@@ -646,6 +647,7 @@ test('handles OBJKT_MINT_ARTIST events', () => {
   const { token } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
 
   expect(token).toMatchObject({
+    platform: 'OBJKT',
     artist_address: 'tz1UxW1chiPvekzf23ze4L17JY26jTUtHsMF',
     objkt_artist_collection_id: '2437',
   });
@@ -1283,6 +1285,7 @@ test('handles FX_MINT events', () => {
   const { token } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
 
   expect(token).toMatchObject({
+    platform: 'FXHASH',
     artist_address: 'tz1fepn7jZsCYBqCDhpM63hzh9g2Ytqk4Tpv',
     fx_issuer_id: '0',
     fx_iteration: '3',
@@ -1319,6 +1322,7 @@ test('handles FX_MINT_V2 events', () => {
   const { token } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
 
   expect(token).toMatchObject({
+    platform: 'FXHASH',
     artist_address: 'tz1g2ZxQbaePfmpSwPQNRVNaF5aJdVmZWZgL',
     fx_issuer_id: '5352',
     fx_iteration: '128',
@@ -1450,6 +1454,7 @@ test('handles VERSUM_MINT events', () => {
   const { token } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
 
   expect(token).toMatchObject({
+    platform: 'VERSUM',
     artist_address: 'tz1QjLDuXQrFL2kQyT7NVUXKi1E3U998CmCg',
   });
 });
@@ -1910,6 +1915,7 @@ test('handles 8BID_8X8_COLOR_MINT events', () => {
   const { token } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
 
   expect(token).toMatchObject({
+    platform: '8BIDOU',
     metadata_status: 'processed',
     name: 'Cat001',
     description: 'This is cat.',
@@ -2198,6 +2204,7 @@ test('handles 8BID_24X24_MONOCHROME_MINT events', () => {
   const { token } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
 
   expect(token).toMatchObject({
+    platform: '8BIDOU',
     metadata_status: 'processed',
     name: 'Cat001',
     description: 'This is cat.',
@@ -2524,6 +2531,7 @@ test('handles FX_MINT_V3 events', () => {
   const { token } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
 
   expect(token).toMatchObject({
+    platform: 'FXHASH',
     artist_address: 'tz1MBrwe8EgiZJ5kgVEDnL5emVM294J5RiaW',
     fx_issuer_id: '10966',
     fx_iteration: '3',
