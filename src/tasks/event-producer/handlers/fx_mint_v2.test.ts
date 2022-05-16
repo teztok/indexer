@@ -255,6 +255,12 @@ test('creates FX_MINT_V2 events', async () => {
       royalties: '200',
       price: '1200000',
       metadata_uri: 'ipfs://QmaAhB1eWrpUdahZZhtWhLpp4wzq9g4unheP9oz4HenpLQ',
+      royalty_shares: {
+        decimals: 3,
+        shares: {
+          tz1g2ZxQbaePfmpSwPQNRVNaF5aJdVmZWZgL: '200',
+        },
+      },
     },
   ]);
 });

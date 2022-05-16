@@ -2,8 +2,9 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, Describe } from 'superstruct';
 import { TezosAddress, ContractAddress, IsoDateString, MetadataUri, PositiveInteger, PgBigInt } from '../../../lib/validators';
-import { Handler, MintEvent, Transaction } from '../../../types';
-import { createEventId } from '../../../lib/utils';
+import { Handler, MintEvent, Transaction, RoyaltyShares } from '../../../types';
+import { createEventId, royaltiesToRoyaltyShares } from '../../../lib/utils';
+import { RoyaltySharesSchema } from '../../../lib/schemas';
 import { HEN_CONTRACT_MARKETPLACE, HEN_CONTRACT_FA2 } from '../../../consts';
 
 export const EVENT_TYPE_HEN_MINT = 'HEN_MINT';
@@ -12,6 +13,7 @@ export interface HenMintEvent extends MintEvent {
   type: typeof EVENT_TYPE_HEN_MINT;
   royalties: string;
   metadata_uri: string;
+  royalty_shares: RoyaltyShares;
 }
 
 const HenMintEventSchema: Describe<Omit<HenMintEvent, 'type'>> = object({
@@ -27,6 +29,7 @@ const HenMintEventSchema: Describe<Omit<HenMintEvent, 'type'>> = object({
   royalties: PgBigInt,
   editions: PgBigInt,
   metadata_uri: MetadataUri,
+  royalty_shares: RoyaltySharesSchema,
 });
 
 const HenMintHandler: Handler<Transaction, HenMintEvent> = {
@@ -49,6 +52,7 @@ const HenMintHandler: Handler<Transaction, HenMintEvent> = {
     const royalties = get(transaction, 'parameter.value.royalties');
     const editions = get(transaction, 'parameter.value.amount');
     const fa2Address = get(transaction, 'storage.objkt');
+    const artistAddress = transaction.sender.address;
     const metadataUri = Buffer.from(get(mintTransaction, 'parameter.value.token_info.'), 'hex').toString();
     const id = createEventId(EVENT_TYPE_HEN_MINT, transaction);
 
@@ -65,6 +69,7 @@ const HenMintHandler: Handler<Transaction, HenMintEvent> = {
       royalties: royalties,
       editions: editions,
       metadata_uri: metadataUri,
+      royalty_shares: royaltiesToRoyaltyShares(artistAddress, royalties, 3),
     };
 
     assert(omit(event, ['type']), HenMintEventSchema);

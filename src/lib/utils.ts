@@ -1,12 +1,22 @@
 import got from 'got';
 import { makeWorkerUtils, WorkerUtils } from 'graphile-worker';
 import uniqBy from 'lodash/uniqBy';
-import crypto from 'crypto';
 import get from 'lodash/get';
 import { metrohash128 } from 'metrohash';
 import dbConfig from '../knexfile';
 import config from './config';
-import { BigmapDiffs, BigmapDiff, BigmapDiffAction, KeysEnum, Pattern, Transaction, GetTransactionsFilters, Transactions } from '../types';
+import {
+  RoyaltyShares,
+  BigmapDiffs,
+  BigmapDiff,
+  BigmapDiffAction,
+  KeysEnum,
+  Pattern,
+  Transaction,
+  GetTransactionsFilters,
+  Transactions,
+} from '../types';
+import { RoyaltySharesSchema } from './schemas';
 import { CURRENCY_MAPPINGS } from '../consts';
 
 require('dotenv').config();
@@ -148,4 +158,30 @@ export function isTezLikeCurrency(currency: unknown) {
   }
 
   return currency === 'tez' || currency === 'otez';
+}
+
+export function splitsToRoyaltyShares(splits: Array<{ pct: string; address: string }>, totalRoyalties: string): RoyaltyShares {
+  const totalRoyaltiesInt = parseInt(totalRoyalties, 10);
+
+  const shares = splits.reduce<Record<string, string>>((memo, split) => {
+    const pct = parseInt(split.pct, 10) / 1000;
+
+    memo[split.address] = String(Math.floor(totalRoyaltiesInt * pct));
+
+    return memo;
+  }, {});
+
+  return {
+    decimals: 3,
+    shares,
+  };
+}
+
+export function royaltiesToRoyaltyShares(receiverAddress: string, totalRoyalties: string, decimals: number = 3): RoyaltyShares {
+  return {
+    decimals,
+    shares: {
+      [receiverAddress]: totalRoyalties,
+    },
+  };
 }

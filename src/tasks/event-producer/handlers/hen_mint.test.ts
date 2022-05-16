@@ -123,6 +123,12 @@ test('creates HEN_MINT events', async () => {
       artist_address: 'tz1XUcZvBxAMMSqeMsfA4tunmEfTUcbEXQ88',
       royalties: '100',
       metadata_uri: 'ipfs://QmUuZ2GYamdpPE8TUYzQkQC2jjnq7oiYVeZwdKpB4SCarG',
+      royalty_shares: {
+        decimals: 3,
+        shares: {
+          tz1XUcZvBxAMMSqeMsfA4tunmEfTUcbEXQ88: '100',
+        },
+      },
     },
   ]);
 });

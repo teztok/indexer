@@ -2,8 +2,9 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, Describe } from 'superstruct';
 import { TezosAddress, ContractAddress, IsoDateString, MetadataUri, PositiveInteger, PgBigInt } from '../../../lib/validators';
-import { Handler, MintEvent, Transaction, SaleEventInterface } from '../../../types';
-import { createEventId } from '../../../lib/utils';
+import { Handler, MintEvent, Transaction, SaleEventInterface, RoyaltyShares } from '../../../types';
+import { createEventId, royaltiesToRoyaltyShares } from '../../../lib/utils';
+import { RoyaltySharesSchema } from '../../../lib/schemas';
 import { FX_CONTRACT_MINT, FX_CONTRACT_FA2, SALE_INTERFACE } from '../../../consts';
 
 export const EVENT_TYPE_FX_MINT = 'FX_MINT';
@@ -18,6 +19,7 @@ export interface FxMintEvent extends MintEvent {
   price: string;
   seller_address: string;
   buyer_address: string;
+  royalty_shares: RoyaltyShares;
 }
 
 const FxMintEventSchema: Describe<Omit<FxMintEvent, 'type' | 'implements'>> = object({
@@ -37,6 +39,7 @@ const FxMintEventSchema: Describe<Omit<FxMintEvent, 'type' | 'implements'>> = ob
   iteration: PgBigInt,
   metadata_uri: MetadataUri,
   price: PgBigInt,
+  royalty_shares: RoyaltySharesSchema,
 });
 
 const FxMintIssuerHandler: Handler<Transaction, FxMintEvent> = {
@@ -87,6 +90,7 @@ const FxMintIssuerHandler: Handler<Transaction, FxMintEvent> = {
       iteration,
       metadata_uri: metadataUri,
       price,
+      royalty_shares: royaltiesToRoyaltyShares(artistAddress, royalties, 3),
     };
 
     assert(omit(event, ['type', 'implements']), FxMintEventSchema);

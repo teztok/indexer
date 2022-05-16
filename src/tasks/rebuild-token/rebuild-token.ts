@@ -9,13 +9,26 @@ import chunk from 'lodash/chunk';
 import isString from 'lodash/isString';
 import findLast from 'lodash/findLast';
 import snakeCase from 'lodash/snakeCase';
+import { is } from 'superstruct';
 import dbConfig from '../../knexfile';
 import db from '../../lib/db';
 import config from '../../lib/config';
 import { getTaskName, isTezLikeCurrency } from '../../lib/utils';
-import { Task, Platform, Metadata, Token, Holders, AnyListing, AnyOffer, SaleEvent, Asset, ObjktListingV2 } from '../../types';
+import {
+  Task,
+  Platform,
+  Metadata,
+  Token,
+  Holders,
+  AnyListing,
+  AnyOffer,
+  SaleEvent,
+  Asset,
+  ObjktListingV2,
+  RoyaltyShares,
+} from '../../types';
 import { isValidTezosAddress } from '../../lib/validators';
-import { cleanString, cleanUri, cleanAttributes, cleanTags, cleanCreators, cleanFormats } from '../../lib/schemas';
+import { cleanString, cleanUri, cleanAttributes, cleanTags, cleanCreators, cleanFormats, RoyaltySharesSchema } from '../../lib/schemas';
 import * as eventsDao from '../../lib/daos/events';
 import * as metadataDao from '../../lib/daos/metadata';
 import * as assetsDao from '../../lib/daos/assets';
@@ -89,6 +102,18 @@ export function calcPricePct(currentPrice: string | null, otherPrice: string | n
   return String(Math.floor((currentPriceNum / otherPriceNum - 1) * 100));
 }
 
+function royaltySharesToRoyaltyReceivers(royaltyShares: RoyaltyShares): Array<{ receiver_address: string; royalties: string }> {
+  return Object.entries(royaltyShares.shares).map(([receiverAddress, receiverRoyalties]) => {
+    const royaltiesStr = isString(receiverRoyalties) ? receiverRoyalties : String(receiverRoyalties);
+    const royaltiesStrNormalized = royaltiesStr.length <= 6 ? royaltiesStr.padEnd(6, '0') : royaltiesStr.substring(0, 6);
+
+    return {
+      receiver_address: receiverAddress,
+      royalties: royaltiesStrNormalized,
+    };
+  });
+}
+
 export function compileToken(
   fa2Address: string,
   tokenId: string,
@@ -120,6 +145,12 @@ export function compileToken(
   let fxIssuerId = null;
   let fxIteration = null;
 
+  let royaltyReceivers = null;
+
+  if (metadata && metadata.royalties && is(metadata.royalties, RoyaltySharesSchema)) {
+    royaltyReceivers = royaltySharesToRoyaltyReceivers(metadata.royalties);
+  }
+
   for (const event of events) {
     if ('implements' in event && event.implements === SALE_INTERFACE) {
       sales.push(event as SaleEvent);
@@ -144,6 +175,11 @@ export function compileToken(
         platform = 'HEN';
         artistAddress = event.artist_address;
         royalties[artistAddress] = event.royalties;
+
+        if (!royaltyReceivers && event.royalty_shares) {
+          royaltyReceivers = royaltySharesToRoyaltyReceivers(event.royalty_shares);
+        }
+
         break;
 
       case 'HEN_SWAP_V2': {
@@ -414,6 +450,10 @@ export function compileToken(
         fxIteration = event.iteration;
         royalties[artistAddress] = event.royalties;
 
+        if (!royaltyReceivers && event.royalty_shares) {
+          royaltyReceivers = royaltySharesToRoyaltyReceivers(event.royalty_shares);
+        }
+
         break;
       }
 
@@ -423,8 +463,9 @@ export function compileToken(
         fxIssuerId = event.issuer_id;
         fxIteration = event.iteration;
 
-        // TODO: support split royalities
-        // royalties[artistAddress] = event.royalties;
+        if (!royaltyReceivers && event.royalty_shares) {
+          royaltyReceivers = royaltySharesToRoyaltyReceivers(event.royalty_shares);
+        }
 
         break;
       }
@@ -506,8 +547,11 @@ export function compileToken(
       case 'VERSUM_MINT': {
         platform = 'VERSUM';
         artistAddress = event.artist_address;
-        // TODO: support split royalities
-        // royalties[artistAddress] = event.royalties;
+
+        if (!royaltyReceivers && event.royalty_shares) {
+          royaltyReceivers = royaltySharesToRoyaltyReceivers(event.royalty_shares);
+        }
+
         break;
       }
 
@@ -615,6 +659,11 @@ export function compileToken(
         eightbidCreatorName = event.creator_name;
         eightbidRgb = event.rgb;
         artistAddress = event.artist_address;
+
+        if (!royaltyReceivers && event.royalty_shares) {
+          royaltyReceivers = royaltySharesToRoyaltyReceivers(event.royalty_shares);
+        }
+
         break;
       }
 
@@ -794,6 +843,12 @@ export function compileToken(
 
   const attributesArr = cleanAttributes(get(metadata, 'attributes'));
 
+  let royaltiesTotal = null;
+
+  if (royaltyReceivers) {
+    royaltiesTotal = String(sum(royaltyReceivers.map(({ royalties }) => parseInt(royalties, 10))));
+  }
+
   const token: Token = {
     fa2_address: fa2Address,
     token_id: tokenId,
@@ -859,7 +914,8 @@ export function compileToken(
 
     sales_count: String(soldEditions),
     sales_volume: String(salesVolume),
-    royalties,
+    royalties, // deprecated
+    royalties_total: royaltiesTotal,
 
     eightbid_creator_name: eightbidCreatorName,
     eightbid_rgb: eightbidRgb,
@@ -876,6 +932,7 @@ export function compileToken(
     offers: offersArr,
     holders: holders,
     tags: tags,
+    royaltyReceivers,
   };
 }
 
@@ -894,7 +951,7 @@ export async function rebuildToken(payload: RebuildTokenTaskPayload) {
   const status = metadataRow ? metadataRow.status : 'unprocessed';
   const assets = metadata && metadata.artifactUri ? await assetsDao.getByField('artifact_uri', metadata.artifactUri) : undefined;
 
-  const { token, listings, holders, tags, offers } = compileToken(fa2Address, tokenId, events, status, metadata, assets);
+  const { token, listings, holders, tags, offers, royaltyReceivers } = compileToken(fa2Address, tokenId, events, status, metadata, assets);
 
   await db.transaction(async (trx) => {
     await trx.raw('SET CONSTRAINTS ALL DEFERRED;');
@@ -903,6 +960,11 @@ export async function rebuildToken(payload: RebuildTokenTaskPayload) {
     await trx('listings').where('fa2_address', '=', token.fa2_address).andWhere('token_id', '=', token.token_id).del().transacting(trx);
     await trx('offers').where('fa2_address', '=', token.fa2_address).andWhere('token_id', '=', token.token_id).del().transacting(trx);
     await trx('holdings').where('fa2_address', '=', token.fa2_address).andWhere('token_id', '=', token.token_id).del().transacting(trx);
+    await trx('royalty_receivers')
+      .where('fa2_address', '=', token.fa2_address)
+      .andWhere('token_id', '=', token.token_id)
+      .del()
+      .transacting(trx);
     // await trx('tokens').where('fa2_address', '=', token.fa2_address).andWhere('token_id', '=', token.token_id).del().transacting(trx);
 
     const tokenRow = ['formats', 'assets', 'creators', 'contributors', 'attributes', 'royalties'].reduce<Record<string, any>>(
@@ -927,6 +989,18 @@ export async function rebuildToken(payload: RebuildTokenTaskPayload) {
     if (tagRows && tagRows.length) {
       for (const rows of chunk(tagRows, 100)) {
         await trx('tags').insert(rows).transacting(trx);
+      }
+    }
+
+    const royaltyReceiverRows = (royaltyReceivers || []).map((royaltyReceiver) => ({
+      token_id: token.token_id,
+      fa2_address: token.fa2_address,
+      ...royaltyReceiver,
+    }));
+
+    if (royaltyReceiverRows && royaltyReceiverRows.length) {
+      for (const rows of chunk(royaltyReceiverRows, 100)) {
+        await trx('royalty_receivers').insert(rows).transacting(trx);
       }
     }
 

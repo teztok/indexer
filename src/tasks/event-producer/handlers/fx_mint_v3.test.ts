@@ -356,6 +356,12 @@ test('creates FX_MINT_V3 events', async () => {
       royalties: '130',
       price: '250000',
       metadata_uri: 'ipfs://QmZZVBKapDg2wXzwpDxdmL9Ah665h9ZzeJ9gYdbTZ4GBzf',
+      royalty_shares: {
+        decimals: 3,
+        shares: {
+          tz1MBrwe8EgiZJ5kgVEDnL5emVM294J5RiaW: '130',
+        },
+      },
     },
   ]);
 });

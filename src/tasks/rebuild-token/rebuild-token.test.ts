@@ -18,6 +18,7 @@ test('sets the basic information of the token', () => {
     last_processed_event_id: null,
     last_processed_event_timestamp: null,
     last_processed_event_level: null,
+    royalties_total: null,
   });
 });
 
@@ -130,10 +131,16 @@ test('handles HEN_MINT events', () => {
       artist_address: 'tz1XUcZvBxAMMSqeMsfA4tunmEfTUcbEXQ88',
       royalties: '100',
       metadata_uri: 'ipfs://QmUuZ2GYamdpPE8TUYzQkQC2jjnq7oiYVeZwdKpB4SCarG',
+      royalty_shares: {
+        decimals: 3,
+        shares: {
+          tz1XUcZvBxAMMSqeMsfA4tunmEfTUcbEXQ88: '100',
+        },
+      },
     },
   ];
 
-  const { token } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
+  const { token, royaltyReceivers } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
 
   expect(token).toMatchObject({
     platform: 'HEN',
@@ -142,6 +149,8 @@ test('handles HEN_MINT events', () => {
       tz1XUcZvBxAMMSqeMsfA4tunmEfTUcbEXQ88: '100',
     },
   });
+
+  expect(royaltyReceivers).toStrictEqual([{ receiver_address: 'tz1XUcZvBxAMMSqeMsfA4tunmEfTUcbEXQ88', royalties: '100000' }]);
 });
 
 test('handles HEN_SWAP_V2 and HEN_COLLECT_V2 events', () => {
@@ -159,6 +168,12 @@ test('handles HEN_SWAP_V2 and HEN_COLLECT_V2 events', () => {
       artist_address: 'tz1c8riGC9WHnrncStfM5jwKyhUwwRfb31hQ',
       royalties: '150',
       metadata_uri: 'ipfs://QmUuZ2GYamdpPE8TUYzQkQC2jjnq7oiYVeZwdKpB4SCarG',
+      royalty_shares: {
+        decimals: 3,
+        shares: {
+          tz1c8riGC9WHnrncStfM5jwKyhUwwRfb31hQ: '150',
+        },
+      },
     },
     {
       id: 'e209b0de7efae600d9f9ef8d227b60e6',
@@ -279,6 +294,12 @@ test('removes fraudulent HEN_SWAP_V2 listings where the artist_address does not 
       artist_address: 'tz1c8riGC9WHnrncStfM5jwKyhUwwRfb31hQ',
       royalties: '150',
       metadata_uri: 'ipfs://QmUuZ2GYamdpPE8TUYzQkQC2jjnq7oiYVeZwdKpB4SCarG',
+      royalty_shares: {
+        decimals: 3,
+        shares: {
+          tz1c8riGC9WHnrncStfM5jwKyhUwwRfb31hQ: '150',
+        },
+      },
     },
     {
       id: 'e209b0de7efae600d9f9ef8d227b60e6',
@@ -318,6 +339,12 @@ test('removes fraudulent HEN_SWAP_V2 listings where royalties do not match', () 
       artist_address: 'tz1c8riGC9WHnrncStfM5jwKyhUwwRfb31hQ',
       royalties: '150',
       metadata_uri: 'ipfs://QmUuZ2GYamdpPE8TUYzQkQC2jjnq7oiYVeZwdKpB4SCarG',
+      royalty_shares: {
+        decimals: 3,
+        shares: {
+          tz1c8riGC9WHnrncStfM5jwKyhUwwRfb31hQ: '150',
+        },
+      },
     },
     {
       id: 'e209b0de7efae600d9f9ef8d227b60e6',
@@ -513,6 +540,12 @@ test('removes fraudulent TEIA_SWAP listings where the artist_address does not ma
       artist_address: 'tz1c8riGC9WHnrncStfM5jwKyhUwwRfb31hQ',
       royalties: '150',
       metadata_uri: 'ipfs://QmUuZ2GYamdpPE8TUYzQkQC2jjnq7oiYVeZwdKpB4SCarG',
+      royalty_shares: {
+        decimals: 3,
+        shares: {
+          tz1c8riGC9WHnrncStfM5jwKyhUwwRfb31hQ: '150',
+        },
+      },
     },
     {
       id: '234f1106ea02a634ecc8332e844ff4e4',
@@ -552,6 +585,12 @@ test('removes fraudulent TEIA_SWAP listings where royalties do not match', () =>
       artist_address: 'tz1c8riGC9WHnrncStfM5jwKyhUwwRfb31hQ',
       royalties: '150',
       metadata_uri: 'ipfs://QmUuZ2GYamdpPE8TUYzQkQC2jjnq7oiYVeZwdKpB4SCarG',
+      royalty_shares: {
+        decimals: 3,
+        shares: {
+          tz1c8riGC9WHnrncStfM5jwKyhUwwRfb31hQ: '150',
+        },
+      },
     },
     {
       id: '234f1106ea02a634ecc8332e844ff4e4',
@@ -1279,10 +1318,16 @@ test('handles FX_MINT events', () => {
       royalties: '100',
       price: TEST_PRICE,
       metadata_uri: 'ipfs://QmaAhB1eWrpUdahZZhtWhLpp4wzq9g4unheP9oz4HenpLQ',
+      royalty_shares: {
+        decimals: 3,
+        shares: {
+          tz1fepn7jZsCYBqCDhpM63hzh9g2Ytqk4Tpv: '100',
+        },
+      },
     },
   ];
 
-  const { token } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
+  const { token, royaltyReceivers } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
 
   expect(token).toMatchObject({
     platform: 'FXHASH',
@@ -1293,6 +1338,8 @@ test('handles FX_MINT events', () => {
       tz1fepn7jZsCYBqCDhpM63hzh9g2Ytqk4Tpv: '100',
     },
   });
+
+  expect(royaltyReceivers).toStrictEqual([{ receiver_address: 'tz1fepn7jZsCYBqCDhpM63hzh9g2Ytqk4Tpv', royalties: '100000' }]);
 });
 
 test('handles FX_MINT_V2 events', () => {
@@ -1316,10 +1363,16 @@ test('handles FX_MINT_V2 events', () => {
       royalties: '200',
       price: TEST_PRICE,
       metadata_uri: 'ipfs://QmaAhB1eWrpUdahZZhtWhLpp4wzq9g4unheP9oz4HenpLQ',
+      royalty_shares: {
+        decimals: 3,
+        shares: {
+          tz1g2ZxQbaePfmpSwPQNRVNaF5aJdVmZWZgL: '200',
+        },
+      },
     },
   ];
 
-  const { token } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
+  const { token, royaltyReceivers } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
 
   expect(token).toMatchObject({
     platform: 'FXHASH',
@@ -1330,6 +1383,8 @@ test('handles FX_MINT_V2 events', () => {
       tz1g2ZxQbaePfmpSwPQNRVNaF5aJdVmZWZgL: '200',
     },
   });
+
+  expect(royaltyReceivers).toStrictEqual([{ receiver_address: 'tz1g2ZxQbaePfmpSwPQNRVNaF5aJdVmZWZgL', royalties: '200000' }]);
 });
 
 test('handles FX_OFFER and FX_COLLECT events', () => {
@@ -1448,15 +1503,23 @@ test('handles VERSUM_MINT events', () => {
       artist_address: 'tz1QjLDuXQrFL2kQyT7NVUXKi1E3U998CmCg',
       royalties: '200',
       metadata_uri: 'ipfs://QmTf4ojdFM53o4x62Yc3jjfitHxJ1S7yrttpTctmwZKYrh',
+      royalty_shares: {
+        decimals: 3,
+        shares: {
+          tz1QjLDuXQrFL2kQyT7NVUXKi1E3U998CmCg: '200',
+        },
+      },
     },
   ];
 
-  const { token } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
+  const { token, royaltyReceivers } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
 
   expect(token).toMatchObject({
     platform: 'VERSUM',
     artist_address: 'tz1QjLDuXQrFL2kQyT7NVUXKi1E3U998CmCg',
   });
+
+  expect(royaltyReceivers).toStrictEqual([{ receiver_address: 'tz1QjLDuXQrFL2kQyT7NVUXKi1E3U998CmCg', royalties: '200000' }]);
 });
 
 test('handles VERSUM_SWAP and VERSUM_COLLECT_SWAP events', () => {
@@ -1752,9 +1815,17 @@ test('sets the token metadata correctly', () => {
       { name: 'foo', val: 'foo val' },
       { name: 'bar', val: 'bar val' },
     ],
+    royalties: {
+      decimals: 4,
+      shares: {
+        tz1Q1UgXfAv2sWNCapibCakdBjB68hk6QuoV: '1000',
+        tz1gdno6FuKgE5WC1VKnqxb8qQQEuYrbKCub: 2000,
+        tz1Q71RJHgo7gvLtcXwMdsG7B4EccY9SmJiS: '500000000000000000',
+      },
+    },
   };
 
-  const { token, tags } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, [], 'processed', metadata as any);
+  const { token, tags, royaltyReceivers } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, [], 'processed', metadata as any);
 
   expect(token).toMatchObject({
     metadata_status: 'processed',
@@ -1769,6 +1840,7 @@ test('sets the token metadata correctly', () => {
     right_uri: 'ipfs://eee',
     creators: ['aaa'],
     contributors: ['bbb'],
+    royalties_total: '800000',
     attributes: [
       {
         name: 'foo',
@@ -1782,6 +1854,12 @@ test('sets the token metadata correctly', () => {
   });
 
   expect(tags).toEqual(['aaaa', 'bbbb']);
+
+  expect(royaltyReceivers).toStrictEqual([
+    { receiver_address: 'tz1Q1UgXfAv2sWNCapibCakdBjB68hk6QuoV', royalties: '100000' },
+    { receiver_address: 'tz1gdno6FuKgE5WC1VKnqxb8qQQEuYrbKCub', royalties: '200000' },
+    { receiver_address: 'tz1Q71RJHgo7gvLtcXwMdsG7B4EccY9SmJiS', royalties: '500000' },
+  ]);
 });
 
 test('calculates price related properties correctly', () => {
@@ -1909,10 +1987,16 @@ test('handles 8BID_8X8_COLOR_MINT events', () => {
       token_description: 'This is cat.',
       metadata_uri: 'http://localhost:9999/',
       rgb: '639bff639bff639bff639bff639bff639bff639bff639bff639bff222034639bff222034639bff639bff639bff639bff639bff222034222034222034639bff639bff639bff639bff639bff222034222034222034639bff639bff222034639bff639bff639bff222034222034222034222034639bff639bff639bff639bff222034222034222034222034639bff639bff639bff639bff222034639bff639bff222034639bff639bff639bff639bff639bff639bff639bff639bff639bff639bff',
+      royalty_shares: {
+        decimals: 3,
+        shares: {
+          tz1c6Uibt7Vjr7MEFEQpohEa2f311KxZyJoZ: '100',
+        },
+      },
     },
   ];
 
-  const { token } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
+  const { token, royaltyReceivers } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
 
   expect(token).toMatchObject({
     platform: '8BIDOU',
@@ -1924,6 +2008,8 @@ test('handles 8BID_8X8_COLOR_MINT events', () => {
     eightbid_creator_name: 'Hrtk',
     artist_address: 'tz1c6Uibt7Vjr7MEFEQpohEa2f311KxZyJoZ',
   });
+
+  expect(royaltyReceivers).toStrictEqual([{ receiver_address: 'tz1c6Uibt7Vjr7MEFEQpohEa2f311KxZyJoZ', royalties: '100000' }]);
 });
 
 test('handles 8BID_8X8_COLOR_SWAP and 8BID_8X8_COLOR_BUY events', () => {
@@ -2059,6 +2145,12 @@ test('filters out 8BID_8X8_COLOR_SWAP listings with incorrect royalties set', ()
       token_description: 'This is cat.',
       metadata_uri: 'http://localhost:9999/',
       rgb: '639bff639bff639bff639bff639bff639bff639bff639bff639bff222034639bff222034639bff639bff639bff639bff639bff222034222034222034639bff639bff639bff639bff639bff222034222034222034639bff639bff222034639bff639bff639bff222034222034222034222034639bff639bff639bff639bff222034222034222034222034639bff639bff639bff639bff222034639bff639bff222034639bff639bff639bff639bff639bff639bff639bff639bff639bff639bff',
+      royalty_shares: {
+        decimals: 3,
+        shares: {
+          tz2QhmKtUWRyArfaqfBedvVdidgKpCcckMXV: '100',
+        },
+      },
     },
     {
       id: '9c088c24ac09615570079afb80975a3b',
@@ -2103,6 +2195,12 @@ test('filters out 8BID_8X8_COLOR_SWAP listings with incorrect artist_address set
       token_description: 'This is cat.',
       metadata_uri: 'http://localhost:9999/',
       rgb: '639bff639bff639bff639bff639bff639bff639bff639bff639bff222034639bff222034639bff639bff639bff639bff639bff222034222034222034639bff639bff639bff639bff639bff222034222034222034639bff639bff222034639bff639bff639bff222034222034222034222034639bff639bff639bff639bff222034222034222034222034639bff639bff639bff639bff222034639bff639bff222034639bff639bff639bff639bff639bff639bff639bff639bff639bff639bff',
+      royalty_shares: {
+        decimals: 3,
+        shares: {
+          tz2QhmKtUWRyArfaqfBedvVdidgKpCcckMXV: '100',
+        },
+      },
     },
     {
       id: '9c088c24ac09615570079afb80975a3b',
@@ -2198,10 +2296,16 @@ test('handles 8BID_24X24_MONOCHROME_MINT events', () => {
       token_description: 'This is cat.',
       metadata_uri: 'http://localhost:9999/',
       rgb: '639bff639bff639bff639bff639bff639bff639bff639bff639bff222034639bff222034639bff639bff639bff639bff639bff222034222034222034639bff639bff639bff639bff639bff222034222034222034639bff639bff222034639bff639bff639bff222034222034222034222034639bff639bff639bff639bff222034222034222034222034639bff639bff639bff639bff222034639bff639bff222034639bff639bff639bff639bff639bff639bff639bff639bff639bff639bff',
+      royalty_shares: {
+        decimals: 3,
+        shares: {
+          tz1c6Uibt7Vjr7MEFEQpohEa2f311KxZyJoZ: '100',
+        },
+      },
     },
   ];
 
-  const { token } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
+  const { token, royaltyReceivers } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
 
   expect(token).toMatchObject({
     platform: '8BIDOU',
@@ -2213,6 +2317,8 @@ test('handles 8BID_24X24_MONOCHROME_MINT events', () => {
     eightbid_creator_name: 'Hrtk',
     artist_address: 'tz1c6Uibt7Vjr7MEFEQpohEa2f311KxZyJoZ',
   });
+
+  expect(royaltyReceivers).toStrictEqual([{ receiver_address: 'tz1c6Uibt7Vjr7MEFEQpohEa2f311KxZyJoZ', royalties: '100000' }]);
 });
 
 test('handles 8BID_24X24_MONOCHROME_SWAP and 8BID_24X24_MONOCHROME_BUY events', () => {
@@ -2444,6 +2550,12 @@ test('filters out 8BID_24X24_MONOCHROME_SWAP listings with incorrect artist_addr
       token_description: 'This is cat.',
       metadata_uri: 'http://localhost:9999/',
       rgb: '639bff639bff639bff639bff639bff639bff639bff639bff639bff222034639bff222034639bff639bff639bff639bff639bff222034222034222034639bff639bff639bff639bff639bff222034222034222034639bff639bff222034639bff639bff639bff222034222034222034222034639bff639bff639bff639bff222034222034222034222034639bff639bff639bff639bff222034639bff639bff222034639bff639bff639bff639bff639bff639bff639bff639bff639bff639bff',
+      royalty_shares: {
+        decimals: 6,
+        shares: {
+          tz2QhmKtUWRyArfaqfBedvVdidgKpCcckMXV: '166666',
+        },
+      },
     },
     {
       id: '9c088c24ac09615570079afb80975a3b',
@@ -2488,10 +2600,16 @@ test('handles 8BID_24X24_COLOR_MINT events', () => {
       token_description: 'This is cat.',
       metadata_uri: 'http://localhost:9999/',
       rgb: '639bff639bff639bff639bff639bff639bff639bff639bff639bff222034639bff222034639bff639bff639bff639bff639bff222034222034222034639bff639bff639bff639bff639bff222034222034222034639bff639bff222034639bff639bff639bff222034222034222034222034639bff639bff639bff639bff222034222034222034222034639bff639bff639bff639bff222034639bff639bff222034639bff639bff639bff639bff639bff639bff639bff639bff639bff639bff',
+      royalty_shares: {
+        decimals: 6,
+        shares: {
+          tz1c6Uibt7Vjr7MEFEQpohEa2f311KxZyJoZ: '166666',
+        },
+      },
     },
   ];
 
-  const { token } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
+  const { token, royaltyReceivers } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
 
   expect(token).toMatchObject({
     metadata_status: 'processed',
@@ -2502,6 +2620,8 @@ test('handles 8BID_24X24_COLOR_MINT events', () => {
     eightbid_creator_name: 'Hrtk',
     artist_address: 'tz1c6Uibt7Vjr7MEFEQpohEa2f311KxZyJoZ',
   });
+
+  expect(royaltyReceivers).toStrictEqual([{ receiver_address: 'tz1c6Uibt7Vjr7MEFEQpohEa2f311KxZyJoZ', royalties: '166666' }]);
 });
 
 test('handles FX_MINT_V3 events', () => {
@@ -2525,10 +2645,16 @@ test('handles FX_MINT_V3 events', () => {
       royalties: '130',
       price: TEST_PRICE,
       metadata_uri: 'ipfs://QmZZVBKapDg2wXzwpDxdmL9Ah665h9ZzeJ9gYdbTZ4GBzf',
+      royalty_shares: {
+        decimals: 6,
+        shares: {
+          tz1MBrwe8EgiZJ5kgVEDnL5emVM294J5RiaW: '166666',
+        },
+      },
     },
   ];
 
-  const { token } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
+  const { token, royaltyReceivers } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
 
   expect(token).toMatchObject({
     platform: 'FXHASH',
@@ -2536,6 +2662,8 @@ test('handles FX_MINT_V3 events', () => {
     fx_issuer_id: '10966',
     fx_iteration: '3',
   });
+
+  expect(royaltyReceivers).toStrictEqual([{ receiver_address: 'tz1MBrwe8EgiZJ5kgVEDnL5emVM294J5RiaW', royalties: '166666' }]);
 });
 
 test('handles FX_LISTING and FX_LISTING_ACCEPT events', () => {

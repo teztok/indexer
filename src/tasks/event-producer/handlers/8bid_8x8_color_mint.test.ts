@@ -245,6 +245,12 @@ test('creates 8BID_8X8_COLOR_MINT events', async () => {
       token_description: 'This is cat.',
       metadata_uri: 'http://localhost:9999/',
       rgb: '639bff639bff639bff639bff639bff639bff639bff639bff639bff222034639bff222034639bff639bff639bff639bff639bff222034222034222034639bff639bff639bff639bff639bff222034222034222034639bff639bff222034639bff639bff639bff222034222034222034222034639bff639bff639bff639bff222034222034222034222034639bff639bff639bff639bff222034639bff639bff222034639bff639bff639bff639bff639bff639bff639bff639bff639bff639bff',
+      royalty_shares: {
+        decimals: 3,
+        shares: {
+          tz1c6Uibt7Vjr7MEFEQpohEa2f311KxZyJoZ: '100',
+        },
+      },
     },
     {
       id: 'e92dc9d3d9b3977a19a3f365012fdc06',
@@ -261,6 +267,12 @@ test('creates 8BID_8X8_COLOR_MINT events', async () => {
       creator_name: 'Hrtk',
       token_description: 'This is cat.',
       rgb: '639bff639bff639bff639bff639bff639bff639bff639bff639bff222034639bff222034639bff639bff639bff639bff639bff222034222034222034639bff639bff639bff639bff639bff222034222034222034639bff639bff222034639bff639bff639bff222034222034222034222034639bff639bff639bff639bff222034222034222034222034639bff639bff639bff639bff222034639bff639bff222034639bff639bff639bff639bff639bff639bff639bff639bff639bff639bff',
+      royalty_shares: {
+        decimals: 3,
+        shares: {
+          tz1c6Uibt7Vjr7MEFEQpohEa2f311KxZyJoZ: '100',
+        },
+      },
     },
   ]);
 });

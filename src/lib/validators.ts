@@ -1,4 +1,4 @@
-import { number, refine, define } from 'superstruct';
+import { number, string, refine, define } from 'superstruct';
 import isString from 'lodash/isString';
 import { validateAddress, ValidationResult } from '@taquito/utils';
 import { SALE_INTERFACE } from '../consts';
@@ -73,3 +73,17 @@ export const MetadataUri = define<string>('MetadataUri', (value) => {
 });
 
 export const PositiveInteger = refine(number(), 'PositiveInteger', (value) => value >= 0 && Number.isInteger(value));
+
+export const Royalty = define<string>('Royalty', (value) => {
+  try {
+    const intValue = parseInt(value as string, 10);
+
+    if (!Number.isInteger(intValue)) {
+      return false;
+    }
+
+    return intValue >= 0;
+  } catch (err) {
+    return false;
+  }
+});

@@ -1,5 +1,4 @@
 import get from 'lodash/get';
-import isString from 'lodash/isString';
 import omit from 'lodash/omit';
 import isPlainObject from 'lodash/isPlainObject';
 import { assert, object, Describe, string, is, boolean } from 'superstruct';

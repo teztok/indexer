@@ -55,6 +55,7 @@ export async function up(knex: Knex): Promise<void> {
       table.bigInteger('sales_count');
       table.bigInteger('sales_volume');
       table.jsonb('royalties');
+      table.bigInteger('royalties_total');
 
       table.index('platform');
       table.index('last_processed_event_timestamp');
@@ -85,6 +86,16 @@ export async function up(knex: Knex): Promise<void> {
       table.index('tag');
       table.foreign(['fa2_address', 'token_id']).references(['fa2_address', 'token_id']).inTable('tokens').onDelete('CASCADE');
       table.primary(['fa2_address', 'token_id', 'tag']);
+    })
+    .createTable('royalty_receivers', (table) => {
+      table.string('fa2_address', 36).notNullable();
+      table.text('token_id').notNullable();
+      table.string('receiver_address', 36).notNullable();
+      table.bigInteger('royalties').notNullable();
+
+      table.index('receiver_address');
+      table.foreign(['fa2_address', 'token_id']).references(['fa2_address', 'token_id']).inTable('tokens').onDelete('CASCADE');
+      table.primary(['fa2_address', 'token_id', 'receiver_address']);
     })
     .createTable('listings', (table) => {
       table.string('fa2_address', 36).notNullable();
@@ -150,6 +161,7 @@ export async function up(knex: Knex): Promise<void> {
       table.bigInteger('price');
       table.bigInteger('total_price');
       table.bigInteger('royalties');
+      table.jsonb('royalty_shares');
       table.bigInteger('editions');
       table.text('metadata_uri');
       table.text('token_name');

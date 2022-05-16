@@ -2,8 +2,9 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, Describe } from 'superstruct';
 import { TezosAddress, ContractAddress, IsoDateString, MetadataUri, PositiveInteger, PgBigInt } from '../../../lib/validators';
-import { Handler, MintEvent, Transaction, SaleEventInterface } from '../../../types';
-import { createEventId, findDiff } from '../../../lib/utils';
+import { Handler, MintEvent, Transaction, SaleEventInterface, RoyaltyShares } from '../../../types';
+import { RoyaltySharesSchema } from '../../../lib/schemas';
+import { createEventId, findDiff, splitsToRoyaltyShares } from '../../../lib/utils';
 import { FX_CONTRACT_MINT_V3, FX_CONTRACT_FA2_V3, SALE_INTERFACE } from '../../../consts';
 
 export const EVENT_TYPE_FX_MINT_V3 = 'FX_MINT_V3';
@@ -18,6 +19,7 @@ export interface FxMintV3Event extends MintEvent {
   price: string;
   seller_address: string;
   buyer_address: string;
+  royalty_shares: RoyaltyShares;
 }
 
 const FxMintV3EventSchema: Describe<Omit<FxMintV3Event, 'type' | 'implements'>> = object({
@@ -37,6 +39,7 @@ const FxMintV3EventSchema: Describe<Omit<FxMintV3Event, 'type' | 'implements'>> 
   iteration: PgBigInt,
   metadata_uri: MetadataUri,
   price: PgBigInt,
+  royalty_shares: RoyaltySharesSchema,
 });
 
 const FxMintIssuerHandler: Handler<Transaction, FxMintV3Event> = {
@@ -62,6 +65,7 @@ const FxMintIssuerHandler: Handler<Transaction, FxMintV3Event> = {
     const issuerId = get(fa2MintTransaction, 'parameter.value.issuer_id');
     const iteration = get(fa2MintTransaction, 'parameter.value.iteration');
     const royalties = get(fa2MintTransaction, 'parameter.value.royalties');
+    const splits = get(fa2MintTransaction, 'parameter.value.royalties_split');
     const diff = findDiff(transaction.diffs!, 149776, 'ledger', ['update_key'], issuerId);
     const artistAddress = get(diff, 'content.value.author');
     const editions = '1';
@@ -89,6 +93,7 @@ const FxMintIssuerHandler: Handler<Transaction, FxMintV3Event> = {
       iteration,
       metadata_uri: metadataUri,
       price,
+      royalty_shares: splitsToRoyaltyShares(splits, royalties),
     };
 
     assert(omit(event, ['type', 'implements']), FxMintV3EventSchema);

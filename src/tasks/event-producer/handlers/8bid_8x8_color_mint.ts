@@ -2,8 +2,9 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, optional, Describe } from 'superstruct';
 import { TezosAddress, ContractAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
-import { Handler, MintEvent, Transaction } from '../../../types';
-import { createEventId } from '../../../lib/utils';
+import { Handler, MintEvent, Transaction, RoyaltyShares } from '../../../types';
+import { createEventId, royaltiesToRoyaltyShares } from '../../../lib/utils';
+import { RoyaltySharesSchema } from '../../../lib/schemas';
 import { EIGHTBIDOU_8X8_COLOR_CONTRACT_FA2 } from '../../../consts';
 
 export const EVENT_TYPE_8BID_8X8_COLOR_MINT = '8BID_8X8_COLOR_MINT';
@@ -17,6 +18,7 @@ export interface EightbidMint8x8ColorEvent extends MintEvent {
   token_description: string;
   metadata_uri?: string;
   rgb: string;
+  royalty_shares: RoyaltyShares;
 }
 
 const EightbidMint8x8ColorEventSchema: Describe<Omit<EightbidMint8x8ColorEvent, 'type'>> = object({
@@ -35,6 +37,7 @@ const EightbidMint8x8ColorEventSchema: Describe<Omit<EightbidMint8x8ColorEvent, 
   token_description: string(),
   metadata_uri: optional(string()),
   rgb: string(),
+  royalty_shares: RoyaltySharesSchema,
 });
 
 const EightbidMint8x8ColorHandler: Handler<Transaction, EightbidMint8x8ColorEvent> = {
@@ -74,6 +77,7 @@ const EightbidMint8x8ColorHandler: Handler<Transaction, EightbidMint8x8ColorEven
       token_description: tokenDescription,
       rgb: rgb,
       creator_name: creatorName,
+      royalty_shares: royaltiesToRoyaltyShares(artistAddress, '100', 3),
     };
 
     if (metadataUri) {

@@ -208,6 +208,7 @@ export interface Metadata extends MetadataBase {
   formats?: Array<Format>;
   attributes?: Array<Attribute>;
   assets?: Array<Metadata>;
+  royalties?: RoyaltyShares;
 }
 
 export type AssetType = 'original' | 'thumbnail';
@@ -235,6 +236,11 @@ export interface VideoAsset {
 }
 
 export type Asset = ImageAsset | VideoAsset;
+
+export interface RoyaltyShares {
+  decimals: number;
+  shares: Record<string, string>;
+}
 
 export type Platform = 'HEN' | 'FXHASH' | 'OBJKT' | 'VERSUM' | '8BIDOU' | null;
 
@@ -301,7 +307,8 @@ export interface Token {
 
   sales_count: string;
   sales_volume: string;
-  royalties: Record<string, string>;
+  royalties: Record<string, string>; // deprecated
+  royalties_total: string | null;
 
   eightbid_creator_name: string | null;
   eightbid_rgb: string | null;

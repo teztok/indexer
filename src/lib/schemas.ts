@@ -1,7 +1,22 @@
 import uniqBy from 'lodash/uniqBy';
-import { coerce, defaulted, number, string, type, array, boolean, optional, object, any, Describe, Struct, create } from 'superstruct';
-import { MetadataBase, Metadata, Attribute, Format, Dimensions, DataRate } from '../types';
-import { Uri, TezosAddress } from './validators';
+import {
+  coerce,
+  defaulted,
+  number,
+  string,
+  type,
+  array,
+  boolean,
+  optional,
+  object,
+  any,
+  Describe,
+  Struct,
+  create,
+  record,
+} from 'superstruct';
+import { RoyaltyShares, MetadataBase, Metadata, Attribute, Format, Dimensions, DataRate } from '../types';
+import { Royalty, Uri, TezosAddress } from './validators';
 
 interface TokenStorage {
   ledger: number;
@@ -88,6 +103,8 @@ export const MetadataBaseSchema: Describe<MetadataBase> = type({
   name: string(),
   artifactUri: Uri,
 });
+
+export const RoyaltySharesSchema: Describe<RoyaltyShares> = object({ decimals: number(), shares: record(TezosAddress, Royalty) });
 
 export function cleanString(val: any, fallback = null) {
   try {

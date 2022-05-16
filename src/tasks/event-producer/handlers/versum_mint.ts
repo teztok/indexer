@@ -2,8 +2,9 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, Describe } from 'superstruct';
 import { TezosAddress, ContractAddress, IsoDateString, MetadataUri, PositiveInteger, PgBigInt } from '../../../lib/validators';
-import { Handler, MintEvent, Transaction } from '../../../types';
-import { createEventId } from '../../../lib/utils';
+import { RoyaltySharesSchema } from '../../../lib/schemas';
+import { Handler, MintEvent, Transaction, RoyaltyShares } from '../../../types';
+import { createEventId, splitsToRoyaltyShares } from '../../../lib/utils';
 import { VERSUM_CONTRACT_FA2 } from '../../../consts';
 
 export const EVENT_TYPE_VERSUM_MINT = 'VERSUM_MINT';
@@ -12,6 +13,7 @@ export interface VersumMintEvent extends MintEvent {
   type: typeof EVENT_TYPE_VERSUM_MINT;
   royalties: string;
   metadata_uri: string;
+  royalty_shares: RoyaltyShares;
 }
 
 const VersumMintEventSchema: Describe<Omit<VersumMintEvent, 'type'>> = object({
@@ -26,6 +28,7 @@ const VersumMintEventSchema: Describe<Omit<VersumMintEvent, 'type'>> = object({
   royalties: PgBigInt,
   editions: PgBigInt,
   metadata_uri: MetadataUri,
+  royalty_shares: RoyaltySharesSchema,
 });
 
 const VersumMintHandler: Handler<Transaction, VersumMintEvent> = {
@@ -39,6 +42,7 @@ const VersumMintHandler: Handler<Transaction, VersumMintEvent> = {
   exec: (transaction) => {
     const tokenId = String(parseInt(get(transaction, 'storage.token_counter'), 10) - 1);
     const royalties = get(transaction, 'parameter.value.royalty');
+    const splits = get(transaction, 'parameter.value.splits');
     const editions = get(transaction, 'parameter.value.amount');
     const fa2Address = get(transaction, 'target.address');
     const metadataUri = Buffer.from(get(transaction, 'parameter.value.metadata.'), 'hex').toString();
@@ -57,6 +61,7 @@ const VersumMintHandler: Handler<Transaction, VersumMintEvent> = {
       royalties: royalties,
       editions: editions,
       metadata_uri: metadataUri,
+      royalty_shares: splitsToRoyaltyShares(splits, royalties),
     };
 
     assert(omit(event, ['type']), VersumMintEventSchema);
