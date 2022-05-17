@@ -845,7 +845,7 @@ export function compileToken(
   }
 
   const offersArr = orderBy(Object.values(offers), ({ price }) => price).reverse();
-  const totalEditions = sum(Object.values(holders));
+  const totalEditions = sum(Object.values(holders).map(({ amount }) => amount));
   const burnedEditions = BURN_ADDRESS in holders ? holders[BURN_ADDRESS].amount : 0;
   const editions = totalEditions - burnedEditions;
   const soldEditions = sales.reduce(
