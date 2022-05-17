@@ -1,4 +1,4 @@
-import { compileToken, calcPriceDiff, calcPricePct } from './rebuild-token';
+import { compileToken, calcPriceDiff, calcPricePct, royaltySharesToRoyaltyReceivers } from './rebuild-token';
 import { AnyEvent } from '../event-producer/handlers/index';
 
 const TEST_FA2_ADDRESS = 'KT1PHubm9HtyQEJ4BBpMTVomq6mhbfNZ9z5w';
@@ -1873,7 +1873,6 @@ test('sets the token metadata correctly', () => {
       shares: {
         tz1Q1UgXfAv2sWNCapibCakdBjB68hk6QuoV: '1000',
         tz1gdno6FuKgE5WC1VKnqxb8qQQEuYrbKCub: 2000,
-        tz1Q71RJHgo7gvLtcXwMdsG7B4EccY9SmJiS: '500000000000000000',
       },
     },
   };
@@ -1893,7 +1892,7 @@ test('sets the token metadata correctly', () => {
     right_uri: 'ipfs://eee',
     creators: ['aaa'],
     contributors: ['bbb'],
-    royalties_total: '800000',
+    royalties_total: '300000',
     attributes: [
       {
         name: 'foo',
@@ -1911,7 +1910,6 @@ test('sets the token metadata correctly', () => {
   expect(royaltyReceivers).toStrictEqual([
     { receiver_address: 'tz1Q1UgXfAv2sWNCapibCakdBjB68hk6QuoV', royalties: '100000' },
     { receiver_address: 'tz1gdno6FuKgE5WC1VKnqxb8qQQEuYrbKCub', royalties: '200000' },
-    { receiver_address: 'tz1Q71RJHgo7gvLtcXwMdsG7B4EccY9SmJiS', royalties: '500000' },
   ]);
 });
 
@@ -3134,4 +3132,31 @@ test('calcs the correct price percentages', () => {
   expect(calcPricePct('15000000', '0')).toBe('15000000');
   expect(calcPricePct('0', '15000000')).toBe('-100');
   expect(calcPricePct('0', '0')).toBe('0');
+});
+
+test('transforms royalty shares to royalty receivers', () => {
+  expect(royaltySharesToRoyaltyReceivers({ decimals: 3, shares: { tz1fiVZ49LPVwQP8z5AuTe9gKdD2CagcLL9M: '200' } })).toStrictEqual([
+    {
+      receiver_address: 'tz1fiVZ49LPVwQP8z5AuTe9gKdD2CagcLL9M',
+      royalties: '200000',
+    },
+  ]);
+
+  expect(royaltySharesToRoyaltyReceivers({ decimals: 3, shares: { tz1McBtWiJREYBvYzH1VAN4dgMVsdinjsqmU: '50' } })).toStrictEqual([
+    {
+      receiver_address: 'tz1McBtWiJREYBvYzH1VAN4dgMVsdinjsqmU',
+      royalties: '50000',
+    },
+  ]);
+
+  expect(royaltySharesToRoyaltyReceivers({ decimals: 4, shares: { tz1McBtWiJREYBvYzH1VAN4dgMVsdinjsqmU: '50' } })).toStrictEqual([
+    {
+      receiver_address: 'tz1McBtWiJREYBvYzH1VAN4dgMVsdinjsqmU',
+      royalties: '5000',
+    },
+  ]);
+
+  expect(royaltySharesToRoyaltyReceivers({ decimals: 8, shares: { tz1McBtWiJREYBvYzH1VAN4dgMVsdinjsqmU: '10000001' } })).toStrictEqual([]);
+
+  expect(royaltySharesToRoyaltyReceivers({ decimals: 8, shares: { tz1McBtWiJREYBvYzH1VAN4dgMVsdinjsqmU: '5000000' } })).toStrictEqual([]);
 });

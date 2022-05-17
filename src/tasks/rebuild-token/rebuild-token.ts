@@ -103,10 +103,23 @@ export function calcPricePct(currentPrice: string | null, otherPrice: string | n
   return String(Math.floor((currentPriceNum / otherPriceNum - 1) * 100));
 }
 
-function royaltySharesToRoyaltyReceivers(royaltyShares: RoyaltyShares): Array<{ receiver_address: string; royalties: string }> {
+// TODO: improve the calculation that happens in this function
+export function royaltySharesToRoyaltyReceivers(royaltyShares: RoyaltyShares): Array<{ receiver_address: string; royalties: string }> {
+  // for now we only support up to 6 decimals
+  if (royaltyShares.decimals > 6) {
+    return [];
+  }
+
   return Object.entries(royaltyShares.shares).map(([receiverAddress, receiverRoyalties]) => {
     const royaltiesStr = isString(receiverRoyalties) ? receiverRoyalties : String(receiverRoyalties);
-    const royaltiesStrNormalized = royaltiesStr.length <= 6 ? royaltiesStr.padEnd(6, '0') : royaltiesStr.substring(0, 6);
+    let royaltiesStrNormalized = null;
+
+    if (royaltiesStr.length <= royaltyShares.decimals) {
+      // TODO: improve
+      royaltiesStrNormalized = royaltiesStr.padEnd(6 - (royaltyShares.decimals - royaltiesStr.length), '0');
+    } else {
+      royaltiesStrNormalized = '1000000'; // 100%
+    }
 
     return {
       receiver_address: receiverAddress,
