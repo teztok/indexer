@@ -61,6 +61,9 @@ import EightbidSwap24x24MonochromeHandler, { EightbidSwap24x24MonochromeEvent } 
 import EightbidBuy24x24MonochromeHandler, { EightbidBuy24x24MonochromeEvent } from './8bid_24x24_monochrome_buy';
 import EightbidCancelSwap24x24MonochromeHandler, { EightbidCancelSwap24x24MonochromeEvent } from './8bid_24x24_monochrome_cancel_swap';
 import EightbidMint24x24ColorHandler, { EightbidMint24x24ColorEvent } from './8bid_24x24_color_mint';
+import EightbidSwap24x24ColorHandler, { EightbidSwap24x24ColorEvent } from './8bid_24x24_color_swap';
+import EightbidCancelSwap24x24ColorHandler, { EightbidCancelSwap24x24ColorEvent } from './8bid_24x24_color_cancel_swap';
+import EightbidBuy24x24ColorHandler, { EightbidBuy24x24ColorEvent } from './8bid_24x24_color_buy';
 
 export const handlers = [
   Fa2TransferHandler,
@@ -126,6 +129,9 @@ export const handlers = [
   EightbidBuy24x24MonochromeHandler,
   EightbidCancelSwap24x24MonochromeHandler,
   EightbidMint24x24ColorHandler,
+  EightbidSwap24x24ColorHandler,
+  EightbidCancelSwap24x24ColorHandler,
+  EightbidBuy24x24ColorHandler,
 ];
 
 export type AnyEvent =
@@ -191,4 +197,7 @@ export type AnyEvent =
   | EightbidSwap24x24MonochromeEvent
   | EightbidBuy24x24MonochromeEvent
   | EightbidCancelSwap24x24MonochromeEvent
-  | EightbidMint24x24ColorEvent;
+  | EightbidMint24x24ColorEvent
+  | EightbidSwap24x24ColorEvent
+  | EightbidCancelSwap24x24ColorEvent
+  | EightbidBuy24x24ColorEvent;
