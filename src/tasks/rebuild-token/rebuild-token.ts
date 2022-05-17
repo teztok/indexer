@@ -123,7 +123,7 @@ export function compileToken(
   metadata?: Metadata,
   assets?: Array<Asset>
 ) {
-  const holders: Holders = {};
+  const holders: Record<string, { last_received_at: string; amount: number }> = {};
   const listings: Record<string, AnyListing> = {};
   const offers: Record<string, AnyOffer> = {};
   const sales: Array<SaleEvent> = [];
@@ -159,7 +159,21 @@ export function compileToken(
 
     switch (event.type) {
       case 'SET_LEDGER': {
-        holders[event.holder_address] = parseInt(event.amount, 10);
+        const lastAmount = event.holder_address in holders ? holders[event.holder_address].amount : 0;
+        const newAmount = parseInt(event.amount, 10);
+
+        if (!(event.holder_address in holders)) {
+          holders[event.holder_address] = {
+            amount: newAmount,
+            last_received_at: event.timestamp,
+          };
+        } else {
+          holders[event.holder_address].amount = newAmount;
+
+          if (newAmount > lastAmount) {
+            holders[event.holder_address].last_received_at = event.timestamp;
+          }
+        }
 
         if (event.is_mint) {
           minterAddress = event.holder_address;
@@ -820,7 +834,10 @@ export function compileToken(
   for (const objktAskV2Listing of objktAskV2Listings) {
     // TODO: consider handling other currencies?
     if (['tez', 'otez'].includes(objktAskV2Listing.currency)) {
-      objktAskV2Listing.amount_left = Math.min(objktAskV2Listing.amount_left, holders[objktAskV2Listing.seller_address] || 0);
+      objktAskV2Listing.amount_left = Math.min(
+        objktAskV2Listing.amount_left,
+        objktAskV2Listing.seller_address in holders ? holders[objktAskV2Listing.seller_address].amount : 0
+      );
       if (objktAskV2Listing.amount_left <= 0 && objktAskV2Listing.status === 'active') {
         objktAskV2Listing.status = 'sold_out';
       }
@@ -829,7 +846,7 @@ export function compileToken(
 
   const offersArr = orderBy(Object.values(offers), ({ price }) => price).reverse();
   const totalEditions = sum(Object.values(holders));
-  const burnedEditions = BURN_ADDRESS in holders ? holders[BURN_ADDRESS] : 0;
+  const burnedEditions = BURN_ADDRESS in holders ? holders[BURN_ADDRESS].amount : 0;
   const editions = totalEditions - burnedEditions;
   const soldEditions = sales.reduce(
     (counter, event) => counter + (event.amount && event.type.startsWith('8BID_') ? parseInt(event.amount, 0) : 1),
@@ -1068,10 +1085,11 @@ export async function rebuildToken(payload: RebuildTokenTaskPayload) {
       }
     }
 
-    const holdingRows = Object.entries(holders).map(([address, amount]) => ({
+    const holdingRows = Object.entries(holders).map(([holder_address, { last_received_at, amount }]) => ({
       token_id: token.token_id,
       fa2_address: token.fa2_address,
-      holder_address: address,
+      holder_address,
+      last_received_at,
       amount,
     }));
 

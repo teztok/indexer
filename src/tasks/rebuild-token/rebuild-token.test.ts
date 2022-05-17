@@ -80,6 +80,58 @@ test('handles SET_LEDGER events', () => {
       amount: '1',
       is_mint: true,
     },
+    {
+      id: 'bbbf0d6b108216ca4162179aed96f8f1',
+      type: 'SET_LEDGER',
+      opid: 42065346,
+      ophash: TEST_OPHASH,
+      timestamp: '2021-03-02T03:39:21Z',
+      level: 1365243,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      holder_address: 'tz1UBZUkXpKGhYsP5KtzDNqLLchwF4uHrGjw',
+      amount: '0',
+      is_mint: false,
+    },
+    {
+      id: 'bbbf0d6b108216ca4162179aed96f8f2',
+      type: 'SET_LEDGER',
+      opid: 42065347,
+      ophash: TEST_OPHASH,
+      timestamp: '2021-03-04T03:39:21Z',
+      level: 1365244,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      holder_address: 'tz1UBZUkXpKGhYsP5KtzDNqLLchwF4uHrGjw',
+      amount: '2',
+      is_mint: false,
+    },
+    {
+      id: 'bbbf0d6b108216ca4162179aed96f8f3',
+      type: 'SET_LEDGER',
+      opid: 42065350,
+      ophash: TEST_OPHASH,
+      timestamp: '2021-03-05T03:39:21Z',
+      level: 1365250,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      holder_address: 'tz1UBZUkXpKGhYsP5KtzDNqLLchwF4uHrGjb',
+      amount: '1',
+      is_mint: false,
+    },
+    {
+      id: 'bbbf0d6b108216ca4162179aed96f8f4',
+      type: 'SET_LEDGER',
+      opid: 42065351,
+      ophash: TEST_OPHASH,
+      timestamp: '2021-03-06T03:39:21Z',
+      level: 1365251,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      holder_address: 'tz1UBZUkXpKGhYsP5KtzDNqLLchwF4uHrGjb',
+      amount: '0',
+      is_mint: false,
+    },
   ];
 
   const { token, holders } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
@@ -89,8 +141,9 @@ test('handles SET_LEDGER events', () => {
     minter_address: 'tz1UBZUkXpKGhYsP5KtzDNqLLchwF4uHrGjw',
   });
 
-  expect(holders).toEqual({
-    tz1UBZUkXpKGhYsP5KtzDNqLLchwF4uHrGjw: 1,
+  expect(holders).toStrictEqual({
+    tz1UBZUkXpKGhYsP5KtzDNqLLchwF4uHrGjw: { last_received_at: '2021-03-04T03:39:21Z', amount: 2 },
+    tz1UBZUkXpKGhYsP5KtzDNqLLchwF4uHrGjb: { last_received_at: '2021-03-05T03:39:21Z', amount: 0 },
   });
 });
 
