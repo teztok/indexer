@@ -357,9 +357,9 @@ test('creates FX_MINT_V3 events', async () => {
       price: '250000',
       metadata_uri: 'ipfs://QmZZVBKapDg2wXzwpDxdmL9Ah665h9ZzeJ9gYdbTZ4GBzf',
       royalty_shares: {
-        decimals: 3,
+        decimals: 6,
         shares: {
-          tz1MBrwe8EgiZJ5kgVEDnL5emVM294J5RiaW: '130',
+          tz1MBrwe8EgiZJ5kgVEDnL5emVM294J5RiaW: '130000',
         },
       },
     },

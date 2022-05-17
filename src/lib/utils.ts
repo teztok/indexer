@@ -164,15 +164,15 @@ export function splitsToRoyaltyShares(splits: Array<{ pct: string; address: stri
   const totalRoyaltiesInt = parseInt(totalRoyalties, 10);
 
   const shares = splits.reduce<Record<string, string>>((memo, split) => {
-    const pct = parseInt(split.pct, 10) / 1000;
+    const pct = parseInt(split.pct, 10);
 
-    memo[split.address] = String(Math.floor(totalRoyaltiesInt * pct));
+    memo[split.address] = String(totalRoyaltiesInt * pct);
 
     return memo;
   }, {});
 
   return {
-    decimals: 3,
+    decimals: 6,
     shares,
   };
 }
