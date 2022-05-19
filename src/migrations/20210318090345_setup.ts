@@ -58,6 +58,9 @@ export async function up(knex: Knex): Promise<void> {
       table.bigInteger('royalties_total');
 
       table.index('platform');
+      table.index('minted_at');
+      table.index('editions');
+      table.index('price');
       table.index('last_processed_event_timestamp');
       table.index('last_processed_event_level');
       table.index('metadata_uri');
