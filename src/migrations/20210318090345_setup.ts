@@ -202,6 +202,7 @@ export async function up(knex: Knex): Promise<void> {
       table.index('implements');
       table.index('type');
       table.index('ophash');
+      table.index('timestamp');
       table.index('from_address');
       table.index('to_address');
       table.index('seller_address');
