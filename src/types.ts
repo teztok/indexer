@@ -443,6 +443,12 @@ export interface VersumOffer extends Offer {
   amount: number;
 }
 
-export type AnyOffer = ObjktBid | ObjktOffer | VersumOffer;
+export interface FxOfferV3 extends Offer {
+  type: 'FX_OFFER_V3';
+  offer_id: string;
+  contract_address: typeof FX_CONTRACT_MARKETPLACE_V3;
+}
+
+export type AnyOffer = ObjktBid | ObjktOffer | VersumOffer | FxOfferV3;
 
 export type Holders = Record<string, number>;

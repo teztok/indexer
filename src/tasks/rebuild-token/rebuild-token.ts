@@ -572,6 +572,40 @@ export function compileToken(
         break;
       }
 
+      case 'FX_OFFER_V3': {
+        offers[createListingKey(FX_CONTRACT_MARKETPLACE_V3, event.offer_id)] = {
+          type: 'FX_OFFER_V3',
+          contract_address: FX_CONTRACT_MARKETPLACE_V3,
+          created_at: event.timestamp,
+          offer_id: event.offer_id,
+          buyer_address: event.buyer_address,
+          price: event.price,
+          status: 'active',
+        };
+
+        break;
+      }
+
+      case 'FX_OFFER_CANCEL_V3': {
+        const offerKey = createListingKey(FX_CONTRACT_MARKETPLACE_V3, event.offer_id);
+
+        if (offerKey in offers) {
+          offers[offerKey].status = 'canceled';
+        }
+
+        break;
+      }
+
+      case 'FX_OFFER_ACCEPT_V3': {
+        const offerKey = createListingKey(FX_CONTRACT_MARKETPLACE_V3, event.offer_id);
+
+        if (offerKey in offers) {
+          offers[offerKey].status = 'fulfilled';
+        }
+
+        break;
+      }
+
       case 'VERSUM_MINT': {
         platform = 'VERSUM';
         artistAddress = event.artist_address;
