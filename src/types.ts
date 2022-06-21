@@ -318,6 +318,12 @@ export interface Token {
 
   fx_issuer_id: string | null;
   fx_iteration: string | null;
+
+  fx_collection_name?: string | null;
+  fx_collection_description?: string | null;
+  fx_collection_display_uri?: string | null;
+  fx_collection_thumbnail_uri?: string | null;
+  fx_collection_editions?: string | null;
 }
 
 export interface Listing {

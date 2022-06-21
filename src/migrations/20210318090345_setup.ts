@@ -36,6 +36,11 @@ export async function up(knex: Knex): Promise<void> {
       table.bigInteger('objkt_artist_collection_id');
       table.bigInteger('fx_issuer_id');
       table.bigInteger('fx_iteration');
+      table.text('fx_collection_name');
+      table.text('fx_collection_description');
+      table.text('fx_collection_display_uri');
+      table.text('fx_collection_thumbnail_uri');
+      table.bigInteger('fx_collection_editions');
       table.jsonb('attributes');
       table.bigInteger('price');
       table.bigInteger('last_sales_price');
@@ -213,6 +218,7 @@ export async function up(knex: Knex): Promise<void> {
       table.index('ask_id');
       table.index('bid_id');
       table.index('collection_id');
+      table.index('issuer_id');
       table.index('fa2_address');
       table.index('token_id');
       table.index(['opid']);

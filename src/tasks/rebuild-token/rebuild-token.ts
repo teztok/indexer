@@ -46,6 +46,8 @@ import {
   EIGHTBIDOU_24X24_MONOCHROME_CONTRACT_MARKETPLACE,
   EIGHTBIDOU_24X24_COLOR_CONTRACT_MARKETPLACE,
   SALE_INTERFACE,
+  FX_CONTRACT_FA2,
+  FX_CONTRACT_FA2_V3,
 } from '../../consts';
 
 interface RebuildTokenTaskPayload {
@@ -1064,6 +1066,44 @@ export async function rebuildToken(payload: RebuildTokenTaskPayload) {
   const assets = metadata && metadata.artifactUri ? await assetsDao.getByField('artifact_uri', metadata.artifactUri) : undefined;
 
   const { token, listings, holders, tags, offers, royaltyReceivers } = compileToken(fa2Address, tokenId, events, status, metadata, assets);
+
+  if ([FX_CONTRACT_FA2, FX_CONTRACT_FA2_V3].includes(token.fa2_address) && isString(token.fx_issuer_id)) {
+    // add the displayUri and the thumbnailUri of the the fxhash collection to the token
+    try {
+      const fxMintIssuerEvent = await db
+        .select('*')
+        .from('events')
+        .whereIn('type', ['FX_MINT_ISSUER', 'FX_MINT_ISSUER_V2', 'FX_MINT_ISSUER_V3'])
+        .andWhere('issuer_id', '=', token.fx_issuer_id)
+        .first();
+
+      if (fxMintIssuerEvent && fxMintIssuerEvent.metadata_uri) {
+        const metadata = await db.select('*').from('token_metadata').where('uri', '=', fxMintIssuerEvent.metadata_uri).first();
+
+        if (get(metadata, 'data.name')) {
+          token.fx_collection_name = get(metadata, 'data.name');
+        }
+
+        if (get(metadata, 'data.description')) {
+          token.fx_collection_description = get(metadata, 'data.description');
+        }
+
+        if (get(metadata, 'data.displayUri')) {
+          token.fx_collection_display_uri = cleanUri(get(metadata, 'data.displayUri'));
+        }
+
+        if (get(metadata, 'data.thumbnailUri')) {
+          token.fx_collection_thumbnail_uri = cleanUri(get(metadata, 'data.thumbnailUri'));
+        }
+
+        if (get(fxMintIssuerEvent, 'editions')) {
+          token.fx_collection_editions = get(fxMintIssuerEvent, 'editions');
+        }
+      }
+    } catch (err) {
+      console.log('failed to fetch fxhash collection metadata', err);
+    }
+  }
 
   await db.transaction(async (trx) => {
     await trx.raw('SET CONSTRAINTS ALL DEFERRED;');
