@@ -43,7 +43,10 @@ const HenMintHandler: Handler<Transaction, ObjktMintArtistEvent> = {
   ],
 
   exec: (transaction, operation) => {
-    const mintTransaction = operation.transactions.find((transaction) => get(transaction, 'parameter.entrypoint') === 'mint');
+    const transactionIdx = operation.transactions.findIndex(({ id }) => transaction.id === id);
+    const mintTransaction = operation.transactions
+      .slice(transactionIdx > 0 ? transactionIdx : 0)
+      .find((transaction) => get(transaction, 'parameter.entrypoint') === 'mint');
     const collectionId = get(transaction, 'parameter.value.collection_id');
     const fa2Address = get(mintTransaction, 'target.address');
     const tokenId = get(mintTransaction, 'parameter.value.token_id');
