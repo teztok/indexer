@@ -138,7 +138,7 @@ export function compileToken(
   metadata?: Metadata,
   assets?: Array<Asset>
 ) {
-  const holders: Record<string, { last_received_at: string; amount: number }> = {};
+  const holders: Record<string, { last_received_at: string; first_received_at: string; amount: number }> = {};
   const listings: Record<string, AnyListing> = {};
   const offers: Record<string, AnyOffer> = {};
   const sales: Array<SaleEvent> = [];
@@ -181,6 +181,7 @@ export function compileToken(
           holders[event.holder_address] = {
             amount: newAmount,
             last_received_at: event.timestamp,
+            first_received_at: event.timestamp,
           };
         } else {
           holders[event.holder_address].amount = newAmount;

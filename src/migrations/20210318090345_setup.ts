@@ -82,9 +82,11 @@ export async function up(knex: Knex): Promise<void> {
       table.string('holder_address', 36).notNullable();
       table.bigInteger('amount').notNullable();
       table.timestamp('last_received_at');
+      table.timestamp('first_received_at');
 
       table.index('holder_address');
       table.index('last_received_at');
+      table.index('first_received_at');
       table.foreign(['fa2_address', 'token_id']).references(['fa2_address', 'token_id']).inTable('tokens').onDelete('CASCADE');
       table.primary(['fa2_address', 'token_id', 'holder_address']);
     })

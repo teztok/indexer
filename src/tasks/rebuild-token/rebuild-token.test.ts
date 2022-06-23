@@ -142,8 +142,16 @@ test('handles SET_LEDGER events', () => {
   });
 
   expect(holders).toStrictEqual({
-    tz1UBZUkXpKGhYsP5KtzDNqLLchwF4uHrGjw: { last_received_at: '2021-03-04T03:39:21Z', amount: 2 },
-    tz1UBZUkXpKGhYsP5KtzDNqLLchwF4uHrGjb: { last_received_at: '2021-03-05T03:39:21Z', amount: 0 },
+    tz1UBZUkXpKGhYsP5KtzDNqLLchwF4uHrGjw: {
+      last_received_at: '2021-03-04T03:39:21Z',
+      first_received_at: '2021-03-01T03:39:21Z',
+      amount: 2,
+    },
+    tz1UBZUkXpKGhYsP5KtzDNqLLchwF4uHrGjb: {
+      last_received_at: '2021-03-05T03:39:21Z',
+      first_received_at: '2021-03-05T03:39:21Z',
+      amount: 0,
+    },
   });
 });
 
