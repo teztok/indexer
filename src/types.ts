@@ -10,6 +10,7 @@ import {
   EIGHTBIDOU_24X24_COLOR_CONTRACT_MARKETPLACE,
   VERSUM_CONTRACT_MARKETPLACE,
   TEIA_CONTRACT_MARKETPLACE,
+  TYPED_CONTRACT_MARKETPLACE,
 } from './consts';
 
 export interface Operation {
@@ -243,7 +244,7 @@ export interface RoyaltyShares {
   shares: Record<string, string>;
 }
 
-export type Platform = 'HEN' | 'FXHASH' | 'OBJKT' | 'VERSUM' | '8BIDOU' | null;
+export type Platform = 'HEN' | 'FXHASH' | 'OBJKT' | 'VERSUM' | '8BIDOU' | 'TYPED' | null;
 
 export interface Token {
   fa2_address: string;
@@ -355,6 +356,12 @@ export interface TeiaListing extends Listing {
   contract_address: typeof TEIA_CONTRACT_MARKETPLACE;
 }
 
+export interface TypedListing extends Listing {
+  type: 'TYPED_SWAP';
+  swap_id: string;
+  contract_address: typeof TYPED_CONTRACT_MARKETPLACE;
+}
+
 export interface ObjktListing extends Listing {
   type: 'OBJKT_ASK';
   ask_id: string;
@@ -419,7 +426,8 @@ export type AnyListing =
   | TeiaListing
   | Eightbid8x8ColorListing
   | Eightbid24x24MonochromeListing
-  | Eightbid24x24ColorListing;
+  | Eightbid24x24ColorListing
+  | TypedListing;
 
 export interface Offer {
   type: string;

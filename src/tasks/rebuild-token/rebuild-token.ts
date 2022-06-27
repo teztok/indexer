@@ -48,6 +48,7 @@ import {
   SALE_INTERFACE,
   FX_CONTRACT_FA2,
   FX_CONTRACT_FA2_V3,
+  TYPED_CONTRACT_MARKETPLACE,
 } from '../../consts';
 
 interface RebuildTokenTaskPayload {
@@ -863,6 +864,59 @@ export function compileToken(
 
         if (listingKey in listings) {
           const amountLeft = listings[listingKey].amount_left - parseInt(event.amount, 10);
+          listings[listingKey].amount_left = amountLeft;
+
+          if (amountLeft <= 0) {
+            listings[listingKey].status = 'sold_out';
+          }
+        }
+
+        break;
+      }
+
+      case 'TYPED_MINT':
+        platform = 'TYPED';
+        artistAddress = event.artist_address;
+
+        if (!royaltyReceivers && event.royalty_shares) {
+          royaltyReceivers = royaltySharesToRoyaltyReceivers(event.royalty_shares);
+        }
+
+        break;
+
+      case 'TYPED_SWAP': {
+        const listingKey = createListingKey(TYPED_CONTRACT_MARKETPLACE, event.swap_id);
+
+        listings[listingKey] = {
+          type: 'TYPED_SWAP',
+          contract_address: TYPED_CONTRACT_MARKETPLACE,
+          created_at: event.timestamp,
+          swap_id: event.swap_id,
+          seller_address: event.seller_address,
+          amount: parseInt(event.amount, 10),
+          amount_left: parseInt(event.amount, 10),
+          price: event.price,
+          status: 'active',
+        };
+
+        break;
+      }
+
+      case 'TYPED_CANCEL_SWAP': {
+        const listingKey = createListingKey(TYPED_CONTRACT_MARKETPLACE, event.swap_id);
+
+        if (listingKey in listings) {
+          listings[listingKey].status = 'canceled';
+        }
+
+        break;
+      }
+
+      case 'TYPED_COLLECT': {
+        const listingKey = createListingKey(TYPED_CONTRACT_MARKETPLACE, event.swap_id);
+
+        if (listingKey in listings) {
+          const amountLeft = listings[listingKey].amount_left - 1;
           listings[listingKey].amount_left = amountLeft;
 
           if (amountLeft <= 0) {

@@ -68,6 +68,10 @@ import EightbidMint24x24ColorHandler, { EightbidMint24x24ColorEvent } from './8b
 import EightbidSwap24x24ColorHandler, { EightbidSwap24x24ColorEvent } from './8bid_24x24_color_swap';
 import EightbidCancelSwap24x24ColorHandler, { EightbidCancelSwap24x24ColorEvent } from './8bid_24x24_color_cancel_swap';
 import EightbidBuy24x24ColorHandler, { EightbidBuy24x24ColorEvent } from './8bid_24x24_color_buy';
+import TypedMintHandler, { TypedMintEvent } from './typed_mint';
+import TypedSwapHandler, { TypedSwapEvent } from './typed_swap';
+import TypedCancelSwapHandler, { TypedCancelSwapEvent } from './typed_cancel_swap';
+import TypedCollectHandler, { TypedCollectEvent } from './typed_collect';
 
 export const handlers = [
   Fa2TransferHandler,
@@ -140,6 +144,10 @@ export const handlers = [
   EightbidSwap24x24ColorHandler,
   EightbidCancelSwap24x24ColorHandler,
   EightbidBuy24x24ColorHandler,
+  TypedMintHandler,
+  TypedSwapHandler,
+  TypedCancelSwapHandler,
+  TypedCollectHandler,
 ];
 
 export type AnyEvent =
@@ -212,4 +220,8 @@ export type AnyEvent =
   | EightbidMint24x24ColorEvent
   | EightbidSwap24x24ColorEvent
   | EightbidCancelSwap24x24ColorEvent
-  | EightbidBuy24x24ColorEvent;
+  | EightbidBuy24x24ColorEvent
+  | TypedMintEvent
+  | TypedSwapEvent
+  | TypedCancelSwapEvent
+  | TypedCollectEvent;
