@@ -10,6 +10,7 @@ import { getTaskName } from './lib/utils';
 import { TokenEvent } from './types';
 
 let isRebuildingTokens = false;
+const tokensWithErrors: Record<string, boolean> = {};
 
 // TODO: solve this properly
 async function rebuildOutstandingTokens(max = 200) {
@@ -25,12 +26,18 @@ async function rebuildOutstandingTokens(max = 200) {
 
     for (let i = 0; i < results.length; i++) {
       const result = results[i];
-      console.log(`rebuilding token ${i}`);
-
       try {
+        if (tokensWithErrors[`${result.payload.fa2_address}_${result.payload.token_id}`]) {
+          // skip tokens that threw an error while rebuilding before
+          continue;
+        }
+
+        console.log(`rebuilding token ${i}`);
+
         await rebuildToken!(result.payload);
         await db('graphile_worker.jobs').where('id', result.id).del();
       } catch (err) {
+        tokensWithErrors[`${result.payload.fa2_address}_${result.payload.token_id}`] = true;
         console.log('err', err);
       }
     }
