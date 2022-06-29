@@ -14,4 +14,6 @@ Note that the indexer is still being developed and in an experimental state. [Ch
 
 - - -
 
-License: *TBD*
+## License
+
+Licensed under the MIT license.

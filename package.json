@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "license": "MIT",
   "scripts": {
     "start": "npm run-script build && concurrently npm:start:ctrl npm:start-worker:*",
     "start:ctrl": "node ./build/ctrl.js",
