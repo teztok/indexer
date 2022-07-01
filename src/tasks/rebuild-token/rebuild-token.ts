@@ -1227,11 +1227,12 @@ export async function rebuildToken(payload: RebuildTokenTaskPayload) {
       }
     }
 
-    const holdingRows = Object.entries(holders).map(([holder_address, { last_received_at, amount }]) => ({
+    const holdingRows = Object.entries(holders).map(([holder_address, { first_received_at, last_received_at, amount }]) => ({
       token_id: token.token_id,
       fa2_address: token.fa2_address,
       holder_address,
       last_received_at,
+      first_received_at,
       amount,
     }));
 
