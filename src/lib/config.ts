@@ -32,6 +32,7 @@ const defaultConfig = {
     'KT19ovJhcsUn4YU8Q5L3BGovKSixfbWcecEA', // Salsa
     'KT1XPFjZqCULSnqfKaaYy8hJjeY63UNSGwXg', // Crunchy.Network DAO Token
     'KT1CS2xKGHNPTauSh5Re4qE3N9PCfG5u4dPx', // Spice Token
+    'KT18hYjnko76SBVv6TaCT4kU6B32mJk6JWLZ', // MATH Token
   ],
 };
 
