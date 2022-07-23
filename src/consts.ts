@@ -41,6 +41,9 @@ export const TYPED_CONTRACT_MINT = 'KT1CK9RnWZGnejBeT6gJfgvf4p7f1NwhP9wS';
 export const TYPED_CONTRACT_MARKETPLACE = 'KT1VoZeuBMJF6vxtLqEFMoc4no5VDG789D7z';
 export const TYPED_CONTRACT_FA2 = 'KT1J6NY5AU61GzUX51n59wwiZcGJ9DrNTwbK';
 
+export const HAIKU_CONTRACT_MARKETPLACE = 'KT19vw7kh7dzTRxFUZNWu39773baauzNWtzj';
+export const HAIKU_CONTRACT_FA2 = 'KT1Aq1umaV8gcDQmi4CLDk7KeKpoUjFQeg1B';
+
 export const BURN_ADDRESS = 'tz1burnburnburnburnburnburnburjAYjjX';
 
 export const POSTGRES_ERROR_CODE_UNIQUE_VIOLATION = '23505';

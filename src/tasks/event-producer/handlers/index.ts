@@ -72,6 +72,7 @@ import TypedMintHandler, { TypedMintEvent } from './typed_mint';
 import TypedSwapHandler, { TypedSwapEvent } from './typed_swap';
 import TypedCancelSwapHandler, { TypedCancelSwapEvent } from './typed_cancel_swap';
 import TypedCollectHandler, { TypedCollectEvent } from './typed_collect';
+import HaikuMintHandler, { HaikuMintEvent } from './haiku_mint';
 
 export const handlers = [
   Fa2TransferHandler,
@@ -148,6 +149,7 @@ export const handlers = [
   TypedSwapHandler,
   TypedCancelSwapHandler,
   TypedCollectHandler,
+  HaikuMintHandler,
 ];
 
 export type AnyEvent =
@@ -224,4 +226,5 @@ export type AnyEvent =
   | TypedMintEvent
   | TypedSwapEvent
   | TypedCancelSwapEvent
-  | TypedCollectEvent;
+  | TypedCollectEvent
+  | HaikuMintEvent;
