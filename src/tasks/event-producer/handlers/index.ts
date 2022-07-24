@@ -73,6 +73,9 @@ import TypedSwapHandler, { TypedSwapEvent } from './typed_swap';
 import TypedCancelSwapHandler, { TypedCancelSwapEvent } from './typed_cancel_swap';
 import TypedCollectHandler, { TypedCollectEvent } from './typed_collect';
 import HaikuMintHandler, { HaikuMintEvent } from './haiku_mint';
+import HaikuSwapHandler, { HaikuSwapEvent } from './haiku_swap';
+import HaikuCancelSwapHandler, { HaikuCancelSwapEvent } from './haiku_cancel_swap';
+import HaikuCollectHandler, { HaikuCollectEvent } from './haiku_collect';
 
 export const handlers = [
   Fa2TransferHandler,
@@ -150,6 +153,9 @@ export const handlers = [
   TypedCancelSwapHandler,
   TypedCollectHandler,
   HaikuMintHandler,
+  HaikuSwapHandler,
+  HaikuCancelSwapHandler,
+  HaikuCollectHandler,
 ];
 
 export type AnyEvent =
@@ -227,4 +233,7 @@ export type AnyEvent =
   | TypedSwapEvent
   | TypedCancelSwapEvent
   | TypedCollectEvent
-  | HaikuMintEvent;
+  | HaikuMintEvent
+  | HaikuSwapEvent
+  | HaikuCancelSwapEvent
+  | HaikuCollectEvent;

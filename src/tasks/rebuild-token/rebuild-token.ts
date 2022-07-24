@@ -49,6 +49,7 @@ import {
   FX_CONTRACT_FA2,
   FX_CONTRACT_FA2_V3,
   TYPED_CONTRACT_MARKETPLACE,
+  HAIKU_CONTRACT_MARKETPLACE,
 } from '../../consts';
 
 interface RebuildTokenTaskPayload {
@@ -161,6 +162,11 @@ export function compileToken(
   let objktArtistCollectionId = null;
   let fxIssuerId = null;
   let fxIteration = null;
+
+  let haikuTitle = null;
+  let haikuRowone = null;
+  let haikuRowtwo = null;
+  let haikuRowthree = null;
 
   let royaltyReceivers = null;
 
@@ -927,6 +933,64 @@ export function compileToken(
         break;
       }
 
+      case 'HAIKU_MINT':
+        platform = 'HAIKU';
+        artistAddress = event.artist_address;
+
+        haikuTitle = event.haiku_title;
+        haikuRowone = event.haiku_rowone;
+        haikuRowtwo = event.haiku_rowtwo;
+        haikuRowthree = event.haiku_rowthree;
+
+        if (!royaltyReceivers && event.royalty_shares) {
+          royaltyReceivers = royaltySharesToRoyaltyReceivers(event.royalty_shares);
+        }
+
+        break;
+
+      case 'HAIKU_SWAP': {
+        const listingKey = createListingKey(HAIKU_CONTRACT_MARKETPLACE, event.swap_id);
+
+        listings[listingKey] = {
+          type: 'HAIKU_SWAP',
+          contract_address: HAIKU_CONTRACT_MARKETPLACE,
+          created_at: event.timestamp,
+          swap_id: event.swap_id,
+          seller_address: event.seller_address,
+          amount: parseInt(event.amount, 10),
+          amount_left: parseInt(event.amount, 10),
+          price: event.price,
+          status: 'active',
+        };
+
+        break;
+      }
+
+      case 'HAIKU_CANCEL_SWAP': {
+        const listingKey = createListingKey(HAIKU_CONTRACT_MARKETPLACE, event.swap_id);
+
+        if (listingKey in listings) {
+          listings[listingKey].status = 'canceled';
+        }
+
+        break;
+      }
+
+      case 'HAIKU_COLLECT': {
+        const listingKey = createListingKey(HAIKU_CONTRACT_MARKETPLACE, event.swap_id);
+
+        if (listingKey in listings) {
+          const amountLeft = listings[listingKey].amount_left - 1;
+          listings[listingKey].amount_left = amountLeft;
+
+          if (amountLeft <= 0) {
+            listings[listingKey].status = 'sold_out';
+          }
+        }
+
+        break;
+      }
+
       default:
     }
   }
@@ -1093,6 +1157,11 @@ export function compileToken(
 
     fx_issuer_id: fxIssuerId,
     fx_iteration: fxIteration,
+
+    haiku_title: haikuTitle,
+    haiku_rowone: haikuRowone,
+    haiku_rowtwo: haikuRowtwo,
+    haiku_rowthree: haikuRowthree,
   };
 
   return {

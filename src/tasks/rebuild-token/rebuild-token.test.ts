@@ -3366,6 +3366,203 @@ test('handles TYPED_SWAP and TYPED_COLLECT events, sold out case', () => {
   ]);
 });
 
+test('handles HAIKU_MINT events', () => {
+  const events: Array<AnyEvent> = [
+    {
+      id: 'fbf621a7b2f699d41a7a8ca205e1a1be',
+      type: 'HAIKU_MINT',
+      opid: 112502347,
+      ophash: TEST_OPHASH,
+      timestamp: '2021-11-20T08:09:22Z',
+      level: 1879134,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      editions: '1',
+      haiku_title: 'title',
+      haiku_rowone: 'row one',
+      haiku_rowtwo: 'row two',
+      haiku_rowthree: 'row three',
+      artist_address: 'tz1XUcZvBxAMMSqeMsfA4tunmEfTUcbEXQ88',
+      metadata_uri: 'ipfs://QmUuZ2GYamdpPE8TUYzQkQC2jjnq7oiYVeZwdKpB4SCarG',
+      royalty_shares: {
+        decimals: 3,
+        shares: {
+          tz1XUcZvBxAMMSqeMsfA4tunmEfTUcbEXQ88: '100',
+        },
+      },
+    },
+  ];
+
+  const { token, royaltyReceivers } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
+
+  expect(token).toMatchObject({
+    platform: 'HAIKU',
+    artist_address: 'tz1XUcZvBxAMMSqeMsfA4tunmEfTUcbEXQ88',
+    haiku_title: 'title',
+    haiku_rowone: 'row one',
+    haiku_rowtwo: 'row two',
+    haiku_rowthree: 'row three',
+  });
+
+  expect(royaltyReceivers).toStrictEqual([{ receiver_address: 'tz1XUcZvBxAMMSqeMsfA4tunmEfTUcbEXQ88', royalties: '100000' }]);
+});
+
+test('handles HAIKU_SWAP and HAIKU_COLLECT events', () => {
+  const events: Array<AnyEvent> = [
+    {
+      id: '234f1106ea02a634ecc8332e844ff4e4',
+      type: 'HAIKU_SWAP',
+      opid: 165058185,
+      ophash: TEST_OPHASH,
+      timestamp: '2022-01-31T16:11:58Z',
+      level: 2078143,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      seller_address: 'tz1g6JRCpsEnD2BLiAzPNK3GBD1fKicV9rCx',
+      artist_address: 'tz1g6JRCpsEnD2BLiAzPNK3GBD1fKicV9rCx',
+      swap_id: TEST_SWAP_ID,
+      price: TEST_PRICE,
+      royalties: '200',
+      amount: '10',
+    },
+    {
+      id: '49d7b043d413f87043282e2ce0bc5306',
+      type: 'HAIKU_COLLECT',
+      implements: 'SALE',
+      opid: 164940000,
+      ophash: TEST_OPHASH,
+      timestamp: '2022-01-31T11:22:08Z',
+      level: 2077595,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      swap_id: TEST_SWAP_ID,
+      buyer_address: 'tz1abTpHKkdo5YTM1DosZZVx9p8cjv4hMMTB',
+      seller_address: 'tz1g6JRCpsEnD2BLiAzPNK3GBD1fKicV9rCx',
+      artist_address: 'tz1g6JRCpsEnD2BLiAzPNK3GBD1fKicV9rCx',
+      price: TEST_PRICE,
+    },
+  ];
+
+  const { listings } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
+
+  expect(listings).toEqual([
+    {
+      type: 'HAIKU_SWAP',
+      contract_address: 'KT19vw7kh7dzTRxFUZNWu39773baauzNWtzj',
+      created_at: '2022-01-31T16:11:58Z',
+      swap_id: TEST_SWAP_ID,
+      seller_address: 'tz1g6JRCpsEnD2BLiAzPNK3GBD1fKicV9rCx',
+      amount: 10,
+      amount_left: 9,
+      price: TEST_PRICE,
+      status: 'active',
+    },
+  ]);
+});
+
+test('handles HAIKU_SWAP and HAIKU_COLLECT events, sold out case', () => {
+  const events: Array<AnyEvent> = [
+    {
+      id: '234f1106ea02a634ecc8332e844ff4e4',
+      type: 'HAIKU_SWAP',
+      opid: 165058185,
+      ophash: TEST_OPHASH,
+      timestamp: '2022-01-31T16:11:58Z',
+      level: 2078143,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      seller_address: 'tz1g6JRCpsEnD2BLiAzPNK3GBD1fKicV9rCx',
+      artist_address: 'tz1g6JRCpsEnD2BLiAzPNK3GBD1fKicV9rCx',
+      swap_id: TEST_SWAP_ID,
+      price: TEST_PRICE,
+      royalties: '200',
+      amount: '1',
+    },
+    {
+      id: '49d7b043d413f87043282e2ce0bc5306',
+      type: 'HAIKU_COLLECT',
+      implements: 'SALE',
+      opid: 164940000,
+      ophash: TEST_OPHASH,
+      timestamp: '2022-01-31T11:22:08Z',
+      level: 2077595,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      swap_id: TEST_SWAP_ID,
+      buyer_address: 'tz1abTpHKkdo5YTM1DosZZVx9p8cjv4hMMTB',
+      seller_address: 'tz1g6JRCpsEnD2BLiAzPNK3GBD1fKicV9rCx',
+      artist_address: 'tz1g6JRCpsEnD2BLiAzPNK3GBD1fKicV9rCx',
+      price: TEST_PRICE,
+    },
+  ];
+
+  const { listings } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
+
+  expect(listings).toEqual([
+    {
+      type: 'HAIKU_SWAP',
+      contract_address: 'KT19vw7kh7dzTRxFUZNWu39773baauzNWtzj',
+      created_at: '2022-01-31T16:11:58Z',
+      swap_id: TEST_SWAP_ID,
+      seller_address: 'tz1g6JRCpsEnD2BLiAzPNK3GBD1fKicV9rCx',
+      amount: 1,
+      amount_left: 0,
+      price: TEST_PRICE,
+      status: 'sold_out',
+    },
+  ]);
+});
+
+test('handles HAIKU_CANCEL_SWAP events', () => {
+  const events: Array<AnyEvent> = [
+    {
+      id: '234f1106ea02a634ecc8332e844ff4e4',
+      type: 'HAIKU_SWAP',
+      opid: 165058185,
+      ophash: TEST_OPHASH,
+      timestamp: '2022-01-31T16:11:58Z',
+      level: 2078143,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      seller_address: 'tz1g6JRCpsEnD2BLiAzPNK3GBD1fKicV9rCx',
+      artist_address: 'tz1g6JRCpsEnD2BLiAzPNK3GBD1fKicV9rCx',
+      swap_id: TEST_SWAP_ID,
+      price: TEST_PRICE,
+      royalties: '200',
+      amount: '10',
+    },
+    {
+      id: '3f04007fa97e43d9fc20c40499ee0860',
+      type: 'HAIKU_CANCEL_SWAP',
+      opid: 165053001,
+      ophash: TEST_OPHASH,
+      timestamp: '2022-01-31T16:00:18Z',
+      level: 2078122,
+      fa2_address: TEST_FA2_ADDRESS,
+      seller_address: 'tz1g6JRCpsEnD2BLiAzPNK3GBD1fKicV9rCx',
+      artist_address: 'tz1g6JRCpsEnD2BLiAzPNK3GBD1fKicV9rCx',
+      token_id: TEST_TOKEN_ID,
+      swap_id: TEST_SWAP_ID,
+    },
+  ];
+
+  const { listings } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
+
+  expect(listings).toEqual([
+    {
+      type: 'HAIKU_SWAP',
+      contract_address: 'KT19vw7kh7dzTRxFUZNWu39773baauzNWtzj',
+      created_at: '2022-01-31T16:11:58Z',
+      swap_id: TEST_SWAP_ID,
+      seller_address: 'tz1g6JRCpsEnD2BLiAzPNK3GBD1fKicV9rCx',
+      amount: 10,
+      amount_left: 10,
+      price: TEST_PRICE,
+      status: 'canceled',
+    },
+  ]);
+});
+
 test('calcs the correct price diffs', () => {
   expect(calcPriceDiff(null, '10000000')).toBe(null);
   expect(calcPriceDiff('15000000', null)).toBe(null);
