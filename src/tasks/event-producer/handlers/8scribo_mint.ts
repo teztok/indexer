@@ -5,21 +5,21 @@ import { TezosAddress, ContractAddress, IsoDateString, MetadataUri, PositiveInte
 import { Handler, MintEvent, Transaction, RoyaltyShares } from '../../../types';
 import { createEventId, royaltiesToRoyaltyShares } from '../../../lib/utils';
 import { RoyaltySharesSchema } from '../../../lib/schemas';
-import { HAIKU_CONTRACT_FA2 } from '../../../consts';
+import { EIGHTSCRIBO_CONTRACT_FA2 } from '../../../consts';
 
-export const EVENT_TYPE_HAIKU_MINT = 'HAIKU_MINT';
+export const EVENT_TYPE_8SCRIBO_MINT = '8SCRIBO_MINT';
 
-export interface HaikuMintEvent extends MintEvent {
-  type: typeof EVENT_TYPE_HAIKU_MINT;
+export interface EightscriboMintEvent extends MintEvent {
+  type: typeof EVENT_TYPE_8SCRIBO_MINT;
   metadata_uri: string;
   royalty_shares: RoyaltyShares;
-  haiku_title: string;
-  haiku_rowone: string;
-  haiku_rowtwo: string;
-  haiku_rowthree: string;
+  eightscribo_title: string;
+  eightscribo_rowone: string;
+  eightscribo_rowtwo: string;
+  eightscribo_rowthree: string;
 }
 
-const HaikuMintEventSchema: Describe<Omit<HaikuMintEvent, 'type'>> = object({
+const EightscriboMintEventSchema: Describe<Omit<EightscriboMintEvent, 'type'>> = object({
   id: string(),
   opid: PositiveInteger,
   timestamp: IsoDateString,
@@ -28,22 +28,22 @@ const HaikuMintEventSchema: Describe<Omit<HaikuMintEvent, 'type'>> = object({
   token_id: string(),
   ophash: string(),
 
-  haiku_title: string(),
-  haiku_rowone: string(),
-  haiku_rowtwo: string(),
-  haiku_rowthree: string(),
+  eightscribo_title: string(),
+  eightscribo_rowone: string(),
+  eightscribo_rowtwo: string(),
+  eightscribo_rowthree: string(),
   artist_address: TezosAddress,
   editions: PgBigInt,
   metadata_uri: MetadataUri,
   royalty_shares: RoyaltySharesSchema,
 });
 
-const HaikuMintHandler: Handler<Transaction, HaikuMintEvent> = {
-  type: EVENT_TYPE_HAIKU_MINT,
+const EightscriboMintHandler: Handler<Transaction, EightscriboMintEvent> = {
+  type: EVENT_TYPE_8SCRIBO_MINT,
 
   accept: {
     entrypoint: 'mint_haiku',
-    target_address: HAIKU_CONTRACT_FA2,
+    target_address: EIGHTSCRIBO_CONTRACT_FA2,
   },
 
   exec: (transaction) => {
@@ -57,11 +57,11 @@ const HaikuMintHandler: Handler<Transaction, HaikuMintEvent> = {
     const haikuRowone = Buffer.from(get(transaction, 'parameter.value.haiku.rowone'), 'hex').toString();
     const haikuRowtwo = Buffer.from(get(transaction, 'parameter.value.haiku.rowtwo'), 'hex').toString();
     const haikuRowthree = Buffer.from(get(transaction, 'parameter.value.haiku.rowthree'), 'hex').toString();
-    const id = createEventId(EVENT_TYPE_HAIKU_MINT, transaction);
+    const id = createEventId(EVENT_TYPE_8SCRIBO_MINT, transaction);
 
-    const event: HaikuMintEvent = {
+    const event: EightscriboMintEvent = {
       id,
-      type: EVENT_TYPE_HAIKU_MINT,
+      type: EVENT_TYPE_8SCRIBO_MINT,
       opid: transaction.id,
       ophash: transaction.hash,
       timestamp: transaction.timestamp,
@@ -72,16 +72,16 @@ const HaikuMintHandler: Handler<Transaction, HaikuMintEvent> = {
       editions: editions,
       metadata_uri: metadataUri,
       royalty_shares: royaltiesToRoyaltyShares(artistAddress, royalties, 3),
-      haiku_title: haikuTitle,
-      haiku_rowone: haikuRowone,
-      haiku_rowtwo: haikuRowtwo,
-      haiku_rowthree: haikuRowthree,
+      eightscribo_title: haikuTitle,
+      eightscribo_rowone: haikuRowone,
+      eightscribo_rowtwo: haikuRowtwo,
+      eightscribo_rowthree: haikuRowthree,
     };
 
-    assert(omit(event, ['type']), HaikuMintEventSchema);
+    assert(omit(event, ['type']), EightscriboMintEventSchema);
 
     return event;
   },
 };
 
-export default HaikuMintHandler;
+export default EightscriboMintHandler;

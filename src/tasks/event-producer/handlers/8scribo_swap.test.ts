@@ -1,27 +1,33 @@
-import HaikuCollectHandler from './haiku_collect';
+import EightscriboSwapHandler from './8scribo_swap';
 import { transactionsToEvents } from '../event-producer';
 import { Transactions } from '../../../types';
 
-test('creates HAIKU_COLLECT events', async () => {
+test('creates 8SCRIBO_SWAP events', async () => {
   const transactions: Transactions = [
     {
-      id: 290297301,
-      level: 2545497,
-      timestamp: '2022-07-18T20:46:14Z',
-      block: 'BMEiVNeXWPJLfDPQnN8CVYYZ39kV6snR3SzUpGPJ5byRCwpfk4B',
-      hash: 'oo5UKEqHb1w2YvyTvznsZAbxJ7VbhetQNF1pixPnAUvbo4SRuVg',
-      counter: 12745275,
+      id: 290073731,
+      level: 2544868,
+      timestamp: '2022-07-18T15:28:44Z',
+      block: 'BLvuXfFw5BNs9wo1NmkL1KHm88ECiyQ8k9hoBJ11hMX1eFrXG4F',
+      hash: 'oohe4RtcRi61Yz1xPxiMs5S96CtMq2Gj1aUvvyj66FQvRcBnsaF',
+      counter: 13572729,
       sender: {
-        alias: 'James_Alec_Hardy',
-        address: 'tz1KvdAPtHVuSW1HtgNzZk3EVPdx6cK6BqQU',
+        address: 'tz1aM13yYWMvfxaBFd2mbkFu1mXsSseqB5qp',
       },
       target: {
         address: 'KT19vw7kh7dzTRxFUZNWu39773baauzNWtzj',
       },
-      amount: 10000000,
+      amount: 0,
       parameter: {
-        entrypoint: 'collect',
-        value: '0',
+        entrypoint: 'swap',
+        value: {
+          fa2: 'KT1Aq1umaV8gcDQmi4CLDk7KeKpoUjFQeg1B',
+          creator: 'tz1aM13yYWMvfxaBFd2mbkFu1mXsSseqB5qp',
+          objkt_id: '1',
+          royalties: '100',
+          objkt_amount: '1',
+          xtz_per_objkt: '10000000',
+        },
       },
       status: 'applied',
       hasInternals: true,
@@ -29,7 +35,7 @@ test('creates HAIKU_COLLECT events', async () => {
       storage: {
         fee: '25',
         swaps: 226249,
-        counter: '2',
+        counter: '1',
         manager: 'tz1g16trvKvxAdmGoSk9Sbjg9XiHEVMoLJxu',
         metadata: 226248,
         allowed_fa2s: 226247,
@@ -42,7 +48,7 @@ test('creates HAIKU_COLLECT events', async () => {
         {
           bigmap: 226249,
           path: 'swaps',
-          action: 'update_key',
+          action: 'add_key',
           content: {
             hash: 'exprtZBwZUeYYYfUs9B9Rg2ywHezVHnCCnmF9WsDQVrs582dSK63dC',
             key: '0',
@@ -52,7 +58,7 @@ test('creates HAIKU_COLLECT events', async () => {
               creator: 'tz1aM13yYWMvfxaBFd2mbkFu1mXsSseqB5qp',
               objkt_id: '1',
               royalties: '100',
-              objkt_amount: '0',
+              objkt_amount: '1',
               xtz_per_objkt: '10000000',
             },
           },
@@ -62,24 +68,24 @@ test('creates HAIKU_COLLECT events', async () => {
     },
   ];
 
-  const events = transactionsToEvents(transactions, [HaikuCollectHandler]);
+  const events = transactionsToEvents(transactions, [EightscriboSwapHandler]);
 
   expect(events).toStrictEqual([
     {
-      id: '8f797e03d81f34a87d914a8b31a98c82',
-      type: 'HAIKU_COLLECT',
-      implements: 'SALE',
-      opid: 290297301,
-      ophash: 'oo5UKEqHb1w2YvyTvznsZAbxJ7VbhetQNF1pixPnAUvbo4SRuVg',
-      timestamp: '2022-07-18T20:46:14Z',
-      level: 2545497,
+      id: '834af1b9b7f92530665ff28ec73c84ec',
+      type: '8SCRIBO_SWAP',
+      opid: 290073731,
+      timestamp: '2022-07-18T15:28:44Z',
+      level: 2544868,
+      ophash: 'oohe4RtcRi61Yz1xPxiMs5S96CtMq2Gj1aUvvyj66FQvRcBnsaF',
       fa2_address: 'KT1Aq1umaV8gcDQmi4CLDk7KeKpoUjFQeg1B',
       token_id: '1',
-      swap_id: '0',
-      buyer_address: 'tz1KvdAPtHVuSW1HtgNzZk3EVPdx6cK6BqQU',
       seller_address: 'tz1aM13yYWMvfxaBFd2mbkFu1mXsSseqB5qp',
       artist_address: 'tz1aM13yYWMvfxaBFd2mbkFu1mXsSseqB5qp',
+      swap_id: '0',
       price: '10000000',
+      royalties: '100',
+      amount: '1',
     },
   ]);
 });

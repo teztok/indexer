@@ -4,18 +4,18 @@ import { assert, object, string, Describe } from 'superstruct';
 import { ContractAddress, TezosAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
 import { Handler, TokenEvent, Transaction } from '../../../types';
 import { findDiff, transactionMatchesPattern, createEventId } from '../../../lib/utils';
-import { HAIKU_CONTRACT_MARKETPLACE } from '../../../consts';
+import { EIGHTSCRIBO_CONTRACT_MARKETPLACE } from '../../../consts';
 
-export const EVENT_TYPE_HAIKU_CANCEL_SWAP = 'HAIKU_CANCEL_SWAP';
+export const EVENT_TYPE_8SCRIBO_CANCEL_SWAP = '8SCRIBO_CANCEL_SWAP';
 
-export interface HaikuCancelSwapEvent extends TokenEvent {
-  type: typeof EVENT_TYPE_HAIKU_CANCEL_SWAP;
+export interface EightscriboCancelSwapEvent extends TokenEvent {
+  type: typeof EVENT_TYPE_8SCRIBO_CANCEL_SWAP;
   swap_id: string;
   seller_address: string;
   artist_address: string;
 }
 
-const HaikuCancelSwapEventSchema: Describe<Omit<HaikuCancelSwapEvent, 'type'>> = object({
+const EightscriboCancelSwapEventSchema: Describe<Omit<EightscriboCancelSwapEvent, 'type'>> = object({
   id: string(),
   opid: PositiveInteger,
   timestamp: IsoDateString,
@@ -29,14 +29,14 @@ const HaikuCancelSwapEventSchema: Describe<Omit<HaikuCancelSwapEvent, 'type'>> =
   swap_id: PgBigInt,
 });
 
-const HaikuCancelSwapHandler: Handler<Transaction, HaikuCancelSwapEvent> = {
-  type: EVENT_TYPE_HAIKU_CANCEL_SWAP,
+const EightscriboCancelSwapHandler: Handler<Transaction, EightscriboCancelSwapEvent> = {
+  type: EVENT_TYPE_8SCRIBO_CANCEL_SWAP,
 
   accept: (transaction) => {
     if (
       !transactionMatchesPattern(transaction, {
         entrypoint: 'cancel_swap',
-        target_address: HAIKU_CONTRACT_MARKETPLACE,
+        target_address: EIGHTSCRIBO_CONTRACT_MARKETPLACE,
       })
     ) {
       return false;
@@ -52,11 +52,11 @@ const HaikuCancelSwapHandler: Handler<Transaction, HaikuCancelSwapEvent> = {
     const sellerAddress = get(diff, 'content.value.issuer');
     const artistAddress = get(diff, 'content.value.creator');
     const fa2Address = get(diff, 'content.value.fa2');
-    const id = createEventId(EVENT_TYPE_HAIKU_CANCEL_SWAP, transaction);
+    const id = createEventId(EVENT_TYPE_8SCRIBO_CANCEL_SWAP, transaction);
 
-    const event: HaikuCancelSwapEvent = {
+    const event: EightscriboCancelSwapEvent = {
       id,
-      type: EVENT_TYPE_HAIKU_CANCEL_SWAP,
+      type: EVENT_TYPE_8SCRIBO_CANCEL_SWAP,
       opid: transaction.id,
       ophash: transaction.hash,
       timestamp: transaction.timestamp,
@@ -68,10 +68,10 @@ const HaikuCancelSwapHandler: Handler<Transaction, HaikuCancelSwapEvent> = {
       swap_id: swapId,
     };
 
-    assert(omit(event, ['type']), HaikuCancelSwapEventSchema);
+    assert(omit(event, ['type']), EightscriboCancelSwapEventSchema);
 
     return event;
   },
 };
 
-export default HaikuCancelSwapHandler;
+export default EightscriboCancelSwapHandler;

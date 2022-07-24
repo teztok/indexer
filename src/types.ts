@@ -11,7 +11,7 @@ import {
   VERSUM_CONTRACT_MARKETPLACE,
   TEIA_CONTRACT_MARKETPLACE,
   TYPED_CONTRACT_MARKETPLACE,
-  HAIKU_CONTRACT_MARKETPLACE,
+  EIGHTSCRIBO_CONTRACT_MARKETPLACE,
 } from './consts';
 
 export interface Operation {
@@ -245,7 +245,7 @@ export interface RoyaltyShares {
   shares: Record<string, string>;
 }
 
-export type Platform = 'HEN' | 'FXHASH' | 'OBJKT' | 'VERSUM' | '8BIDOU' | 'TYPED' | 'HAIKU' | null;
+export type Platform = 'HEN' | 'FXHASH' | 'OBJKT' | 'VERSUM' | '8BIDOU' | 'TYPED' | '8SCRIBO' | null;
 
 export interface Token {
   fa2_address: string;
@@ -327,10 +327,10 @@ export interface Token {
   fx_collection_thumbnail_uri?: string | null;
   fx_collection_editions?: string | null;
 
-  haiku_title: string | null;
-  haiku_rowone: string | null;
-  haiku_rowtwo: string | null;
-  haiku_rowthree: string | null;
+  eightscribo_title: string | null;
+  eightscribo_rowone: string | null;
+  eightscribo_rowtwo: string | null;
+  eightscribo_rowthree: string | null;
 }
 
 export interface Listing {
@@ -368,10 +368,10 @@ export interface TypedListing extends Listing {
   contract_address: typeof TYPED_CONTRACT_MARKETPLACE;
 }
 
-export interface HaikuListing extends Listing {
-  type: 'HAIKU_SWAP';
+export interface EightscriboListing extends Listing {
+  type: '8SCRIBO_SWAP';
   swap_id: string;
-  contract_address: typeof HAIKU_CONTRACT_MARKETPLACE;
+  contract_address: typeof EIGHTSCRIBO_CONTRACT_MARKETPLACE;
 }
 
 export interface ObjktListing extends Listing {
@@ -440,7 +440,7 @@ export type AnyListing =
   | Eightbid24x24MonochromeListing
   | Eightbid24x24ColorListing
   | TypedListing
-  | HaikuListing;
+  | EightscriboListing;
 
 export interface Offer {
   type: string;

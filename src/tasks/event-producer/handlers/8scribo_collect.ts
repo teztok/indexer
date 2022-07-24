@@ -4,12 +4,12 @@ import { assert, object, string, Describe } from 'superstruct';
 import { TezosAddress, IsoDateString, PositiveInteger, PgBigInt, ContractAddress } from '../../../lib/validators';
 import { Handler, TokenEvent, Transaction, SaleEventInterface } from '../../../types';
 import { findDiff, transactionMatchesPattern, createEventId } from '../../../lib/utils';
-import { HAIKU_CONTRACT_MARKETPLACE, SALE_INTERFACE } from '../../../consts';
+import { EIGHTSCRIBO_CONTRACT_MARKETPLACE, SALE_INTERFACE } from '../../../consts';
 
-export const EVENT_TYPE_HAIKU_COLLECT = 'HAIKU_COLLECT';
+export const EVENT_TYPE_8SCRIBO_COLLECT = '8SCRIBO_COLLECT';
 
-export interface HaikuCollectEvent extends TokenEvent {
-  type: typeof EVENT_TYPE_HAIKU_COLLECT;
+export interface EightscriboCollectEvent extends TokenEvent {
+  type: typeof EVENT_TYPE_8SCRIBO_COLLECT;
   implements: SaleEventInterface;
   buyer_address: string;
   seller_address: string;
@@ -18,7 +18,7 @@ export interface HaikuCollectEvent extends TokenEvent {
   price: string;
 }
 
-const HaikuCollectEventSchema: Describe<Omit<HaikuCollectEvent, 'type' | 'implements'>> = object({
+const EightscriboCollectEventSchema: Describe<Omit<EightscriboCollectEvent, 'type' | 'implements'>> = object({
   id: string(),
   opid: PositiveInteger,
   timestamp: IsoDateString,
@@ -33,14 +33,14 @@ const HaikuCollectEventSchema: Describe<Omit<HaikuCollectEvent, 'type' | 'implem
   price: PgBigInt,
 });
 
-const HaikuCollectHandler: Handler<Transaction, HaikuCollectEvent> = {
-  type: EVENT_TYPE_HAIKU_COLLECT,
+const EightscriboCollectHandler: Handler<Transaction, EightscriboCollectEvent> = {
+  type: EVENT_TYPE_8SCRIBO_COLLECT,
 
   accept: (transaction) => {
     if (
       !transactionMatchesPattern(transaction, {
         entrypoint: 'collect',
-        target_address: HAIKU_CONTRACT_MARKETPLACE,
+        target_address: EIGHTSCRIBO_CONTRACT_MARKETPLACE,
       })
     ) {
       return false;
@@ -58,11 +58,11 @@ const HaikuCollectHandler: Handler<Transaction, HaikuCollectEvent> = {
     const sellerAddress = get(diff, 'content.value.issuer');
     const tokenId = get(diff, 'content.value.objkt_id');
     const price = get(diff, 'content.value.xtz_per_objkt');
-    const id = createEventId(EVENT_TYPE_HAIKU_COLLECT, transaction);
+    const id = createEventId(EVENT_TYPE_8SCRIBO_COLLECT, transaction);
 
-    const event: HaikuCollectEvent = {
+    const event: EightscriboCollectEvent = {
       id,
-      type: EVENT_TYPE_HAIKU_COLLECT,
+      type: EVENT_TYPE_8SCRIBO_COLLECT,
       implements: SALE_INTERFACE,
       opid: transaction.id,
       ophash: transaction.hash,
@@ -77,10 +77,10 @@ const HaikuCollectHandler: Handler<Transaction, HaikuCollectEvent> = {
       price: price,
     };
 
-    assert(omit(event, ['type', 'implements']), HaikuCollectEventSchema);
+    assert(omit(event, ['type', 'implements']), EightscriboCollectEventSchema);
 
     return event;
   },
 };
 
-export default HaikuCollectHandler;
+export default EightscriboCollectHandler;

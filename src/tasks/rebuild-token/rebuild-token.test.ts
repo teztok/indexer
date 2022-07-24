@@ -3366,11 +3366,11 @@ test('handles TYPED_SWAP and TYPED_COLLECT events, sold out case', () => {
   ]);
 });
 
-test('handles HAIKU_MINT events', () => {
+test('handles 8SCRIBO_MINT events', () => {
   const events: Array<AnyEvent> = [
     {
       id: 'fbf621a7b2f699d41a7a8ca205e1a1be',
-      type: 'HAIKU_MINT',
+      type: '8SCRIBO_MINT',
       opid: 112502347,
       ophash: TEST_OPHASH,
       timestamp: '2021-11-20T08:09:22Z',
@@ -3378,10 +3378,10 @@ test('handles HAIKU_MINT events', () => {
       fa2_address: TEST_FA2_ADDRESS,
       token_id: TEST_TOKEN_ID,
       editions: '1',
-      haiku_title: 'title',
-      haiku_rowone: 'row one',
-      haiku_rowtwo: 'row two',
-      haiku_rowthree: 'row three',
+      eightscribo_title: 'title',
+      eightscribo_rowone: 'row one',
+      eightscribo_rowtwo: 'row two',
+      eightscribo_rowthree: 'row three',
       artist_address: 'tz1XUcZvBxAMMSqeMsfA4tunmEfTUcbEXQ88',
       metadata_uri: 'ipfs://QmUuZ2GYamdpPE8TUYzQkQC2jjnq7oiYVeZwdKpB4SCarG',
       royalty_shares: {
@@ -3396,22 +3396,22 @@ test('handles HAIKU_MINT events', () => {
   const { token, royaltyReceivers } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
 
   expect(token).toMatchObject({
-    platform: 'HAIKU',
+    platform: '8SCRIBO',
     artist_address: 'tz1XUcZvBxAMMSqeMsfA4tunmEfTUcbEXQ88',
-    haiku_title: 'title',
-    haiku_rowone: 'row one',
-    haiku_rowtwo: 'row two',
-    haiku_rowthree: 'row three',
+    eightscribo_title: 'title',
+    eightscribo_rowone: 'row one',
+    eightscribo_rowtwo: 'row two',
+    eightscribo_rowthree: 'row three',
   });
 
   expect(royaltyReceivers).toStrictEqual([{ receiver_address: 'tz1XUcZvBxAMMSqeMsfA4tunmEfTUcbEXQ88', royalties: '100000' }]);
 });
 
-test('handles HAIKU_SWAP and HAIKU_COLLECT events', () => {
+test('handles 8SCRIBO_SWAP and 8SCRIBO_COLLECT events', () => {
   const events: Array<AnyEvent> = [
     {
       id: '234f1106ea02a634ecc8332e844ff4e4',
-      type: 'HAIKU_SWAP',
+      type: '8SCRIBO_SWAP',
       opid: 165058185,
       ophash: TEST_OPHASH,
       timestamp: '2022-01-31T16:11:58Z',
@@ -3427,7 +3427,7 @@ test('handles HAIKU_SWAP and HAIKU_COLLECT events', () => {
     },
     {
       id: '49d7b043d413f87043282e2ce0bc5306',
-      type: 'HAIKU_COLLECT',
+      type: '8SCRIBO_COLLECT',
       implements: 'SALE',
       opid: 164940000,
       ophash: TEST_OPHASH,
@@ -3447,7 +3447,7 @@ test('handles HAIKU_SWAP and HAIKU_COLLECT events', () => {
 
   expect(listings).toEqual([
     {
-      type: 'HAIKU_SWAP',
+      type: '8SCRIBO_SWAP',
       contract_address: 'KT19vw7kh7dzTRxFUZNWu39773baauzNWtzj',
       created_at: '2022-01-31T16:11:58Z',
       swap_id: TEST_SWAP_ID,
@@ -3460,11 +3460,11 @@ test('handles HAIKU_SWAP and HAIKU_COLLECT events', () => {
   ]);
 });
 
-test('handles HAIKU_SWAP and HAIKU_COLLECT events, sold out case', () => {
+test('handles 8SCRIBO_SWAP and 8SCRIBO_COLLECT events, sold out case', () => {
   const events: Array<AnyEvent> = [
     {
       id: '234f1106ea02a634ecc8332e844ff4e4',
-      type: 'HAIKU_SWAP',
+      type: '8SCRIBO_SWAP',
       opid: 165058185,
       ophash: TEST_OPHASH,
       timestamp: '2022-01-31T16:11:58Z',
@@ -3480,7 +3480,7 @@ test('handles HAIKU_SWAP and HAIKU_COLLECT events, sold out case', () => {
     },
     {
       id: '49d7b043d413f87043282e2ce0bc5306',
-      type: 'HAIKU_COLLECT',
+      type: '8SCRIBO_COLLECT',
       implements: 'SALE',
       opid: 164940000,
       ophash: TEST_OPHASH,
@@ -3500,7 +3500,7 @@ test('handles HAIKU_SWAP and HAIKU_COLLECT events, sold out case', () => {
 
   expect(listings).toEqual([
     {
-      type: 'HAIKU_SWAP',
+      type: '8SCRIBO_SWAP',
       contract_address: 'KT19vw7kh7dzTRxFUZNWu39773baauzNWtzj',
       created_at: '2022-01-31T16:11:58Z',
       swap_id: TEST_SWAP_ID,
@@ -3513,11 +3513,11 @@ test('handles HAIKU_SWAP and HAIKU_COLLECT events, sold out case', () => {
   ]);
 });
 
-test('handles HAIKU_CANCEL_SWAP events', () => {
+test('handles 8SCRIBO_CANCEL_SWAP events', () => {
   const events: Array<AnyEvent> = [
     {
       id: '234f1106ea02a634ecc8332e844ff4e4',
-      type: 'HAIKU_SWAP',
+      type: '8SCRIBO_SWAP',
       opid: 165058185,
       ophash: TEST_OPHASH,
       timestamp: '2022-01-31T16:11:58Z',
@@ -3533,7 +3533,7 @@ test('handles HAIKU_CANCEL_SWAP events', () => {
     },
     {
       id: '3f04007fa97e43d9fc20c40499ee0860',
-      type: 'HAIKU_CANCEL_SWAP',
+      type: '8SCRIBO_CANCEL_SWAP',
       opid: 165053001,
       ophash: TEST_OPHASH,
       timestamp: '2022-01-31T16:00:18Z',
@@ -3550,7 +3550,7 @@ test('handles HAIKU_CANCEL_SWAP events', () => {
 
   expect(listings).toEqual([
     {
-      type: 'HAIKU_SWAP',
+      type: '8SCRIBO_SWAP',
       contract_address: 'KT19vw7kh7dzTRxFUZNWu39773baauzNWtzj',
       created_at: '2022-01-31T16:11:58Z',
       swap_id: TEST_SWAP_ID,

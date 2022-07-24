@@ -61,10 +61,10 @@ export async function up(knex: Knex): Promise<void> {
       table.bigInteger('sales_volume');
       table.jsonb('royalties');
       table.bigInteger('royalties_total');
-      table.text('haiku_title');
-      table.text('haiku_rowone');
-      table.text('haiku_rowtwo');
-      table.text('haiku_rowthree');
+      table.text('eightscribo_title');
+      table.text('eightscribo_rowone');
+      table.text('eightscribo_rowtwo');
+      table.text('eightscribo_rowthree');
 
       table.index('platform');
       table.index('minted_at');
@@ -208,10 +208,10 @@ export async function up(knex: Knex): Promise<void> {
       table.bigInteger('offer_id');
       table.boolean('is_mint');
       table.boolean('burn_on_end');
-      table.text('haiku_title');
-      table.text('haiku_rowone');
-      table.text('haiku_rowtwo');
-      table.text('haiku_rowthree');
+      table.text('eightscribo_title');
+      table.text('eightscribo_rowone');
+      table.text('eightscribo_rowtwo');
+      table.text('eightscribo_rowthree');
 
       table.index('level');
       table.index('implements');

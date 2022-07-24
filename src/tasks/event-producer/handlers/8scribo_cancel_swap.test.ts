@@ -1,8 +1,8 @@
-import HaikuCancelSwapHandler from './haiku_cancel_swap';
+import EightscriboCancelSwapHandler from './8scribo_cancel_swap';
 import { transactionsToEvents } from '../event-producer';
 import { Transactions } from '../../../types';
 
-test('creates HAIKU_CANCEL_SWAP events', async () => {
+test('creates 8SCRIBO_CANCEL_SWAP events', async () => {
   const transactions: Transactions = [
     {
       id: 290290961,
@@ -62,12 +62,12 @@ test('creates HAIKU_CANCEL_SWAP events', async () => {
     },
   ];
 
-  const events = transactionsToEvents(transactions, [HaikuCancelSwapHandler]);
+  const events = transactionsToEvents(transactions, [EightscriboCancelSwapHandler]);
 
   expect(events).toStrictEqual([
     {
-      id: 'd09bc009e5b0279a6b81f4ad0867fba7',
-      type: 'HAIKU_CANCEL_SWAP',
+      id: 'c090646aa691d428b94364f0f5243580',
+      type: '8SCRIBO_CANCEL_SWAP',
       opid: 290290961,
       ophash: 'onie5a6v1eYrhgR6Vo8GYHDGpFpUvf6FgtUBmw4NDNKzYKTwPV3',
       timestamp: '2022-07-18T20:36:44Z',

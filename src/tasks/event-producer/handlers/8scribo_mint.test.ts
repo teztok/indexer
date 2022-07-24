@@ -1,8 +1,8 @@
-import HaikuMintHandler from './haiku_mint';
+import EightscriboMintHandler from './8scribo_mint';
 import { transactionsToEvents } from '../event-producer';
 import { Transactions } from '../../../types';
 
-test('creates HAIKU_MINT events', async () => {
+test('creates 8SCRIBO_MINT events', async () => {
   const transactions: Transactions = [
     {
       id: 289188815,
@@ -126,12 +126,12 @@ test('creates HAIKU_MINT events', async () => {
     },
   ];
 
-  const events = transactionsToEvents(transactions, [HaikuMintHandler]);
+  const events = transactionsToEvents(transactions, [EightscriboMintHandler]);
 
   expect(events).toStrictEqual([
     {
-      id: '0bb2df7fe31912e1e47e976586c27a18',
-      type: 'HAIKU_MINT',
+      id: 'dc711f1a4de3e28ee21690bcf8f978eb',
+      type: '8SCRIBO_MINT',
       opid: 289188815,
       ophash: 'opAVNNkMau3UqAiGPLPUva2yWvZ7QbHpjaUJPXpSgtdEwe4SPSf',
       timestamp: '2022-07-17T13:43:14Z',
@@ -141,10 +141,10 @@ test('creates HAIKU_MINT events', async () => {
       editions: '1',
       artist_address: 'tz1VpvqucS7NY8o4z5dsmQi6UA81gbLpUiiu',
       metadata_uri: 'ipfs://QmbYAqMpVEQ8N3jGBEHT1LrPBLzqnWoqj5B7QZ6cm5Ubk2',
-      haiku_title: 'New Day ',
-      haiku_rowone: 'Blank page of promise..\n',
-      haiku_rowtwo: 'First marks the inevitable journey.\n',
-      haiku_rowthree: 'Life long enough, write.\n',
+      eightscribo_title: 'New Day ',
+      eightscribo_rowone: 'Blank page of promise..\n',
+      eightscribo_rowtwo: 'First marks the inevitable journey.\n',
+      eightscribo_rowthree: 'Life long enough, write.\n',
       royalty_shares: {
         decimals: 3,
         shares: {

@@ -4,12 +4,12 @@ import { assert, object, string, Describe } from 'superstruct';
 import { ContractAddress, TezosAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
 import { Handler, TokenEvent, Transaction } from '../../../types';
 import { createEventId } from '../../../lib/utils';
-import { HAIKU_CONTRACT_MARKETPLACE } from '../../../consts';
+import { EIGHTSCRIBO_CONTRACT_MARKETPLACE } from '../../../consts';
 
-export const EVENT_TYPE_HAIKU_SWAP = 'HAIKU_SWAP';
+export const EVENT_TYPE_8SCRIBO_SWAP = '8SCRIBO_SWAP';
 
-export interface HaikuSwapEvent extends TokenEvent {
-  type: typeof EVENT_TYPE_HAIKU_SWAP;
+export interface EightscriboSwapEvent extends TokenEvent {
+  type: typeof EVENT_TYPE_8SCRIBO_SWAP;
   seller_address: string;
   artist_address: string;
   swap_id: string;
@@ -18,7 +18,7 @@ export interface HaikuSwapEvent extends TokenEvent {
   royalties: string;
 }
 
-const HaikuSwapEventSchema: Describe<Omit<HaikuSwapEvent, 'type'>> = object({
+const EightscriboSwapEventSchema: Describe<Omit<EightscriboSwapEvent, 'type'>> = object({
   id: string(),
   opid: PositiveInteger,
   timestamp: IsoDateString,
@@ -35,12 +35,12 @@ const HaikuSwapEventSchema: Describe<Omit<HaikuSwapEvent, 'type'>> = object({
   amount: PgBigInt,
 });
 
-const HaikuSwapHandler: Handler<Transaction, HaikuSwapEvent> = {
-  type: EVENT_TYPE_HAIKU_SWAP,
+const EightscriboSwapHandler: Handler<Transaction, EightscriboSwapEvent> = {
+  type: EVENT_TYPE_8SCRIBO_SWAP,
 
   accept: {
     entrypoint: 'swap',
-    target_address: HAIKU_CONTRACT_MARKETPLACE,
+    target_address: EIGHTSCRIBO_CONTRACT_MARKETPLACE,
   },
 
   exec: (transaction) => {
@@ -52,11 +52,11 @@ const HaikuSwapHandler: Handler<Transaction, HaikuSwapEvent> = {
     const royalties = get(transaction, 'parameter.value.royalties');
     const amount = get(transaction, 'parameter.value.objkt_amount');
     const artistAddress = get(transaction, 'parameter.value.creator');
-    const id = createEventId(HAIKU_CONTRACT_MARKETPLACE, transaction);
+    const id = createEventId(EIGHTSCRIBO_CONTRACT_MARKETPLACE, transaction);
 
-    const event: HaikuSwapEvent = {
+    const event: EightscriboSwapEvent = {
       id,
-      type: EVENT_TYPE_HAIKU_SWAP,
+      type: EVENT_TYPE_8SCRIBO_SWAP,
       opid: transaction.id,
       ophash: transaction.hash,
       timestamp: transaction.timestamp,
@@ -71,10 +71,10 @@ const HaikuSwapHandler: Handler<Transaction, HaikuSwapEvent> = {
       amount: amount,
     };
 
-    assert(omit(event, ['type']), HaikuSwapEventSchema);
+    assert(omit(event, ['type']), EightscriboSwapEventSchema);
 
     return event;
   },
 };
 
-export default HaikuSwapHandler;
+export default EightscriboSwapHandler;
