@@ -49,6 +49,7 @@ import {
   FX_CONTRACT_FA2,
   FX_CONTRACT_FA2_V3,
   TYPED_CONTRACT_MARKETPLACE,
+  EIGHTSCRIBO_CONTRACT_MARKETPLACE,
 } from '../../consts';
 
 interface RebuildTokenTaskPayload {
@@ -161,6 +162,11 @@ export function compileToken(
   let objktArtistCollectionId = null;
   let fxIssuerId = null;
   let fxIteration = null;
+
+  let eightscriboTitle = null;
+  let eightscriboRowone = null;
+  let eightscriboRowtwo = null;
+  let eightscriboRowthree = null;
 
   let royaltyReceivers = null;
 
@@ -927,6 +933,64 @@ export function compileToken(
         break;
       }
 
+      case '8SCRIBO_MINT':
+        platform = '8SCRIBO';
+        artistAddress = event.artist_address;
+
+        eightscriboTitle = event.eightscribo_title;
+        eightscriboRowone = event.eightscribo_rowone;
+        eightscriboRowtwo = event.eightscribo_rowtwo;
+        eightscriboRowthree = event.eightscribo_rowthree;
+
+        if (!royaltyReceivers && event.royalty_shares) {
+          royaltyReceivers = royaltySharesToRoyaltyReceivers(event.royalty_shares);
+        }
+
+        break;
+
+      case '8SCRIBO_SWAP': {
+        const listingKey = createListingKey(EIGHTSCRIBO_CONTRACT_MARKETPLACE, event.swap_id);
+
+        listings[listingKey] = {
+          type: '8SCRIBO_SWAP',
+          contract_address: EIGHTSCRIBO_CONTRACT_MARKETPLACE,
+          created_at: event.timestamp,
+          swap_id: event.swap_id,
+          seller_address: event.seller_address,
+          amount: parseInt(event.amount, 10),
+          amount_left: parseInt(event.amount, 10),
+          price: event.price,
+          status: 'active',
+        };
+
+        break;
+      }
+
+      case '8SCRIBO_CANCEL_SWAP': {
+        const listingKey = createListingKey(EIGHTSCRIBO_CONTRACT_MARKETPLACE, event.swap_id);
+
+        if (listingKey in listings) {
+          listings[listingKey].status = 'canceled';
+        }
+
+        break;
+      }
+
+      case '8SCRIBO_COLLECT': {
+        const listingKey = createListingKey(EIGHTSCRIBO_CONTRACT_MARKETPLACE, event.swap_id);
+
+        if (listingKey in listings) {
+          const amountLeft = listings[listingKey].amount_left - 1;
+          listings[listingKey].amount_left = amountLeft;
+
+          if (amountLeft <= 0) {
+            listings[listingKey].status = 'sold_out';
+          }
+        }
+
+        break;
+      }
+
       default:
     }
   }
@@ -1093,6 +1157,11 @@ export function compileToken(
 
     fx_issuer_id: fxIssuerId,
     fx_iteration: fxIteration,
+
+    eightscribo_title: eightscriboTitle,
+    eightscribo_rowone: eightscriboRowone,
+    eightscribo_rowtwo: eightscriboRowtwo,
+    eightscribo_rowthree: eightscriboRowthree,
   };
 
   return {
