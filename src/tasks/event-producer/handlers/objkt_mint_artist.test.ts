@@ -350,6 +350,147 @@ test('creates OBJKT_MINT_ARTIST events', async () => {
       ],
       nonce: 40,
     },
+    {
+      id: 311752797,
+      level: 2612697,
+      timestamp: '2022-08-11T12:50:59Z',
+      block: 'BLcW6SDarGS5rAbSr4Zxj7wbTKDt1WQwCAzieEPksyrj8cpnHw6',
+      hash: 'op8swf6jXYWqJGYzTauoCD6xQ4zkhkoYChKBQqmkZHWvpG7txhS',
+      counter: 14050059,
+      sender: {
+        alias: 'Stephan Dybus',
+        address: 'tz1NUvnhNJXBWUY5JSmgTjNkd9fSoqT4sqhb',
+      },
+      target: {
+        alias: 'objkt.com Minting Factory',
+        address: 'KT1Aq4wWmVanpQhq4TTfjZXB5AjFpx15iQMM',
+      },
+      amount: 0,
+      parameter: {
+        entrypoint: 'mint_artist',
+        value: {
+          target: 'tz1NUvnhNJXBWUY5JSmgTjNkd9fSoqT4sqhb',
+          editions: '35',
+          metadata_cid: '516d57394c7031364a6f59576839775a66617741754b347a657558574b59666453707866684d646d6e507464396a',
+          collection_id: '20917',
+        },
+      },
+      status: 'applied',
+      hasInternals: true,
+      initiator: null,
+      storage: {
+        mods: ['tz1LKpeN8ZSSFNyTWiBNaE4u4sjaq7J1Vz2z', 'tz1QGCWjNpYmcS6T9qFGYSam25e36WeFUCK4', 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu'],
+        admin: 'tz1hFhmqKNB7hnHVHAFSk9wNqm7K9GgF2GDN',
+        big_map: 24161,
+        metadata: 24160,
+        collaborators: 24158,
+        artist_collections: 24157,
+        global_collections: 24159,
+        artist_collection_id: '35853',
+        global_collection_id: '0',
+      },
+      diffs: [
+        {
+          bigmap: 24157,
+          path: 'artist_collections',
+          action: 'update_key',
+          content: {
+            hash: 'exprvMHtjBuMx7yAQbvwWvj9idy5U7qGGYozJZ63KR6HTWmLBsdwTF',
+            key: '20917',
+            value: {
+              creator: 'tz1NUvnhNJXBWUY5JSmgTjNkd9fSoqT4sqhb',
+              contract: 'KT1QrcpaSzJ23VqcSD5SMfT9UyUdZSt7i8iz',
+              token_id: '6',
+            },
+          },
+        },
+      ],
+      nonce: null,
+    },
+    {
+      id: 311752798,
+      level: 2612697,
+      timestamp: '2022-08-11T12:50:59Z',
+      block: 'BLcW6SDarGS5rAbSr4Zxj7wbTKDt1WQwCAzieEPksyrj8cpnHw6',
+      hash: 'op8swf6jXYWqJGYzTauoCD6xQ4zkhkoYChKBQqmkZHWvpG7txhS',
+      counter: 14050059,
+      sender: {
+        alias: 'objkt.com Minting Factory',
+        address: 'KT1Aq4wWmVanpQhq4TTfjZXB5AjFpx15iQMM',
+      },
+      target: {
+        address: 'KT1QrcpaSzJ23VqcSD5SMfT9UyUdZSt7i8iz',
+      },
+      amount: 0,
+      parameter: {
+        entrypoint: 'mint',
+        value: {
+          amount: '35',
+          address: 'tz1NUvnhNJXBWUY5JSmgTjNkd9fSoqT4sqhb',
+          metadata: {
+            '': '516d57394c7031364a6f59576839775a66617741754b347a657558574b59666453707866684d646d6e507464396a',
+          },
+          token_id: '5',
+        },
+      },
+      status: 'applied',
+      hasInternals: false,
+      initiator: {
+        alias: 'Stephan Dybus',
+        address: 'tz1NUvnhNJXBWUY5JSmgTjNkd9fSoqT4sqhb',
+      },
+      storage: {
+        ledger: 158404,
+        paused: false,
+        metadata: 158405,
+        operators: 158406,
+        all_tokens: '6',
+        total_supply: 158408,
+        administrator: 'KT1Aq4wWmVanpQhq4TTfjZXB5AjFpx15iQMM',
+        token_metadata: 158407,
+      },
+      diffs: [
+        {
+          bigmap: 158408,
+          path: 'total_supply',
+          action: 'add_key',
+          content: {
+            hash: 'exprtqoNj2hRg8PsPMaXLcy3dXjMM3B7nHKrRNqpfjbYpMbULbRj8k',
+            key: '5',
+            value: '35',
+          },
+        },
+        {
+          bigmap: 158407,
+          path: 'token_metadata',
+          action: 'add_key',
+          content: {
+            hash: 'exprtqoNj2hRg8PsPMaXLcy3dXjMM3B7nHKrRNqpfjbYpMbULbRj8k',
+            key: '5',
+            value: {
+              token_id: '5',
+              token_info: {
+                '': '516d57394c7031364a6f59576839775a66617741754b347a657558574b59666453707866684d646d6e507464396a',
+              },
+            },
+          },
+        },
+        {
+          bigmap: 158404,
+          path: 'ledger',
+          action: 'add_key',
+          content: {
+            hash: 'exprv7Cbb9ZM3GvpE8eJFDGh7pumUybK2Eq2J4u2HQHSYmsWNfqSHr',
+            key: {
+              nat: '5',
+              address: 'tz1NUvnhNJXBWUY5JSmgTjNkd9fSoqT4sqhb',
+            },
+            value: '35',
+          },
+        },
+      ],
+      nonce: 2,
+    },
   ];
 
   const events = transactionsToEvents(transactions, [ObjktMintArtistHandler]);
@@ -395,6 +536,20 @@ test('creates OBJKT_MINT_ARTIST events', async () => {
       opid: 268538199,
       timestamp: '2022-06-22T11:27:59Z',
       token_id: '27',
+      type: 'OBJKT_MINT_ARTIST',
+    },
+    {
+      artist_address: 'tz1NUvnhNJXBWUY5JSmgTjNkd9fSoqT4sqhb',
+      collection_id: '20917',
+      editions: '35',
+      fa2_address: 'KT1QrcpaSzJ23VqcSD5SMfT9UyUdZSt7i8iz',
+      id: '5666ea27478aac36a0ad25afa0f289dd',
+      level: 2612697,
+      metadata_uri: 'ipfs://QmW9Lp16JoYWh9wZfawAuK4zeuXWKYfdSpxfhMdmnPtd9j',
+      ophash: 'op8swf6jXYWqJGYzTauoCD6xQ4zkhkoYChKBQqmkZHWvpG7txhS',
+      opid: 311752797,
+      timestamp: '2022-08-11T12:50:59Z',
+      token_id: '5',
       type: 'OBJKT_MINT_ARTIST',
     },
   ]);

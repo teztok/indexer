@@ -16,8 +16,8 @@ import {
   GetTransactionsFilters,
   Transactions,
 } from '../types';
-import { RoyaltySharesSchema } from './schemas';
 import { CURRENCY_MAPPINGS } from '../consts';
+import isIPFS from 'is-ipfs';
 
 require('dotenv').config();
 
@@ -184,4 +184,8 @@ export function royaltiesToRoyaltyShares(receiverAddress: string, totalRoyalties
       [receiverAddress]: totalRoyalties,
     },
   };
+}
+
+export function normalizeMetadataIpfsUri(metadataUri: string) {
+  return !metadataUri.toLowerCase().startsWith('ipfs://') && isIPFS.cid(metadataUri) ? `ipfs://${metadataUri}` : metadataUri;
 }

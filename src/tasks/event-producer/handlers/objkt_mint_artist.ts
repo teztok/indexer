@@ -2,6 +2,7 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, Describe } from 'superstruct';
 import { TezosAddress, ContractAddress, IsoDateString, MetadataUri, PositiveInteger, PgBigInt } from '../../../lib/validators';
+import { normalizeMetadataIpfsUri } from '../../../lib/utils';
 import { Handler, MintEvent, Transaction } from '../../../types';
 import { createEventId } from '../../../lib/utils';
 import { OBJKT_CONTRACT_MINTING_FACTORY } from '../../../consts';
@@ -66,7 +67,7 @@ const HenMintHandler: Handler<Transaction, ObjktMintArtistEvent> = {
       collection_id: collectionId,
       artist_address: transaction.sender.address,
       editions: editions,
-      metadata_uri: metadataUri,
+      metadata_uri: normalizeMetadataIpfsUri(metadataUri),
     };
 
     assert(omit(event, ['type']), ObjktMintArtistEventSchema);

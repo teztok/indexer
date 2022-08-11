@@ -6,6 +6,7 @@ import { TokenStorageSchema } from '../../../lib/schemas';
 import logger from '../../../lib/logger';
 import { Handler, TokenEvent, Transaction } from '../../../types';
 import { createEventId, filterDiffs } from '../../../lib/utils';
+import { normalizeMetadataIpfsUri } from '../../../lib/utils';
 
 export const EVENT_TYPE_SET_METADATA = 'SET_METADATA';
 
@@ -89,7 +90,7 @@ const SetMetadataHandler: Handler<Transaction, SetMetadataEvent> = {
             level: transaction.level,
             fa2_address: fa2Address,
             token_id: tokenId,
-            metadata_uri: metadataUri,
+            metadata_uri: normalizeMetadataIpfsUri(metadataUri),
           };
 
           assert(omit(event, ['type']), SetMetadataEventSchema);
