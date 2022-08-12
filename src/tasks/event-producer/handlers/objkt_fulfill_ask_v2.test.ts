@@ -92,7 +92,6 @@ test('creates OBJKT_FULFILL_ASK_V2 events', async () => {
       ask_id: '1000004',
       seller_address: 'tz1f6Kdmw8tCgirihestPV4duyXzdMaFCmAw',
       buyer_address: 'tz1cgAJDiPHM8HYX8nfvRuXgaBEZeJFgGw3K',
-      amount: '1',
     },
   ]);
 });

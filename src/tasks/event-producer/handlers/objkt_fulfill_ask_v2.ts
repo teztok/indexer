@@ -16,7 +16,6 @@ export interface ObjktFulfillAskV2Event extends TokenEvent {
   buyer_address: string;
   artist_address?: string;
   price: string;
-  amount: string;
 }
 
 const ObjktFulfillAskV2EventSchema: Describe<Omit<ObjktFulfillAskV2Event, 'type' | 'implements'>> = object({
@@ -32,7 +31,6 @@ const ObjktFulfillAskV2EventSchema: Describe<Omit<ObjktFulfillAskV2Event, 'type'
   buyer_address: TezosAddress,
   artist_address: optional(TezosAddress),
   price: PgBigInt,
-  amount: PgBigInt,
 });
 
 const ObjktFulfillAskV2Handler: Handler<Transaction, ObjktFulfillAskV2Event> = {
@@ -52,7 +50,6 @@ const ObjktFulfillAskV2Handler: Handler<Transaction, ObjktFulfillAskV2Event> = {
     const buyerAddress = get(transaction, 'sender.address');
     //const artistAddress = get(diff, 'content.value.artist');
     const sellerAddress = get(diff, 'content.value.creator');
-    const amount = get(diff, 'content.value.editions'); // TODO: change in editions?
     const id = createEventId(EVENT_TYPE_OBJKT_FULFILL_ASK_V2, transaction);
 
     const event: ObjktFulfillAskV2Event = {
@@ -69,7 +66,6 @@ const ObjktFulfillAskV2Handler: Handler<Transaction, ObjktFulfillAskV2Event> = {
       //artist_address: artistAddress,
       buyer_address: buyerAddress,
       seller_address: sellerAddress,
-      amount,
       ask_id: askId,
     };
 

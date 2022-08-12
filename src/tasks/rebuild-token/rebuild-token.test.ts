@@ -1009,7 +1009,6 @@ test('handles OBJKT_ASK_V2 and OBJKT_FULFILL_ASK_V2 events', () => {
       ask_id: TEST_SWAP_ID,
       seller_address: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
       buyer_address: 'tz1cgAJDiPHM8HYX8nfvRuXgaBEZeJFgGw3K',
-      amount: '1',
     },
   ];
 
@@ -1076,7 +1075,6 @@ test('handles OBJKT_ASK_V2 and OBJKT_FULFILL_ASK_V2 events, sold out case', () =
       ask_id: TEST_SWAP_ID,
       seller_address: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
       buyer_address: 'tz1cgAJDiPHM8HYX8nfvRuXgaBEZeJFgGw3K',
-      amount: '1',
     },
   ];
 
@@ -1454,7 +1452,7 @@ test('handles FX_MINT events', () => {
     platform: 'FXHASH',
     artist_address: 'tz1fepn7jZsCYBqCDhpM63hzh9g2Ytqk4Tpv',
     fx_issuer_id: '0',
-    fx_iteration: '3'
+    fx_iteration: '3',
   });
 
   expect(royaltyReceivers).toStrictEqual([{ receiver_address: 'tz1fepn7jZsCYBqCDhpM63hzh9g2Ytqk4Tpv', royalties: '100000' }]);
@@ -1496,7 +1494,7 @@ test('handles FX_MINT_V2 events', () => {
     platform: 'FXHASH',
     artist_address: 'tz1g2ZxQbaePfmpSwPQNRVNaF5aJdVmZWZgL',
     fx_issuer_id: '5352',
-    fx_iteration: '128'
+    fx_iteration: '128',
   });
 
   expect(royaltyReceivers).toStrictEqual([{ receiver_address: 'tz1g2ZxQbaePfmpSwPQNRVNaF5aJdVmZWZgL', royalties: '200000' }]);
@@ -2063,8 +2061,6 @@ test('calculates price related properties correctly', () => {
       ask_id: '1000004',
       seller_address: 'tz1f6Kdmw8tCgirihestPV4duyXzdMaFCmAw',
       buyer_address: 'tz1cgAJDiPHM8HYX8nfvRuXgaBEZeJFgGw3K',
-      amount: '1',
-      // artist_address: 'tz1iZ2TPEShFC8TqHsXLA9RXdV7tSv8E3aLe', TODO: add
     },
   ];
 
