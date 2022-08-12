@@ -212,6 +212,7 @@ export async function up(knex: Knex): Promise<void> {
       table.text('eightscribo_rowone');
       table.text('eightscribo_rowtwo');
       table.text('eightscribo_rowthree');
+      table.text('ledger_type');
 
       table.index('level');
       table.index('implements');

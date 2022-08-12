@@ -65,7 +65,7 @@ test('sets last_processed_event_id and last_processed_event_timestamp properties
   });
 });
 
-test('handles SET_LEDGER events', () => {
+test('handles SET_LEDGER events (MULTI_ASSET)', () => {
   const events: Array<AnyEvent> = [
     {
       id: 'bbbf0d6b108216ca4162179aed96f8f0',
@@ -79,6 +79,7 @@ test('handles SET_LEDGER events', () => {
       holder_address: 'tz1UBZUkXpKGhYsP5KtzDNqLLchwF4uHrGjw',
       amount: '1',
       is_mint: true,
+      ledger_type: 'MULTI_ASSET',
     },
     {
       id: 'bbbf0d6b108216ca4162179aed96f8f1',
@@ -92,6 +93,7 @@ test('handles SET_LEDGER events', () => {
       holder_address: 'tz1UBZUkXpKGhYsP5KtzDNqLLchwF4uHrGjw',
       amount: '0',
       is_mint: false,
+      ledger_type: 'MULTI_ASSET',
     },
     {
       id: 'bbbf0d6b108216ca4162179aed96f8f2',
@@ -105,6 +107,7 @@ test('handles SET_LEDGER events', () => {
       holder_address: 'tz1UBZUkXpKGhYsP5KtzDNqLLchwF4uHrGjw',
       amount: '2',
       is_mint: false,
+      ledger_type: 'MULTI_ASSET',
     },
     {
       id: 'bbbf0d6b108216ca4162179aed96f8f3',
@@ -118,6 +121,7 @@ test('handles SET_LEDGER events', () => {
       holder_address: 'tz1UBZUkXpKGhYsP5KtzDNqLLchwF4uHrGjb',
       amount: '1',
       is_mint: false,
+      ledger_type: 'MULTI_ASSET',
     },
     {
       id: 'bbbf0d6b108216ca4162179aed96f8f4',
@@ -131,6 +135,7 @@ test('handles SET_LEDGER events', () => {
       holder_address: 'tz1UBZUkXpKGhYsP5KtzDNqLLchwF4uHrGjb',
       amount: '0',
       is_mint: false,
+      ledger_type: 'MULTI_ASSET',
     },
   ];
 
@@ -151,6 +156,59 @@ test('handles SET_LEDGER events', () => {
       last_received_at: '2021-03-05T03:39:21Z',
       first_received_at: '2021-03-05T03:39:21Z',
       amount: 0,
+    },
+  });
+});
+
+test('handles SET_LEDGER events (NFT_ASSET)', () => {
+  const events: Array<AnyEvent> = [
+    {
+      amount: '1',
+      fa2_address: TEST_FA2_ADDRESS,
+      holder_address: 'tz1XqrVXcRKDLeWFNWMuDaxhhvYu6zE7WzZc',
+      id: 'edf2091f578a5fe3b33b0e87fa3846a0',
+      is_mint: true,
+      level: 2140751,
+      ophash: TEST_OPHASH,
+      opid: 177395667,
+      timestamp: '2022-02-22T22:01:20Z',
+      token_id: TEST_TOKEN_ID,
+      type: 'SET_LEDGER',
+      ledger_type: 'NFT_ASSET',
+    },
+    {
+      amount: '1',
+      fa2_address: TEST_FA2_ADDRESS,
+      holder_address: 'tz1dgY9H4xCxzJs1pnaSQnXjPefRyBLfEXFq',
+      id: 'edf2091f578a5fe3b33b0e87fa3846a0',
+      is_mint: false,
+      level: 2140752,
+      ophash: TEST_OPHASH,
+      opid: 177395668,
+      timestamp: '2022-02-23T22:01:20Z',
+      token_id: TEST_TOKEN_ID,
+      type: 'SET_LEDGER',
+      ledger_type: 'NFT_ASSET',
+    },
+  ];
+
+  const { token, holders } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
+
+  expect(token).toMatchObject({
+    minted_at: '2022-02-22T22:01:20Z',
+    minter_address: 'tz1XqrVXcRKDLeWFNWMuDaxhhvYu6zE7WzZc',
+  });
+
+  expect(holders).toStrictEqual({
+    tz1XqrVXcRKDLeWFNWMuDaxhhvYu6zE7WzZc: {
+      last_received_at: '2022-02-22T22:01:20Z',
+      first_received_at: '2022-02-22T22:01:20Z',
+      amount: 0,
+    },
+    tz1dgY9H4xCxzJs1pnaSQnXjPefRyBLfEXFq: {
+      last_received_at: '2022-02-23T22:01:20Z',
+      first_received_at: '2022-02-23T22:01:20Z',
+      amount: 1,
     },
   });
 });
@@ -923,6 +981,7 @@ test('handles OBJKT_ASK_V2 and OBJKT_FULFILL_ASK_V2 events', () => {
       holder_address: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
       amount: '10',
       is_mint: true,
+      ledger_type: 'MULTI_ASSET',
     },
     {
       id: '22af9d5162ba6343a8ebaefe8de0e606',
@@ -989,6 +1048,7 @@ test('handles OBJKT_ASK_V2 and OBJKT_FULFILL_ASK_V2 events, sold out case', () =
       holder_address: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
       amount: '10',
       is_mint: true,
+      ledger_type: 'MULTI_ASSET',
     },
     {
       id: '22af9d5162ba6343a8ebaefe8de0e606',
@@ -1055,6 +1115,7 @@ test('handles OBJKT_RETRACT_ASK_V2 events', () => {
       holder_address: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
       amount: '10',
       is_mint: true,
+      ledger_type: 'MULTI_ASSET',
     },
     {
       id: '22af9d5162ba6343a8ebaefe8de0e606',
@@ -1117,6 +1178,7 @@ test('handles OBJKT_ASK_V2 events, case where the seller transferred the token w
       holder_address: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
       amount: '10',
       is_mint: true,
+      ledger_type: 'MULTI_ASSET',
     },
     {
       id: '22af9d5162ba6343a8ebaefe8de0e606',
@@ -1145,6 +1207,7 @@ test('handles OBJKT_ASK_V2 events, case where the seller transferred the token w
       holder_address: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
       amount: '0',
       is_mint: false,
+      ledger_type: 'MULTI_ASSET',
     },
   ];
 

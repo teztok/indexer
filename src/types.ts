@@ -479,3 +479,6 @@ export interface FxOfferV3 extends Offer {
 export type AnyOffer = ObjktBid | ObjktOffer | VersumOffer | FxOfferV3;
 
 export type Holders = Record<string, number>;
+
+export type LedgerTypeMultiAsset = 'MULTI_ASSET';
+export type LedgerTypeNftAsset = 'NFT_ASSET';

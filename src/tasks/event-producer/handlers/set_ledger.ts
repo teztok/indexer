@@ -1,10 +1,19 @@
 import get from 'lodash/get';
 import omit from 'lodash/omit';
 import isPlainObject from 'lodash/isPlainObject';
+import isString from 'lodash/isString';
 import { assert, object, Describe, string, is, boolean } from 'superstruct';
 import { TezosAddress, ContractAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
 import { TokenStorageSchema } from '../../../lib/schemas';
-import { Handler, TokenEvent, Transaction, BigmapDiffContent, BigmapDiffKey } from '../../../types';
+import {
+  Handler,
+  TokenEvent,
+  Transaction,
+  BigmapDiffContent,
+  BigmapDiffKey,
+  LedgerTypeMultiAsset,
+  LedgerTypeNftAsset,
+} from '../../../types';
 import { createEventId, filterDiffs } from '../../../lib/utils';
 import logger from '../../../lib/logger';
 
@@ -15,9 +24,10 @@ export interface SetLedgerEvent extends TokenEvent {
   holder_address: string;
   amount: string;
   is_mint: boolean;
+  ledger_type: LedgerTypeMultiAsset | LedgerTypeNftAsset;
 }
 
-const SetLedgerEventSchema: Describe<Omit<SetLedgerEvent, 'type'>> = object({
+const SetLedgerEventSchema: Describe<Omit<SetLedgerEvent, 'type' | 'ledger_type'>> = object({
   id: string(),
   opid: PositiveInteger,
   timestamp: IsoDateString,
@@ -72,6 +82,10 @@ export function isValidMultiAssetLedgerEntry(entry: BigmapDiffContent) {
   return true;
 }
 
+export function isValidNFTAssetLedgerEntry(entry: BigmapDiffContent) {
+  return is(entry.value, TezosAddress) && isString(entry.key);
+}
+
 const SetLedgerHandler: Handler<Transaction, SetLedgerEvent> = {
   type: EVENT_TYPE_SET_LEDGER,
 
@@ -97,7 +111,7 @@ const SetLedgerHandler: Handler<Transaction, SetLedgerEvent> = {
       return false;
     }
 
-    return ledgerDiffs.every((diff) => isValidMultiAssetLedgerEntry(diff.content));
+    return ledgerDiffs.every((diff) => isValidMultiAssetLedgerEntry(diff.content) || isValidNFTAssetLedgerEntry(diff.content));
   },
 
   exec: (transaction) => {
@@ -112,28 +126,58 @@ const SetLedgerHandler: Handler<Transaction, SetLedgerEvent> = {
     const events: Array<SetLedgerEvent> = ledgerDiffs
       .map((diff, idx) => {
         try {
-          const { tokenId, holderAddress } = extractAddressAndTokenIdFromBigmapDiffKey(get(diff, 'content.key'));
-          const amount = diff.action === 'remove_key' ? '0' : get(diff, 'content.value');
-          const isMint = !ledgerDiffs.some((diff) => diff.action === 'update_key' || diff.action === 'remove_key');
-          const id = createEventId(EVENT_TYPE_SET_LEDGER, transaction, idx);
+          if (isValidMultiAssetLedgerEntry(diff.content)) {
+            const { tokenId, holderAddress } = extractAddressAndTokenIdFromBigmapDiffKey(get(diff, 'content.key'));
+            const amount = diff.action === 'remove_key' ? '0' : get(diff, 'content.value');
+            const isMint = !ledgerDiffs.some((diff) => diff.action === 'update_key' || diff.action === 'remove_key');
+            const id = createEventId(EVENT_TYPE_SET_LEDGER, transaction, idx);
 
-          const event: SetLedgerEvent = {
-            id,
-            type: EVENT_TYPE_SET_LEDGER,
-            opid: transaction.id,
-            ophash: transaction.hash,
-            timestamp: transaction.timestamp,
-            level: transaction.level,
-            fa2_address: fa2Address,
-            token_id: tokenId,
-            holder_address: holderAddress,
-            amount: amount,
-            is_mint: isMint,
-          };
+            const event: SetLedgerEvent = {
+              id,
+              type: EVENT_TYPE_SET_LEDGER,
+              opid: transaction.id,
+              ophash: transaction.hash,
+              timestamp: transaction.timestamp,
+              level: transaction.level,
+              fa2_address: fa2Address,
+              token_id: tokenId,
+              holder_address: holderAddress,
+              amount: amount,
+              is_mint: isMint,
+              ledger_type: 'MULTI_ASSET',
+            };
 
-          assert(omit(event, ['type']), SetLedgerEventSchema);
+            assert(omit(event, ['type', 'ledger_type']), SetLedgerEventSchema);
 
-          return event;
+            return event;
+          } else if (isValidNFTAssetLedgerEntry(diff.content)) {
+            const tokenId = get(diff, 'content.key');
+            const holderAddress = get(diff, 'content.value');
+            const isMint = diff.action === 'add_key';
+            const amount = diff.action === 'remove_key' ? '0' : '1';
+            const id = createEventId(EVENT_TYPE_SET_LEDGER, transaction, idx);
+
+            const event: SetLedgerEvent = {
+              id,
+              type: EVENT_TYPE_SET_LEDGER,
+              opid: transaction.id,
+              ophash: transaction.hash,
+              timestamp: transaction.timestamp,
+              level: transaction.level,
+              fa2_address: fa2Address,
+              token_id: tokenId,
+              holder_address: holderAddress,
+              amount,
+              is_mint: isMint,
+              ledger_type: 'NFT_ASSET',
+            };
+
+            assert(omit(event, ['type', 'ledger_type']), SetLedgerEventSchema);
+
+            return event;
+          }
+
+          throw new Error('unsupported ledger entry');
         } catch (err) {
           logger.error(`handler "${EVENT_TYPE_SET_LEDGER}" failed to process event: ${(err as Error).message}`);
           return false;

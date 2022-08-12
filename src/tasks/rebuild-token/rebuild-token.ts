@@ -14,19 +14,7 @@ import dbConfig from '../../knexfile';
 import db from '../../lib/db';
 import config from '../../lib/config';
 import { getTaskName, isTezLikeCurrency } from '../../lib/utils';
-import {
-  Task,
-  Platform,
-  Metadata,
-  Token,
-  Holders,
-  AnyListing,
-  AnyOffer,
-  SaleEvent,
-  Asset,
-  ObjktListingV2,
-  RoyaltyShares,
-} from '../../types';
+import { Task, Platform, Metadata, Token, AnyListing, AnyOffer, SaleEvent, Asset, ObjktListingV2, RoyaltyShares } from '../../types';
 import { isValidTezosAddress } from '../../lib/validators';
 import { cleanString, cleanUri, cleanAttributes, cleanTags, cleanCreators, cleanFormats, RoyaltySharesSchema } from '../../lib/schemas';
 import * as eventsDao from '../../lib/daos/events';
@@ -115,7 +103,7 @@ export function royaltySharesToRoyaltyReceivers(royaltyShares: RoyaltyShares): A
   }
 
   return Object.entries(royaltyShares.shares).map(([receiverAddress, receiverRoyalties]) => {
-    const royaltiesStr = isString(receiverRoyalties) ? receiverRoyalties : String(receiverRoyalties);
+    const royaltiesStr: string = isString(receiverRoyalties) ? receiverRoyalties : String(receiverRoyalties);
     let royaltiesStrNormalized = null;
 
     if (royaltiesStr.length <= royaltyShares.decimals) {
@@ -195,6 +183,14 @@ export function compileToken(
 
           if (newAmount > lastAmount) {
             holders[event.holder_address].last_received_at = event.timestamp;
+          }
+        }
+
+        if (event.ledger_type === 'NFT_ASSET') {
+          for (const holderAddress of Object.keys(holders)) {
+            if (holderAddress !== event.holder_address) {
+              holders[holderAddress].amount = 0;
+            }
           }
         }
 
