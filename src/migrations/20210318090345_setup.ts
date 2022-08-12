@@ -59,7 +59,6 @@ export async function up(knex: Knex): Promise<void> {
       table.timestamp('last_sale_at');
       table.bigInteger('sales_count');
       table.bigInteger('sales_volume');
-      table.jsonb('royalties');
       table.bigInteger('royalties_total');
       table.text('eightscribo_title');
       table.text('eightscribo_rowone');

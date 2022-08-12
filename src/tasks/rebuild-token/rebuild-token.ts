@@ -1143,7 +1143,6 @@ export function compileToken(
 
     sales_count: String(soldEditions),
     sales_volume: String(salesVolume),
-    royalties, // deprecated
     royalties_total: royaltiesTotal,
 
     eightbid_creator_name: eightbidCreatorName,

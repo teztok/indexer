@@ -310,7 +310,6 @@ export interface Token {
 
   sales_count: string;
   sales_volume: string;
-  royalties: Record<string, string>; // deprecated
   royalties_total: string | null;
 
   eightbid_creator_name: string | null;

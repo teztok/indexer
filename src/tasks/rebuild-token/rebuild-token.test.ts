@@ -264,9 +264,6 @@ test('handles HEN_MINT events', () => {
   expect(token).toMatchObject({
     platform: 'HEN',
     artist_address: 'tz1XUcZvBxAMMSqeMsfA4tunmEfTUcbEXQ88',
-    royalties: {
-      tz1XUcZvBxAMMSqeMsfA4tunmEfTUcbEXQ88: '100',
-    },
   });
 
   expect(royaltyReceivers).toStrictEqual([{ receiver_address: 'tz1XUcZvBxAMMSqeMsfA4tunmEfTUcbEXQ88', royalties: '100000' }]);
@@ -1457,10 +1454,7 @@ test('handles FX_MINT events', () => {
     platform: 'FXHASH',
     artist_address: 'tz1fepn7jZsCYBqCDhpM63hzh9g2Ytqk4Tpv',
     fx_issuer_id: '0',
-    fx_iteration: '3',
-    royalties: {
-      tz1fepn7jZsCYBqCDhpM63hzh9g2Ytqk4Tpv: '100',
-    },
+    fx_iteration: '3'
   });
 
   expect(royaltyReceivers).toStrictEqual([{ receiver_address: 'tz1fepn7jZsCYBqCDhpM63hzh9g2Ytqk4Tpv', royalties: '100000' }]);
@@ -1502,10 +1496,7 @@ test('handles FX_MINT_V2 events', () => {
     platform: 'FXHASH',
     artist_address: 'tz1g2ZxQbaePfmpSwPQNRVNaF5aJdVmZWZgL',
     fx_issuer_id: '5352',
-    fx_iteration: '128',
-    royalties: {
-      tz1g2ZxQbaePfmpSwPQNRVNaF5aJdVmZWZgL: '200',
-    },
+    fx_iteration: '128'
   });
 
   expect(royaltyReceivers).toStrictEqual([{ receiver_address: 'tz1g2ZxQbaePfmpSwPQNRVNaF5aJdVmZWZgL', royalties: '200000' }]);
