@@ -47,7 +47,10 @@ const SetMetadataHandler: Handler<Transaction, SetMetadataEvent> = {
   type: EVENT_TYPE_SET_METADATA,
 
   accept: (transaction) => {
-    if (!is(get(transaction, 'storage'), TokenStorageSchema)) {
+    const isUnderStorage = is(get(transaction, 'storage'), TokenStorageSchema);
+    const isUnderAssets = is(get(transaction, 'storage.assets'), TokenStorageSchema);
+
+    if (!isUnderStorage && !isUnderAssets) {
       return false;
     }
 
@@ -55,7 +58,10 @@ const SetMetadataHandler: Handler<Transaction, SetMetadataEvent> = {
       return false;
     }
 
-    const metadataDiffs = filterDiffs(transaction.diffs, null, 'token_metadata', ['add_key', 'update_key']);
+    const metadataDiffs = filterDiffs(transaction.diffs, null, isUnderAssets ? 'assets.token_metadata' : 'token_metadata', [
+      'add_key',
+      'update_key',
+    ]);
 
     if (!metadataDiffs.length) {
       return false;
@@ -71,8 +77,12 @@ const SetMetadataHandler: Handler<Transaction, SetMetadataEvent> = {
   },
 
   exec: (transaction) => {
+    const isUnderAssets = is(get(transaction, 'storage.assets'), TokenStorageSchema);
     const fa2Address = get(transaction, 'target.address');
-    const metadataDiffs = filterDiffs(transaction.diffs!, null, 'token_metadata', ['add_key', 'update_key']);
+    const metadataDiffs = filterDiffs(transaction.diffs!, null, isUnderAssets ? 'assets.token_metadata' : 'token_metadata', [
+      'add_key',
+      'update_key',
+    ]);
 
     const events: Array<SetMetadataEvent> = metadataDiffs
       .map((diff, idx) => {

@@ -571,6 +571,265 @@ test('creates SET_LEDGER events', async () => {
         },
       ],
     },
+    {
+      id: 279128980,
+      level: 2509067,
+      timestamp: '2022-07-05T22:00:29Z',
+      block: 'BLbsPhr8FA2LeFR9fpBbdt7bEuuqXxr4i5cioZbRDWE31sq3ZPn',
+      hash: 'op9pYr7Kgvyk381zsL1syWBeLkcR35atQqjL8uHGJmjkrucu1yW',
+      counter: 11549458,
+      sender: {
+        alias: 'Big Foot Mafia Club Admin',
+        address: 'KT1SnDiCRx4dgdgozLqodFdpRstuUgQMPhvG',
+      },
+      target: {
+        alias: 'Big Foot Mafia Club',
+        address: 'KT1BY2HcwQBx9mwLDvMvrFH7M9M1HHq5xHSn',
+      },
+      amount: 0,
+      parameter: {
+        entrypoint: 'mint',
+        value: {
+          amount: '1',
+          address: 'tz1RaGprXFM7iXhV7VtY636FjA6oC9brU2es',
+          metadata: {
+            '': '697066733a2f2f516d554a3867714e574b5a32684865453669376944644c31385375656d5672695178703358314a64594d645875712f333031322e6a736f6e',
+          },
+          token_id: '3012',
+        },
+      },
+      status: 'applied',
+      hasInternals: false,
+      initiator: {
+        address: 'tz1RaGprXFM7iXhV7VtY636FjA6oC9brU2es',
+      },
+      storage: {
+        admin: 'KT1SnDiCRx4dgdgozLqodFdpRstuUgQMPhvG',
+        assets: {
+          ledger: 212660,
+          operators: 212661,
+          next_token_id: '3013',
+          token_metadata: 212662,
+          token_total_supply: 212663,
+        },
+        metadata: 212659,
+      },
+      diffs: [
+        {
+          bigmap: 212663,
+          path: 'assets.token_total_supply',
+          action: 'add_key',
+          content: {
+            hash: 'exprtyRuvGQ1MJ1tT6yp9QKx1kmvqknnVqq4VqH43WQX6FZpsM1iwG',
+            key: '3012',
+            value: '1',
+          },
+        },
+        {
+          bigmap: 212662,
+          path: 'assets.token_metadata',
+          action: 'add_key',
+          content: {
+            hash: 'exprtyRuvGQ1MJ1tT6yp9QKx1kmvqknnVqq4VqH43WQX6FZpsM1iwG',
+            key: '3012',
+            value: {
+              token_id: '3012',
+              token_info: {
+                '': '697066733a2f2f516d554a3867714e574b5a32684865453669376944644c31385375656d5672695178703358314a64594d645875712f333031322e6a736f6e',
+              },
+            },
+          },
+        },
+        {
+          bigmap: 212660,
+          path: 'assets.ledger',
+          action: 'add_key',
+          content: {
+            hash: 'expru2gckHHRZse2ED4AETeAzNsXY3jxMNWdMvrpJz1umu8KaLBSnA',
+            key: {
+              nat: '3012',
+              address: 'tz1RaGprXFM7iXhV7VtY636FjA6oC9brU2es',
+            },
+            value: '1',
+          },
+        },
+      ],
+      nonce: 32,
+    },
+    {
+      id: 124047413,
+      level: 1877594,
+      timestamp: '2021-11-19T19:07:02Z',
+      block: 'BLkXYwv3uT6UzB3KQFCRxgR2jJ1ckWJDa638RsefX8oSkYB2G5c',
+      hash: 'opQsBRkFSj3e72tEoQf6B5Nezb9PKNRjiUufcBoC1YKrAt73NVF',
+      counter: 26257577,
+      sender: {
+        alias: 'Cyber Gecko Crowdsale',
+        address: 'KT1JTaXMDKxQJ4bDvHGHGz9aoEAvQubC3e29',
+      },
+      target: {
+        alias: 'Cyber Gecko Gang',
+        address: 'KT1CwSgYmZewFazZsW348RAQYn1nthiGP3Qa',
+      },
+      amount: 0,
+      parameter: {
+        entrypoint: 'mint',
+        value: {
+          amount: '1',
+          address: 'tz1PHNbDbKYVNhNj9CaAzau5GNqRoWfpQw5e',
+          metadata: {
+            '': '697066733a2f2f516d52394c4d467145353959383778784d355a67365a36684734664368475252434e5172796f36377134366269452f3135352e6a736f6e',
+          },
+          token_id: '155',
+        },
+      },
+      status: 'applied',
+      hasInternals: false,
+      initiator: {
+        address: 'tz1PHNbDbKYVNhNj9CaAzau5GNqRoWfpQw5e',
+      },
+      storage: {
+        admin: 'KT1JTaXMDKxQJ4bDvHGHGz9aoEAvQubC3e29',
+        assets: {
+          ledger: 36980,
+          operators: 36981,
+          next_token_id: '2223',
+          token_metadata: 36982,
+          token_total_supply: 36983,
+        },
+        metadata: 36979,
+      },
+      diffs: [
+        {
+          bigmap: 36983,
+          path: 'assets.token_total_supply',
+          action: 'add_key',
+          content: {
+            hash: 'exprvPGbGdo6Pn6sBPePRvXCkSiKCuNtpHQirkpod7wj2Urp2WaxW8',
+            key: '155',
+            value: '1',
+          },
+        },
+        {
+          bigmap: 36982,
+          path: 'assets.token_metadata',
+          action: 'add_key',
+          content: {
+            hash: 'exprvPGbGdo6Pn6sBPePRvXCkSiKCuNtpHQirkpod7wj2Urp2WaxW8',
+            key: '155',
+            value: {
+              token_id: '155',
+              token_info: {
+                '': '697066733a2f2f516d52394c4d467145353959383778784d355a67365a36684734664368475252434e5172796f36377134366269452f3135352e6a736f6e',
+              },
+            },
+          },
+        },
+        {
+          bigmap: 36980,
+          path: 'assets.ledger',
+          action: 'add_key',
+          content: {
+            hash: 'exprv54UvYK9yfxFf9fuf9aMtebSGnrB6n9ALNtTnMgVNmv3ZxpX5q',
+            key: {
+              nat: '155',
+              address: 'tz1PHNbDbKYVNhNj9CaAzau5GNqRoWfpQw5e',
+            },
+            value: '1',
+          },
+        },
+      ],
+      nonce: 5,
+    },
+    {
+      id: 154257835,
+      level: 2026426,
+      timestamp: '2022-01-13T03:46:20Z',
+      block: 'BM3FC7FmYkuJZa1DLhLxq8oiveCuRRZ5fVctnv4Kb6ZRkAFMRPS',
+      hash: 'ooKnKEDKj72spm5qwVm4MZPfzjqwsQBAYyhXKzaxus57TYdjbtk',
+      counter: 45136621,
+      sender: {
+        alias: 'GAP NFT Seller',
+        address: 'tz1U7xSdkqfv2Q4WHp9x6e1kv8FoE31kgimv',
+      },
+      target: {
+        alias: 'GAP Threads Asset Manager',
+        address: 'KT1GA6KaLWpURnjvmnxB4wToErzM2EXHqrMo',
+      },
+      amount: 0,
+      parameter: {
+        entrypoint: 'mint',
+        value: [
+          {
+            owner: 'tz1U7xSdkqfv2Q4WHp9x6e1kv8FoE31kgimv',
+            amount: '10000',
+            token_info: {
+              '': '697066733a2f2f62616679626569656d79706e746c6570736b6b67726163776a7078326c3535626b627832657a686b76687836626367796a796567696f7365716f69',
+            },
+          },
+        ],
+      },
+      status: 'applied',
+      hasInternals: false,
+      initiator: null,
+      storage: {
+        admin: {
+          admin: 'tz1U7xSdkqfv2Q4WHp9x6e1kv8FoE31kgimv',
+          paused: false,
+          pending_admin: null,
+        },
+        assets: {
+          ledger: 77034,
+          operators: 77035,
+          next_token_id: '2',
+          token_metadata: 77036,
+          contract_operators: [],
+          token_total_supply: 77037,
+        },
+        metadata: 77038,
+      },
+      diffs: [
+        {
+          bigmap: 77037,
+          path: 'assets.token_total_supply',
+          action: 'add_key',
+          content: {
+            hash: 'expru2dKqDfZG8hu4wNGkiyunvq2hdSKuVYtcKta7BWP6Q18oNxKjS',
+            key: '1',
+            value: '10000',
+          },
+        },
+        {
+          bigmap: 77036,
+          path: 'assets.token_metadata',
+          action: 'add_key',
+          content: {
+            hash: 'expru2dKqDfZG8hu4wNGkiyunvq2hdSKuVYtcKta7BWP6Q18oNxKjS',
+            key: '1',
+            value: {
+              token_id: '1',
+              token_info: {
+                '': '697066733a2f2f62616679626569656d79706e746c6570736b6b67726163776a7078326c3535626b627832657a686b76687836626367796a796567696f7365716f69',
+              },
+            },
+          },
+        },
+        {
+          bigmap: 77034,
+          path: 'assets.ledger',
+          action: 'add_key',
+          content: {
+            hash: 'exprvL5aRGaoP6g8zAXwubhWdF1SapvJXdbeps1Skgs8ECmDupRoAR',
+            key: {
+              nat: '1',
+              address: 'tz1U7xSdkqfv2Q4WHp9x6e1kv8FoE31kgimv',
+            },
+            value: '10000',
+          },
+        },
+      ],
+      nonce: null,
+    },
   ];
 
   const events = transactionsToEvents(transactions, [SetLedgerHandler]);
@@ -666,6 +925,45 @@ test('creates SET_LEDGER events', async () => {
       holder_address: 'tz2EV1f4dheCSYBDbxqjrx1Jyd6HffisKC8u',
       amount: '0',
       is_mint: false,
+    },
+    {
+      id: '6e498a70e1e3c648638a9ade591d135f',
+      type: 'SET_LEDGER',
+      opid: 279128980,
+      ophash: 'op9pYr7Kgvyk381zsL1syWBeLkcR35atQqjL8uHGJmjkrucu1yW',
+      timestamp: '2022-07-05T22:00:29Z',
+      level: 2509067,
+      fa2_address: 'KT1BY2HcwQBx9mwLDvMvrFH7M9M1HHq5xHSn',
+      token_id: '3012',
+      holder_address: 'tz1RaGprXFM7iXhV7VtY636FjA6oC9brU2es',
+      amount: '1',
+      is_mint: true,
+    },
+    {
+      amount: '1',
+      fa2_address: 'KT1CwSgYmZewFazZsW348RAQYn1nthiGP3Qa',
+      holder_address: 'tz1PHNbDbKYVNhNj9CaAzau5GNqRoWfpQw5e',
+      id: 'b5ff1b74e54410f3c52d92fb295bde74',
+      is_mint: true,
+      level: 1877594,
+      ophash: 'opQsBRkFSj3e72tEoQf6B5Nezb9PKNRjiUufcBoC1YKrAt73NVF',
+      opid: 124047413,
+      timestamp: '2021-11-19T19:07:02Z',
+      token_id: '155',
+      type: 'SET_LEDGER',
+    },
+    {
+      amount: '10000',
+      fa2_address: 'KT1GA6KaLWpURnjvmnxB4wToErzM2EXHqrMo',
+      holder_address: 'tz1U7xSdkqfv2Q4WHp9x6e1kv8FoE31kgimv',
+      id: 'f01ff2c8318102b7f79c327a53a35c38',
+      is_mint: true,
+      level: 2026426,
+      ophash: 'ooKnKEDKj72spm5qwVm4MZPfzjqwsQBAYyhXKzaxus57TYdjbtk',
+      opid: 154257835,
+      timestamp: '2022-01-13T03:46:20Z',
+      token_id: '1',
+      type: 'SET_LEDGER',
     },
   ]);
 });

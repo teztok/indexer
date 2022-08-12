@@ -76,7 +76,10 @@ const SetLedgerHandler: Handler<Transaction, SetLedgerEvent> = {
   type: EVENT_TYPE_SET_LEDGER,
 
   accept: (transaction) => {
-    if (!is(get(transaction, 'storage'), TokenStorageSchema)) {
+    const isUnderStorage = is(get(transaction, 'storage'), TokenStorageSchema);
+    const isUnderAssets = is(get(transaction, 'storage.assets'), TokenStorageSchema);
+
+    if (!isUnderStorage && !isUnderAssets) {
       return false;
     }
 
@@ -84,7 +87,11 @@ const SetLedgerHandler: Handler<Transaction, SetLedgerEvent> = {
       return false;
     }
 
-    const ledgerDiffs = filterDiffs(transaction.diffs, null, 'ledger', ['add_key', 'update_key', 'remove_key']);
+    const ledgerDiffs = filterDiffs(transaction.diffs, null, isUnderAssets ? 'assets.ledger' : 'ledger', [
+      'add_key',
+      'update_key',
+      'remove_key',
+    ]);
 
     if (!ledgerDiffs.length) {
       return false;
@@ -94,8 +101,13 @@ const SetLedgerHandler: Handler<Transaction, SetLedgerEvent> = {
   },
 
   exec: (transaction) => {
+    const isUnderAssets = is(get(transaction, 'storage.assets'), TokenStorageSchema);
     const fa2Address = get(transaction, 'target.address');
-    const ledgerDiffs = filterDiffs(transaction.diffs!, null, 'ledger', ['add_key', 'update_key', 'remove_key']);
+    const ledgerDiffs = filterDiffs(transaction.diffs!, null, isUnderAssets ? 'assets.ledger' : 'ledger', [
+      'add_key',
+      'update_key',
+      'remove_key',
+    ]);
 
     const events: Array<SetLedgerEvent> = ledgerDiffs
       .map((diff, idx) => {
