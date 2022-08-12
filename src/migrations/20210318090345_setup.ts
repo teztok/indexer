@@ -240,15 +240,6 @@ export async function up(knex: Knex): Promise<void> {
       table.enum('status', ['unprocessed', 'processed', 'error']).notNullable().defaultTo('unprocessed');
 
       table.unique(['uri']);
-    })
-    .createTable('rarible_activity', (table) => {
-      table.text('id').notNullable();
-      table.enum('type', ['MINT', 'BID', 'LIST', 'SELL', 'CANCEL_LIST', 'CANCEL_BID']).notNullable();
-      table.timestamp('timestamp');
-      table.jsonb('data');
-
-      table.index('timestamp');
-      table.primary(['id']);
     });
 }
 
@@ -260,6 +251,5 @@ export async function down(knex: Knex): Promise<void> {
     .dropTableIfExists('listings')
     .dropTableIfExists('offers')
     .dropTableIfExists('events')
-    .dropTableIfExists('token_metadata')
-    .dropTableIfExists('rarible_activity');
+    .dropTableIfExists('token_metadata');
 }
