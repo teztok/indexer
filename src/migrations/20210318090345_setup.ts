@@ -28,7 +28,6 @@ export async function up(knex: Knex): Promise<void> {
       table.jsonb('formats');
       table.jsonb('creators');
       table.jsonb('contributors');
-      table.jsonb('assets');
       table.text('rights');
       table.text('right_uri');
       table.text('eightbid_creator_name');
@@ -250,25 +249,11 @@ export async function up(knex: Knex): Promise<void> {
 
       table.index('timestamp');
       table.primary(['id']);
-    })
-    .createTable('assets', (table) => {
-      table.text('artifact_uri');
-      table.text('filename');
-      table.integer('filesize');
-      table.text('mime_type');
-      table.integer('width');
-      table.integer('height');
-      table.integer('duration');
-      table.text('codec');
-      table.enum('type', ['original', 'thumbnail']).notNullable();
-
-      table.primary(['artifact_uri', 'filename']);
     });
 }
 
 export async function down(knex: Knex): Promise<void> {
   return knex.schema
-    .dropTableIfExists('assets')
     .dropTableIfExists('tokens')
     .dropTableIfExists('holdings')
     .dropTableIfExists('tags')

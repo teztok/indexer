@@ -277,7 +277,6 @@ export interface Token {
   external_uri: string | null;
   mime_type: string | null;
   formats: Array<FormatSnakeCase> | null;
-  assets: Array<any> | null; // TODO: fix any
   creators: Array<string> | null;
   contributors: Array<string> | null;
 

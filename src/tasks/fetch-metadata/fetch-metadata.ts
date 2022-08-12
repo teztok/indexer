@@ -101,14 +101,6 @@ async function processMetadata(metadataUri: string, helpers: JobHelpers) {
 
     await metadataDao.update(metadataUri, 'processed', metadata);
 
-    if (metadata.artifactUri) {
-      await workerUtils.addJob(
-        getTaskName('process-artifact'),
-        { artifact_uri: metadata.artifactUri },
-        { jobKey: `process-artifact-${metadata.artifactUri}`, maxAttempts: 3 }
-      );
-    }
-
     const tokens = await tokensDao.getByField('metadata_uri', metadataUri);
 
     if (tokens && tokens.length) {

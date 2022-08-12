@@ -19,7 +19,6 @@ import { isValidTezosAddress } from '../../lib/validators';
 import { cleanString, cleanUri, cleanAttributes, cleanTags, cleanCreators, cleanFormats, RoyaltySharesSchema } from '../../lib/schemas';
 import * as eventsDao from '../../lib/daos/events';
 import * as metadataDao from '../../lib/daos/metadata';
-import * as assetsDao from '../../lib/daos/assets';
 import { AnyEvent } from '../event-producer/handlers/index';
 import {
   HEN_CONTRACT_MARKETPLACE_V2,
@@ -120,14 +119,7 @@ export function royaltySharesToRoyaltyReceivers(royaltyShares: RoyaltyShares): A
   });
 }
 
-export function compileToken(
-  fa2Address: string,
-  tokenId: string,
-  events: Array<AnyEvent>,
-  metadataStatus: string,
-  metadata?: Metadata,
-  assets?: Array<Asset>
-) {
+export function compileToken(fa2Address: string, tokenId: string, events: Array<AnyEvent>, metadataStatus: string, metadata?: Metadata) {
   const holders: Record<string, { last_received_at: string; first_received_at: string; amount: number }> = {};
   const listings: Record<string, AnyListing> = {};
   const offers: Record<string, AnyOffer> = {};
@@ -1063,13 +1055,6 @@ export function compileToken(
     }, {});
   });
 
-  const assetsWithUri = (assets || [])
-    .filter(({ type }) => type === 'thumbnail')
-    .map(({ artifact_uri, filename, ...others }) => ({
-      ...others,
-      uri: `${config.assetsUrl}/${filename}`,
-    }));
-
   const attributesArr = cleanAttributes(get(metadata, 'attributes'));
 
   let royaltiesTotal = null;
@@ -1117,7 +1102,6 @@ export function compileToken(
     formats: formats as any, // TODO: fix any
 
     attributes: attributesArr,
-    assets: assetsWithUri && assetsWithUri.length ? assetsWithUri : null,
 
     price: cheapestPrice,
     last_sales_price: lastSalePrice,
@@ -1182,9 +1166,8 @@ export async function rebuildToken(payload: RebuildTokenTaskPayload) {
 
   const metadata = metadataRow && metadataRow.data ? metadataRow.data : null;
   const status = metadataRow ? metadataRow.status : 'unprocessed';
-  const assets = metadata && metadata.artifactUri ? await assetsDao.getByField('artifact_uri', metadata.artifactUri) : undefined;
 
-  const { token, listings, holders, tags, offers, royaltyReceivers } = compileToken(fa2Address, tokenId, events, status, metadata, assets);
+  const { token, listings, holders, tags, offers, royaltyReceivers } = compileToken(fa2Address, tokenId, events, status, metadata);
 
   if ([FX_CONTRACT_FA2, FX_CONTRACT_FA2_V3].includes(token.fa2_address) && isString(token.fx_issuer_id)) {
     // add the displayUri and the thumbnailUri of the the fxhash collection to the token
@@ -1238,7 +1221,7 @@ export async function rebuildToken(payload: RebuildTokenTaskPayload) {
       .transacting(trx);
     // await trx('tokens').where('fa2_address', '=', token.fa2_address).andWhere('token_id', '=', token.token_id).del().transacting(trx);
 
-    const tokenRow = ['formats', 'assets', 'creators', 'contributors', 'attributes', 'royalties'].reduce<Record<string, any>>(
+    const tokenRow = ['formats', 'creators', 'contributors', 'attributes', 'royalties'].reduce<Record<string, any>>(
       (memo, propName) => {
         if (memo[propName]) {
           memo[propName] = JSON.stringify(memo[propName]);

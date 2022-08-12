@@ -1,9 +1,5 @@
 FROM node:17-bullseye
 
-RUN apt-get -y update
-RUN apt-get install -y ffmpeg
-RUN apt-get install -y imagemagick
-
 WORKDIR /usr/src/app
 
 COPY package*.json ./

@@ -53,17 +53,6 @@ services:
         env_file:
             - .env.prod
 
-    teztok_process-artifact:
-        image: teztok/indexer
-        restart: always
-        depends_on:
-            - teztok_ctrl
-        command: npm run start-worker:process-artifact
-        volumes:
-            - ./data/:/usr/src/app/data/
-        env_file:
-            - .env.prod
-
     teztok_rebuild-token:
         image: teztok/indexer
         restart: always
