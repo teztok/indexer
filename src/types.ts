@@ -213,39 +213,12 @@ export interface Metadata extends MetadataBase {
   assets?: Array<Metadata>;
   royalties?: RoyaltyShares;
 }
-
-export type AssetType = 'original' | 'thumbnail';
-
-export interface ImageAsset {
-  artifact_uri: string;
-  filename: string;
-  mime_type: string;
-  width: number;
-  height: number;
-  filesize: number;
-  type: AssetType;
-}
-
-export interface VideoAsset {
-  artifact_uri: string;
-  filename: string;
-  mime_type: string;
-  codec: string;
-  width: number;
-  height: number;
-  filesize: number;
-  duration: number;
-  type: AssetType;
-}
-
-export type Asset = ImageAsset | VideoAsset;
-
 export interface RoyaltyShares {
   decimals: number;
   shares: Record<string, string>;
 }
 
-export type Platform = 'HEN' | 'FXHASH' | 'OBJKT' | 'VERSUM' | '8BIDOU' | 'TYPED' | '8SCRIBO' | null;
+export type Platform = 'HEN' | 'FXHASH' | 'OBJKT' | 'VERSUM' | '8BIDOU' | 'TYPED' | '8SCRIBO' | 'RARIBLE' | null;
 
 export interface Token {
   fa2_address: string;

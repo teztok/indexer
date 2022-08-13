@@ -989,6 +989,102 @@ test('creates SET_LEDGER events', async () => {
       ],
       nonce: 13,
     },
+    {
+      id: 137595818,
+      level: 1947327,
+      timestamp: '2021-12-15T12:27:36Z',
+      block: 'BKq5zMHuPmFC522oxi72f6Sad5fbHUVsrFswPfV6BEBvkcdEmu8',
+      hash: 'op4GbUN3CGKQs7rSzQoAuqAvkX3SLb7AoCbzf9i6XA2tczJF4FM',
+      counter: 40410633,
+      sender: {
+        alias: 'rasskazova',
+        address: 'tz1aU58GzuKM8j9PP4zNCWocymJtRd2kJhqJ',
+      },
+      target: {
+        alias: 'Rarible',
+        address: 'KT18pVpRXKPY2c4U2yFEGSH3ZnhB2kL8kwXS',
+      },
+      amount: 0,
+      parameter: {
+        entrypoint: 'mint',
+        value: {
+          iowner: 'tz1aU58GzuKM8j9PP4zNCWocymJtRd2kJhqJ',
+          iamount: '3',
+          itokenid: '7',
+          iroyalties: [
+            {
+              partValue: '1000',
+              partAccount: 'tz1aU58GzuKM8j9PP4zNCWocymJtRd2kJhqJ',
+            },
+          ],
+          itokenMetadata: {
+            '': '697066733a2f2f697066732f516d596668764345757231446d3848794c3437716f4839727853464a7943415471353563584a6e61446a386a3874',
+          },
+        },
+      },
+      status: 'applied',
+      hasInternals: false,
+      initiator: null,
+      storage: {
+        owner: 'tz1PyW1EznU9ADpocaauSi41NCPynBuqf1Kc',
+        ledger: 55542,
+        paused: false,
+        permits: 55545,
+        metadata: 55547,
+        operator: 55543,
+        royalties: 55541,
+        default_expiry: '31556952',
+        token_metadata: 55544,
+        owner_candidate: null,
+        operator_for_all: 55546,
+      },
+      diffs: [
+        {
+          bigmap: 55544,
+          path: 'token_metadata',
+          action: 'add_key',
+          content: {
+            hash: 'exprufunBN3FAVpZ21WXquoqiNyWB2PvYy1njkP4wHGtMexdKtcJEM',
+            key: '7',
+            value: {
+              token_id: '7',
+              token_info: {
+                '': '697066733a2f2f697066732f516d596668764345757231446d3848794c3437716f4839727853464a7943415471353563584a6e61446a386a3874',
+              },
+            },
+          },
+        },
+        {
+          bigmap: 55542,
+          path: 'ledger',
+          action: 'add_key',
+          content: {
+            hash: 'exprv8KCjmVRgyk6ZpbuwPSa1Kr4FYpMKByXa5bzRSoVzqoVWHfMN6',
+            key: {
+              nat: '7',
+              address: 'tz1aU58GzuKM8j9PP4zNCWocymJtRd2kJhqJ',
+            },
+            value: '3',
+          },
+        },
+        {
+          bigmap: 55541,
+          path: 'royalties',
+          action: 'add_key',
+          content: {
+            hash: 'exprufunBN3FAVpZ21WXquoqiNyWB2PvYy1njkP4wHGtMexdKtcJEM',
+            key: '7',
+            value: [
+              {
+                partValue: '1000',
+                partAccount: 'tz1aU58GzuKM8j9PP4zNCWocymJtRd2kJhqJ',
+              },
+            ],
+          },
+        },
+      ],
+      nonce: null,
+    },
   ];
 
   const events = transactionsToEvents(transactions, [SetLedgerHandler]);
@@ -1161,6 +1257,20 @@ test('creates SET_LEDGER events', async () => {
       token_id: '8479',
       type: 'SET_LEDGER',
       ledger_type: 'NFT_ASSET',
+    },
+    {
+      amount: '3',
+      fa2_address: 'KT18pVpRXKPY2c4U2yFEGSH3ZnhB2kL8kwXS',
+      holder_address: 'tz1aU58GzuKM8j9PP4zNCWocymJtRd2kJhqJ',
+      id: '7f60eb2044b3e8cc8c94d9ffe6521a4a',
+      is_mint: true,
+      ledger_type: 'MULTI_ASSET',
+      level: 1947327,
+      ophash: 'op4GbUN3CGKQs7rSzQoAuqAvkX3SLb7AoCbzf9i6XA2tczJF4FM',
+      opid: 137595818,
+      timestamp: '2021-12-15T12:27:36Z',
+      token_id: '7',
+      type: 'SET_LEDGER',
     },
   ]);
 });

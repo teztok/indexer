@@ -14,7 +14,7 @@ import dbConfig from '../../knexfile';
 import db from '../../lib/db';
 import config from '../../lib/config';
 import { getTaskName, isTezLikeCurrency } from '../../lib/utils';
-import { Task, Platform, Metadata, Token, AnyListing, AnyOffer, SaleEvent, Asset, ObjktListingV2, RoyaltyShares } from '../../types';
+import { Task, Platform, Metadata, Token, AnyListing, AnyOffer, SaleEvent, ObjktListingV2, RoyaltyShares } from '../../types';
 import { isValidTezosAddress } from '../../lib/validators';
 import { cleanString, cleanUri, cleanAttributes, cleanTags, cleanCreators, cleanFormats, RoyaltySharesSchema } from '../../lib/schemas';
 import * as eventsDao from '../../lib/daos/events';
@@ -976,6 +976,17 @@ export function compileToken(fa2Address: string, tokenId: string, events: Array<
           if (amountLeft <= 0) {
             listings[listingKey].status = 'sold_out';
           }
+        }
+
+        break;
+      }
+
+      case 'RARIBLE_MINT': {
+        platform = 'RARIBLE';
+        artistAddress = event.artist_address;
+
+        if (!royaltyReceivers && event.royalty_shares) {
+          royaltyReceivers = royaltySharesToRoyaltyReceivers(event.royalty_shares);
         }
 
         break;

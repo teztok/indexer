@@ -3611,6 +3611,39 @@ test('handles 8SCRIBO_CANCEL_SWAP events', () => {
   ]);
 });
 
+test('handles RARIBLE_MINT events', () => {
+  const events: Array<AnyEvent> = [
+    {
+      id: '45facd14842bda14160aa1390b055c1e',
+      type: 'RARIBLE_MINT',
+      opid: 313428874,
+      ophash: 'ooRcx4cQDWh1LnT84og9a8zmt4Hh9Yi8JTBRSCZJ7fpDH7Q4GY9',
+      timestamp: '2022-08-13T10:32:29Z',
+      level: 2618132,
+      fa2_address: 'KT18pVpRXKPY2c4U2yFEGSH3ZnhB2kL8kwXS',
+      token_id: '78891',
+      editions: '1',
+      artist_address: 'tz1fxvZGU1vR7FtNoyMwkHiMPkCyagpbF4NW',
+      metadata_uri: 'ipfs://bafkreiep43suckvuk7gyfbx7xn5uzahr7usowpbcn6f2mlbez7jgikbqvy',
+      royalty_shares: {
+        decimals: 4,
+        shares: {
+          tz1fxvZGU1vR7FtNoyMwkHiMPkCyagpbF4NW: '1000',
+        },
+      },
+    },
+  ];
+
+  const { token, royaltyReceivers } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
+
+  expect(token).toMatchObject({
+    platform: 'RARIBLE',
+    artist_address: 'tz1fxvZGU1vR7FtNoyMwkHiMPkCyagpbF4NW',
+  });
+
+  expect(royaltyReceivers).toStrictEqual([{ receiver_address: 'tz1fxvZGU1vR7FtNoyMwkHiMPkCyagpbF4NW', royalties: '100000' }]);
+});
+
 test('calcs the correct price diffs', () => {
   expect(calcPriceDiff(null, '10000000')).toBe(null);
   expect(calcPriceDiff('15000000', null)).toBe(null);
