@@ -4,6 +4,7 @@ import { assert, object, Describe, string } from 'superstruct';
 import { TezosAddress, PgBigInt, IsoDateString, PositiveInteger, ContractAddress } from '../../../lib/validators';
 import { Handler, TokenEvent, Transaction, SaleEventInterface } from '../../../types';
 import { findDiff, transactionMatchesPattern, createEventId } from '../../../lib/utils';
+import logger from '../../../lib/logger';
 import { HEN_CONTRACT_MARKETPLACE, SALE_INTERFACE } from '../../../consts';
 
 export const EVENT_TYPE_HEN_COLLECT = 'HEN_COLLECT';
@@ -14,7 +15,6 @@ export interface HenCollectEvent extends TokenEvent {
   buyer_address: string;
   seller_address: string;
   swap_id: string;
-  amount: string;
   price: string;
 }
 
@@ -31,7 +31,6 @@ const HenCollectEventSchema: Describe<Omit<HenCollectEvent, 'type' | 'implements
   buyer_address: TezosAddress,
   swap_id: PgBigInt,
   price: PgBigInt,
-  amount: PgBigInt,
 });
 
 const HenMintHandler: Handler<Transaction, HenCollectEvent> = {
@@ -58,29 +57,38 @@ const HenMintHandler: Handler<Transaction, HenCollectEvent> = {
     const tokenId = get(diff, 'content.value.objkt_id');
     const price = get(diff, 'content.value.xtz_per_objkt');
     const sellerAddress = get(diff, 'content.value.issuer');
-    const amount = get(transaction, 'parameter.value.objkt_amount');
-    const id = createEventId(EVENT_TYPE_HEN_COLLECT, transaction);
+    const amount = parseInt(get(transaction, 'parameter.value.objkt_amount'));
+    const events: Array<HenCollectEvent> = [];
 
-    const event: HenCollectEvent = {
-      id,
-      type: EVENT_TYPE_HEN_COLLECT,
-      implements: SALE_INTERFACE,
-      opid: transaction.id,
-      ophash: transaction.hash,
-      timestamp: transaction.timestamp,
-      level: transaction.level,
-      fa2_address: fa2Address,
-      token_id: tokenId,
-      buyer_address: buyerAddress,
-      seller_address: sellerAddress,
-      swap_id: swapId,
-      amount: amount,
-      price: price,
-    };
+    for (let i = 0; i < amount; i++) {
+      try {
+        const id = createEventId(EVENT_TYPE_HEN_COLLECT, transaction, i);
 
-    assert(omit(event, ['type', 'implements']), HenCollectEventSchema);
+        const event: HenCollectEvent = {
+          id,
+          type: EVENT_TYPE_HEN_COLLECT,
+          implements: SALE_INTERFACE,
+          opid: transaction.id,
+          ophash: transaction.hash,
+          timestamp: transaction.timestamp,
+          level: transaction.level,
+          fa2_address: fa2Address,
+          token_id: tokenId,
+          buyer_address: buyerAddress,
+          seller_address: sellerAddress,
+          swap_id: swapId,
+          price: price,
+        };
 
-    return event;
+        events.push(event);
+
+        assert(omit(event, ['type', 'implements']), HenCollectEventSchema);
+      } catch (err) {
+        logger.error(`handler "${EVENT_TYPE_HEN_COLLECT}" failed to create event: ${(err as Error).message}`);
+      }
+    }
+
+    return events;
   },
 };
 

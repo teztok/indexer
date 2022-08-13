@@ -51,7 +51,6 @@ test('sets last_processed_event_id and last_processed_event_timestamp properties
       buyer_address: 'tz1XGTjeqid5naxSviH3CBcfz944qHM6bNeD',
       seller_address: 'tz1NufWtpqS3nfR8VW1xFyWq4GWqb969keeR',
       swap_id: TEST_SWAP_ID,
-      amount: '1',
       price: TEST_PRICE,
     },
   ];
@@ -3140,7 +3139,6 @@ test('calculates sales count and sales volume correctly', () => {
       seller_address: 'tz1NufWtpqS3nfR8VW1xFyWq4GWqb969keeR',
       swap_id: TEST_SWAP_ID,
       price: TEST_PRICE,
-      amount: '1',
     },
     {
       id: 'a4477dde3ea68ad1a31a631c61f24ea4',
