@@ -324,7 +324,7 @@ test('handles HEN_SWAP_V2 and HEN_COLLECT_V2 events', () => {
     },
   ];
 
-  const { listings } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
+  const { listings, token } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
 
   expect(listings).toEqual([
     {
@@ -339,6 +339,18 @@ test('handles HEN_SWAP_V2 and HEN_COLLECT_V2 events', () => {
       status: 'active',
     },
   ]);
+
+  expect(token.lowest_price_listing).toEqual({
+    type: 'HEN_SWAP_V2',
+    contract_address: 'KT1HbQepzV1nVGg8QVznG7z4RcHseD5kwqBn',
+    created_at: '2021-11-20T08:09:52Z',
+    swap_id: TEST_SWAP_ID,
+    seller_address: 'tz1Q1UgXfAv2sWNCapibCakdBjB68hk6QuoV',
+    amount: 10,
+    amount_left: 9,
+    price: TEST_PRICE,
+    status: 'active',
+  });
 });
 
 test('handles HEN_SWAP_V2 and HEN_COLLECT_V2 events, sold out case', () => {
@@ -377,7 +389,7 @@ test('handles HEN_SWAP_V2 and HEN_COLLECT_V2 events, sold out case', () => {
     },
   ];
 
-  const { listings } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
+  const { listings, token } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
 
   expect(listings).toEqual([
     {
@@ -392,6 +404,8 @@ test('handles HEN_SWAP_V2 and HEN_COLLECT_V2 events, sold out case', () => {
       status: 'sold_out',
     },
   ]);
+
+  expect(token.lowest_price_listing).toEqual(null);
 });
 
 test('removes fraudulent HEN_SWAP_V2 listings where the artist_address does not match', () => {

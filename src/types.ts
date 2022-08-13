@@ -285,6 +285,7 @@ export interface Token {
   attributes: Array<Attribute> | null;
 
   price: string | null; // the cheapest price
+  lowest_price_listing: AnyListing | null;
 
   last_sales_price: string | null;
   highest_sales_price: string | null;

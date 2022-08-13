@@ -41,6 +41,7 @@ export async function up(knex: Knex): Promise<void> {
       table.text('fx_collection_thumbnail_uri');
       table.bigInteger('fx_collection_editions');
       table.jsonb('attributes');
+      table.jsonb('lowest_price_listing');
       table.bigInteger('price');
       table.bigInteger('last_sales_price');
       table.bigInteger('highest_sales_price');

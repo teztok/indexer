@@ -987,6 +987,7 @@ export function compileToken(fa2Address: string, tokenId: string, events: Array<
 
   const lastEvent = events.length ? events[events.length - 1] : null;
   const listingsArr = orderBy(Object.values(listings), ({ price }) => price);
+  const activeListings = listingsArr.filter(({ status }) => status === 'active');
   const objktAskV2Listings = listingsArr.filter(({ type }) => type === 'OBJKT_ASK_V2') as Array<ObjktListingV2>;
 
   for (const objktAskV2Listing of objktAskV2Listings) {
@@ -1107,6 +1108,8 @@ export function compileToken(fa2Address: string, tokenId: string, events: Array<
     lowest_sales_price: lowestSalePrice,
     first_sales_price: firstSalePrice,
 
+    lowest_price_listing: activeListings.length ? activeListings[0] : null,
+
     current_price_to_last_sales_price_diff: calcPriceDiff(cheapestPrice, lastSalePrice),
     current_price_to_last_sales_price_pct: calcPricePct(cheapestPrice, lastSalePrice),
 
@@ -1225,7 +1228,7 @@ export async function rebuildToken(payload: RebuildTokenTaskPayload) {
       .transacting(trx);
     // await trx('tokens').where('fa2_address', '=', token.fa2_address).andWhere('token_id', '=', token.token_id).del().transacting(trx);
 
-    const tokenRow = ['formats', 'creators', 'contributors', 'attributes', 'royalties'].reduce<Record<string, any>>(
+    const tokenRow = ['formats', 'creators', 'contributors', 'attributes', 'royalties', 'lowest_price_listing'].reduce<Record<string, any>>(
       (memo, propName) => {
         if (memo[propName]) {
           memo[propName] = JSON.stringify(memo[propName]);
