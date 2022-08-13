@@ -194,7 +194,9 @@ export function compileToken(fa2Address: string, tokenId: string, events: Array<
       }
 
       case 'SET_METADATA':
-        metadataUri = event.metadata_uri;
+        if (event.metadata_uri) {
+          metadataUri = event.metadata_uri;
+        }
         break;
 
       case 'HEN_MINT':
@@ -1157,15 +1159,21 @@ export async function rebuildToken(payload: RebuildTokenTaskPayload) {
   const fa2Address = payload.fa2_address;
   const tokenId = payload.token_id;
   const events = await eventsDao.getTokenEvents(fa2Address, tokenId);
-  const latestMetadataUriEvent = findLast(events, ({ type }) => type === 'SET_METADATA');
+  const latestSetMetadataEvent = findLast(events, ({ type }) => type === 'SET_METADATA');
   let metadataRow = null;
+  let metadata = null;
+  let status = 'unprocessed';
 
-  if (latestMetadataUriEvent) {
-    metadataRow = await metadataDao.getByUri(latestMetadataUriEvent.metadata_uri);
+  if (latestSetMetadataEvent) {
+    if (latestSetMetadataEvent.metadata_uri) {
+      metadataRow = await metadataDao.getByUri(latestSetMetadataEvent.metadata_uri);
+      metadata = metadataRow && metadataRow.data ? metadataRow.data : null;
+      status = metadataRow ? metadataRow.status : 'unprocessed';
+    } else if (latestSetMetadataEvent.metadata) {
+      metadata = latestSetMetadataEvent.metadata;
+      status = 'processed';
+    }
   }
-
-  const metadata = metadataRow && metadataRow.data ? metadataRow.data : null;
-  const status = metadataRow ? metadataRow.status : 'unprocessed';
 
   const { token, listings, holders, tags, offers, royaltyReceivers } = compileToken(fa2Address, tokenId, events, status, metadata);
 

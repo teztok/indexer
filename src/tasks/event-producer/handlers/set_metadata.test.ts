@@ -511,6 +511,103 @@ test('creates SET_METADATA events', async () => {
       ],
       nonce: null,
     },
+    {
+      id: 177395668,
+      level: 2140752,
+      timestamp: '2022-02-22T22:01:20Z',
+      block: 'BMbZeVzi4aaaH2Qt76zuZhfMghUQsv8RbHfZev3fJMh2j8mLfEd',
+      hash: 'onwYmD9BvfHkZMKPMUsg3incNr9fgmLnMddagCC7SgPKu43FJbX',
+      counter: 28626027,
+      sender: {
+        alias: 'DOGAMÍ NFT Sale',
+        address: 'KT1CpMKxKFoHvS7zxSd2M6SHU8BD4gBmtw2N',
+      },
+      target: {
+        alias: 'DOGAMÍ NFTs',
+        address: 'KT1NVvPsNDChrLRH5K2cy6Sc9r1uuUwdiZQd',
+      },
+      amount: 0,
+      parameter: {
+        entrypoint: 'mint',
+        value: {
+          to_: 'tz1XqrVXcRKDLeWFNWMuDaxhhvYu6zE7WzZc',
+          token_id: '2',
+          token_info: {
+            name: '446f67616d69202332',
+            rights: '28632920444f47414d492e20416c6c205269676874732052657365727665642e',
+            formats:
+              '5b7b226d696d6554797065223a2022766964656f2f6d7034222c2022757269223a2022697066733a2f2f516d6258627165563644545658594635554474313543457638524d4c737557554547736a4638383551587a6e3337227d2c207b226d696d6554797065223a2022696d6167652f706e67222c2022757269223a2022697066733a2f2f516d533751654d64437733394c45663774455734346f77755375574e5243506a47514b6a4671364b755a78435053227d2c207b226d696d6554797065223a2022696d6167652f706e67222c2022757269223a2022697066733a2f2f516d584a3966615339366b515644536475386f737a37544a764b67333679576969527a6d6b6239583142476d7a70227d5d',
+            creators: '5b22444f47414d49225d',
+            decimals: '30',
+            royalties:
+              '7b22646563696d616c73223a20322c2022736861726573223a207b22747a31626a394e784b59757073375743466d79746b594a547736727874697a4a5237394b223a20377d7d',
+            attributes:
+              '0502000000380704010000000a47656e65726174696f6e070703060100000005416c70686107040100000006537461747573070703060100000003426f78',
+            displayUri: '697066733a2f2f516d533751654d64437733394c45663774455734346f77755375574e5243506a47514b6a4671364b755a78435053',
+            artifactUri: '697066733a2f2f516d6258627165563644545658594635554474313543457638524d4c737557554547736a4638383551587a6e3337',
+            description: '444f47414d492c2041646f70742052616973652c204561726e2e',
+            thumbnailUri: '697066733a2f2f516d584a3966615339366b515644536475386f737a37544a764b67333679576969527a6d6b6239583142476d7a70',
+            isBooleanAmount: '74727565',
+          },
+        },
+      },
+      status: 'applied',
+      hasInternals: false,
+      initiator: {
+        address: 'tz1XqrVXcRKDLeWFNWMuDaxhhvYu6zE7WzZc',
+      },
+      storage: {
+        ledger: 115417,
+        metadata: 115418,
+        multisig: 'KT1FDSvLCUcFZStQAKo5Fb4igCwtqipRcvMX',
+        contracts: ['KT1CpMKxKFoHvS7zxSd2M6SHU8BD4gBmtw2N'],
+        operators: 115419,
+        burn_paused: true,
+        total_supply: '1',
+        token_metadata: 115420,
+        contract_paused: false,
+      },
+      diffs: [
+        {
+          bigmap: 115420,
+          path: 'token_metadata',
+          action: 'add_key',
+          content: {
+            hash: 'expruDuAZnFKqmLoisJqUGqrNzXTvw7PJM2rYk97JErM5FHCerQqgn',
+            key: '2',
+            value: {
+              token_id: '2',
+              token_info: {
+                name: '446f67616d69202332',
+                rights: '28632920444f47414d492e20416c6c205269676874732052657365727665642e',
+                formats:
+                  '5b7b226d696d6554797065223a2022766964656f2f6d7034222c2022757269223a2022697066733a2f2f516d6258627165563644545658594635554474313543457638524d4c737557554547736a4638383551587a6e3337227d2c207b226d696d6554797065223a2022696d6167652f706e67222c2022757269223a2022697066733a2f2f516d533751654d64437733394c45663774455734346f77755375574e5243506a47514b6a4671364b755a78435053227d2c207b226d696d6554797065223a2022696d6167652f706e67222c2022757269223a2022697066733a2f2f516d584a3966615339366b515644536475386f737a37544a764b67333679576969527a6d6b6239583142476d7a70227d5d',
+                creators: '5b22444f47414d49225d',
+                decimals: '30',
+                royalties:
+                  '7b22646563696d616c73223a20322c2022736861726573223a207b22747a31626a394e784b59757073375743466d79746b594a547736727874697a4a5237394b223a20377d7d',
+                displayUri: '697066733a2f2f516d533751654d64437733394c45663774455734346f77755375574e5243506a47514b6a4671364b755a78435053',
+                artifactUri: '697066733a2f2f516d6258627165563644545658594635554474313543457638524d4c737557554547736a4638383551587a6e3337',
+                description: '444f47414d492c2041646f70742052616973652c204561726e2e',
+                thumbnailUri: '697066733a2f2f516d584a3966615339366b515644536475386f737a37544a764b67333679576969527a6d6b6239583142476d7a70',
+                isBooleanAmount: '74727565',
+              },
+            },
+          },
+        },
+        {
+          bigmap: 115417,
+          path: 'ledger',
+          action: 'add_key',
+          content: {
+            hash: 'expruDuAZnFKqmLoisJqUGqrNzXTvw7PJM2rYk97JErM5FHCerQqgn',
+            key: '2',
+            value: 'tz1XqrVXcRKDLeWFNWMuDaxhhvYu6zE7WzZc',
+          },
+        },
+      ],
+      nonce: 2,
+    },
   ];
 
   const events = transactionsToEvents(transactions, [SetMetadataHandler]);
@@ -581,6 +678,33 @@ test('creates SET_METADATA events', async () => {
       timestamp: '2022-01-13T03:46:20Z',
       token_id: '1',
       type: 'SET_METADATA',
+    },
+    {
+      fa2_address: 'KT1NVvPsNDChrLRH5K2cy6Sc9r1uuUwdiZQd',
+      id: '0848b3e4b444de99501e6eb848ef5be5',
+      level: 2140752,
+      ophash: 'onwYmD9BvfHkZMKPMUsg3incNr9fgmLnMddagCC7SgPKu43FJbX',
+      opid: 177395668,
+      timestamp: '2022-02-22T22:01:20Z',
+      token_id: '2',
+      type: 'SET_METADATA',
+      metadata: {
+        artifactUri: 'ipfs://QmbXbqeV6DTVXYF5UDt15CEv8RMLsuWUEGsjF885QXzn37',
+        creators: ['DOGAMI'],
+        decimals: 0,
+        description: 'DOGAMI, Adopt Raise, Earn.',
+        displayUri: 'ipfs://QmS7QeMdCw39LEf7tEW44owuSuWNRCPjGQKjFq6KuZxCPS',
+        formats: [
+          { mimeType: 'video/mp4', uri: 'ipfs://QmbXbqeV6DTVXYF5UDt15CEv8RMLsuWUEGsjF885QXzn37' },
+          { mimeType: 'image/png', uri: 'ipfs://QmS7QeMdCw39LEf7tEW44owuSuWNRCPjGQKjFq6KuZxCPS' },
+          { mimeType: 'image/png', uri: 'ipfs://QmXJ9faS96kQVDSdu8osz7TJvKg36yWiiRzmkb9X1BGmzp' },
+        ],
+        isBooleanAmount: true,
+        name: 'Dogami #2',
+        rights: '(c) DOGAMI. All Rights Reserved.',
+        royalties: { decimals: 2, shares: { tz1bj9NxKYups7WCFmytkYJTw6rxtizJR79K: 7 } },
+        thumbnailUri: 'ipfs://QmXJ9faS96kQVDSdu8osz7TJvKg36yWiiRzmkb9X1BGmzp',
+      },
     },
   ]);
 });

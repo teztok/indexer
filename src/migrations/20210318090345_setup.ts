@@ -178,6 +178,7 @@ export async function up(knex: Knex): Promise<void> {
       table.jsonb('royalty_shares');
       table.bigInteger('editions');
       table.text('metadata_uri');
+      table.jsonb('metadata');
       table.text('token_name');
       table.text('creator_name');
       table.text('token_description');

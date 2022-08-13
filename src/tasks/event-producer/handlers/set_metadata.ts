@@ -1,6 +1,6 @@
 import get from 'lodash/get';
 import omit from 'lodash/omit';
-import { assert, object, type, string, Describe, is } from 'superstruct';
+import { assert, object, type, string, Describe, is, optional } from 'superstruct';
 import { ContractAddress, IsoDateString, MetadataUri, PositiveInteger } from '../../../lib/validators';
 import { TokenStorageSchema } from '../../../lib/schemas';
 import logger from '../../../lib/logger';
@@ -12,7 +12,8 @@ export const EVENT_TYPE_SET_METADATA = 'SET_METADATA';
 
 export interface SetMetadataEvent extends TokenEvent {
   type: typeof EVENT_TYPE_SET_METADATA;
-  metadata_uri: string;
+  metadata_uri?: string;
+  metadata?: any;
 }
 
 const SetMetadataEventSchema: Describe<Omit<SetMetadataEvent, 'type'>> = object({
@@ -24,22 +25,38 @@ const SetMetadataEventSchema: Describe<Omit<SetMetadataEvent, 'type'>> = object(
   token_id: string(),
   ophash: string(),
 
-  metadata_uri: MetadataUri,
+  metadata_uri: optional(MetadataUri),
+  metadata: optional(object()),
 });
 
-interface TokenInfo {
+interface TokenInfoOffchain {
   '': string;
 }
 
-interface TokenMetadataDiff {
-  token_id: string;
-  token_info: TokenInfo;
+interface TokenInfoOnchain {
+  name: string;
 }
 
-const TokenMetadataDiffSchema: Describe<TokenMetadataDiff> = type({
+interface TokenMetadataDiffOffchain {
+  token_id: string;
+  token_info: TokenInfoOffchain;
+}
+interface TokenMetadataDiffOnchain {
+  token_id: string;
+  token_info: TokenInfoOnchain;
+}
+
+const TokenMetadataDiffOffchainSchema: Describe<TokenMetadataDiffOffchain> = type({
   token_id: string(),
   token_info: type({
     '': string(),
+  }),
+});
+
+const TokenMetadataDiffOnchainSchema: Describe<TokenMetadataDiffOnchain> = type({
+  token_id: string(),
+  token_info: type({
+    name: string(),
   }),
 });
 
@@ -67,13 +84,9 @@ const SetMetadataHandler: Handler<Transaction, SetMetadataEvent> = {
       return false;
     }
 
-    const isValid = metadataDiffs.every((diff) => is(diff.content.value, TokenMetadataDiffSchema));
-
-    if (!isValid) {
-      //logger.info(`invalid token metadata found in transaction "${transaction.id}" target address: ${transaction.target.address}`);
-    }
-
-    return isValid;
+    return metadataDiffs.every(
+      (diff) => is(diff.content.value, TokenMetadataDiffOffchainSchema) || is(diff.content.value, TokenMetadataDiffOnchainSchema)
+    );
   },
 
   exec: (transaction) => {
@@ -88,8 +101,23 @@ const SetMetadataHandler: Handler<Transaction, SetMetadataEvent> = {
       .map((diff, idx) => {
         try {
           const tokenId = get(diff, 'content.value.token_id');
-          const metadataUri = Buffer.from(get(diff, 'content.value.token_info.'), 'hex').toString();
           const id = createEventId(EVENT_TYPE_SET_METADATA, transaction, idx);
+          let metadata: Record<string, string> = {};
+          let metadataUri;
+
+          if (is(diff.content.value, TokenMetadataDiffOffchainSchema)) {
+            metadataUri = normalizeMetadataIpfsUri(Buffer.from(get(diff, 'content.value.token_info.'), 'hex').toString());
+          } else {
+            for (const [key, val] of Object.entries(get(diff, 'content.value.token_info'))) {
+              const str = Buffer.from(val as string, 'hex').toString();
+
+              try {
+                metadata[key] = JSON.parse(str);
+              } catch (err) {
+                metadata[key] = str;
+              }
+            }
+          }
 
           const event: SetMetadataEvent = {
             id,
@@ -100,8 +128,15 @@ const SetMetadataHandler: Handler<Transaction, SetMetadataEvent> = {
             level: transaction.level,
             fa2_address: fa2Address,
             token_id: tokenId,
-            metadata_uri: normalizeMetadataIpfsUri(metadataUri),
           };
+
+          if (metadataUri) {
+            event.metadata_uri = metadataUri;
+          } else if (Object.keys(metadata).length) {
+            event.metadata = metadata;
+          } else {
+            throw new Error('event needs either metadata_uri or metadata property');
+          }
 
           assert(omit(event, ['type']), SetMetadataEventSchema);
 
