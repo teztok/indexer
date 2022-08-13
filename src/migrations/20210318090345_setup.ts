@@ -173,7 +173,6 @@ export async function up(knex: Knex): Promise<void> {
       table.string('buyer_address', 36);
       table.bigInteger('swap_id');
       table.bigInteger('price');
-      table.bigInteger('total_price');
       table.bigInteger('royalties');
       table.jsonb('royalty_shares');
       table.bigInteger('editions');

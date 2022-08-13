@@ -80,9 +80,9 @@ const HenMintHandler: Handler<Transaction, HenCollectEvent> = {
           price: price,
         };
 
-        events.push(event);
-
         assert(omit(event, ['type', 'implements']), HenCollectEventSchema);
+
+        events.push(event);
       } catch (err) {
         logger.error(`handler "${EVENT_TYPE_HEN_COLLECT}" failed to create event: ${(err as Error).message}`);
       }

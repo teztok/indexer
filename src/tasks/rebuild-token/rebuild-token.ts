@@ -765,7 +765,7 @@ export function compileToken(fa2Address: string, tokenId: string, events: Array<
         const listingKey = createListingKey(EIGHTBIDOU_8X8_COLOR_CONTRACT_MARKETPLACE, event.swap_id);
 
         if (listingKey in listings) {
-          const amountLeft = listings[listingKey].amount_left - parseInt(event.amount, 10);
+          const amountLeft = listings[listingKey].amount_left - 1;
           listings[listingKey].amount_left = amountLeft;
 
           if (amountLeft <= 0) {
@@ -812,7 +812,7 @@ export function compileToken(fa2Address: string, tokenId: string, events: Array<
         const listingKey = createListingKey(EIGHTBIDOU_24X24_MONOCHROME_CONTRACT_MARKETPLACE, event.swap_id);
 
         if (listingKey in listings) {
-          const amountLeft = listings[listingKey].amount_left - parseInt(event.amount, 10);
+          const amountLeft = listings[listingKey].amount_left - 1;
           listings[listingKey].amount_left = amountLeft;
 
           if (amountLeft <= 0) {
@@ -859,7 +859,7 @@ export function compileToken(fa2Address: string, tokenId: string, events: Array<
         const listingKey = createListingKey(EIGHTBIDOU_24X24_COLOR_CONTRACT_MARKETPLACE, event.swap_id);
 
         if (listingKey in listings) {
-          const amountLeft = listings[listingKey].amount_left - parseInt(event.amount, 10);
+          const amountLeft = listings[listingKey].amount_left - 1;
           listings[listingKey].amount_left = amountLeft;
 
           if (amountLeft <= 0) {
@@ -1006,14 +1006,10 @@ export function compileToken(fa2Address: string, tokenId: string, events: Array<
   const totalEditions = sum(Object.values(holders).map(({ amount }) => amount));
   const burnedEditions = BURN_ADDRESS in holders ? holders[BURN_ADDRESS].amount : 0;
   const editions = totalEditions - burnedEditions;
-  const soldEditions = sales.reduce(
-    (counter, event) => counter + (event.amount && event.type.startsWith('8BID_') ? parseInt(event.amount, 0) : 1),
-    0
-  );
+  const soldEditions = sales.length;
   const salesVolume = sales.reduce((volume, event) => {
-    const amount = event.amount && event.type.startsWith('8BID_') ? parseInt(event.amount, 0) : 1;
     const price = parseInt(event.price, 10);
-    return volume + (isTezLikeCurrency(event.currency) ? amount * price : 0);
+    return volume + (isTezLikeCurrency(event.currency) ? price : 0);
   }, 0);
 
   const cheapestListing = minBy(

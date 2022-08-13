@@ -2155,8 +2155,6 @@ test('handles 8BID_8X8_COLOR_SWAP and 8BID_8X8_COLOR_BUY events', () => {
       seller_address: 'tz2QhmKtUWRyArfaqfBedvVdidgKpCcckMXV',
       artist_address: 'tz2QhmKtUWRyArfaqfBedvVdidgKpCcckMXV',
       price: TEST_PRICE,
-      total_price: TEST_PRICE,
-      amount: '1',
     },
   ];
 
@@ -2212,8 +2210,6 @@ test('handles 8BID_8X8_COLOR_SWAP and 8BID_8X8_COLOR_BUY events, sold out case',
       seller_address: 'tz2QhmKtUWRyArfaqfBedvVdidgKpCcckMXV',
       artist_address: 'tz2QhmKtUWRyArfaqfBedvVdidgKpCcckMXV',
       price: TEST_PRICE,
-      total_price: TEST_PRICE,
-      amount: '1',
     },
   ];
 
@@ -2464,8 +2460,6 @@ test('handles 8BID_24X24_MONOCHROME_SWAP and 8BID_24X24_MONOCHROME_BUY events', 
       seller_address: 'tz2QhmKtUWRyArfaqfBedvVdidgKpCcckMXV',
       artist_address: 'tz2QhmKtUWRyArfaqfBedvVdidgKpCcckMXV',
       price: TEST_PRICE,
-      total_price: TEST_PRICE,
-      amount: '1',
     },
   ];
 
@@ -2521,8 +2515,6 @@ test('handles 8BID_24X24_MONOCHROME_SWAP and 8BID_24X24_MONOCHROME_BUY events, s
       seller_address: 'tz2QhmKtUWRyArfaqfBedvVdidgKpCcckMXV',
       artist_address: 'tz2QhmKtUWRyArfaqfBedvVdidgKpCcckMXV',
       price: TEST_PRICE,
-      total_price: TEST_PRICE,
-      amount: '1',
     },
   ];
 
@@ -2767,8 +2759,6 @@ test('handles 8BID_24X24_COLOR_SWAP and 8BID_24X24_COLOR_BUY events', () => {
       seller_address: 'tz2QhmKtUWRyArfaqfBedvVdidgKpCcckMXV',
       artist_address: 'tz2QhmKtUWRyArfaqfBedvVdidgKpCcckMXV',
       price: TEST_PRICE,
-      total_price: TEST_PRICE,
-      amount: '1',
     },
   ];
 
@@ -2824,8 +2814,6 @@ test('handles 8BID_24X24_COLOR_SWAP and 8BID_24X24_COLOR_BUY events, sold out ca
       seller_address: 'tz2QhmKtUWRyArfaqfBedvVdidgKpCcckMXV',
       artist_address: 'tz2QhmKtUWRyArfaqfBedvVdidgKpCcckMXV',
       price: TEST_PRICE,
-      total_price: TEST_PRICE,
-      amount: '1',
     },
   ];
 
@@ -3156,15 +3144,13 @@ test('calculates sales count and sales volume correctly', () => {
       seller_address: 'tz2QhmKtUWRyArfaqfBedvVdidgKpCcckMXV',
       artist_address: 'tz2QhmKtUWRyArfaqfBedvVdidgKpCcckMXV',
       price: TEST_PRICE,
-      total_price: '4000',
-      amount: '2',
     },
   ];
 
   const { token } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'processed');
 
-  expect(token.sales_count).toBe('3');
-  expect(token.sales_volume).toBe('6000');
+  expect(token.sales_count).toBe('2');
+  expect(token.sales_volume).toBe('4000');
 });
 
 test('handles FX_OFFER_V3 and FX_OFFER_ACCEPT_V3 events', () => {
