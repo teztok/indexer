@@ -1,9 +1,10 @@
 import get from 'lodash/get';
 import omit from 'lodash/omit';
+import isString from 'lodash/isString';
 import { assert, object, string, Describe, optional } from 'superstruct';
 import { ContractAddress, TezosAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
 import { Handler, TokenEvent, Transaction } from '../../../types';
-import { findDiff, createEventId } from '../../../lib/utils';
+import { findDiff, createEventId, transactionMatchesPattern } from '../../../lib/utils';
 import { OBJKT_CONTRACT_MARKETPLACE_V2 } from '../../../consts';
 
 export const EVENT_TYPE_OBJKT_RETRACT_OFFER = 'OBJKT_RETRACT_OFFER';
@@ -32,9 +33,19 @@ const ObjktRetractOfferEventSchema: Describe<Omit<ObjktRetractOfferEvent, 'type'
 const ObjktRetractOfferHandler: Handler<Transaction, ObjktRetractOfferEvent> = {
   type: EVENT_TYPE_OBJKT_RETRACT_OFFER,
 
-  accept: {
-    entrypoint: 'retract_offer',
-    target_address: OBJKT_CONTRACT_MARKETPLACE_V2,
+  accept: (transaction) => {
+    if (
+      !transactionMatchesPattern(transaction, {
+        entrypoint: 'retract_offer',
+        target_address: OBJKT_CONTRACT_MARKETPLACE_V2,
+      })
+    ) {
+      return false;
+    }
+
+    const offerId = get(transaction, 'parameter.value');
+    const diff = findDiff(get(transaction, 'diffs')!, 103260, 'offers', 'remove_key', offerId);
+    return !!get(diff, 'content.value.token.token_id');
   },
 
   exec: (transaction) => {

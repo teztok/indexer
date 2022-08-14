@@ -3,7 +3,7 @@ import omit from 'lodash/omit';
 import { optional, assert, object, string, Describe } from 'superstruct';
 import { TezosAddress, ContractAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
 import { Handler, TokenEvent, Transaction } from '../../../types';
-import { createEventId } from '../../../lib/utils';
+import { createEventId, transactionMatchesPattern } from '../../../lib/utils';
 import { OBJKT_CONTRACT_MARKETPLACE_V2 } from '../../../consts';
 
 export const EVENT_TYPE_OBJKT_OFFER = 'OBJKT_OFFER';
@@ -38,9 +38,17 @@ const ObjktOfferEventSchema: Describe<Omit<ObjktOfferEvent, 'type'>> = object({
 const ObjktAskHandler: Handler<Transaction, ObjktOfferEvent> = {
   type: EVENT_TYPE_OBJKT_OFFER,
 
-  accept: {
-    entrypoint: 'offer',
-    target_address: OBJKT_CONTRACT_MARKETPLACE_V2,
+  accept: (transaction) => {
+    if (
+      !transactionMatchesPattern(transaction, {
+        entrypoint: 'offer',
+        target_address: OBJKT_CONTRACT_MARKETPLACE_V2,
+      })
+    ) {
+      return false;
+    }
+
+    return !!get(transaction, 'parameter.value.token.token_id');
   },
 
   exec: (transaction) => {
