@@ -163,19 +163,6 @@ export async function produceEvents(payload: EventProducerTaskPayload) {
     }
 
     for (const chunkOfEvents of chunk(events, 50)) {
-      const chunkOfEventsRows = chunkOfEvents.map((event) => {
-        // @ts-ignore
-        if (!event.metadata) {
-          event;
-        }
-
-        return {
-          ...event,
-          // @ts-ignore
-          metadata: JSON.stringify(event.metadata),
-        };
-      });
-
       await db('events')
         .whereIn(
           'id',
@@ -183,7 +170,7 @@ export async function produceEvents(payload: EventProducerTaskPayload) {
         )
         .del()
         .transacting(trx);
-      await db('events').insert(chunkOfEventsRows).onConflict('id').ignore().transacting(trx);
+      await db('events').insert(chunkOfEvents).onConflict('id').ignore().transacting(trx);
     }
   });
 

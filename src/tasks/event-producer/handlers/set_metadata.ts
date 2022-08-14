@@ -109,7 +109,9 @@ const SetMetadataHandler: Handler<Transaction, SetMetadataEvent> = {
             metadataUri = normalizeMetadataIpfsUri(Buffer.from(get(diff, 'content.value.token_info.'), 'hex').toString());
           } else {
             for (const [key, val] of Object.entries(get(diff, 'content.value.token_info'))) {
-              const str = Buffer.from(val as string, 'hex').toString();
+              const str = Buffer.from(val as string, 'hex')
+                .toString()
+                .replace(/\0/g, '');
 
               try {
                 metadata[key] = JSON.parse(str);
