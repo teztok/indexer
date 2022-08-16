@@ -18,7 +18,7 @@ async function run() {
 
   const count = process.argv[3] ? parseInt(process.argv[3], 10) : 1000;
   const results = await db
-    .select('*')
+    .select('id')
     .from('graphile_worker.jobs')
     .where('task_identifier', getTaskName(taskId))
     .orderBy('id', process.argv[4] || 'asc')
@@ -29,8 +29,10 @@ async function run() {
     console.log(`processing ${i}`);
     console.time(`task-${i}`);
     try {
-      await tasks[taskId]!(result.payload);
-      await db('graphile_worker.jobs').where('id', result.id).del();
+      const job = await db.select('*').from('graphile_worker.jobs').where('id', result.id).first();
+
+      await tasks[taskId]!(job.payload);
+      await db('graphile_worker.jobs').where('id', job.id).del();
     } catch (err) {
       console.log('err', err);
     }
