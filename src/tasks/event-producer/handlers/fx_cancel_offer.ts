@@ -41,8 +41,8 @@ const FxCancelOfferHandler: Handler<Transaction, FxCancelOfferEvent> = {
     const fa2Address = get(transaction, 'storage.objkts');
     const diff = findDiff(transaction.diffs!, 22799, 'offers', 'remove_key', offerId);
     const tokenId = get(diff, 'content.value.objkt_id');
-    const artistAddress = get(diff, 'content.value.issuer');
-    const sellerAddress = get(diff, 'content.value.creator');
+    const sellerAddress = get(diff, 'content.value.issuer');
+    const artistAddress = get(diff, 'content.value.creator');
     const id = createEventId(EVENT_TYPE_FX_CANCEL_OFFER, transaction);
 
     const event: FxCancelOfferEvent = {
