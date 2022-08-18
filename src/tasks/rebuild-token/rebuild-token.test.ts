@@ -1962,6 +1962,7 @@ test('sets the token metadata correctly', () => {
     external_uri: 'ipfs://ddd',
     mime_type: 'video/mp4',
     rights: 'MIT',
+    formats: [],
     right_uri: 'ipfs://eee',
     creators: ['aaa'],
     contributors: ['bbb'],
@@ -1984,6 +1985,62 @@ test('sets the token metadata correctly', () => {
     { receiver_address: 'tz1Q1UgXfAv2sWNCapibCakdBjB68hk6QuoV', royalties: '100000' },
     { receiver_address: 'tz1gdno6FuKgE5WC1VKnqxb8qQQEuYrbKCub', royalties: '200000' },
   ]);
+});
+
+test('accepts formats with dimensions value set to null', () => {
+  const metadata = {
+    formats: [
+      {
+        dimensions: { unit: 'px', value: null },
+        fileName: 'artifact.mp4',
+        fileSize: 87810923,
+        mimeType: 'video/mp4',
+        uri: 'ipfs://QmRgybx9WpXY12H5F4BZ9NiGPuPRLuD3YghtZEEPho763j',
+      },
+      {
+        dimensions: { unit: 'px', value: '600x600' },
+        fileName: 'display.gif',
+        fileSize: 5465734,
+        mimeType: 'image/gif',
+        uri: 'ipfs://Qmd76b5BQLPCrEmaduDhf2Efh9m2UpsJM2fdBeM45QHQnc',
+      },
+      {
+        dimensions: { unit: 'px', value: '400x400' },
+        fileName: 'thumbnail.gif',
+        fileSize: 3596498,
+        mimeType: 'image/gif',
+        uri: 'ipfs://QmZLGF6PWhq6bsopyzGZU8Un7zM7xm5QmQSzezXoeMA75V',
+      },
+    ],
+  };
+
+  const { token } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, [], 'processed', metadata as any);
+
+  expect(token).toMatchObject({
+    formats: [
+      {
+        dimensions: { unit: 'px', value: null },
+        file_name: 'artifact.mp4',
+        file_size: 87810923,
+        mime_type: 'video/mp4',
+        uri: 'ipfs://QmRgybx9WpXY12H5F4BZ9NiGPuPRLuD3YghtZEEPho763j',
+      },
+      {
+        dimensions: { unit: 'px', value: '600x600' },
+        file_name: 'display.gif',
+        file_size: 5465734,
+        mime_type: 'image/gif',
+        uri: 'ipfs://Qmd76b5BQLPCrEmaduDhf2Efh9m2UpsJM2fdBeM45QHQnc',
+      },
+      {
+        dimensions: { unit: 'px', value: '400x400' },
+        file_name: 'thumbnail.gif',
+        file_size: 3596498,
+        mime_type: 'image/gif',
+        uri: 'ipfs://QmZLGF6PWhq6bsopyzGZU8Un7zM7xm5QmQSzezXoeMA75V',
+      },
+    ],
+  });
 });
 
 test('calculates price related properties correctly', () => {

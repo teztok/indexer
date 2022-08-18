@@ -66,8 +66,6 @@ export const FormatSchema: Describe<Format> = type({
   hash: optional(sanitizeString(string())),
   fileSize: optional(number()),
   fileName: optional(sanitizeString(string())),
-  dimensions: optional(DimensionsSchema),
-  dataRate: optional(DataRateSchema),
 });
 
 export const MetadataSchema: Describe<Metadata> = type({
