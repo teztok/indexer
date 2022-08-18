@@ -12,6 +12,7 @@ const defaultConfig = {
   startBlock: 1365000,
   maxBlocksPerIteration: 1000,
   tzktApiUrl: process.env.TZKT_API || 'https://api.mainnet.tzkt.io/v1',
+  fetchMetadataTimeout: process.env.FETCH_METADATA_TIMEOUT ? parseInt(process.env.FETCH_METADATA_TIMEOUT, 10) : 40000,
   metadataMaxFilesize: 1024 * 30, // 30kb
   thumbnailWidths: [320, 640, 960],
   ignoredContractAddresses: [

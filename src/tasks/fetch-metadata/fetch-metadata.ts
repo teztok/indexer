@@ -24,7 +24,7 @@ export async function downloadFromIpfs(ipfsCid: string) {
   const timer = setTimeout(() => {
     timeoutReached = true;
     ac.abort();
-  }, 40000);
+  }, config.fetchMetadataTimeout);
 
   try {
     await pipeline(ipfsClient.cat(ipfsCid, { signal: ac.signal }), async function* (source) {
