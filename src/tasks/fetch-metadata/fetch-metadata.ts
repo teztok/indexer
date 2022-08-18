@@ -70,7 +70,8 @@ export function validateMetadata(metadata: MetadataBase) {
   }
 }
 
-async function processMetadata(metadataUri: string, helpers: JobHelpers) {
+export async function processMetadata(payload: FetchMetadataTaskPayload, helpers?: JobHelpers) {
+  const metadataUri = payload.metadata_uri;
   const workerUtils = await getWorkerUtils();
 
   try {
@@ -122,7 +123,7 @@ async function processMetadata(metadataUri: string, helpers: JobHelpers) {
       return;
     }
 
-    if (helpers.job.max_attempts === helpers.job.attempts) {
+    if (helpers && helpers.job.max_attempts === helpers.job.attempts) {
       await metadataDao.update(metadataUri, 'error');
     }
 
@@ -142,7 +143,7 @@ const task: Task = {
       taskList: {
         [getTaskName('fetch-metadata')]: async (payload, helpers) => {
           const p = payload as FetchMetadataTaskPayload;
-          await processMetadata(p.metadata_uri, helpers);
+          await processMetadata(p, helpers);
         },
       },
     });

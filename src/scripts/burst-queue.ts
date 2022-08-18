@@ -1,6 +1,7 @@
 import { produceEvents } from '../tasks/event-producer/event-producer';
 import { processEvents } from '../tasks/event-processor/event-processor';
 import { rebuildToken } from '../tasks/rebuild-token/rebuild-token';
+import { processMetadata } from '../tasks/fetch-metadata/fetch-metadata';
 import { getTaskName } from '../lib/utils';
 import db from '../lib/db';
 
@@ -8,6 +9,7 @@ const tasks: Record<string, (payload: any) => {}> = {
   'event-producer': produceEvents,
   'event-processor': processEvents,
   'rebuild-token': rebuildToken,
+  'fetch-metadata': processMetadata,
 };
 
 async function run() {
