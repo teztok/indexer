@@ -32,6 +32,9 @@ const defaultConfig = {
     'KT1XPFjZqCULSnqfKaaYy8hJjeY63UNSGwXg', // Crunchy.Network DAO Token
     'KT1CS2xKGHNPTauSh5Re4qE3N9PCfG5u4dPx', // Spice Token
     'KT18hYjnko76SBVv6TaCT4kU6B32mJk6JWLZ', // MATH Token
+    'KT19wuExNXayErfuCkcy6Z56cd1FWzF96xXk', // AQRtz
+    'KT1F8gkt9o4a2DKwHVsZv9akrF7ZbaYBHpMy', // MIMEY
+    'KT1UsSfaXyqcjSVPeiD7U1bWgKy3taYN7NWY', // Plenty Bridge FA2
   ],
 };
 
