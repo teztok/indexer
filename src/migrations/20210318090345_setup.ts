@@ -65,6 +65,7 @@ export async function up(knex: Knex): Promise<void> {
       table.text('eightscribo_rowtwo');
       table.text('eightscribo_rowthree');
 
+      table.index('rights');
       table.index('platform');
       table.index('minted_at');
       table.index('editions');
