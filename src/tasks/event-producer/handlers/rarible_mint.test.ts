@@ -100,6 +100,102 @@ test('creates RARIBLE_MINT events', async () => {
       ],
       nonce: null,
     },
+    {
+      id: 137710864,
+      level: 1947766,
+      timestamp: '2021-12-15T16:27:06Z',
+      block: 'BMFHUfsTbydEi9Wk99chhN6wGatFtQ4n9tMJdtEdN1YA5aoor6W',
+      hash: 'oocHVnB84Rr8TXZUjSryfcULGSyqNN9YGd3Egp4qVNewxF19yKg',
+      counter: 11739224,
+      sender: {
+        alias: 'ganbrood',
+        address: 'tz1eZ8amacCvSQsFM8wampwWXJFWsmGVRQFd',
+      },
+      target: {
+        alias: 'Rarible',
+        address: 'KT18pVpRXKPY2c4U2yFEGSH3ZnhB2kL8kwXS',
+      },
+      amount: 0,
+      parameter: {
+        entrypoint: 'mint',
+        value: {
+          iowner: 'tz1eZ8amacCvSQsFM8wampwWXJFWsmGVRQFd',
+          iamount: '200',
+          itokenid: '274',
+          iroyalties: [
+            {
+              partValue: '1200',
+              partAccount: 'tz1eZ8amacCvSQsFM8wampwWXJFWsmGVRQFd',
+            },
+          ],
+          itokenMetadata: {
+            '': '697066733a2f2f697066732f516d6466467361416d574146513442646a4b6b725347674364455276685537353278623965715847695937394258',
+          },
+        },
+      },
+      status: 'applied',
+      hasInternals: false,
+      initiator: null,
+      storage: {
+        owner: 'tz1PyW1EznU9ADpocaauSi41NCPynBuqf1Kc',
+        ledger: 55542,
+        paused: false,
+        permits: 55545,
+        metadata: 55547,
+        operator: 55543,
+        royalties: 55541,
+        default_expiry: '31556952',
+        token_metadata: 55544,
+        owner_candidate: null,
+        operator_for_all: 55546,
+      },
+      diffs: [
+        {
+          bigmap: 55544,
+          path: 'token_metadata',
+          action: 'add_key',
+          content: {
+            hash: 'exprv9kSh4E2nbxUrkRGW4apMF7KYXbuFt8VvpaoBFdoeWpjuZ3N7f',
+            key: '274',
+            value: {
+              token_id: '274',
+              token_info: {
+                '': '697066733a2f2f697066732f516d6466467361416d574146513442646a4b6b725347674364455276685537353278623965715847695937394258',
+              },
+            },
+          },
+        },
+        {
+          bigmap: 55542,
+          path: 'ledger',
+          action: 'add_key',
+          content: {
+            hash: 'exprvEmYoT4mFAHmcEr5iajakAZueVzCyMKAGJDoAcwugRmMJ9bqR8',
+            key: {
+              nat: '274',
+              address: 'tz1eZ8amacCvSQsFM8wampwWXJFWsmGVRQFd',
+            },
+            value: '200',
+          },
+        },
+        {
+          bigmap: 55541,
+          path: 'royalties',
+          action: 'add_key',
+          content: {
+            hash: 'exprv9kSh4E2nbxUrkRGW4apMF7KYXbuFt8VvpaoBFdoeWpjuZ3N7f',
+            key: '274',
+            value: [
+              {
+                partValue: '1200',
+                partAccount: 'tz1eZ8amacCvSQsFM8wampwWXJFWsmGVRQFd',
+              },
+            ],
+          },
+        },
+      ],
+      nonce: null,
+    },
   ];
 
   const events = transactionsToEvents(transactions, [RaribleMintHandler]);
@@ -123,6 +219,25 @@ test('creates RARIBLE_MINT events', async () => {
           tz1fxvZGU1vR7FtNoyMwkHiMPkCyagpbF4NW: '1000',
         },
       },
+    },
+    {
+      artist_address: 'tz1eZ8amacCvSQsFM8wampwWXJFWsmGVRQFd',
+      editions: '200',
+      fa2_address: 'KT18pVpRXKPY2c4U2yFEGSH3ZnhB2kL8kwXS',
+      id: 'd10ee493284f639045f67d80af617f44',
+      level: 1947766,
+      metadata_uri: 'ipfs://QmdfFsaAmWAFQ4BdjKkrSGgCdERvhU752xb9eqXGiY79BX',
+      ophash: 'oocHVnB84Rr8TXZUjSryfcULGSyqNN9YGd3Egp4qVNewxF19yKg',
+      opid: 137710864,
+      royalty_shares: {
+        decimals: 4,
+        shares: {
+          tz1eZ8amacCvSQsFM8wampwWXJFWsmGVRQFd: '1200',
+        },
+      },
+      timestamp: '2021-12-15T16:27:06Z',
+      token_id: '274',
+      type: 'RARIBLE_MINT',
     },
   ]);
 });

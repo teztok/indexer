@@ -3,7 +3,7 @@ import omit from 'lodash/omit';
 import { assert, object, string, Describe } from 'superstruct';
 import { TezosAddress, ContractAddress, IsoDateString, MetadataUri, PositiveInteger, PgBigInt } from '../../../lib/validators';
 import { Handler, MintEvent, Transaction, RoyaltyShares } from '../../../types';
-import { createEventId } from '../../../lib/utils';
+import { createEventId, normalizeMetadataIpfsUri } from '../../../lib/utils';
 import { RoyaltySharesSchema } from '../../../lib/schemas';
 import { RARIBLE_CONTRACT_FA2 } from '../../../consts';
 
@@ -44,7 +44,7 @@ const RaribleMintHandler: Handler<Transaction, RaribleMintEvent> = {
     const artistAddress = get(transaction, 'parameter.value.iowner');
     const tokenId = get(transaction, 'parameter.value.itokenid');
     const iroyalties = get(transaction, 'parameter.value.iroyalties');
-    const metadataUri = Buffer.from(get(transaction, 'parameter.value.itokenMetadata.'), 'hex').toString();
+    const metadataUri = normalizeMetadataIpfsUri(Buffer.from(get(transaction, 'parameter.value.itokenMetadata.'), 'hex').toString());
     const id = createEventId(EVENT_TYPE_RARIBLE_MINT, transaction);
     const royaltyShares: RoyaltyShares = {
       decimals: 4,

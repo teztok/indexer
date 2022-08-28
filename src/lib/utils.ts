@@ -187,5 +187,16 @@ export function royaltiesToRoyaltyShares(receiverAddress: string, totalRoyalties
 }
 
 export function normalizeMetadataIpfsUri(metadataUri: string) {
-  return !metadataUri.toLowerCase().startsWith('ipfs://') && isIPFS.cid(metadataUri) ? `ipfs://${metadataUri}` : metadataUri;
+  let newMetadataUri = metadataUri;
+
+  if (!metadataUri.toLowerCase().startsWith('ipfs://') && isIPFS.cid(metadataUri)) {
+    newMetadataUri = `ipfs://${metadataUri}`;
+  }
+
+  if (metadataUri.startsWith('ipfs://ipfs/')) {
+    // sometimes the case for rarible tokens
+    newMetadataUri = newMetadataUri.replace('ipfs://ipfs/', 'ipfs://');
+  }
+
+  return newMetadataUri;
 }
