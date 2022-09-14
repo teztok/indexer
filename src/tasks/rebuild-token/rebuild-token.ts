@@ -129,6 +129,7 @@ export function compileToken(fa2Address: string, tokenId: string, events: Array<
   let platform: Platform = null;
 
   let artistAddress = null;
+  let isVerifiedArtist = false;
   let minterAddress = null;
   let metadataUri = null;
   let mintedAt = null;
@@ -202,6 +203,8 @@ export function compileToken(fa2Address: string, tokenId: string, events: Array<
       case 'HEN_MINT':
         platform = 'HEN';
         artistAddress = event.artist_address;
+        isVerifiedArtist = event.is_verified_artist;
+
         royalties[artistAddress] = event.royalties;
 
         if (!royaltyReceivers && event.royalty_shares) {
@@ -317,6 +320,7 @@ export function compileToken(fa2Address: string, tokenId: string, events: Array<
       case 'OBJKT_MINT_ARTIST': {
         platform = 'OBJKT';
         artistAddress = event.artist_address;
+        isVerifiedArtist = event.is_verified_artist;
         objktArtistCollectionId = event.collection_id;
         break;
       }
@@ -474,6 +478,7 @@ export function compileToken(fa2Address: string, tokenId: string, events: Array<
       case 'FX_MINT_V2': {
         platform = 'FXHASH';
         artistAddress = event.artist_address;
+        isVerifiedArtist = event.is_verified_artist;
         fxIssuerId = event.issuer_id;
         fxIteration = event.iteration;
         royalties[artistAddress] = event.royalties;
@@ -488,6 +493,7 @@ export function compileToken(fa2Address: string, tokenId: string, events: Array<
       case 'FX_MINT_V3': {
         platform = 'FXHASH';
         artistAddress = event.artist_address;
+        isVerifiedArtist = event.is_verified_artist;
         fxIssuerId = event.issuer_id;
         fxIteration = event.iteration;
 
@@ -609,6 +615,7 @@ export function compileToken(fa2Address: string, tokenId: string, events: Array<
       case 'VERSUM_MINT': {
         platform = 'VERSUM';
         artistAddress = event.artist_address;
+        isVerifiedArtist = event.is_verified_artist;
 
         if (!royaltyReceivers && event.royalty_shares) {
           royaltyReceivers = royaltySharesToRoyaltyReceivers(event.royalty_shares);
@@ -721,6 +728,7 @@ export function compileToken(fa2Address: string, tokenId: string, events: Array<
         eightbidCreatorName = event.creator_name;
         eightbidRgb = event.rgb;
         artistAddress = event.artist_address;
+        isVerifiedArtist = event.is_verified_artist;
 
         if (!royaltyReceivers && event.royalty_shares) {
           royaltyReceivers = royaltySharesToRoyaltyReceivers(event.royalty_shares);
@@ -873,6 +881,7 @@ export function compileToken(fa2Address: string, tokenId: string, events: Array<
       case 'TYPED_MINT':
         platform = 'TYPED';
         artistAddress = event.artist_address;
+        isVerifiedArtist = event.is_verified_artist;
 
         if (!royaltyReceivers && event.royalty_shares) {
           royaltyReceivers = royaltySharesToRoyaltyReceivers(event.royalty_shares);
@@ -926,6 +935,7 @@ export function compileToken(fa2Address: string, tokenId: string, events: Array<
       case '8SCRIBO_MINT':
         platform = '8SCRIBO';
         artistAddress = event.artist_address;
+        isVerifiedArtist = event.is_verified_artist;
 
         eightscriboTitle = event.eightscribo_title;
         eightscriboRowone = event.eightscribo_rowone;
@@ -984,6 +994,7 @@ export function compileToken(fa2Address: string, tokenId: string, events: Array<
       case 'RARIBLE_MINT': {
         platform = 'RARIBLE';
         artistAddress = event.artist_address;
+        isVerifiedArtist = event.is_verified_artist;
 
         if (!royaltyReceivers && event.royalty_shares) {
           royaltyReceivers = royaltySharesToRoyaltyReceivers(event.royalty_shares);
@@ -1047,6 +1058,8 @@ export function compileToken(fa2Address: string, tokenId: string, events: Array<
   const tags = cleanTags(get(metadata, 'tags'));
 
   if (artistAddress === null) {
+    isVerifiedArtist = false; // should not be necessary, but just to be sure ;)
+
     if (metadata && metadata.creators && metadata.creators.length) {
       if (isString(metadata.creators[0]) && isValidTezosAddress(metadata.creators[0])) {
         artistAddress = metadata.creators[0];
@@ -1093,6 +1106,7 @@ export function compileToken(fa2Address: string, tokenId: string, events: Array<
 
     minter_address: minterAddress,
     artist_address: artistAddress,
+    is_verified_artist: isVerifiedArtist,
 
     symbol: cleanString(get(metadata, 'symbol')),
     name: name || cleanString(get(metadata, 'name')),

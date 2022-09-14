@@ -42,6 +42,7 @@ export interface MetadataEvent extends TokenEvent {
 export interface MintEvent extends TokenEvent {
   editions: string;
   artist_address: string;
+  is_verified_artist: boolean;
 }
 
 export type SaleEventInterface = 'SALE';
@@ -240,6 +241,7 @@ export interface Token {
 
   minter_address: string | null;
   artist_address: string | null;
+  is_verified_artist: boolean;
 
   symbol: string | null;
   name: string | null;

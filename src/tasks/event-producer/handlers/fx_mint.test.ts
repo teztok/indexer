@@ -249,6 +249,7 @@ test('creates FX_MINT events', async () => {
       seller_address: 'tz1fepn7jZsCYBqCDhpM63hzh9g2Ytqk4Tpv',
       artist_address: 'tz1fepn7jZsCYBqCDhpM63hzh9g2Ytqk4Tpv',
       buyer_address: 'tz1VP6GUGdHdjCLzVFqRjBwsie3uw5UM4D1p',
+      is_verified_artist: false,
       issuer_id: '0',
       iteration: '3',
       royalties: '100',

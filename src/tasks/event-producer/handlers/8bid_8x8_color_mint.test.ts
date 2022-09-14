@@ -237,7 +237,7 @@ test('creates 8BID_8X8_COLOR_MINT events', async () => {
       level: 2133914,
       fa2_address: 'KT1MxDwChiDwd6WBVs24g1NjERUoK622ZEFp',
       token_id: '2',
-
+      is_verified_artist: true,
       editions: '9',
       artist_address: 'tz1c6Uibt7Vjr7MEFEQpohEa2f311KxZyJoZ',
       token_name: 'Cat001',
@@ -261,6 +261,7 @@ test('creates 8BID_8X8_COLOR_MINT events', async () => {
       level: 2133914,
       fa2_address: 'KT1MxDwChiDwd6WBVs24g1NjERUoK622ZEFp',
       token_id: '2',
+      is_verified_artist: true,
       editions: '9',
       artist_address: 'tz1c6Uibt7Vjr7MEFEQpohEa2f311KxZyJoZ',
       token_name: 'Cat001',

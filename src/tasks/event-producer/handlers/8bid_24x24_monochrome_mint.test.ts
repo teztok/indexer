@@ -128,7 +128,7 @@ test('creates 8BID_24X24_MONOCHROME_MINT events', async () => {
       level: 2190708,
       fa2_address: 'KT1TR1ErEQPTdtaJ7hbvKTJSa1tsGnHGZTpf',
       token_id: '2',
-
+      is_verified_artist: true,
       editions: '24',
       artist_address: 'tz1c6Uibt7Vjr7MEFEQpohEa2f311KxZyJoZ',
       token_name: 'To  be',

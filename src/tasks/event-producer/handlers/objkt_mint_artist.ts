@@ -1,6 +1,6 @@
 import get from 'lodash/get';
 import omit from 'lodash/omit';
-import { assert, object, string, Describe } from 'superstruct';
+import { assert, object, string, boolean, Describe } from 'superstruct';
 import { TezosAddress, ContractAddress, IsoDateString, MetadataUri, PositiveInteger, PgBigInt } from '../../../lib/validators';
 import { normalizeMetadataIpfsUri } from '../../../lib/utils';
 import { Handler, MintEvent, Transaction } from '../../../types';
@@ -23,8 +23,8 @@ const ObjktMintArtistEventSchema: Describe<Omit<ObjktMintArtistEvent, 'type'>> =
   fa2_address: ContractAddress,
   token_id: string(),
   ophash: string(),
-
   artist_address: TezosAddress,
+  is_verified_artist: boolean(),
   collection_id: PgBigInt,
   editions: PgBigInt,
   metadata_uri: MetadataUri,
@@ -48,6 +48,7 @@ const HenMintHandler: Handler<Transaction, ObjktMintArtistEvent> = {
     const mintTransaction = operation.transactions
       .slice(transactionIdx > 0 ? transactionIdx : 0)
       .find((transaction) => get(transaction, 'parameter.entrypoint') === 'mint');
+    const artistAddress = get(transaction, 'sender.address');
     const collectionId = get(transaction, 'parameter.value.collection_id');
     const fa2Address = get(mintTransaction, 'target.address');
     const tokenId = get(mintTransaction, 'parameter.value.token_id');
@@ -65,7 +66,8 @@ const HenMintHandler: Handler<Transaction, ObjktMintArtistEvent> = {
       token_id: tokenId,
       level: transaction.level,
       collection_id: collectionId,
-      artist_address: transaction.sender.address,
+      artist_address: artistAddress,
+      is_verified_artist: true,
       editions: editions,
       metadata_uri: normalizeMetadataIpfsUri(metadataUri),
     };

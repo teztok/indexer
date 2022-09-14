@@ -1,6 +1,6 @@
 import get from 'lodash/get';
 import omit from 'lodash/omit';
-import { assert, object, string, Describe } from 'superstruct';
+import { assert, object, string, boolean, Describe } from 'superstruct';
 import { TezosAddress, ContractAddress, IsoDateString, MetadataUri, PositiveInteger, PgBigInt } from '../../../lib/validators';
 import { Handler, Event, Transaction } from '../../../types';
 import { createEventId } from '../../../lib/utils';
@@ -12,6 +12,7 @@ export interface FxMintIssuerV3Event extends Event {
   type: typeof EVENT_TYPE_FX_MINT_ISSUER_V3;
   fa2_address: string;
   artist_address: string;
+  is_verified_artist: boolean;
   issuer_id: string;
   royalties: string;
   editions: string;
@@ -25,6 +26,7 @@ const FxMintIssuerV3EventSchema: Describe<Omit<FxMintIssuerV3Event, 'type'>> = o
   level: PositiveInteger,
   fa2_address: ContractAddress,
   artist_address: TezosAddress,
+  is_verified_artist: boolean(),
   ophash: string(),
   issuer_id: PgBigInt,
   royalties: PgBigInt,
@@ -44,6 +46,7 @@ const FxMintIssuerV3Handler: Handler<Transaction, FxMintIssuerV3Event> = {
     const issuerId = String(parseInt(get(transaction, 'storage.all_tokens'), 10) - 1);
     const royalties = get(transaction, 'parameter.value.royalties');
     const editions = get(transaction, 'parameter.value.amount');
+    const artistAddress = get(transaction, 'sender.address');
     const fa2Address = FX_CONTRACT_FA2_V3;
     const metadataUri = Buffer.from(get(transaction, 'parameter.value.metadata'), 'hex').toString();
     const id = createEventId(EVENT_TYPE_FX_MINT_ISSUER_V3, transaction);
@@ -56,7 +59,8 @@ const FxMintIssuerV3Handler: Handler<Transaction, FxMintIssuerV3Event> = {
       timestamp: transaction.timestamp,
       level: transaction.level,
       fa2_address: fa2Address,
-      artist_address: transaction.sender.address,
+      artist_address: artistAddress,
+      is_verified_artist: true,
       issuer_id: issuerId,
       royalties: royalties,
       editions: editions,

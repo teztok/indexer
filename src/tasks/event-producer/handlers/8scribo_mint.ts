@@ -1,6 +1,6 @@
 import get from 'lodash/get';
 import omit from 'lodash/omit';
-import { assert, object, string, Describe } from 'superstruct';
+import { assert, object, string, boolean, Describe } from 'superstruct';
 import { TezosAddress, ContractAddress, IsoDateString, MetadataUri, PositiveInteger, PgBigInt } from '../../../lib/validators';
 import { Handler, MintEvent, Transaction, RoyaltyShares } from '../../../types';
 import { createEventId, royaltiesToRoyaltyShares } from '../../../lib/utils';
@@ -27,7 +27,7 @@ const EightscriboMintEventSchema: Describe<Omit<EightscriboMintEvent, 'type'>> =
   fa2_address: ContractAddress,
   token_id: string(),
   ophash: string(),
-
+  is_verified_artist: boolean(),
   eightscribo_title: string(),
   eightscribo_rowone: string(),
   eightscribo_rowtwo: string(),
@@ -67,7 +67,8 @@ const EightscriboMintHandler: Handler<Transaction, EightscriboMintEvent> = {
       timestamp: transaction.timestamp,
       level: transaction.level,
       fa2_address: fa2Address,
-      artist_address: transaction.sender.address,
+      artist_address: artistAddress,
+      is_verified_artist: true,
       token_id: tokenId,
       editions: editions,
       metadata_uri: metadataUri,

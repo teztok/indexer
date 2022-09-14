@@ -247,6 +247,7 @@ test('handles HEN_MINT events', () => {
       token_id: TEST_TOKEN_ID,
       editions: '1',
       artist_address: 'tz1XUcZvBxAMMSqeMsfA4tunmEfTUcbEXQ88',
+      is_verified_artist: true,
       royalties: '100',
       metadata_uri: 'ipfs://QmUuZ2GYamdpPE8TUYzQkQC2jjnq7oiYVeZwdKpB4SCarG',
       royalty_shares: {
@@ -263,6 +264,7 @@ test('handles HEN_MINT events', () => {
   expect(token).toMatchObject({
     platform: 'HEN',
     artist_address: 'tz1XUcZvBxAMMSqeMsfA4tunmEfTUcbEXQ88',
+    is_verified_artist: true,
   });
 
   expect(royaltyReceivers).toStrictEqual([{ receiver_address: 'tz1XUcZvBxAMMSqeMsfA4tunmEfTUcbEXQ88', royalties: '100000' }]);
@@ -281,6 +283,7 @@ test('handles HEN_SWAP_V2 and HEN_COLLECT_V2 events', () => {
       token_id: TEST_TOKEN_ID,
       editions: '10',
       artist_address: 'tz1c8riGC9WHnrncStfM5jwKyhUwwRfb31hQ',
+      is_verified_artist: true,
       royalties: '150',
       metadata_uri: 'ipfs://QmUuZ2GYamdpPE8TUYzQkQC2jjnq7oiYVeZwdKpB4SCarG',
       royalty_shares: {
@@ -421,6 +424,7 @@ test('removes fraudulent HEN_SWAP_V2 listings where the artist_address does not 
       token_id: TEST_TOKEN_ID,
       editions: '10',
       artist_address: 'tz1c8riGC9WHnrncStfM5jwKyhUwwRfb31hQ',
+      is_verified_artist: true,
       royalties: '150',
       metadata_uri: 'ipfs://QmUuZ2GYamdpPE8TUYzQkQC2jjnq7oiYVeZwdKpB4SCarG',
       royalty_shares: {
@@ -466,6 +470,7 @@ test('removes fraudulent HEN_SWAP_V2 listings where royalties do not match', () 
       token_id: TEST_TOKEN_ID,
       editions: '10',
       artist_address: 'tz1c8riGC9WHnrncStfM5jwKyhUwwRfb31hQ',
+      is_verified_artist: true,
       royalties: '150',
       metadata_uri: 'ipfs://QmUuZ2GYamdpPE8TUYzQkQC2jjnq7oiYVeZwdKpB4SCarG',
       royalty_shares: {
@@ -667,6 +672,7 @@ test('removes fraudulent TEIA_SWAP listings where the artist_address does not ma
       token_id: TEST_TOKEN_ID,
       editions: '10',
       artist_address: 'tz1c8riGC9WHnrncStfM5jwKyhUwwRfb31hQ',
+      is_verified_artist: true,
       royalties: '150',
       metadata_uri: 'ipfs://QmUuZ2GYamdpPE8TUYzQkQC2jjnq7oiYVeZwdKpB4SCarG',
       royalty_shares: {
@@ -712,6 +718,7 @@ test('removes fraudulent TEIA_SWAP listings where royalties do not match', () =>
       token_id: TEST_TOKEN_ID,
       editions: '10',
       artist_address: 'tz1c8riGC9WHnrncStfM5jwKyhUwwRfb31hQ',
+      is_verified_artist: true,
       royalties: '150',
       metadata_uri: 'ipfs://QmUuZ2GYamdpPE8TUYzQkQC2jjnq7oiYVeZwdKpB4SCarG',
       royalty_shares: {
@@ -805,6 +812,7 @@ test('handles OBJKT_MINT_ARTIST events', () => {
       level: 1888131,
       fa2_address: TEST_FA2_ADDRESS,
       artist_address: 'tz1UxW1chiPvekzf23ze4L17JY26jTUtHsMF',
+      is_verified_artist: true,
       collection_id: '2437',
       token_id: TEST_TOKEN_ID,
       editions: '15',
@@ -818,6 +826,7 @@ test('handles OBJKT_MINT_ARTIST events', () => {
     platform: 'OBJKT',
     artist_address: 'tz1UxW1chiPvekzf23ze4L17JY26jTUtHsMF',
     objkt_artist_collection_id: '2437',
+    is_verified_artist: true,
   });
 });
 
@@ -1445,6 +1454,7 @@ test('handles FX_MINT events', () => {
       artist_address: 'tz1fepn7jZsCYBqCDhpM63hzh9g2Ytqk4Tpv',
       buyer_address: 'tz1VP6GUGdHdjCLzVFqRjBwsie3uw5UM4D1p',
       seller_address: 'tz1fepn7jZsCYBqCDhpM63hzh9g2Ytqk4Tpv',
+      is_verified_artist: false,
       issuer_id: '0',
       iteration: '3',
       royalties: '100',
@@ -1466,6 +1476,7 @@ test('handles FX_MINT events', () => {
     artist_address: 'tz1fepn7jZsCYBqCDhpM63hzh9g2Ytqk4Tpv',
     fx_issuer_id: '0',
     fx_iteration: '3',
+    is_verified_artist: false,
   });
 
   expect(royaltyReceivers).toStrictEqual([{ receiver_address: 'tz1fepn7jZsCYBqCDhpM63hzh9g2Ytqk4Tpv', royalties: '100000' }]);
@@ -1487,6 +1498,7 @@ test('handles FX_MINT_V2 events', () => {
       artist_address: 'tz1g2ZxQbaePfmpSwPQNRVNaF5aJdVmZWZgL',
       buyer_address: 'tz1fyPAaCtU5nQ8SAW6QLnCHjSarXzNKjFd6',
       seller_address: 'tz1fyPAaCtU5nQ8SAW6QLnCHjSarXzNKjFd6',
+      is_verified_artist: false,
       issuer_id: '5352',
       iteration: '128',
       royalties: '200',
@@ -1506,6 +1518,7 @@ test('handles FX_MINT_V2 events', () => {
   expect(token).toMatchObject({
     platform: 'FXHASH',
     artist_address: 'tz1g2ZxQbaePfmpSwPQNRVNaF5aJdVmZWZgL',
+    is_verified_artist: false,
     fx_issuer_id: '5352',
     fx_iteration: '128',
   });
@@ -1627,6 +1640,7 @@ test('handles VERSUM_MINT events', () => {
       token_id: TEST_TOKEN_ID,
       editions: '10000',
       artist_address: 'tz1QjLDuXQrFL2kQyT7NVUXKi1E3U998CmCg',
+      is_verified_artist: true,
       royalties: '200',
       metadata_uri: 'ipfs://QmTf4ojdFM53o4x62Yc3jjfitHxJ1S7yrttpTctmwZKYrh',
       royalty_shares: {
@@ -1643,6 +1657,7 @@ test('handles VERSUM_MINT events', () => {
   expect(token).toMatchObject({
     platform: 'VERSUM',
     artist_address: 'tz1QjLDuXQrFL2kQyT7NVUXKi1E3U998CmCg',
+    is_verified_artist: true,
   });
 
   expect(royaltyReceivers).toStrictEqual([{ receiver_address: 'tz1QjLDuXQrFL2kQyT7NVUXKi1E3U998CmCg', royalties: '200000' }]);
@@ -1965,6 +1980,7 @@ test('sets the token metadata correctly', () => {
     formats: [],
     right_uri: 'ipfs://eee',
     creators: ['aaa'],
+    is_verified_artist: false,
     contributors: ['bbb'],
     royalties_total: '300000',
     attributes: [
@@ -2161,6 +2177,7 @@ test('handles 8BID_8X8_COLOR_MINT events', () => {
 
       editions: '9',
       artist_address: 'tz1c6Uibt7Vjr7MEFEQpohEa2f311KxZyJoZ',
+      is_verified_artist: true,
       token_name: 'Cat001',
       creator_name: 'Hrtk',
       token_description: 'This is cat.',
@@ -2186,6 +2203,7 @@ test('handles 8BID_8X8_COLOR_MINT events', () => {
       '639bff639bff639bff639bff639bff639bff639bff639bff639bff222034639bff222034639bff639bff639bff639bff639bff222034222034222034639bff639bff639bff639bff639bff222034222034222034639bff639bff222034639bff639bff639bff222034222034222034222034639bff639bff639bff639bff222034222034222034222034639bff639bff639bff639bff222034639bff639bff222034639bff639bff639bff639bff639bff639bff639bff639bff639bff639bff',
     eightbid_creator_name: 'Hrtk',
     artist_address: 'tz1c6Uibt7Vjr7MEFEQpohEa2f311KxZyJoZ',
+    is_verified_artist: true,
   });
 
   expect(royaltyReceivers).toStrictEqual([{ receiver_address: 'tz1c6Uibt7Vjr7MEFEQpohEa2f311KxZyJoZ', royalties: '100000' }]);
@@ -2315,6 +2333,7 @@ test('filters out 8BID_8X8_COLOR_SWAP listings with incorrect royalties set', ()
 
       editions: '10',
       artist_address: 'tz2QhmKtUWRyArfaqfBedvVdidgKpCcckMXV',
+      is_verified_artist: true,
       token_name: 'Cat001',
       creator_name: 'Hrtk',
       token_description: 'This is cat.',
@@ -2365,6 +2384,7 @@ test('filters out 8BID_8X8_COLOR_SWAP listings with incorrect artist_address set
 
       editions: '10',
       artist_address: 'tz2QhmKtUWRyArfaqfBedvVdidgKpCcckMXV',
+      is_verified_artist: true,
       token_name: 'Cat001',
       creator_name: 'Hrtk',
       token_description: 'This is cat.',
@@ -2466,6 +2486,7 @@ test('handles 8BID_24X24_MONOCHROME_MINT events', () => {
 
       editions: '9',
       artist_address: 'tz1c6Uibt7Vjr7MEFEQpohEa2f311KxZyJoZ',
+      is_verified_artist: true,
       token_name: 'Cat001',
       creator_name: 'Hrtk',
       token_description: 'This is cat.',
@@ -2716,6 +2737,7 @@ test('filters out 8BID_24X24_MONOCHROME_SWAP listings with incorrect artist_addr
 
       editions: '10',
       artist_address: 'tz2QhmKtUWRyArfaqfBedvVdidgKpCcckMXV',
+      is_verified_artist: true,
       token_name: 'Cat001',
       creator_name: 'Hrtk',
       token_description: 'This is cat.',
@@ -2766,6 +2788,7 @@ test('handles 8BID_24X24_COLOR_MINT events', () => {
 
       editions: '9',
       artist_address: 'tz1c6Uibt7Vjr7MEFEQpohEa2f311KxZyJoZ',
+      is_verified_artist: true,
       token_name: 'Cat001',
       creator_name: 'Hrtk',
       token_description: 'This is cat.',
@@ -2970,6 +2993,7 @@ test('filters out 8BID_24X24_COLOR_SWAP listings with incorrect artist_address s
 
       editions: '10',
       artist_address: 'tz2QhmKtUWRyArfaqfBedvVdidgKpCcckMXV',
+      is_verified_artist: true,
       token_name: 'Cat001',
       creator_name: 'Hrtk',
       token_description: 'This is cat.',
@@ -3022,6 +3046,7 @@ test('handles FX_MINT_V3 events', () => {
       seller_address: 'tz1MBrwe8EgiZJ5kgVEDnL5emVM294J5RiaW',
       artist_address: 'tz1MBrwe8EgiZJ5kgVEDnL5emVM294J5RiaW',
       buyer_address: 'tz1KfjPNG5riJC972A6vZXaDyzqqBxXCCmec',
+      is_verified_artist: true,
       issuer_id: '10966',
       iteration: '3',
       royalties: '130',
@@ -3328,6 +3353,7 @@ test('handles TYPED_MINT events', () => {
       token_id: TEST_TOKEN_ID,
       editions: '1',
       artist_address: 'tz1XUcZvBxAMMSqeMsfA4tunmEfTUcbEXQ88',
+      is_verified_artist: true,
       metadata_uri: 'ipfs://QmUuZ2GYamdpPE8TUYzQkQC2jjnq7oiYVeZwdKpB4SCarG',
       royalty_shares: {
         decimals: 3,
@@ -3361,6 +3387,7 @@ test('handles TYPED_SWAP and TYPED_COLLECT events', () => {
       token_id: TEST_TOKEN_ID,
       editions: '10',
       artist_address: 'tz1c8riGC9WHnrncStfM5jwKyhUwwRfb31hQ',
+      is_verified_artist: true,
       metadata_uri: 'ipfs://QmUuZ2GYamdpPE8TUYzQkQC2jjnq7oiYVeZwdKpB4SCarG',
       royalty_shares: {
         decimals: 3,
@@ -3488,6 +3515,7 @@ test('handles 8SCRIBO_MINT events', () => {
       eightscribo_rowtwo: 'row two',
       eightscribo_rowthree: 'row three',
       artist_address: 'tz1XUcZvBxAMMSqeMsfA4tunmEfTUcbEXQ88',
+      is_verified_artist: true,
       metadata_uri: 'ipfs://QmUuZ2GYamdpPE8TUYzQkQC2jjnq7oiYVeZwdKpB4SCarG',
       royalty_shares: {
         decimals: 3,
@@ -3681,6 +3709,7 @@ test('handles RARIBLE_MINT events', () => {
       token_id: '78891',
       editions: '1',
       artist_address: 'tz1fxvZGU1vR7FtNoyMwkHiMPkCyagpbF4NW',
+      is_verified_artist: true,
       metadata_uri: 'ipfs://bafkreiep43suckvuk7gyfbx7xn5uzahr7usowpbcn6f2mlbez7jgikbqvy',
       royalty_shares: {
         decimals: 4,
@@ -3696,9 +3725,36 @@ test('handles RARIBLE_MINT events', () => {
   expect(token).toMatchObject({
     platform: 'RARIBLE',
     artist_address: 'tz1fxvZGU1vR7FtNoyMwkHiMPkCyagpbF4NW',
+    is_verified_artist: true,
   });
 
   expect(royaltyReceivers).toStrictEqual([{ receiver_address: 'tz1fxvZGU1vR7FtNoyMwkHiMPkCyagpbF4NW', royalties: '100000' }]);
+});
+
+test('sets is_verified_artist to false if the artist is not verifiable', () => {
+  const events: Array<AnyEvent> = [
+    {
+      id: '9c088c24ac09615570079afb80975a3b',
+      type: '8BID_24X24_COLOR_SWAP',
+      opid: 176179849,
+      ophash: TEST_OPHASH,
+      timestamp: '2022-02-20T15:11:00Z',
+      level: 2134259,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+
+      seller_address: 'tz2QhmKtUWRyArfaqfBedvVdidgKpCcckMXV',
+      artist_address: 'tz2QhmKtUWRyArfaqfBedvVdidgKpCcckMXV',
+      price: TEST_PRICE,
+      swap_id: TEST_SWAP_ID,
+      royalties: '100',
+      amount: '10',
+    },
+  ];
+
+  const { token } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
+
+  expect(token.is_verified_artist).toBe(false);
 });
 
 test('calcs the correct price diffs', () => {

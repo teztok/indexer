@@ -140,6 +140,7 @@ test('creates 8SCRIBO_MINT events', async () => {
       token_id: '0',
       editions: '1',
       artist_address: 'tz1VpvqucS7NY8o4z5dsmQi6UA81gbLpUiiu',
+      is_verified_artist: true,
       metadata_uri: 'ipfs://QmbYAqMpVEQ8N3jGBEHT1LrPBLzqnWoqj5B7QZ6cm5Ubk2',
       eightscribo_title: 'New Day ',
       eightscribo_rowone: 'Blank page of promise..\n',

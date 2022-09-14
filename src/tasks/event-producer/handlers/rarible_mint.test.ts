@@ -212,6 +212,7 @@ test('creates RARIBLE_MINT events', async () => {
       token_id: '78891',
       editions: '1',
       artist_address: 'tz1fxvZGU1vR7FtNoyMwkHiMPkCyagpbF4NW',
+      is_verified_artist: true,
       metadata_uri: 'ipfs://bafkreiep43suckvuk7gyfbx7xn5uzahr7usowpbcn6f2mlbez7jgikbqvy',
       royalty_shares: {
         decimals: 4,
@@ -222,6 +223,7 @@ test('creates RARIBLE_MINT events', async () => {
     },
     {
       artist_address: 'tz1eZ8amacCvSQsFM8wampwWXJFWsmGVRQFd',
+      is_verified_artist: true,
       editions: '200',
       fa2_address: 'KT18pVpRXKPY2c4U2yFEGSH3ZnhB2kL8kwXS',
       id: 'd10ee493284f639045f67d80af617f44',
