@@ -149,6 +149,7 @@ test('creates FX_MINT_ISSUER_V3 events', async () => {
       issuer_id: '10965',
       editions: '256',
       artist_address: 'tz1a2aHDQayeSEsbDRm5igEiLYH4cxcNnKyz',
+      is_verified_artist: true,
       royalties: '150',
       metadata_uri: 'ipfs://QmTSrEZYKqCXcj49MvgfCo6YVptjFfrJ5GjhRXpn7ropzZ',
     },

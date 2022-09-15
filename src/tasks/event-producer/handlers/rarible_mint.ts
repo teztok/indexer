@@ -1,6 +1,6 @@
 import get from 'lodash/get';
 import omit from 'lodash/omit';
-import { assert, object, string, Describe } from 'superstruct';
+import { assert, object, string, boolean, Describe } from 'superstruct';
 import { TezosAddress, ContractAddress, IsoDateString, MetadataUri, PositiveInteger, PgBigInt } from '../../../lib/validators';
 import { Handler, MintEvent, Transaction, RoyaltyShares } from '../../../types';
 import { createEventId, normalizeMetadataIpfsUri } from '../../../lib/utils';
@@ -25,6 +25,7 @@ const RaribleMintEventSchema: Describe<Omit<RaribleMintEvent, 'type'>> = object(
   ophash: string(),
 
   artist_address: TezosAddress,
+  is_verified_artist: boolean(),
   editions: PgBigInt,
   metadata_uri: MetadataUri,
   royalty_shares: RoyaltySharesSchema,
@@ -41,7 +42,7 @@ const RaribleMintHandler: Handler<Transaction, RaribleMintEvent> = {
   exec: (transaction) => {
     const editions = get(transaction, 'parameter.value.iamount');
     const fa2Address = get(transaction, 'target.address');
-    const artistAddress = get(transaction, 'parameter.value.iowner');
+    const artistAddress = get(transaction, 'sender.address');
     const tokenId = get(transaction, 'parameter.value.itokenid');
     const iroyalties = get(transaction, 'parameter.value.iroyalties');
     const metadataUri = normalizeMetadataIpfsUri(Buffer.from(get(transaction, 'parameter.value.itokenMetadata.'), 'hex').toString());
@@ -64,6 +65,7 @@ const RaribleMintHandler: Handler<Transaction, RaribleMintEvent> = {
       level: transaction.level,
       fa2_address: fa2Address,
       artist_address: artistAddress,
+      is_verified_artist: true,
       token_id: tokenId,
       editions: editions,
       metadata_uri: metadataUri,

@@ -383,6 +383,7 @@ test('creates HEN_MINT events', async () => {
       token_id: '545563',
       editions: '1',
       artist_address: 'tz1XUcZvBxAMMSqeMsfA4tunmEfTUcbEXQ88',
+      is_verified_artist: true,
       royalties: '100',
       metadata_uri: 'ipfs://QmUuZ2GYamdpPE8TUYzQkQC2jjnq7oiYVeZwdKpB4SCarG',
       royalty_shares: {
@@ -394,6 +395,7 @@ test('creates HEN_MINT events', async () => {
     },
     {
       artist_address: 'tz1Sue5xUeUPLu7nn2ECAEGrskJVBDWG8a1K',
+      is_verified_artist: true,
       editions: '1',
       fa2_address: 'KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton',
       id: '848a62ea451b5bce284c9dab8c7e39e9',
@@ -414,6 +416,7 @@ test('creates HEN_MINT events', async () => {
     },
     {
       artist_address: 'tz1Sue5xUeUPLu7nn2ECAEGrskJVBDWG8a1K',
+      is_verified_artist: true,
       editions: '1',
       fa2_address: 'KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton',
       id: '58235e4ed9167cfe5403d14dc80fa4d2',

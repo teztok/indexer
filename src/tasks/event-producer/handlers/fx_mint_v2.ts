@@ -1,6 +1,6 @@
 import get from 'lodash/get';
 import omit from 'lodash/omit';
-import { assert, object, string, Describe } from 'superstruct';
+import { assert, object, string, boolean, Describe } from 'superstruct';
 import { TezosAddress, ContractAddress, IsoDateString, MetadataUri, PositiveInteger, PgBigInt } from '../../../lib/validators';
 import { Handler, MintEvent, Transaction, SaleEventInterface, RoyaltyShares } from '../../../types';
 import { createEventId, findDiff, royaltiesToRoyaltyShares } from '../../../lib/utils';
@@ -31,6 +31,7 @@ const FxMintV2EventSchema: Describe<Omit<FxMintV2Event, 'type' | 'implements'>> 
   token_id: string(),
   ophash: string(),
   artist_address: TezosAddress,
+  is_verified_artist: boolean(),
   seller_address: TezosAddress,
   buyer_address: TezosAddress,
   issuer_id: PgBigInt,
@@ -85,6 +86,7 @@ const FxMintIssuerHandler: Handler<Transaction, FxMintV2Event> = {
       seller_address: artistAddress,
       buyer_address: transaction.sender.address,
       artist_address: artistAddress,
+      is_verified_artist: false,
       issuer_id: issuerId,
       token_id: tokenId,
       royalties: royalties,

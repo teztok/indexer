@@ -1,6 +1,6 @@
 import get from 'lodash/get';
 import omit from 'lodash/omit';
-import { assert, object, string, Describe } from 'superstruct';
+import { assert, object, string, boolean, Describe } from 'superstruct';
 import { TezosAddress, ContractAddress, IsoDateString, MetadataUri, PositiveInteger, PgBigInt } from '../../../lib/validators';
 import { Handler, MintEvent, Transaction, RoyaltyShares } from '../../../types';
 import { createEventId, royaltiesToRoyaltyShares } from '../../../lib/utils';
@@ -26,6 +26,7 @@ const HenMintEventSchema: Describe<Omit<HenMintEvent, 'type'>> = object({
   ophash: string(),
 
   artist_address: TezosAddress,
+  is_verified_artist: boolean(),
   royalties: PgBigInt,
   editions: PgBigInt,
   metadata_uri: MetadataUri,
@@ -55,7 +56,7 @@ const HenMintHandler: Handler<Transaction, HenMintEvent> = {
     const royalties = get(transaction, 'parameter.value.royalties');
     const editions = get(transaction, 'parameter.value.amount');
     const fa2Address = get(transaction, 'storage.objkt');
-    const artistAddress = transaction.sender.address;
+    const artistAddress = get(transaction, 'sender.address');
     const metadataUri = Buffer.from(get(mintTransaction, 'parameter.value.token_info.'), 'hex').toString();
     const id = createEventId(EVENT_TYPE_HEN_MINT, transaction);
 
@@ -67,7 +68,8 @@ const HenMintHandler: Handler<Transaction, HenMintEvent> = {
       timestamp: transaction.timestamp,
       level: transaction.level,
       fa2_address: fa2Address,
-      artist_address: transaction.sender.address,
+      artist_address: artistAddress,
+      is_verified_artist: true,
       token_id: tokenId,
       royalties: royalties,
       editions: editions,

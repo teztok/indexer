@@ -505,6 +505,7 @@ test('creates OBJKT_MINT_ARTIST events', async () => {
       level: 1888131,
       fa2_address: 'KT1NYs2KnP8ckRWbhDDBLC5u7TLNG9zRVCv6',
       artist_address: 'tz1UxW1chiPvekzf23ze4L17JY26jTUtHsMF',
+      is_verified_artist: true,
       collection_id: '2437',
       token_id: '18',
       editions: '15',
@@ -512,6 +513,7 @@ test('creates OBJKT_MINT_ARTIST events', async () => {
     },
     {
       artist_address: 'tz1TRo6E7mkWVXXbr6bqadKozg3yV3FhnbL2',
+      is_verified_artist: true,
       collection_id: '27238',
       editions: '1',
       fa2_address: 'KT1VBNQfUQcmZ9okyWCmvKwdLMmiA5SLjYmv',
@@ -526,6 +528,7 @@ test('creates OBJKT_MINT_ARTIST events', async () => {
     },
     {
       artist_address: 'tz1TRo6E7mkWVXXbr6bqadKozg3yV3FhnbL2',
+      is_verified_artist: true,
       collection_id: '27238',
       editions: '1',
       fa2_address: 'KT1VBNQfUQcmZ9okyWCmvKwdLMmiA5SLjYmv',
@@ -540,6 +543,7 @@ test('creates OBJKT_MINT_ARTIST events', async () => {
     },
     {
       artist_address: 'tz1NUvnhNJXBWUY5JSmgTjNkd9fSoqT4sqhb',
+      is_verified_artist: true,
       collection_id: '20917',
       editions: '35',
       fa2_address: 'KT1QrcpaSzJ23VqcSD5SMfT9UyUdZSt7i8iz',

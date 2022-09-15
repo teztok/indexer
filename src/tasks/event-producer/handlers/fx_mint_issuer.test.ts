@@ -103,6 +103,7 @@ test('creates FX_MINT_ISSUER events', async () => {
       issuer_id: '0',
       editions: '1000',
       artist_address: 'tz1fepn7jZsCYBqCDhpM63hzh9g2Ytqk4Tpv',
+      is_verified_artist: true,
       royalties: '100',
       price: '100000',
       metadata_uri: 'ipfs://QmY2o3zfbnntyCjFvG6yGoDJgJKsmmXL7imHMLrewaw7JH',

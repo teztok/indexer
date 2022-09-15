@@ -1,6 +1,6 @@
 import get from 'lodash/get';
 import omit from 'lodash/omit';
-import { assert, object, string, optional, Describe } from 'superstruct';
+import { assert, object, string, optional, boolean, Describe } from 'superstruct';
 import { TezosAddress, ContractAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
 import { Handler, MintEvent, Transaction, RoyaltyShares } from '../../../types';
 import { createEventId, royaltiesToRoyaltyShares } from '../../../lib/utils';
@@ -29,7 +29,7 @@ const EightbidMint8x8ColorEventSchema: Describe<Omit<EightbidMint8x8ColorEvent, 
   fa2_address: ContractAddress,
   token_id: string(),
   ophash: string(),
-
+  is_verified_artist: boolean(),
   editions: PgBigInt,
   artist_address: TezosAddress,
   token_name: string(),
@@ -70,9 +70,9 @@ const EightbidMint8x8ColorHandler: Handler<Transaction, EightbidMint8x8ColorEven
       level: transaction.level,
       fa2_address: fa2Address,
       token_id: tokenId,
-
       editions: editions,
       artist_address: artistAddress,
+      is_verified_artist: true,
       token_name: tokenName,
       token_description: tokenDescription,
       rgb: rgb,

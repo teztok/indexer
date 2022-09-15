@@ -145,6 +145,7 @@ test('creates TYPED_MINT events', async () => {
       token_id: '2',
       editions: '20',
       artist_address: 'tz1Z5WiUAYnvqBfSwcLeB6rEeSsyh1F1gtku',
+      is_verified_artist: true,
       metadata_uri: 'ipfs://QmYkoR9hkhL51kfTjwmZ5a7RWatFDXdcfJRugGGKzeezVC',
       royalty_shares: {
         decimals: 3,

@@ -471,6 +471,7 @@ test('creates VERSUM_MINT events', async () => {
       token_id: '0',
       editions: '10000',
       artist_address: 'tz1QjLDuXQrFL2kQyT7NVUXKi1E3U998CmCg',
+      is_verified_artist: true,
       royalties: '200',
       metadata_uri: 'ipfs://QmTf4ojdFM53o4x62Yc3jjfitHxJ1S7yrttpTctmwZKYrh',
       royalty_shares: {
@@ -503,6 +504,7 @@ test('creates VERSUM_MINT events', async () => {
       token_id: '12',
       editions: '100',
       artist_address: 'tz1WJpBDRGfa21un4yQDKTGXZw561nsGg7Qe',
+      is_verified_artist: true,
       royalties: '100',
       metadata_uri: 'ipfs://QmbnTra5S3EZZP9Ts4zxZJ2jVvb1PoZ5VVEk97dJHChxGK',
       royalty_shares: {

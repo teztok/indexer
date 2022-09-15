@@ -128,7 +128,7 @@ test('creates 8BID_24X24_COLOR_MINT events', async () => {
       level: 2181380,
       fa2_address: 'KT1VikAWA8wQHLZgHoAGL7Z9kCjgbCEnvWA3',
       token_id: '2',
-
+      is_verified_artist: true,
       editions: '5',
       artist_address: 'tz1Tx4yqNmhVXFDrRTMfG5J1Wntb3JaAiQ93',
       token_name: 'Lake Monster',
