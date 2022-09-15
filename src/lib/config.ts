@@ -37,6 +37,7 @@ const defaultConfig = {
     'KT1UsSfaXyqcjSVPeiD7U1bWgKy3taYN7NWY', // Plenty Bridge FA2
     'KT1C9X9s5rpVJGxwVuHEVBLYEdAQ1Qw8QDjH', // TezDAO
     'KT1BRhcRAdLia3XQT1mPSofHyrmYpRddgj3s', // tzDrops
+    'KT1GBZmSxmnKJXGMdMLbugPfLyUPmuLSMwKS', // Tezos Domains NameRegistry
   ],
 };
 
