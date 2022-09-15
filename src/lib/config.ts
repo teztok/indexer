@@ -35,6 +35,8 @@ const defaultConfig = {
     'KT19wuExNXayErfuCkcy6Z56cd1FWzF96xXk', // AQRtz
     'KT1F8gkt9o4a2DKwHVsZv9akrF7ZbaYBHpMy', // MIMEY
     'KT1UsSfaXyqcjSVPeiD7U1bWgKy3taYN7NWY', // Plenty Bridge FA2
+    'KT1C9X9s5rpVJGxwVuHEVBLYEdAQ1Qw8QDjH', // TezDAO
+    'KT1BRhcRAdLia3XQT1mPSofHyrmYpRddgj3s', // tzDrops
   ],
 };
 
