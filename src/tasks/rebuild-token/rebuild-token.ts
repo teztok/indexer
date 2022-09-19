@@ -1251,7 +1251,12 @@ export async function rebuildToken(payload: RebuildTokenTaskPayload) {
       .andWhere('token_id', '=', token.token_id)
       .del()
       .transacting(trx);
-    // await trx('tokens').where('fa2_address', '=', token.fa2_address).andWhere('token_id', '=', token.token_id).del().transacting(trx);
+
+    if (config.ignoredContractAddresses.includes(token.fa2_address)) {
+      // delete the token if it's on an ignored contract.
+      await trx('tokens').where('fa2_address', '=', token.fa2_address).andWhere('token_id', '=', token.token_id).del().transacting(trx);
+      return;
+    }
 
     const tokenRow = ['formats', 'creators', 'contributors', 'attributes', 'royalties', 'lowest_price_listing'].reduce<Record<string, any>>(
       (memo, propName) => {
