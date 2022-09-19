@@ -18,7 +18,7 @@ export interface VersumMintEvent extends MintEvent {
 
 const VersumMintEventSchema: Describe<Omit<VersumMintEvent, 'type'>> = object({
   id: string(),
-  opid: PositiveInteger,
+  opid: PgBigInt,
   timestamp: IsoDateString,
   level: PositiveInteger,
   fa2_address: ContractAddress,
@@ -53,7 +53,7 @@ const VersumMintHandler: Handler<Transaction, VersumMintEvent> = {
     const event: VersumMintEvent = {
       id,
       type: EVENT_TYPE_VERSUM_MINT,
-      opid: transaction.id,
+      opid: String(transaction.id),
       ophash: transaction.hash,
       timestamp: transaction.timestamp,
       level: transaction.level,

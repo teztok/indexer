@@ -141,7 +141,7 @@ test('creates FX_MINT_ISSUER_V3 events', async () => {
     {
       id: 'c1a8e0b02d26a836c2847dc088b361d6',
       type: 'FX_MINT_ISSUER_V3',
-      opid: 207513245,
+      opid: '207513245',
       ophash: 'opUQ56JxEcM2g4Ck6knppX5TvbgjKkaw1EhWq6zLgFm1xwiP7eD',
       timestamp: '2022-04-16T12:00:29Z',
       level: 2285819,

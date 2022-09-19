@@ -74,7 +74,7 @@ test('creates 8SCRIBO_SWAP events', async () => {
     {
       id: '834af1b9b7f92530665ff28ec73c84ec',
       type: '8SCRIBO_SWAP',
-      opid: 290073731,
+      opid: '290073731',
       timestamp: '2022-07-18T15:28:44Z',
       level: 2544868,
       ophash: 'oohe4RtcRi61Yz1xPxiMs5S96CtMq2Gj1aUvvyj66FQvRcBnsaF',

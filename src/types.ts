@@ -26,7 +26,7 @@ export interface Event {
   type: string;
   timestamp: string;
   level: number;
-  opid: number;
+  opid: string;
   ophash: string;
 }
 

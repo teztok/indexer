@@ -17,7 +17,7 @@ export interface ObjktRetractAskV2Event extends TokenEvent {
 
 const ObjktRetractAskV2EventSchema: Describe<Omit<ObjktRetractAskV2Event, 'type'>> = object({
   id: string(),
-  opid: PositiveInteger,
+  opid: PgBigInt,
   timestamp: IsoDateString,
   level: PositiveInteger,
   fa2_address: ContractAddress,
@@ -48,7 +48,7 @@ const ObjktRetractAskV2Handler: Handler<Transaction, ObjktRetractAskV2Event> = {
     const event: ObjktRetractAskV2Event = {
       id,
       type: EVENT_TYPE_OBJKT_RETRACT_ASK_V2,
-      opid: transaction.id,
+      opid: String(transaction.id),
       ophash: transaction.hash,
       level: transaction.level,
       timestamp: transaction.timestamp,

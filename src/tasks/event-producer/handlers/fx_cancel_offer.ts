@@ -17,7 +17,7 @@ export interface FxCancelOfferEvent extends TokenEvent {
 
 const FxCancelOfferEventSchema: Describe<Omit<FxCancelOfferEvent, 'type'>> = object({
   id: string(),
-  opid: PositiveInteger,
+  opid: PgBigInt,
   timestamp: IsoDateString,
   level: PositiveInteger,
   fa2_address: ContractAddress,
@@ -48,7 +48,7 @@ const FxCancelOfferHandler: Handler<Transaction, FxCancelOfferEvent> = {
     const event: FxCancelOfferEvent = {
       id,
       type: EVENT_TYPE_FX_CANCEL_OFFER,
-      opid: transaction.id,
+      opid: String(transaction.id),
       ophash: transaction.hash,
       timestamp: transaction.timestamp,
       level: transaction.level,

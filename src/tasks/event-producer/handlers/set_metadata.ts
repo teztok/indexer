@@ -1,7 +1,7 @@
 import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, type, string, Describe, is, optional } from 'superstruct';
-import { ContractAddress, IsoDateString, MetadataUri, PositiveInteger } from '../../../lib/validators';
+import { ContractAddress, IsoDateString, MetadataUri, PositiveInteger, PgBigInt } from '../../../lib/validators';
 import { TokenStorageSchema } from '../../../lib/schemas';
 import logger from '../../../lib/logger';
 import { Handler, TokenEvent, Transaction } from '../../../types';
@@ -18,7 +18,7 @@ export interface SetMetadataEvent extends TokenEvent {
 
 const SetMetadataEventSchema: Describe<Omit<SetMetadataEvent, 'type'>> = object({
   id: string(),
-  opid: PositiveInteger,
+  opid: PgBigInt,
   timestamp: IsoDateString,
   level: PositiveInteger,
   fa2_address: ContractAddress,
@@ -124,7 +124,7 @@ const SetMetadataHandler: Handler<Transaction, SetMetadataEvent> = {
           const event: SetMetadataEvent = {
             id,
             type: EVENT_TYPE_SET_METADATA,
-            opid: transaction.id,
+            opid: String(transaction.id),
             ophash: transaction.hash,
             timestamp: transaction.timestamp,
             level: transaction.level,

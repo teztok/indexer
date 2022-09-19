@@ -21,7 +21,7 @@ export interface FxMintIssuerV3Event extends Event {
 
 const FxMintIssuerV3EventSchema: Describe<Omit<FxMintIssuerV3Event, 'type'>> = object({
   id: string(),
-  opid: PositiveInteger,
+  opid: PgBigInt,
   timestamp: IsoDateString,
   level: PositiveInteger,
   fa2_address: ContractAddress,
@@ -54,7 +54,7 @@ const FxMintIssuerV3Handler: Handler<Transaction, FxMintIssuerV3Event> = {
     const event: FxMintIssuerV3Event = {
       id,
       type: EVENT_TYPE_FX_MINT_ISSUER_V3,
-      opid: transaction.id,
+      opid: String(transaction.id),
       ophash: transaction.hash,
       timestamp: transaction.timestamp,
       level: transaction.level,

@@ -143,7 +143,7 @@ test('creates OBJKT_CREATE_DUTCH_AUCTION events', async () => {
     {
       id: '797994d94c029ca9116c03d0f9018f78',
       type: 'OBJKT_CREATE_DUTCH_AUCTION',
-      opid: 57871184,
+      opid: '57871184',
       ophash: 'ooarNnsqbFSahJSkmq9XbqnJ7WEA79DjBqy9ryYJ7e2k1uPYPDe',
       timestamp: '2021-07-01T20:52:58Z',
       level: 1539521,
@@ -163,7 +163,7 @@ test('creates OBJKT_CREATE_DUTCH_AUCTION events', async () => {
     {
       id: 'b46d51acb342b921c066a0188bf213b3',
       type: 'OBJKT_CREATE_DUTCH_AUCTION',
-      opid: 58421438,
+      opid: '58421438',
       ophash: 'onhbqVTvyApfTSEqoKiR2exUK2PyLJr1c2c75ut9WFq9uD7zHFo',
       timestamp: '2021-07-05T19:38:30Z',
       level: 1544398,

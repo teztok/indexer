@@ -150,7 +150,7 @@ test('creates FX_LISTING events', async () => {
     {
       id: 'f859e6a826e1fb498d9a1d2e185b8f5e',
       type: 'FX_LISTING',
-      opid: 207514809,
+      opid: '207514809',
       ophash: 'oouuaCvwnFkyR21cVWGs1tfHJojx5X3F8ywC8EmSxtG8xgFmkBR',
       timestamp: '2022-04-16T12:02:59Z',
       level: 2285824,
@@ -163,7 +163,7 @@ test('creates FX_LISTING events', async () => {
     {
       id: '59ac33757e388050d130c957610ef81d',
       type: 'FX_LISTING',
-      opid: 207517629,
+      opid: '207517629',
       ophash: 'op9GNf8V92qJZvWnhMp5UxmbCoU8PXtBaYFE7DedsMBqniCenKR',
       timestamp: '2022-04-16T12:05:59Z',
       level: 2285830,

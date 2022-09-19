@@ -239,7 +239,7 @@ test('creates FX_MINT events', async () => {
       id: 'bfbb224b73a1b9dcd8e1d792aa26c3b4',
       type: 'FX_MINT',
       implements: 'SALE',
-      opid: 104481628,
+      opid: '104481628',
       ophash: 'ongfG6YnyQMdZJL4GoGtsEGZYgtSCw7EUX8EZLAAg2F7XMTFfsx',
       timestamp: '2021-11-03T16:52:32Z',
       level: 1832759,

@@ -16,7 +16,7 @@ export interface HenCancelSwapEvent extends TokenEvent {
 
 const HenSwapEventSchema: Describe<Omit<HenCancelSwapEvent, 'type'>> = object({
   id: string(),
-  opid: PositiveInteger,
+  opid: PgBigInt,
   timestamp: IsoDateString,
   level: PositiveInteger,
   fa2_address: ContractAddress,
@@ -53,7 +53,7 @@ const HenSwapHandler: Handler<Transaction, HenCancelSwapEvent> = {
     const event: HenCancelSwapEvent = {
       id,
       type: EVENT_TYPE_HEN_CANCEL_SWAP,
-      opid: transaction.id,
+      opid: String(transaction.id),
       ophash: transaction.hash,
       timestamp: transaction.timestamp,
       level: transaction.level,

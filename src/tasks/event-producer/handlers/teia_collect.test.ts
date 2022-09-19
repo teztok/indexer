@@ -68,7 +68,7 @@ test('creates TEIA_COLLECT events', async () => {
       id: 'f30c224a44f260e03bcf4984a4c7cc40',
       type: 'TEIA_COLLECT',
       implements: 'SALE',
-      opid: 164940000,
+      opid: '164940000',
       ophash: 'ooRqvsxG3oUDNxxTSKGeZ32JhGCYysXCvYiwenEBoCLjQYvSgdr',
       timestamp: '2022-01-31T11:22:08Z',
       level: 2077595,

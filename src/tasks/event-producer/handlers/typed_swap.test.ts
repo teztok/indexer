@@ -75,7 +75,7 @@ test('creates TYPED_SWAP events', async () => {
     {
       id: 'bf0ebafffef204c363edcd3a502d90ef',
       type: 'TYPED_SWAP',
-      opid: 265997926,
+      opid: '265997926',
       timestamp: '2022-06-19T15:38:29Z',
       level: 2464662,
       ophash: 'opWmohpRCMZPSLCTFnfmyYzfRpeiyHXxWVE7Y9fSDcM9vrgriXD',

@@ -69,7 +69,7 @@ test('creates TYPED_COLLECT events', async () => {
       id: '46dcf25069542a7c649c5e53bfa3b199',
       type: 'TYPED_COLLECT',
       implements: 'SALE',
-      opid: 266019660,
+      opid: '266019660',
       ophash: 'onvtWzLQ19FeYJE11qZC4kYTABXmHoA8tauTk9ex4NFSBYqc1Ly',
       timestamp: '2022-06-19T16:04:29Z',
       level: 2464714,

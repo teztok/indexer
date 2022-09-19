@@ -20,7 +20,7 @@ export interface ObjktOfferEvent extends TokenEvent {
 
 const ObjktOfferEventSchema: Describe<Omit<ObjktOfferEvent, 'type'>> = object({
   id: string(),
-  opid: PositiveInteger,
+  opid: PgBigInt,
   timestamp: IsoDateString,
   level: PositiveInteger,
   fa2_address: ContractAddress,
@@ -66,7 +66,7 @@ const ObjktAskHandler: Handler<Transaction, ObjktOfferEvent> = {
     const event: ObjktOfferEvent = {
       id,
       type: EVENT_TYPE_OBJKT_OFFER,
-      opid: transaction.id,
+      opid: String(transaction.id),
       ophash: transaction.hash,
       level: transaction.level,
       timestamp: transaction.timestamp,

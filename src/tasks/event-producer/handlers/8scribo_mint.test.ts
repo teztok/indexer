@@ -132,7 +132,7 @@ test('creates 8SCRIBO_MINT events', async () => {
     {
       id: 'dc711f1a4de3e28ee21690bcf8f978eb',
       type: '8SCRIBO_MINT',
-      opid: 289188815,
+      opid: '289188815',
       ophash: 'opAVNNkMau3UqAiGPLPUva2yWvZ7QbHpjaUJPXpSgtdEwe4SPSf',
       timestamp: '2022-07-17T13:43:14Z',
       level: 2541816,

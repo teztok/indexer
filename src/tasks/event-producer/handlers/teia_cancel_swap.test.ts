@@ -68,7 +68,7 @@ test('creates TEIA_CANCEL_SWAP events', async () => {
     {
       id: 'a7da94f3d1c380ead7f2658b65da58d2',
       type: 'TEIA_CANCEL_SWAP',
-      opid: 165053001,
+      opid: '165053001',
       ophash: 'opFbtPxYdC8e1boCPRgkEErDNmnLC3BXNDktr5BYwEw25tRGcqw',
       timestamp: '2022-01-31T16:00:18Z',
       level: 2078122,

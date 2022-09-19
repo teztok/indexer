@@ -132,7 +132,7 @@ test('creates OBJKT_CANCEL_ENGLISH_AUCTION events', async () => {
     {
       id: 'c52695d2caa35bef6880ee39c491ecbb',
       type: 'OBJKT_CANCEL_ENGLISH_AUCTION',
-      opid: 57869065,
+      opid: '57869065',
       ophash: 'opQMLHEQcC9GC5AHogJTjc4Q5hGGpiL2vunfX2zbHN6mKWbNyZs',
       timestamp: '2021-07-01T20:36:18Z',
       level: 1539505,
@@ -155,7 +155,7 @@ test('creates OBJKT_CANCEL_ENGLISH_AUCTION events', async () => {
     {
       id: 'd9f15fbb70664774f3b63e2592a4e31c',
       type: 'OBJKT_CANCEL_ENGLISH_AUCTION',
-      opid: 58466763,
+      opid: '58466763',
       ophash: 'opUSYQcb7PiRENmpDaZfqjr9qz37fPtk6TmgKRooyQiugMQKWUV',
       timestamp: '2021-07-06T01:27:22Z',
       level: 1544729,

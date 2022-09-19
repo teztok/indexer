@@ -19,7 +19,7 @@ export interface FxOfferEvent extends TokenEvent {
 
 const FxOfferEventSchema: Describe<Omit<FxOfferEvent, 'type'>> = object({
   id: string(),
-  opid: PositiveInteger,
+  opid: PgBigInt,
   timestamp: IsoDateString,
   level: PositiveInteger,
   fa2_address: ContractAddress,
@@ -54,7 +54,7 @@ const FxOfferHandler: Handler<Transaction, FxOfferEvent> = {
     const event: FxOfferEvent = {
       id,
       type: EVENT_TYPE_FX_OFFER,
-      opid: transaction.id,
+      opid: String(transaction.id),
       ophash: transaction.hash,
       timestamp: transaction.timestamp,
       level: transaction.level,

@@ -18,7 +18,7 @@ export interface ObjktRetractOfferEvent extends TokenEvent {
 
 const ObjktRetractOfferEventSchema: Describe<Omit<ObjktRetractOfferEvent, 'type'>> = object({
   id: string(),
-  opid: PositiveInteger,
+  opid: PgBigInt,
   timestamp: IsoDateString,
   level: PositiveInteger,
   fa2_address: ContractAddress,
@@ -60,7 +60,7 @@ const ObjktRetractOfferHandler: Handler<Transaction, ObjktRetractOfferEvent> = {
     const event: ObjktRetractOfferEvent = {
       id,
       type: EVENT_TYPE_OBJKT_RETRACT_OFFER,
-      opid: transaction.id,
+      opid: String(transaction.id),
       ophash: transaction.hash,
       level: transaction.level,
       timestamp: transaction.timestamp,

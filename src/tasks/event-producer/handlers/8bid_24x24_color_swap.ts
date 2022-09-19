@@ -20,7 +20,7 @@ export interface EightbidSwap24x24ColorEvent extends TokenEvent {
 
 const EightbidSwap24x24ColorSchema: Describe<Omit<EightbidSwap24x24ColorEvent, 'type'>> = object({
   id: string(),
-  opid: PositiveInteger,
+  opid: PgBigInt,
   timestamp: IsoDateString,
   level: PositiveInteger,
   fa2_address: ContractAddress,
@@ -57,7 +57,7 @@ const EightbidSwap8x8ColorHandler: Handler<Transaction, EightbidSwap24x24ColorEv
     const event: EightbidSwap24x24ColorEvent = {
       id,
       type: EVENT_TYPE_8BID_24X24_COLOR_SWAP,
-      opid: transaction.id,
+      opid: String(transaction.id),
       ophash: transaction.hash,
       timestamp: transaction.timestamp,
       level: transaction.level,

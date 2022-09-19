@@ -69,7 +69,7 @@ test('creates 8SCRIBO_COLLECT events', async () => {
       id: '8f3a74cea404134839aa37480130da16',
       type: '8SCRIBO_COLLECT',
       implements: 'SALE',
-      opid: 290297301,
+      opid: '290297301',
       ophash: 'oo5UKEqHb1w2YvyTvznsZAbxJ7VbhetQNF1pixPnAUvbo4SRuVg',
       timestamp: '2022-07-18T20:46:14Z',
       level: 2545497,

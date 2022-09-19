@@ -82,7 +82,7 @@ test('creates OBJKT_FULFILL_ASK_V2 events', async () => {
       id: '9b28bc033018d56d4ebd6cd25fcaafde',
       type: 'OBJKT_FULFILL_ASK_V2',
       implements: 'SALE',
-      opid: 170995822,
+      opid: '170995822',
       ophash: 'ongfvZydFy7468gbUTukLEs4VpGyvxFvjWWrAxSNxvYHH7CsPHp',
       timestamp: '2022-02-10T18:48:24Z',
       level: 2106438,

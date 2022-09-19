@@ -71,7 +71,7 @@ test('creates FX_OFFER events', async () => {
     {
       id: 'bab0f1a0f1431ca72c88ad054bf7b453',
       type: 'FX_OFFER',
-      opid: 108176851,
+      opid: '108176851',
       ophash: 'opPSkU97R9eG2MdambtBCfBxZjY423YrTi8jgDUDQXHLk9QRBH5',
       timestamp: '2021-11-11T02:31:38Z',
       level: 1853427,

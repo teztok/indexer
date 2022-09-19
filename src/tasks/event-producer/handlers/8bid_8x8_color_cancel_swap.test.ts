@@ -70,7 +70,7 @@ test('creates 8BID_8X8_COLOR_CANCEL_SWAP events', async () => {
     {
       id: 'dbd13b9ec97038b38a0760ea2e4f3b13',
       type: '8BID_8X8_COLOR_CANCEL_SWAP',
-      opid: 180039728,
+      opid: '180039728',
       ophash: 'opNKCTs8UWiMphKdA3ibUMx2zKtiM1G63MVJHSAfoxSnVRqpE6Y',
       timestamp: '2022-02-28T05:34:04Z',
       level: 2155678,

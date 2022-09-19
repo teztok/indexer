@@ -17,7 +17,7 @@ export interface TypedCancelSwapEvent extends TokenEvent {
 
 const TypedCancelSwapEventSchema: Describe<Omit<TypedCancelSwapEvent, 'type'>> = object({
   id: string(),
-  opid: PositiveInteger,
+  opid: PgBigInt,
   timestamp: IsoDateString,
   level: PositiveInteger,
   fa2_address: ContractAddress,
@@ -57,7 +57,7 @@ const TypedCancelSwapHandler: Handler<Transaction, TypedCancelSwapEvent> = {
     const event: TypedCancelSwapEvent = {
       id,
       type: EVENT_TYPE_TYPED_CANCEL_SWAP,
-      opid: transaction.id,
+      opid: String(transaction.id),
       ophash: transaction.hash,
       timestamp: transaction.timestamp,
       level: transaction.level,

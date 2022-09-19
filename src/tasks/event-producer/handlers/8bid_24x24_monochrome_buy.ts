@@ -21,7 +21,7 @@ export interface EightbidBuy24x24MonochromeEvent extends TokenEvent {
 
 const EightbidBuy24x24MonochromeEventSchema: Describe<Omit<EightbidBuy24x24MonochromeEvent, 'type' | 'implements'>> = object({
   id: string(),
-  opid: PositiveInteger,
+  opid: PgBigInt,
   timestamp: IsoDateString,
   level: PositiveInteger,
   fa2_address: ContractAddress,
@@ -62,7 +62,7 @@ const EightbidBuy24x24MonochromeHandler: Handler<Transaction, EightbidBuy24x24Mo
         const event: EightbidBuy24x24MonochromeEvent = {
           id,
           type: EVENT_TYPE_8BID_24X24_MONOCHROME_BUY,
-          opid: transaction.id,
+          opid: String(transaction.id),
           ophash: transaction.hash,
           timestamp: transaction.timestamp,
           level: transaction.level,

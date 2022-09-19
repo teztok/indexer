@@ -20,7 +20,7 @@ export interface ObjktFulfillOfferEvent extends TokenEvent {
 
 const ObjktFulfillOfferEventSchema: Describe<Omit<ObjktFulfillOfferEvent, 'type' | 'implements'>> = object({
   id: string(),
-  opid: PositiveInteger,
+  opid: PgBigInt,
   timestamp: IsoDateString,
   level: PositiveInteger,
   fa2_address: ContractAddress,
@@ -56,7 +56,7 @@ const ObjktFulfillOfferHandler: Handler<Transaction, ObjktFulfillOfferEvent> = {
       id,
       type: EVENT_TYPE_OBJKT_FULFILL_OFFER,
       implements: SALE_INTERFACE,
-      opid: transaction.id,
+      opid: String(transaction.id),
       ophash: transaction.hash,
       level: transaction.level,
       timestamp: transaction.timestamp,

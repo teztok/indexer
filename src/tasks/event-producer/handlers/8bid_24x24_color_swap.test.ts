@@ -90,7 +90,7 @@ test('creates 8BID_24X24_COLOR_SWAP events', async () => {
     {
       id: '965785e83ee0f59d944aa1398eb226aa',
       type: '8BID_24X24_COLOR_SWAP',
-      opid: 199018605,
+      opid: '199018605',
       ophash: 'ooMGjPwR4DcMHRjTAcj7FGHqgbH6ooZVFyRvCazuLNurGeS9q3n',
       timestamp: '2022-04-06T06:44:14Z',
       level: 2257178,

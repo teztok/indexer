@@ -68,7 +68,7 @@ test('creates TYPED_CANCEL_SWAP events', async () => {
     {
       id: 'a49d6d0893d35069989b282cedbb9865',
       type: 'TYPED_CANCEL_SWAP',
-      opid: 266080271,
+      opid: '266080271',
       ophash: 'op7FQgciJNvACJ6ary6AqaKFJmArH63NWUfE1u9i8TAaq9j1n4b',
       timestamp: '2022-06-19T17:25:29Z',
       level: 2464873,
