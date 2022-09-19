@@ -4,7 +4,7 @@ import { rebuildToken } from '../tasks/rebuild-token/rebuild-token';
 
 const argv = minimist(process.argv.slice(2));
 
-if (!argv.fa2_address || !argv.token_id) {
+if (!argv.fa2_address || !('token_id' in argv)) {
   console.log(`usage: ./build/scripts/rebuild-token.js --fa2_address=<fa2Address> --token_id=<tokenId>`);
   process.exit();
 }
