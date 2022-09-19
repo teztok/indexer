@@ -1253,6 +1253,9 @@ export async function rebuildToken(payload: RebuildTokenTaskPayload) {
       .transacting(trx);
 
     if (config.ignoredContractAddresses.includes(token.fa2_address)) {
+      // also delete all events related to this token
+      await trx('events').where('fa2_address', '=', token.fa2_address).andWhere('token_id', '=', token.token_id).del().transacting(trx);
+
       // delete the token if it's on an ignored contract.
       await trx('tokens').where('fa2_address', '=', token.fa2_address).andWhere('token_id', '=', token.token_id).del().transacting(trx);
       return;
