@@ -49,7 +49,7 @@ async function rebuildOutstandingTokens(max = 200) {
 }
 
 export async function run() {
-  const connection = new HubConnectionBuilder().withUrl(`${config.tzktApiUrl}/ws`).build();
+  const connection = new HubConnectionBuilder().withUrl(`${config.tzktApiUrl}/events`).build();
   const workerUtils = await getWorkerUtils();
 
   async function init() {
