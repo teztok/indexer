@@ -17,7 +17,7 @@ export interface RaribleMintEvent extends MintEvent {
 
 const RaribleMintEventSchema: Describe<Omit<RaribleMintEvent, 'type'>> = object({
   id: string(),
-  opid: PositiveInteger,
+  opid: PgBigInt,
   timestamp: IsoDateString,
   level: PositiveInteger,
   fa2_address: ContractAddress,
@@ -59,7 +59,7 @@ const RaribleMintHandler: Handler<Transaction, RaribleMintEvent> = {
     const event: RaribleMintEvent = {
       id,
       type: EVENT_TYPE_RARIBLE_MINT,
-      opid: transaction.id,
+      opid: String(transaction.id),
       ophash: transaction.hash,
       timestamp: transaction.timestamp,
       level: transaction.level,

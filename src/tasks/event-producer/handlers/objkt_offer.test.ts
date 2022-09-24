@@ -177,7 +177,7 @@ test('creates OBJKT_OFFER events', async () => {
     {
       id: '7fe66d5dfe53bb837a5f2ba2e8aa63de',
       type: 'OBJKT_OFFER',
-      opid: 170991604,
+      opid: '170991604',
       ophash: 'opZYkyKKwUdFW9KnU17QMHesHH74DRJEKSKi2PELt8mV4MK6pk6',
       timestamp: '2022-02-10T18:39:24Z',
       level: 2106420,

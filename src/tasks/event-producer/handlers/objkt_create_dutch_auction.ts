@@ -22,7 +22,7 @@ export interface ObjktCreateDutchAuctionEvent extends TokenEvent {
 
 const ObjktCreateDutchAuctionEventSchema: Describe<Omit<ObjktCreateDutchAuctionEvent, 'type'>> = object({
   id: string(),
-  opid: PositiveInteger,
+  opid: PgBigInt,
   timestamp: IsoDateString,
   level: PositiveInteger,
   fa2_address: ContractAddress,
@@ -70,7 +70,7 @@ const ObjktCreateDutchAuctionHandler: Handler<Transaction, ObjktCreateDutchAucti
     const event: ObjktCreateDutchAuctionEvent = {
       id,
       type: EVENT_TYPE_OBJKT_CREATE_DUTCH_AUCTION,
-      opid: transaction.id,
+      opid: String(transaction.id),
       ophash: transaction.hash,
       timestamp: transaction.timestamp,
       level: transaction.level,

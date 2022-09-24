@@ -204,7 +204,7 @@ test('creates RARIBLE_MINT events', async () => {
     {
       id: '45facd14842bda14160aa1390b055c1e',
       type: 'RARIBLE_MINT',
-      opid: 313428874,
+      opid: '313428874',
       ophash: 'ooRcx4cQDWh1LnT84og9a8zmt4Hh9Yi8JTBRSCZJ7fpDH7Q4GY9',
       timestamp: '2022-08-13T10:32:29Z',
       level: 2618132,
@@ -230,7 +230,7 @@ test('creates RARIBLE_MINT events', async () => {
       level: 1947766,
       metadata_uri: 'ipfs://QmdfFsaAmWAFQ4BdjKkrSGgCdERvhU752xb9eqXGiY79BX',
       ophash: 'oocHVnB84Rr8TXZUjSryfcULGSyqNN9YGd3Egp4qVNewxF19yKg',
-      opid: 137710864,
+      opid: '137710864',
       royalty_shares: {
         decimals: 4,
         shares: {

@@ -20,7 +20,7 @@ export interface EightscriboSwapEvent extends TokenEvent {
 
 const EightscriboSwapEventSchema: Describe<Omit<EightscriboSwapEvent, 'type'>> = object({
   id: string(),
-  opid: PositiveInteger,
+  opid: PgBigInt,
   timestamp: IsoDateString,
   level: PositiveInteger,
   fa2_address: ContractAddress,
@@ -57,7 +57,7 @@ const EightscriboSwapHandler: Handler<Transaction, EightscriboSwapEvent> = {
     const event: EightscriboSwapEvent = {
       id,
       type: EVENT_TYPE_8SCRIBO_SWAP,
-      opid: transaction.id,
+      opid: String(transaction.id),
       ophash: transaction.hash,
       timestamp: transaction.timestamp,
       level: transaction.level,

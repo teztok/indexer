@@ -70,7 +70,7 @@ test('creates 8BID_24X24_COLOR_CANCEL_SWAP events', async () => {
     {
       id: '0062a7d617c944267ba567b48e916692',
       type: '8BID_24X24_COLOR_CANCEL_SWAP',
-      opid: 223046706,
+      opid: '223046706',
       ophash: 'ooWMSPQ4SQJVA7chP9McVkX6vcRFvQnojHDgyPKurUJN12Trpey',
       timestamp: '2022-05-04T09:30:44Z',
       level: 2335828,

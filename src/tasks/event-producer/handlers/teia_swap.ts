@@ -20,7 +20,7 @@ export interface TeiaSwapEvent extends TokenEvent {
 
 const TeiaSwapEventSchema: Describe<Omit<TeiaSwapEvent, 'type'>> = object({
   id: string(),
-  opid: PositiveInteger,
+  opid: PgBigInt,
   timestamp: IsoDateString,
   level: PositiveInteger,
   fa2_address: ContractAddress,
@@ -57,7 +57,7 @@ const TeiaSwapHandler: Handler<Transaction, TeiaSwapEvent> = {
     const event: TeiaSwapEvent = {
       id,
       type: EVENT_TYPE_TEIA_SWAP,
-      opid: transaction.id,
+      opid: String(transaction.id),
       ophash: transaction.hash,
       timestamp: transaction.timestamp,
       level: transaction.level,

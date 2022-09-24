@@ -55,7 +55,7 @@ test('creates FA2_TRANSFER events', async () => {
     {
       id: 'ea1d4a084007c5e24fcd7dcd3a8b9092',
       type: 'FA2_TRANSFER',
-      opid: 52568926,
+      opid: '52568926',
       ophash: 'op8dmZUuY4qu2Kp7Hok9DQVMzXr1YZrsLaA2C4svAmtQCiaXmNZ',
       timestamp: '2021-05-31T08:08:46Z',
       level: 1495010,
@@ -68,7 +68,7 @@ test('creates FA2_TRANSFER events', async () => {
     {
       id: '3d242c7ad9ae4f9ce1a274326f759c66',
       type: 'FA2_TRANSFER',
-      opid: 52568926,
+      opid: '52568926',
       ophash: 'op8dmZUuY4qu2Kp7Hok9DQVMzXr1YZrsLaA2C4svAmtQCiaXmNZ',
       timestamp: '2021-05-31T08:08:46Z',
       level: 1495010,

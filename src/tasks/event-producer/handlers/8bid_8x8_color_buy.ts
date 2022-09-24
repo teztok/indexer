@@ -21,7 +21,7 @@ export interface EightbidBuy8x8ColorEvent extends TokenEvent {
 
 const EightbidBuy8x8ColorEventSchema: Describe<Omit<EightbidBuy8x8ColorEvent, 'type' | 'implements'>> = object({
   id: string(),
-  opid: PositiveInteger,
+  opid: PgBigInt,
   timestamp: IsoDateString,
   level: PositiveInteger,
   fa2_address: ContractAddress,
@@ -61,7 +61,7 @@ const EightbidBuy8x8ColorHandler: Handler<Transaction, EightbidBuy8x8ColorEvent>
         const event: EightbidBuy8x8ColorEvent = {
           id,
           type: EVENT_TYPE_8BID_8X8_COLOR_BUY,
-          opid: transaction.id,
+          opid: String(transaction.id),
           ophash: transaction.hash,
           timestamp: transaction.timestamp,
           level: transaction.level,

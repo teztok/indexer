@@ -20,7 +20,7 @@ export interface VersumCreateAuctionEvent extends TokenEvent {
 
 const VersumCreateAuctionEventSchema: Describe<Omit<VersumCreateAuctionEvent, 'type'>> = object({
   id: string(),
-  opid: PositiveInteger,
+  opid: PgBigInt,
   timestamp: IsoDateString,
   level: PositiveInteger,
   fa2_address: ContractAddress,
@@ -55,7 +55,7 @@ const VersumCreateAuctionHandler: Handler<Transaction, VersumCreateAuctionEvent>
     const event: VersumCreateAuctionEvent = {
       id,
       type: EVENT_TYPE_VERSUM_CREATE_AUCTION,
-      opid: transaction.id,
+      opid: String(transaction.id),
       ophash: transaction.hash,
       timestamp: transaction.timestamp,
       level: transaction.level,

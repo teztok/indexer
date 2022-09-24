@@ -19,7 +19,7 @@ export interface TypedSwapEvent extends TokenEvent {
 
 const TypedSwapEventSchema: Describe<Omit<TypedSwapEvent, 'type'>> = object({
   id: string(),
-  opid: PositiveInteger,
+  opid: PgBigInt,
   timestamp: IsoDateString,
   level: PositiveInteger,
   fa2_address: ContractAddress,
@@ -53,7 +53,7 @@ const TypedSwapHandler: Handler<Transaction, TypedSwapEvent> = {
     const event: TypedSwapEvent = {
       id,
       type: EVENT_TYPE_TYPED_SWAP,
-      opid: transaction.id,
+      opid: String(transaction.id),
       ophash: transaction.hash,
       timestamp: transaction.timestamp,
       level: transaction.level,

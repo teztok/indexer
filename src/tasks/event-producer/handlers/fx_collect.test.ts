@@ -66,7 +66,7 @@ test('creates FX_COLLECT events', async () => {
       id: 'ee4eb6ba24c70bc2d8e225a6e75d570d',
       type: 'FX_COLLECT',
       implements: 'SALE',
-      opid: 108221561,
+      opid: '108221561',
       ophash: 'opGhFbP2TobRH3ChmnfkyvS6PeLNLrJi4hjiwp2UJo5jqECFjL2',
       timestamp: '2021-11-11T05:03:18Z',
       level: 1853721,

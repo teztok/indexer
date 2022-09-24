@@ -68,7 +68,7 @@ test('creates 8SCRIBO_CANCEL_SWAP events', async () => {
     {
       id: 'c090646aa691d428b94364f0f5243580',
       type: '8SCRIBO_CANCEL_SWAP',
-      opid: 290290961,
+      opid: '290290961',
       ophash: 'onie5a6v1eYrhgR6Vo8GYHDGpFpUvf6FgtUBmw4NDNKzYKTwPV3',
       timestamp: '2022-07-18T20:36:44Z',
       level: 2545478,

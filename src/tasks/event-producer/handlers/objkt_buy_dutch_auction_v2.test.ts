@@ -83,7 +83,7 @@ test('creates OBJKT_BUY_DUTCH_AUCTION_V2 events', async () => {
       id: '9199866c3b0d44fa6b9ee8fd51f60166',
       type: 'OBJKT_BUY_DUTCH_AUCTION_V2',
       implements: 'SALE',
-      opid: 172704907,
+      opid: '172704907',
       ophash: 'ooniyKbJChaGDmwmVY7JHUZ3imUJvkUPHgVeaEvHC1qaGrhj53X',
       timestamp: '2022-02-13T22:22:34Z',
       level: 2115331,

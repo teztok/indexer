@@ -31,7 +31,7 @@ export interface ObjktConcludeEnglishAuctionEvent extends TokenEvent {
 
 const ObjktConcludeEnglishAuctionEventSchema: Describe<Omit<ObjktConcludeEnglishAuctionEvent, 'type' | 'implements'>> = object({
   id: string(),
-  opid: PositiveInteger,
+  opid: PgBigInt,
   timestamp: IsoDateString,
   level: PositiveInteger,
   fa2_address: ContractAddress,
@@ -88,7 +88,7 @@ const ObjktConcludeEnglishAuctionHandler: Handler<Transaction, ObjktConcludeEngl
       id,
       type: EVENT_TYPE_OBJKT_CONCLUDE_ENGLISH_AUCTION,
       implements: SALE_INTERFACE,
-      opid: transaction.id,
+      opid: String(transaction.id),
       ophash: transaction.hash,
       timestamp: transaction.timestamp,
       level: transaction.level,

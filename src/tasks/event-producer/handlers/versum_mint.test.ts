@@ -463,7 +463,7 @@ test('creates VERSUM_MINT events', async () => {
     {
       id: '0a975d0309022733024925640529136b',
       type: 'VERSUM_MINT',
-      opid: 137729490,
+      opid: '137729490',
       ophash: 'ono5r7ZwqCXoSJwN6M6wtoDx2Nh17aFprgd2jHofmBijkvWR9hm',
       timestamp: '2022-01-12T00:14:30Z',
       level: 2023174,
@@ -496,7 +496,7 @@ test('creates VERSUM_MINT events', async () => {
     {
       id: '2cb04dac127d4c19d1a547f0212b661a',
       type: 'VERSUM_MINT',
-      opid: 153856363,
+      opid: '153856363',
       ophash: 'ooj1pKJR3RtEQb6Aq15Jo7wpRZsKxC6Ku7LUFR8yjXcLWCjAfxk',
       timestamp: '2022-01-12T12:59:10Z',
       level: 2024668,

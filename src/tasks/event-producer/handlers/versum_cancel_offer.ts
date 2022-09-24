@@ -20,7 +20,7 @@ export interface VersumCancelOfferEvent extends TokenEvent {
 
 const VersumCancelOfferEventSchema: Describe<Omit<VersumCancelOfferEvent, 'type'>> = object({
   id: string(),
-  opid: PositiveInteger,
+  opid: PgBigInt,
   timestamp: IsoDateString,
   level: PositiveInteger,
   fa2_address: ContractAddress,
@@ -54,7 +54,7 @@ const VersumCancelOfferHandler: Handler<Transaction, VersumCancelOfferEvent> = {
     const event: VersumCancelOfferEvent = {
       id,
       type: EVENT_TYPE_VERSUM_CANCEL_OFFER,
-      opid: transaction.id,
+      opid: String(transaction.id),
       ophash: transaction.hash,
       timestamp: transaction.timestamp,
       level: transaction.level,

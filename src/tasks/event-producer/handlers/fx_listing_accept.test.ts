@@ -76,7 +76,7 @@ test('creates FX_LISTING_ACCEPT events', async () => {
       id: '7c8e38ff24cf4bf8a492367bbcb8d178',
       type: 'FX_LISTING_ACCEPT',
       implements: 'SALE',
-      opid: 207520063,
+      opid: '207520063',
       ophash: 'onpRaiL2DF3sxcXmApjw12skXQkkxxCWzP66mtG493Km7MCe5T4',
       timestamp: '2022-04-16T12:08:29Z',
       level: 2285835,

@@ -22,7 +22,7 @@ export interface VersumAcceptOfferEvent extends TokenEvent {
 
 const VersumAcceptOfferEventSchema: Describe<Omit<VersumAcceptOfferEvent, 'type' | 'implements'>> = object({
   id: string(),
-  opid: PositiveInteger,
+  opid: PgBigInt,
   timestamp: IsoDateString,
   level: PositiveInteger,
   fa2_address: ContractAddress,
@@ -59,7 +59,7 @@ const VersumAcceptOfferHandler: Handler<Transaction, VersumAcceptOfferEvent> = {
       id,
       type: EVENT_TYPE_VERSUM_ACCEPT_OFFER,
       implements: SALE_INTERFACE,
-      opid: transaction.id,
+      opid: String(transaction.id),
       ophash: transaction.hash,
       level: transaction.level,
       timestamp: transaction.timestamp,

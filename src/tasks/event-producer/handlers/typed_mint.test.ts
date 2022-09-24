@@ -137,7 +137,7 @@ test('creates TYPED_MINT events', async () => {
     {
       id: '49215181ab9a8466c62c05d2257bb759',
       type: 'TYPED_MINT',
-      opid: 265995610,
+      opid: '265995610',
       ophash: 'onpjJRAe3FE7jhNQnaem3rZnZD3dCic2NHWroEC54nENZB3HerU',
       timestamp: '2022-06-19T15:34:59Z',
       level: 2464655,

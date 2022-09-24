@@ -30,7 +30,7 @@ type Fa2TransferParameter = Array<Fa2TransferParameterItem>;
 
 const Fa2TransferEventSchema: Describe<Omit<Fa2TransferEvent, 'type'>> = object({
   id: string(),
-  opid: PositiveInteger,
+  opid: PgBigInt,
   timestamp: IsoDateString,
   level: PositiveInteger,
   fa2_address: ContractAddress,
@@ -71,7 +71,7 @@ const Fa2TransferHandler: Handler<Transaction, Fa2TransferEvent> = {
           const event: Fa2TransferEvent = {
             id,
             type: EVENT_TYPE_FA2_TRANSFER,
-            opid: transaction.id,
+            opid: String(transaction.id),
             ophash: transaction.hash,
             timestamp: transaction.timestamp,
             level: transaction.level,

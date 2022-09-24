@@ -29,7 +29,7 @@ export interface SetLedgerEvent extends TokenEvent {
 
 const SetLedgerEventSchema: Describe<Omit<SetLedgerEvent, 'type' | 'ledger_type'>> = object({
   id: string(),
-  opid: PositiveInteger,
+  opid: PgBigInt,
   timestamp: IsoDateString,
   level: PositiveInteger,
   fa2_address: ContractAddress,
@@ -135,7 +135,7 @@ const SetLedgerHandler: Handler<Transaction, SetLedgerEvent> = {
             const event: SetLedgerEvent = {
               id,
               type: EVENT_TYPE_SET_LEDGER,
-              opid: transaction.id,
+              opid: String(transaction.id),
               ophash: transaction.hash,
               timestamp: transaction.timestamp,
               level: transaction.level,
@@ -160,7 +160,7 @@ const SetLedgerHandler: Handler<Transaction, SetLedgerEvent> = {
             const event: SetLedgerEvent = {
               id,
               type: EVENT_TYPE_SET_LEDGER,
-              opid: transaction.id,
+              opid: String(transaction.id),
               ophash: transaction.hash,
               timestamp: transaction.timestamp,
               level: transaction.level,

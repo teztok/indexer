@@ -20,7 +20,7 @@ export interface ObjktFulfillAskV2Event extends TokenEvent {
 
 const ObjktFulfillAskV2EventSchema: Describe<Omit<ObjktFulfillAskV2Event, 'type' | 'implements'>> = object({
   id: string(),
-  opid: PositiveInteger,
+  opid: PgBigInt,
   timestamp: IsoDateString,
   level: PositiveInteger,
   fa2_address: ContractAddress,
@@ -56,7 +56,7 @@ const ObjktFulfillAskV2Handler: Handler<Transaction, ObjktFulfillAskV2Event> = {
       id,
       type: EVENT_TYPE_OBJKT_FULFILL_ASK_V2,
       implements: SALE_INTERFACE,
-      opid: transaction.id,
+      opid: String(transaction.id),
       ophash: transaction.hash,
       level: transaction.level,
       timestamp: transaction.timestamp,

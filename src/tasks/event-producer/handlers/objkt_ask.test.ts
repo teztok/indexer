@@ -72,7 +72,7 @@ test('creates OBJKT_ASK events', async () => {
     {
       id: 'a3bea801d8ccf58e3dd0727db29d5eb0',
       type: 'OBJKT_ASK',
-      opid: 112502089,
+      opid: '112502089',
       ophash: 'oooKM1Smbj3n5Y1ciHUrbiFnKCQEcTyNsSuzXytoS4Z7rNbSFoa',
       timestamp: '2021-11-20T08:08:22Z',
       level: 1879132,

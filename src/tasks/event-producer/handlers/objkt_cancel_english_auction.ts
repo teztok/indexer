@@ -30,7 +30,7 @@ export interface ObjktCancelEnglishAuctionEvent extends TokenEvent {
 
 const ObjktCancelEnglishAuctionEventSchema: Describe<Omit<ObjktCancelEnglishAuctionEvent, 'type'>> = object({
   id: string(),
-  opid: PositiveInteger,
+  opid: PgBigInt,
   timestamp: IsoDateString,
   level: PositiveInteger,
   fa2_address: ContractAddress,
@@ -86,7 +86,7 @@ const ObjktCancelEnglishAuctionHandler: Handler<Transaction, ObjktCancelEnglishA
     const event: ObjktCancelEnglishAuctionEvent = {
       id,
       type: EVENT_TYPE_OBJKT_CANCEL_ENGLISH_AUCTION,
-      opid: transaction.id,
+      opid: String(transaction.id),
       ophash: transaction.hash,
       timestamp: transaction.timestamp,
       level: transaction.level,

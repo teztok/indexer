@@ -75,7 +75,7 @@ test('creates TEIA_SWAP events', async () => {
     {
       id: 'e0e7cf8e7fd29b13d31027cde56b9d13',
       type: 'TEIA_SWAP',
-      opid: 165058185,
+      opid: '165058185',
       timestamp: '2022-01-31T16:11:58Z',
       level: 2078143,
       ophash: 'ooXPdUMYcYUKi9VBbsYdyp4hPUfzgLVsts8aAUh6UqUT2RBhQW7',

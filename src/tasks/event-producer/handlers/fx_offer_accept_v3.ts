@@ -19,7 +19,7 @@ export interface FxOfferAcceptV3Event extends TokenEvent {
 
 const FxOfferAcceptV3EventSchema: Describe<Omit<FxOfferAcceptV3Event, 'type' | 'implements'>> = object({
   id: string(),
-  opid: PositiveInteger,
+  opid: PgBigInt,
   timestamp: IsoDateString,
   level: PositiveInteger,
   fa2_address: ContractAddress,
@@ -59,7 +59,7 @@ const FxOfferAcceptV3Handler: Handler<Transaction, FxOfferAcceptV3Event> = {
       id,
       type: EVENT_TYPE_FX_OFFER_ACCEPT_V3,
       implements: SALE_INTERFACE,
-      opid: transaction.id,
+      opid: String(transaction.id),
       ophash: transaction.hash,
       level: transaction.level,
       timestamp: transaction.timestamp,

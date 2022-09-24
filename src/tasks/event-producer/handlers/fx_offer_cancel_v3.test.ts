@@ -141,7 +141,7 @@ test('creates FX_OFFER_CANCEL_V3 events', async () => {
     {
       id: '06a089cbe44da4331afc3871c716be4c',
       type: 'FX_OFFER_CANCEL_V3',
-      opid: 245634327,
+      opid: '245634327',
       ophash: 'opYAFeSWwUsE2HR8NUcUDxwMRYBXv6UioHPKPrBtirtV3jG8tZN',
       timestamp: '2022-05-28T20:16:14Z',
       level: 2404703,
@@ -153,7 +153,7 @@ test('creates FX_OFFER_CANCEL_V3 events', async () => {
     {
       id: '8aee948e2cded83ea7a48098b37c38b8',
       type: 'FX_OFFER_CANCEL_V3',
-      opid: 245626926,
+      opid: '245626926',
       ophash: 'opHDV5eSnRMfPXMpqGTRN632b1fCPoCRr8gjhchrrK2xKB3fSso',
       timestamp: '2022-05-28T20:04:14Z',
       level: 2404679,

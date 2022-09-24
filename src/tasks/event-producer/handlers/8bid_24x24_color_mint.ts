@@ -23,7 +23,7 @@ export interface EightbidMint24x24ColorEvent extends MintEvent {
 
 const EightbidMint24x24ColorSchema: Describe<Omit<EightbidMint24x24ColorEvent, 'type'>> = object({
   id: string(),
-  opid: PositiveInteger,
+  opid: PgBigInt,
   timestamp: IsoDateString,
   level: PositiveInteger,
   fa2_address: ContractAddress,
@@ -64,7 +64,7 @@ const EightbidMint24x24ColorHandler: Handler<Transaction, EightbidMint24x24Color
     const event: EightbidMint24x24ColorEvent = {
       id,
       type: EVENT_TYPE_8BID_24X24_COLOR_MINT,
-      opid: transaction.id,
+      opid: String(transaction.id),
       ophash: transaction.hash,
       timestamp: transaction.timestamp,
       level: transaction.level,

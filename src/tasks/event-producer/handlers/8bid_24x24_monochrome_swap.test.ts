@@ -91,7 +91,7 @@ test('creates 8BID_24X24_MONOCHROME_SWAP events', async () => {
     {
       id: 'dee42ba9b65774c800d4c3e02093824c',
       type: '8BID_24X24_MONOCHROME_SWAP',
-      opid: 185961001,
+      opid: '185961001',
       ophash: 'onfPZkC1uzuEjPCMk41GchS89QLNKvNpNnf8FZmrEQGmuu9PG8D',
       timestamp: '2022-03-12T17:19:54Z',
       level: 2190712,

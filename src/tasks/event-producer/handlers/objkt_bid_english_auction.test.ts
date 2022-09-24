@@ -132,7 +132,7 @@ test('creates OBJKT_BID_ENGLISH_AUCTION events', async () => {
     {
       id: '51b53820922027495226e9a5cc142e28',
       type: 'OBJKT_BID_ENGLISH_AUCTION',
-      opid: 57869529,
+      opid: '57869529',
       ophash: 'ooSw7p1J4Sb6pKudZcMyFRrWY8VqHxwTbYdvj2x38yotj4UtPnQ',
       timestamp: '2021-07-01T20:40:18Z',
       level: 1539509,
@@ -157,7 +157,7 @@ test('creates OBJKT_BID_ENGLISH_AUCTION events', async () => {
     {
       id: '5b3cc388cea60c156f7fd4bcd4a6be8e',
       type: 'OBJKT_BID_ENGLISH_AUCTION',
-      opid: 58454271,
+      opid: '58454271',
       ophash: 'onycyVTAu3pfiCFR5ov3mgxJ5gpHdBXnD9sFRqAmpHwsPy4HVVP',
       timestamp: '2021-07-05T23:04:14Z',
       level: 1544590,

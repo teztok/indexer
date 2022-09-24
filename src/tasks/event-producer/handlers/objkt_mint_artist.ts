@@ -17,7 +17,7 @@ export interface ObjktMintArtistEvent extends MintEvent {
 
 const ObjktMintArtistEventSchema: Describe<Omit<ObjktMintArtistEvent, 'type'>> = object({
   id: string(),
-  opid: PositiveInteger,
+  opid: PgBigInt,
   timestamp: IsoDateString,
   level: PositiveInteger,
   fa2_address: ContractAddress,
@@ -59,7 +59,7 @@ const HenMintHandler: Handler<Transaction, ObjktMintArtistEvent> = {
     const event: ObjktMintArtistEvent = {
       id,
       type: EVENT_TYPE_OBJKT_MINT_ARTIST,
-      opid: transaction.id,
+      opid: String(transaction.id),
       ophash: transaction.hash,
       timestamp: transaction.timestamp,
       fa2_address: fa2Address,

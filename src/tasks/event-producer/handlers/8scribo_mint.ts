@@ -21,7 +21,7 @@ export interface EightscriboMintEvent extends MintEvent {
 
 const EightscriboMintEventSchema: Describe<Omit<EightscriboMintEvent, 'type'>> = object({
   id: string(),
-  opid: PositiveInteger,
+  opid: PgBigInt,
   timestamp: IsoDateString,
   level: PositiveInteger,
   fa2_address: ContractAddress,
@@ -62,7 +62,7 @@ const EightscriboMintHandler: Handler<Transaction, EightscriboMintEvent> = {
     const event: EightscriboMintEvent = {
       id,
       type: EVENT_TYPE_8SCRIBO_MINT,
-      opid: transaction.id,
+      opid: String(transaction.id),
       ophash: transaction.hash,
       timestamp: transaction.timestamp,
       level: transaction.level,

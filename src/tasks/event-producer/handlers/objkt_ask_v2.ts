@@ -21,7 +21,7 @@ export interface ObjktAskV2Event extends TokenEvent {
 
 const ObjktAskV2EventSchema: Describe<Omit<ObjktAskV2Event, 'type'>> = object({
   id: string(),
-  opid: PositiveInteger,
+  opid: PgBigInt,
   timestamp: IsoDateString,
   level: PositiveInteger,
   fa2_address: ContractAddress,
@@ -60,7 +60,7 @@ const ObjktAskHandler: Handler<Transaction, ObjktAskV2Event> = {
     const event: ObjktAskV2Event = {
       id,
       type: EVENT_TYPE_OBJKT_ASK_V2,
-      opid: transaction.id,
+      opid: String(transaction.id),
       ophash: transaction.hash,
       level: transaction.level,
       timestamp: transaction.timestamp,

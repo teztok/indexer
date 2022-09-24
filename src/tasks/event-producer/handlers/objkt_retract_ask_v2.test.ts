@@ -79,7 +79,7 @@ test('creates OBJKT_RETRACT_ASK_V2 events', async () => {
     {
       id: 'e7056c4786a7fd3369164ca5e1363bf5',
       type: 'OBJKT_RETRACT_ASK_V2',
-      opid: 170780901,
+      opid: '170780901',
       ophash: 'oojWNEJFyjfyu3iN8Ye657zaFFSpcs1ipdKFEgd4LJsPJaWr9vx',
       timestamp: '2022-02-10T13:13:24Z',
       level: 2105768,

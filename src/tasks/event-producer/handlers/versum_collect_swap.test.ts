@@ -100,7 +100,7 @@ test('creates VERSUM_COLLECT_SWAP events', async () => {
       id: 'c699bdec549bc6624565d0e80d894b5a',
       type: 'VERSUM_COLLECT_SWAP',
       implements: 'SALE',
-      opid: 137973176,
+      opid: '137973176',
       ophash: 'opLGZbDreaAqJFCSxsxh8FiyEJK9h4ymhPWBbitydF3Qxgr2Bbr',
       timestamp: '2022-01-12T11:46:40Z',
       level: 2024523,

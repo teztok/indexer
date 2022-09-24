@@ -141,7 +141,7 @@ test('creates OBJKT_RETRACT_OFFER events', async () => {
     {
       id: 'f9590228073200a246946e7f32d07bb6',
       type: 'OBJKT_RETRACT_OFFER',
-      opid: 171015759,
+      opid: '171015759',
       ophash: 'oobCioNDbY7Bin5XvSBZx1E9ddsPuJvbuMA4CBNmkgxSqK5Qroe',
       timestamp: '2022-02-10T19:42:54Z',
       level: 2106547,

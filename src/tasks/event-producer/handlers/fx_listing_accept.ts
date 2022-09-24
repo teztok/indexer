@@ -19,7 +19,7 @@ export interface FxListingAcceptEvent extends TokenEvent {
 
 const FxListingAcceptEventSchema: Describe<Omit<FxListingAcceptEvent, 'type' | 'implements'>> = object({
   id: string(),
-  opid: PositiveInteger,
+  opid: PgBigInt,
   timestamp: IsoDateString,
   level: PositiveInteger,
   fa2_address: ContractAddress,
@@ -60,7 +60,7 @@ const FxListingAcceptHandler: Handler<Transaction, FxListingAcceptEvent> = {
       id,
       type: EVENT_TYPE_FX_LISTING_ACCEPT,
       implements: SALE_INTERFACE,
-      opid: transaction.id,
+      opid: String(transaction.id),
       ophash: transaction.hash,
       timestamp: transaction.timestamp,
       level: transaction.level,

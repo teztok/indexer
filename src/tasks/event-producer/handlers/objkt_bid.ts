@@ -19,7 +19,7 @@ export interface ObjktBidEvent extends TokenEvent {
 
 const ObjktBidEventSchema: Describe<Omit<ObjktBidEvent, 'type'>> = object({
   id: string(),
-  opid: PositiveInteger,
+  opid: PgBigInt,
   timestamp: IsoDateString,
   level: PositiveInteger,
   fa2_address: ContractAddress,
@@ -53,7 +53,7 @@ const ObjktBidHandler: Handler<Transaction, ObjktBidEvent> = {
     const event: ObjktBidEvent = {
       id,
       type: EVENT_TYPE_OBJKT_BID,
-      opid: transaction.id,
+      opid: String(transaction.id),
       ophash: transaction.hash,
       level: transaction.level,
       timestamp: transaction.timestamp,

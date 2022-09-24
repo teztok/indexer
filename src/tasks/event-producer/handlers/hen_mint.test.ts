@@ -375,7 +375,7 @@ test('creates HEN_MINT events', async () => {
     {
       id: '339d569daacae576a29e29fd9255dcde',
       type: 'HEN_MINT',
-      opid: 112502347,
+      opid: '112502347',
       ophash: 'oo28HoW9LEbrA28M7XbDEvRmPqaA7QxPVmYbAUoAcKNAgXdDokB',
       timestamp: '2021-11-20T08:09:22Z',
       level: 1879134,
@@ -402,7 +402,7 @@ test('creates HEN_MINT events', async () => {
       level: 2472925,
       metadata_uri: 'ipfs://QmapeUiKjG4cLHMrCYSy5ZnqeFcLH1cLgSbyUXvY9ju52i',
       ophash: 'opZEYSLU6vvUNJPMhzCYvmUNM5DDD8RfFDuvnhDenb4foWDjwXY',
-      opid: 268672904,
+      opid: '268672904',
       royalties: '100',
       royalty_shares: {
         decimals: 3,
@@ -423,7 +423,7 @@ test('creates HEN_MINT events', async () => {
       level: 2472925,
       metadata_uri: 'ipfs://QmZpC9YJZJ2HUT6e7jBV9xW4BmAqBBBsiMrvaxjSnDJz8U',
       ophash: 'opZEYSLU6vvUNJPMhzCYvmUNM5DDD8RfFDuvnhDenb4foWDjwXY',
-      opid: 268672906,
+      opid: '268672906',
       royalties: '100',
       royalty_shares: {
         decimals: 3,

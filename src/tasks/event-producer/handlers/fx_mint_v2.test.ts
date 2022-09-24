@@ -240,7 +240,7 @@ test('creates FX_MINT_V2 events', async () => {
       id: 'e1f5c01fe170db2713ec0341dbb52c32',
       type: 'FX_MINT_V2',
       implements: 'SALE',
-      opid: 134087297,
+      opid: '134087297',
       ophash: 'onwRTp6PfiVEbxG5sXsSYXh8apc4waWZrkC4Wv5hveoVsGaZQ1i',
       timestamp: '2022-01-05T01:21:30Z',
       level: 2004105,
