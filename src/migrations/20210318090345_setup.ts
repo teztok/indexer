@@ -1,7 +1,19 @@
 import { Knex } from 'knex';
 
 export async function up(knex: Knex): Promise<void> {
-  return knex.schema
+  await knex.raw(`
+    CREATE OR REPLACE FUNCTION update_timestamp() RETURNS TRIGGER
+    LANGUAGE plpgsql
+    AS
+    $$
+    BEGIN
+        NEW.updated_at = CURRENT_TIMESTAMP;
+        RETURN NEW;
+    END;
+    $$;
+  `);
+
+  await knex.schema
     .createTable('tokens', (table) => {
       table.string('fa2_address', 36).notNullable();
       table.text('token_id').notNullable();
@@ -65,7 +77,9 @@ export async function up(knex: Knex): Promise<void> {
       table.text('eightscribo_rowtwo');
       table.text('eightscribo_rowthree');
       table.boolean('is_verified_artist');
+      table.timestamp('updated_at').defaultTo(knex.fn.now());
 
+      table.index('updated_at');
       table.index('is_verified_artist');
       table.index('rights');
       table.index('platform');
@@ -246,9 +260,21 @@ export async function up(knex: Knex): Promise<void> {
 
       table.unique(['uri']);
     });
+
+  await knex.raw(`
+      CREATE TRIGGER update_timestamp
+      BEFORE UPDATE
+      ON tokens
+      FOR EACH ROW
+      EXECUTE PROCEDURE update_timestamp();
+    `);
 }
 
 export async function down(knex: Knex): Promise<void> {
+  await knex.raw(`
+    DROP FUNCTION IF EXISTS update_timestamp() CASCADE;
+  `);
+
   return knex.schema
     .dropTableIfExists('tokens')
     .dropTableIfExists('holdings')
