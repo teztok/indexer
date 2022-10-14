@@ -55,7 +55,7 @@ export const DimensionsSchema: Describe<Dimensions> = type({
 });
 
 export const AttributeSchema: Describe<Attribute> = type({
-  name: sanitizeString(string()),
+  name: optional(sanitizeString(string())),
   value: any(),
   type: optional(sanitizeString(string())),
 });

@@ -174,7 +174,7 @@ export interface FormatSnakeCase {
 }
 
 export interface Attribute {
-  name: string;
+  name?: string;
   value?: any;
   type?: string;
 }

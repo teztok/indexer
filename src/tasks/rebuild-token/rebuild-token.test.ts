@@ -2003,6 +2003,26 @@ test('sets the token metadata correctly', () => {
   ]);
 });
 
+test('accept attributes without a name property', () => {
+  const metadata = {
+    attributes: [
+      {
+        value: 'V-lJJy1w47S3CQqEL12lt9tPoIg7_2PiVLdAm4ibq7k',
+        trait_type: 'darkblock-id',
+      },
+    ],
+  };
+
+  const { token } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, [], 'processed', metadata as any);
+
+  expect(token.attributes).toMatchObject([
+    {
+      value: 'V-lJJy1w47S3CQqEL12lt9tPoIg7_2PiVLdAm4ibq7k',
+      trait_type: 'darkblock-id',
+    },
+  ]);
+});
+
 test('accepts formats with dimensions value set to null', () => {
   const metadata = {
     formats: [
