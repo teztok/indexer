@@ -12,6 +12,7 @@ import {
   TEIA_CONTRACT_MARKETPLACE,
   TYPED_CONTRACT_MARKETPLACE,
   EIGHTSCRIBO_CONTRACT_MARKETPLACE,
+  KALAMINT_CONTRACT_FA2,
 } from './consts';
 
 export interface Operation {
@@ -401,6 +402,11 @@ export interface Eightbid24x24ColorListing extends Listing {
   contract_address: typeof EIGHTBIDOU_24X24_COLOR_CONTRACT_MARKETPLACE;
 }
 
+export interface KalamintListing extends Listing {
+  type: 'KALAMINT_LIST_TOKEN';
+  contract_address: typeof KALAMINT_CONTRACT_FA2;
+}
+
 export type AnyListing =
   | HenListing
   | HenListingV2
@@ -414,7 +420,8 @@ export type AnyListing =
   | Eightbid24x24MonochromeListing
   | Eightbid24x24ColorListing
   | TypedListing
-  | EightscriboListing;
+  | EightscriboListing
+  | KalamintListing;
 
 export interface Offer {
   type: string;

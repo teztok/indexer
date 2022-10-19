@@ -37,6 +37,7 @@ import {
   FX_CONTRACT_FA2_V3,
   TYPED_CONTRACT_MARKETPLACE,
   EIGHTSCRIBO_CONTRACT_MARKETPLACE,
+  KALAMINT_CONTRACT_FA2,
 } from '../../consts';
 
 interface RebuildTokenTaskPayload {
@@ -1010,6 +1011,69 @@ export function compileToken(fa2Address: string, tokenId: string, events: Array<
 
         if (!royaltyReceivers && event.royalty_shares) {
           royaltyReceivers = royaltySharesToRoyaltyReceivers(event.royalty_shares);
+        }
+
+        if (event.kalamint_on_sale) {
+          const listingKey = tokenId;
+
+          listings[listingKey] = {
+            type: 'KALAMINT_LIST_TOKEN',
+            contract_address: KALAMINT_CONTRACT_FA2,
+            created_at: event.timestamp,
+            seller_address: artistAddress,
+            amount: 1,
+            amount_left: 1,
+            price: event.price,
+            status: 'active',
+          };
+        }
+
+        break;
+      }
+
+      case 'KALAMINT_LIST_TOKEN': {
+        const listingKey = tokenId;
+
+        listings[listingKey] = {
+          type: 'KALAMINT_LIST_TOKEN',
+          contract_address: KALAMINT_CONTRACT_FA2,
+          created_at: event.timestamp,
+          seller_address: event.seller_address,
+          amount: 1,
+          amount_left: 1,
+          price: event.price,
+          status: 'active',
+        };
+
+        break;
+      }
+
+      case 'KALAMINT_DELIST_TOKEN': {
+        const listingKey = tokenId;
+
+        if (listingKey in listings) {
+          delete listings[listingKey];
+        }
+
+        break;
+      }
+
+      case 'KALAMINT_BUY': {
+        const listingKey = tokenId;
+
+        if (listingKey in listings) {
+          delete listings[listingKey];
+        }
+
+        break;
+      }
+
+      case 'KALAMINT_REGISTER_AUCTION': {
+        const listingKey = tokenId;
+
+        // creating an auction on kalamint also delists the token
+        if (listingKey in listings) {
+          delete listings[listingKey];
         }
 
         break;

@@ -3751,7 +3751,7 @@ test('handles RARIBLE_MINT events', () => {
   expect(royaltyReceivers).toStrictEqual([{ receiver_address: 'tz1fxvZGU1vR7FtNoyMwkHiMPkCyagpbF4NW', royalties: '100000' }]);
 });
 
-test('handles KALAMINT_MINT events', () => {
+test('handles KALAMINT_MINT events (with listing)', () => {
   const events: Array<AnyEvent> = [
     {
       id: 'c4e824bfbe8f0a975d753c7c554bcd4b',
@@ -3779,7 +3779,7 @@ test('handles KALAMINT_MINT events', () => {
     },
   ];
 
-  const { token, royaltyReceivers } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
+  const { token, royaltyReceivers, listings } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
 
   expect(token).toMatchObject({
     platform: 'KALAMINT',
@@ -3788,6 +3788,182 @@ test('handles KALAMINT_MINT events', () => {
   });
 
   expect(royaltyReceivers).toStrictEqual([{ receiver_address: 'tz1fP1xrV55sqTV3zfdxvYpqbLcE92GAZbnR', royalties: '150000' }]);
+
+  expect(listings).toEqual([
+    {
+      type: 'KALAMINT_LIST_TOKEN',
+      contract_address: 'KT1EpGgjQs73QfFJs9z7m1Mxm5MTnpC2tqse',
+      created_at: '2021-03-23T14:29:46Z',
+      seller_address: 'tz1fP1xrV55sqTV3zfdxvYpqbLcE92GAZbnR',
+      amount: 1,
+      amount_left: 1,
+      price: '1200000000',
+      status: 'active',
+    },
+  ]);
+});
+
+test('handles KALAMINT_MINT events (without listing)', () => {
+  const events: Array<AnyEvent> = [
+    {
+      id: 'c4e824bfbe8f0a975d753c7c554bcd4b',
+      type: 'KALAMINT_MINT',
+      opid: '45851979284480',
+      ophash: 'opSptXNgWnaWw1iuuPV7F7wTL453sMKwNuJyq8eAHB26sxbycre',
+      timestamp: '2021-03-23T14:29:46Z',
+      level: 1397337,
+      fa2_address: 'KT1EpGgjQs73QfFJs9z7m1Mxm5MTnpC2tqse',
+      token_id: '10',
+      editions: '1',
+      artist_address: 'tz1fP1xrV55sqTV3zfdxvYpqbLcE92GAZbnR',
+      is_verified_artist: true,
+      price: '0',
+      kalamint_on_sale: false,
+      kalamint_editions: '2',
+      kalamint_edition: '1',
+      metadata_uri: 'ipfs://QmUVhcxjniiCCRqsjFVDKUcgxS1LKaE7hM9ceCJTa3Af9G',
+      royalty_shares: {
+        decimals: 2,
+        shares: {
+          tz1fP1xrV55sqTV3zfdxvYpqbLcE92GAZbnR: '15',
+        },
+      },
+    },
+  ];
+
+  const { listings } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
+
+  expect(listings).toEqual([]);
+});
+
+test('handles KALAMINT_LIST_TOKEN events', () => {
+  const events: Array<AnyEvent> = [
+    {
+      id: 'b795829bde3901f9d5c8b5ad13c90ee0',
+      type: 'KALAMINT_LIST_TOKEN',
+      opid: '45879809540096',
+      ophash: 'ooknuHBot1w1HCrTSFFQnwe2R14Db5Sx9sBVSRaJ9Gh1Eh5PrNx',
+      timestamp: '2021-03-23T21:45:06Z',
+      level: 1397769,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      seller_address: 'tz1eEDYry3BP1Kaaui7qmKo5XeDUnk6BeyzM',
+      price: TEST_PRICE,
+    },
+  ];
+
+  const { listings } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
+
+  expect(listings).toEqual([
+    {
+      type: 'KALAMINT_LIST_TOKEN',
+      contract_address: 'KT1EpGgjQs73QfFJs9z7m1Mxm5MTnpC2tqse',
+      created_at: '2021-03-23T21:45:06Z',
+      seller_address: 'tz1eEDYry3BP1Kaaui7qmKo5XeDUnk6BeyzM',
+      amount: 1,
+      amount_left: 1,
+      price: TEST_PRICE,
+      status: 'active',
+    },
+  ]);
+});
+
+test('handles KALAMINT_BUY events', () => {
+  const events: Array<AnyEvent> = [
+    {
+      id: 'b795829bde3901f9d5c8b5ad13c90ee0',
+      type: 'KALAMINT_LIST_TOKEN',
+      opid: '45879809540096',
+      ophash: 'ooknuHBot1w1HCrTSFFQnwe2R14Db5Sx9sBVSRaJ9Gh1Eh5PrNx',
+      timestamp: '2021-03-23T21:45:06Z',
+      level: 1397769,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      seller_address: 'tz1eEDYry3BP1Kaaui7qmKo5XeDUnk6BeyzM',
+      price: TEST_PRICE,
+    },
+    {
+      id: '19ea3e47a82183b5db18d029c2c67b3d',
+      type: 'KALAMINT_BUY',
+      implements: 'SALE',
+      opid: '45856910737408',
+      ophash: 'oneNf7H7gj8bJkJR1NpfTutZ1PeCsjuVaiP312Ju7xyeU3dVrNn',
+      timestamp: '2021-03-23T15:57:46Z',
+      level: 1497425,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      buyer_address: 'tz1hyNv7RBzNPGLpKfdwHRc6NhLW6VbzXP3N',
+      seller_address: 'tz1eEDYry3BP1Kaaui7qmKo5XeDUnk6BeyzM',
+      price: TEST_PRICE,
+    },
+  ];
+
+  const { listings } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
+
+  expect(listings).toEqual([]);
+});
+
+test('handles KALAMINT_DELIST_TOKEN events', () => {
+  const events: Array<AnyEvent> = [
+    {
+      id: 'b795829bde3901f9d5c8b5ad13c90ee0',
+      type: 'KALAMINT_LIST_TOKEN',
+      opid: '45879809540096',
+      ophash: 'ooknuHBot1w1HCrTSFFQnwe2R14Db5Sx9sBVSRaJ9Gh1Eh5PrNx',
+      timestamp: '2021-03-23T21:45:06Z',
+      level: 1397769,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      seller_address: 'tz1eEDYry3BP1Kaaui7qmKo5XeDUnk6BeyzM',
+      price: TEST_PRICE,
+    },
+    {
+      id: 'd1af32ed28efdf4acb89fccc3b9a3656',
+      type: 'KALAMINT_DELIST_TOKEN',
+      opid: '45861432197120',
+      ophash: 'op7ZTBDag8RR4WuczhxxTCXMaqfRQqoQwvogDfGUKtAKQZB4xQP',
+      timestamp: '2021-03-23T22:08:46Z',
+      level: 1497496,
+      fa2_address: TEST_FA2_ADDRESS,
+      seller_address: 'tz1aQbe92zZy6MNeRFtgmgV5dV5R4BNTdqK1',
+      token_id: TEST_TOKEN_ID,
+    },
+  ];
+
+  const { listings } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
+
+  expect(listings).toEqual([]);
+});
+
+test('handles KALAMINT_REGISTER_AUCTION events', () => {
+  const events: Array<AnyEvent> = [
+    {
+      id: 'b795829bde3901f9d5c8b5ad13c90ee0',
+      type: 'KALAMINT_LIST_TOKEN',
+      opid: '45879809540096',
+      ophash: 'ooknuHBot1w1HCrTSFFQnwe2R14Db5Sx9sBVSRaJ9Gh1Eh5PrNx',
+      timestamp: '2021-03-23T21:45:06Z',
+      level: 1397769,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      seller_address: 'tz1eEDYry3BP1Kaaui7qmKo5XeDUnk6BeyzM',
+      price: TEST_PRICE,
+    },
+    {
+      id: 'd1af32ed28efdf4acb89fccc3b9a3656',
+      type: 'KALAMINT_REGISTER_AUCTION',
+      opid: '45861432197120',
+      ophash: 'op7ZTBDag8RR4WuczhxxTCXMaqfRQqoQwvogDfGUKtAKQZB4xQP',
+      timestamp: '2021-03-23T22:08:46Z',
+      level: 1497496,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+    },
+  ];
+
+  const { listings } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
+
+  expect(listings).toEqual([]);
 });
 
 test('sets is_verified_artist to false if the artist is not verifiable', () => {
