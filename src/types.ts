@@ -219,7 +219,7 @@ export interface RoyaltyShares {
   shares: Record<string, string>;
 }
 
-export type Platform = 'HEN' | 'FXHASH' | 'OBJKT' | 'VERSUM' | '8BIDOU' | 'TYPED' | '8SCRIBO' | 'RARIBLE' | null;
+export type Platform = 'HEN' | 'FXHASH' | 'OBJKT' | 'VERSUM' | '8BIDOU' | 'TYPED' | '8SCRIBO' | 'RARIBLE' | 'KALAMINT' | null;
 
 export interface Token {
   fa2_address: string;

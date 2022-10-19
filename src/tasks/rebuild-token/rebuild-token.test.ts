@@ -3751,6 +3751,45 @@ test('handles RARIBLE_MINT events', () => {
   expect(royaltyReceivers).toStrictEqual([{ receiver_address: 'tz1fxvZGU1vR7FtNoyMwkHiMPkCyagpbF4NW', royalties: '100000' }]);
 });
 
+test('handles KALAMINT_MINT events', () => {
+  const events: Array<AnyEvent> = [
+    {
+      id: 'c4e824bfbe8f0a975d753c7c554bcd4b',
+      type: 'KALAMINT_MINT',
+      opid: '45851979284480',
+      ophash: 'opSptXNgWnaWw1iuuPV7F7wTL453sMKwNuJyq8eAHB26sxbycre',
+      timestamp: '2021-03-23T14:29:46Z',
+      level: 1397337,
+      fa2_address: 'KT1EpGgjQs73QfFJs9z7m1Mxm5MTnpC2tqse',
+      token_id: '10',
+      editions: '1',
+      artist_address: 'tz1fP1xrV55sqTV3zfdxvYpqbLcE92GAZbnR',
+      is_verified_artist: true,
+      price: '1200000000',
+      kalamint_on_sale: true,
+      kalamint_editions: '2',
+      kalamint_edition: '1',
+      metadata_uri: 'ipfs://QmUVhcxjniiCCRqsjFVDKUcgxS1LKaE7hM9ceCJTa3Af9G',
+      royalty_shares: {
+        decimals: 2,
+        shares: {
+          tz1fP1xrV55sqTV3zfdxvYpqbLcE92GAZbnR: '15',
+        },
+      },
+    },
+  ];
+
+  const { token, royaltyReceivers } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
+
+  expect(token).toMatchObject({
+    platform: 'KALAMINT',
+    artist_address: 'tz1fP1xrV55sqTV3zfdxvYpqbLcE92GAZbnR',
+    is_verified_artist: true,
+  });
+
+  expect(royaltyReceivers).toStrictEqual([{ receiver_address: 'tz1fP1xrV55sqTV3zfdxvYpqbLcE92GAZbnR', royalties: '150000' }]);
+});
+
 test('sets is_verified_artist to false if the artist is not verifiable', () => {
   const events: Array<AnyEvent> = [
     {

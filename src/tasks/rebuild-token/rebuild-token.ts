@@ -1003,6 +1003,18 @@ export function compileToken(fa2Address: string, tokenId: string, events: Array<
         break;
       }
 
+      case 'KALAMINT_MINT': {
+        platform = 'KALAMINT';
+        artistAddress = event.artist_address;
+        isVerifiedArtist = event.is_verified_artist;
+
+        if (!royaltyReceivers && event.royalty_shares) {
+          royaltyReceivers = royaltySharesToRoyaltyReceivers(event.royalty_shares);
+        }
+
+        break;
+      }
+
       default:
     }
   }

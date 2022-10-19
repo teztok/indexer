@@ -77,6 +77,7 @@ import EightscriboSwapHandler, { EightscriboSwapEvent } from './8scribo_swap';
 import EightscriboCancelSwapHandler, { EightscriboCancelSwapEvent } from './8scribo_cancel_swap';
 import EightscriboCollectHandler, { EightscriboCollectEvent } from './8scribo_collect';
 import RaribleMintHandler, { RaribleMintEvent } from './rarible_mint';
+import KalamintMintHandler, { KalamintMintEvent } from './kalamint_mint';
 
 export const handlers = [
   Fa2TransferHandler,
@@ -158,6 +159,7 @@ export const handlers = [
   EightscriboCancelSwapHandler,
   EightscriboCollectHandler,
   RaribleMintHandler,
+  KalamintMintHandler,
 ];
 
 export type AnyEvent =
@@ -239,4 +241,5 @@ export type AnyEvent =
   | EightscriboSwapEvent
   | EightscriboCancelSwapEvent
   | EightscriboCollectEvent
-  | RaribleMintEvent;
+  | RaribleMintEvent
+  | KalamintMintEvent;
