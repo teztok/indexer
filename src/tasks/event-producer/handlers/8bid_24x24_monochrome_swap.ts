@@ -49,7 +49,7 @@ const EightbidSwap8x8ColorHandler: Handler<Transaction, EightbidSwap24x24Monochr
     const sellerAddress = get(transaction, 'sender.address');
     const tokenId = get(transaction, 'parameter.value.nft_id');
     const price = get(transaction, 'parameter.value.payment');
-    const royalties = String(parseInt(get(transaction, 'parameter.value.royalties'), 10) * 10);
+    const royalties = String(Math.floor((1 / parseInt(get(transaction, 'parameter.value.royalties'), 10)) * 1000));
     const amount = get(transaction, 'parameter.value.nft_total_amount');
     const artistAddress = get(transaction, 'parameter.value.creator');
     const id = createEventId(EVENT_TYPE_8BID_24X24_MONOCHROME_SWAP, transaction);

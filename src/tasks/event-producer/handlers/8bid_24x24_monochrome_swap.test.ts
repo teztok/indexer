@@ -102,7 +102,7 @@ test('creates 8BID_24X24_MONOCHROME_SWAP events', async () => {
       artist_address: 'tz1c6Uibt7Vjr7MEFEQpohEa2f311KxZyJoZ',
       price: '40000',
       swap_id: '2',
-      royalties: '60',
+      royalties: '166',
       amount: '2',
     },
   ]);
