@@ -46,6 +46,8 @@ export const EIGHTSCRIBO_CONTRACT_FA2 = 'KT1Aq1umaV8gcDQmi4CLDk7KeKpoUjFQeg1B';
 
 export const RARIBLE_CONTRACT_FA2 = 'KT18pVpRXKPY2c4U2yFEGSH3ZnhB2kL8kwXS';
 
+export const KALAMINT_CONTRACT_FA2 = 'KT1EpGgjQs73QfFJs9z7m1Mxm5MTnpC2tqse';
+
 export const BURN_ADDRESS = 'tz1burnburnburnburnburnburnburjAYjjX';
 
 export const POSTGRES_ERROR_CODE_UNIQUE_VIOLATION = '23505';

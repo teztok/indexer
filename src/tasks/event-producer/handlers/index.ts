@@ -77,6 +77,11 @@ import EightscriboSwapHandler, { EightscriboSwapEvent } from './8scribo_swap';
 import EightscriboCancelSwapHandler, { EightscriboCancelSwapEvent } from './8scribo_cancel_swap';
 import EightscriboCollectHandler, { EightscriboCollectEvent } from './8scribo_collect';
 import RaribleMintHandler, { RaribleMintEvent } from './rarible_mint';
+import KalamintMintHandler, { KalamintMintEvent } from './kalamint_mint';
+import KalamintListTokenHandler, { KalamintListTokenEvent } from './kalamint_list_token';
+import KalamintDelistTokenHandler, { KalamintDelistTokenEvent } from './kalamint_delist_token';
+import KalamintBuyHandler, { KalamintBuyEvent } from './kalamint_buy';
+import KalamintRegisterAuctionHandler, { KalamintRegisterAuctionEvent } from './kalamint_register_auction';
 
 export const handlers = [
   Fa2TransferHandler,
@@ -158,6 +163,11 @@ export const handlers = [
   EightscriboCancelSwapHandler,
   EightscriboCollectHandler,
   RaribleMintHandler,
+  KalamintMintHandler,
+  KalamintListTokenHandler,
+  KalamintDelistTokenHandler,
+  KalamintBuyHandler,
+  KalamintRegisterAuctionHandler,
 ];
 
 export type AnyEvent =
@@ -239,4 +249,9 @@ export type AnyEvent =
   | EightscriboSwapEvent
   | EightscriboCancelSwapEvent
   | EightscriboCollectEvent
-  | RaribleMintEvent;
+  | RaribleMintEvent
+  | KalamintMintEvent
+  | KalamintListTokenEvent
+  | KalamintDelistTokenEvent
+  | KalamintBuyEvent
+  | KalamintRegisterAuctionEvent;
