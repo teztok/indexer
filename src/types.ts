@@ -128,8 +128,6 @@ export interface Handler<T, E extends Event> {
   accept: AcceptFn | Pattern | Patterns;
 
   exec: (transaction: T, operation: Operation) => E | Array<E>;
-
-  postProcess?: (events: Array<E>) => Promise<Array<E>>;
 }
 
 export interface Processor<T extends Event = Event> {

@@ -38,34 +38,6 @@ const VersumCollectEventSchema: Describe<Omit<VersumCollectEvent, 'type' | 'impl
   amount: PgBigInt,
 });
 
-export async function addArtistAddress<T extends TokenEvent>(events: Array<T>) {
-  const mintEvents = (await eventsDao.getMatchingEvents(
-    events.map((event) => ({
-      type: EVENT_TYPE_VERSUM_MINT,
-      fa2_address: event.fa2_address,
-      token_id: event.token_id,
-    }))
-  )) as Array<MintEvent>;
-
-  const mintEventsByFa2AddressAndTokenId = keyBy(mintEvents, ({ fa2_address, token_id }) => `${fa2_address}-${token_id}`);
-
-  return events.map((event) => {
-    const id = `${event.fa2_address}-${event.token_id}`;
-    const mintEvent = mintEventsByFa2AddressAndTokenId[id] ? mintEventsByFa2AddressAndTokenId[id] : null;
-
-    if (!mintEvent) {
-      return event;
-    }
-
-    console.log(`added artist address ${event.id}:`, mintEvent.artist_address);
-
-    return {
-      ...event,
-      artist_address: mintEvent.artist_address,
-    };
-  });
-}
-
 const VersumCollectSwapHandler: Handler<Transaction, VersumCollectEvent> = {
   type: EVENT_TYPE_VERSUM_COLLECT_SWAP,
 
@@ -106,8 +78,6 @@ const VersumCollectSwapHandler: Handler<Transaction, VersumCollectEvent> = {
 
     return event;
   },
-
-  // postProcess: addArtistAddress,
 };
 
 export default VersumCollectSwapHandler;

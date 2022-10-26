@@ -5,7 +5,6 @@ import { TezosAddress, ContractAddress, IsoDateString, PositiveInteger, PgBigInt
 import { Handler, TokenEvent, Transaction, SaleEventInterface } from '../../../types';
 import { createEventId, findDiff } from '../../../lib/utils';
 import { VERSUM_CONTRACT_MARKETPLACE, SALE_INTERFACE } from '../../../consts';
-import { addArtistAddress } from './versum_collect_swap';
 
 export const EVENT_TYPE_VERSUM_ACCEPT_OFFER = 'VERSUM_ACCEPT_OFFER';
 
@@ -76,8 +75,6 @@ const VersumAcceptOfferHandler: Handler<Transaction, VersumAcceptOfferEvent> = {
 
     return event;
   },
-
-  // postProcess: addArtistAddress,
 };
 
 export default VersumAcceptOfferHandler;
