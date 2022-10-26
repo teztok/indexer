@@ -8,7 +8,6 @@
     "start": "npm run-script build && concurrently npm:start:ctrl npm:start-worker:*",
     "start:ctrl": "node ./build/ctrl.js",
     "start-worker:event-producer": "node ./build/spawn-workers.js event-producer",
-    "start-worker:event-processor": "node ./build/spawn-workers.js event-processor",
     "start-worker:fetch-metadata": "node ./build/spawn-workers.js fetch-metadata",
     "start-worker:rebuild-token": "node ./build/spawn-workers.js rebuild-token",
     "init:db": "npm run-script build && node ./build/scripts/init-db.js",

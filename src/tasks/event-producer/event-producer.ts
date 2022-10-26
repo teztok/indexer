@@ -6,8 +6,9 @@ import isFunction from 'lodash/isFunction';
 import isArray from 'lodash/isArray';
 import { run } from 'graphile-worker';
 import { handlers as defaultHandlers } from './handlers/index';
+import { processors } from './processors/index';
 import { Pattern, Patterns, Transaction, Transactions, GetTransactionsFilters, Event, TokenEvent, Token } from '../../types';
-import { getWorkerUtils, transactionMatchesPattern, getTransactions, getTaskName } from '../../lib/utils';
+import { transactionMatchesPattern, getTransactions, getTaskName } from '../../lib/utils';
 import * as eventsDao from '../../lib/daos/events';
 import logger from '../../lib/logger';
 import config from '../../lib/config';
@@ -98,15 +99,27 @@ const ignoredContractAddressesObj: Record<string, boolean> = config.ignoredContr
   {}
 );
 
+export async function processEvents(events: Array<Event>) {
+  for (const processor of processors) {
+    const acceptedEvents = events.filter((event) => processor.accept(event));
+
+    if (acceptedEvents.length) {
+      await processor.exec(acceptedEvents);
+    }
+  }
+}
+
 export async function produceEvents(payload: EventProducerTaskPayload) {
   const transactions = await getTransactions(payload.filters);
   let events = await transactionsToEvents(transactions);
+  // TODO: add originationsToEvents
 
   events = events.filter((event) => {
     if (!('fa2_address' in event)) {
       return true;
     }
 
+    // TODO: generalize this?
     return !((event as TokenEvent).fa2_address in ignoredContractAddressesObj);
   });
 
@@ -124,8 +137,6 @@ export async function produceEvents(payload: EventProducerTaskPayload) {
     return;
   }
 
-  const workerUtils = await getWorkerUtils();
-
   const tokenEvents = events.filter((event) => 'fa2_address' in event && 'token_id' in event) as Array<TokenEvent>;
   const tokens = uniqBy(tokenEvents, ({ fa2_address, token_id }) => `${fa2_address}-${token_id}`).map((event) => ({
     fa2_address: event.fa2_address,
@@ -133,6 +144,7 @@ export async function produceEvents(payload: EventProducerTaskPayload) {
   })) as Array<Token>;
 
   await db.transaction(async (trx) => {
+    // TODO: remove this logic here. instead, the rebuild-token should take care of it
     for (const chunkOfTokens of chunk(tokens, 50)) {
       await db('tokens').insert(chunkOfTokens).onConflict(['fa2_address', 'token_id']).ignore().transacting(trx);
     }
@@ -153,7 +165,7 @@ export async function produceEvents(payload: EventProducerTaskPayload) {
     }
   });
 
-  await workerUtils.addJob(getTaskName('event-processor'), { events });
+  await processEvents(events);
 }
 
 const task: Task = {
