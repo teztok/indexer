@@ -2,7 +2,7 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, Describe } from 'superstruct';
 import { ContractAddress, TezosAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
-import { Handler, TokenEvent, Transaction } from '../../../types';
+import { TransactionHandler, TokenEvent, Transaction } from '../../../types';
 import { findDiff, createEventId } from '../../../lib/utils';
 import { OBJKT_CONTRACT_MARKETPLACE } from '../../../consts';
 
@@ -28,7 +28,9 @@ const ObjktRetractBidEventSchema: Describe<Omit<ObjktRetractBidEvent, 'type'>> =
   bid_id: PgBigInt,
 });
 
-const ObjktRetractBidHandler: Handler<Transaction, ObjktRetractBidEvent> = {
+const ObjktRetractBidHandler: TransactionHandler<ObjktRetractBidEvent> = {
+  source: 'transaction',
+
   type: EVENT_TYPE_OBJKT_RETRACT_BID,
 
   accept: {

@@ -2,7 +2,7 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, boolean, Describe } from 'superstruct';
 import { TezosAddress, ContractAddress, IsoDateString, MetadataUri, PositiveInteger, PgBigInt } from '../../../lib/validators';
-import { Handler, MintEvent, Transaction, RoyaltyShares } from '../../../types';
+import { TransactionHandler, MintEvent, Transaction, RoyaltyShares } from '../../../types';
 import { createEventId, royaltiesToRoyaltyShares } from '../../../lib/utils';
 import { RoyaltySharesSchema } from '../../../lib/schemas';
 import { KALAMINT_CONTRACT_FA2 } from '../../../consts';
@@ -39,7 +39,9 @@ const KalamintMintEventSchema: Describe<Omit<KalamintMintEvent, 'type'>> = objec
   kalamint_on_sale: boolean(),
 });
 
-const KalamintMintHandler: Handler<Transaction, KalamintMintEvent> = {
+const KalamintMintHandler: TransactionHandler<KalamintMintEvent> = {
+  source: 'transaction',
+
   type: EVENT_TYPE_KALAMINT_MINT,
 
   accept: {

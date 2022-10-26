@@ -2,7 +2,7 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, boolean, Describe } from 'superstruct';
 import { TezosAddress, ContractAddress, IsoDateString, MetadataUri, PositiveInteger, PgBigInt } from '../../../lib/validators';
-import { Handler, MintEvent, Transaction, RoyaltyShares } from '../../../types';
+import { TransactionHandler, MintEvent, Transaction, RoyaltyShares } from '../../../types';
 import { createEventId, royaltiesToRoyaltyShares } from '../../../lib/utils';
 import { RoyaltySharesSchema } from '../../../lib/schemas';
 import { HEN_CONTRACT_MARKETPLACE, HEN_CONTRACT_FA2 } from '../../../consts';
@@ -33,7 +33,9 @@ const HenMintEventSchema: Describe<Omit<HenMintEvent, 'type'>> = object({
   royalty_shares: RoyaltySharesSchema,
 });
 
-const HenMintHandler: Handler<Transaction, HenMintEvent> = {
+const HenMintHandler: TransactionHandler<HenMintEvent> = {
+  source: 'transaction',
+
   type: EVENT_TYPE_HEN_MINT,
 
   accept: [

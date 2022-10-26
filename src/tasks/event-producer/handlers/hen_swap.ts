@@ -2,7 +2,7 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, Describe } from 'superstruct';
 import { ContractAddress, TezosAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
-import { Handler, TokenEvent, Transaction } from '../../../types';
+import { TransactionHandler, TokenEvent, Transaction } from '../../../types';
 import { createEventId } from '../../../lib/utils';
 import { HEN_CONTRACT_MARKETPLACE } from '../../../consts';
 
@@ -30,7 +30,9 @@ const HenSwapEventSchema: Describe<Omit<HenSwapEvent, 'type'>> = object({
   amount: PgBigInt,
 });
 
-const HenSwapHandler: Handler<Transaction, HenSwapEvent> = {
+const HenSwapHandler: TransactionHandler<HenSwapEvent> = {
+  source: 'transaction',
+
   type: EVENT_TYPE_HEN_SWAP,
 
   accept: {

@@ -2,7 +2,7 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, boolean, Describe } from 'superstruct';
 import { TezosAddress, ContractAddress, IsoDateString, MetadataUri, PositiveInteger, PgBigInt } from '../../../lib/validators';
-import { Handler, Event, Transaction } from '../../../types';
+import { TransactionHandler, Event, Transaction } from '../../../types';
 import { createEventId } from '../../../lib/utils';
 import { FX_CONTRACT_MINT_V3, FX_CONTRACT_FA2_V3 } from '../../../consts';
 
@@ -34,7 +34,9 @@ const FxMintIssuerV3EventSchema: Describe<Omit<FxMintIssuerV3Event, 'type'>> = o
   metadata_uri: MetadataUri,
 });
 
-const FxMintIssuerV3Handler: Handler<Transaction, FxMintIssuerV3Event> = {
+const FxMintIssuerV3Handler: TransactionHandler<FxMintIssuerV3Event> = {
+  source: 'transaction',
+
   type: EVENT_TYPE_FX_MINT_ISSUER_V3,
 
   accept: {

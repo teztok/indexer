@@ -2,7 +2,7 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, Describe } from 'superstruct';
 import { TezosAddress, ContractAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
-import { Handler, TokenEvent, Transaction, SaleEventInterface } from '../../../types';
+import { TransactionHandler, TokenEvent, Transaction, SaleEventInterface } from '../../../types';
 import { createEventId, findDiff } from '../../../lib/utils';
 import { FX_CONTRACT_MARKETPLACE_V3, GENTK_VERSION_TO_FA2_CONTRACT_MAPPING, SALE_INTERFACE } from '../../../consts';
 
@@ -31,7 +31,9 @@ const FxListingAcceptEventSchema: Describe<Omit<FxListingAcceptEvent, 'type' | '
   seller_address: TezosAddress,
 });
 
-const FxListingAcceptHandler: Handler<Transaction, FxListingAcceptEvent> = {
+const FxListingAcceptHandler: TransactionHandler<FxListingAcceptEvent> = {
+  source: 'transaction',
+
   type: EVENT_TYPE_FX_LISTING_ACCEPT,
 
   accept: {

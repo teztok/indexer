@@ -117,17 +117,41 @@ export type Transactions = Array<Transaction>;
 
 export interface GetTransactionsFilters {
   level?: number;
-  entrypoint?: string;
-  sender?: string;
-  target?: string;
 }
 
-export interface Handler<T, E extends Event> {
+export interface GetOriginationsFilters {
+  level?: number;
+}
+
+export interface Origination {
+  id: number;
+  level: number;
+  timestamp: string;
+  block: string;
+  hash: string;
+  counter: number;
+  nonce: null | number;
+  sender: {
+    alias?: string;
+    address: string;
+  };
+  status: string;
+  initiator: {
+    alias?: string;
+    address: string;
+  } | null;
+  storage?: unknown; // TODO
+}
+
+export type Originations = Array<Origination>;
+export interface TransactionHandler<E extends Event> {
+  source: 'transaction';
+
   type: string;
 
   accept: AcceptFn | Pattern | Patterns;
 
-  exec: (transaction: T, operation: Operation) => E | Array<E>;
+  exec: (transaction: Transaction, operation: Operation) => E | Array<E>;
 }
 
 export interface Processor<T extends Event = Event> {

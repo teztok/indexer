@@ -2,7 +2,7 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, Describe } from 'superstruct';
 import { TezosAddress, ContractAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
-import { Handler, TokenEvent, Transaction } from '../../../types';
+import { TransactionHandler, TokenEvent, Transaction } from '../../../types';
 import { createEventId } from '../../../lib/utils';
 import { FX_CONTRACT_MARKETPLACE } from '../../../consts';
 
@@ -32,7 +32,9 @@ const FxOfferEventSchema: Describe<Omit<FxOfferEvent, 'type'>> = object({
   price: PgBigInt,
 });
 
-const FxOfferHandler: Handler<Transaction, FxOfferEvent> = {
+const FxOfferHandler: TransactionHandler<FxOfferEvent> = {
+  source: 'transaction',
+
   type: EVENT_TYPE_FX_OFFER,
 
   accept: {

@@ -2,7 +2,7 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, Describe } from 'superstruct';
 import { ContractAddress, TezosAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
-import { Handler, TokenEvent, Transaction } from '../../../types';
+import { TransactionHandler, TokenEvent, Transaction } from '../../../types';
 import { findDiff, createEventId } from '../../../lib/utils';
 import { KALAMINT_CONTRACT_FA2 } from '../../../consts';
 
@@ -25,7 +25,9 @@ const KalamintDelistTokenEventSchema: Describe<Omit<KalamintDelistTokenEvent, 't
   seller_address: TezosAddress,
 });
 
-const KalamintDelistTokenHandler: Handler<Transaction, KalamintDelistTokenEvent> = {
+const KalamintDelistTokenHandler: TransactionHandler<KalamintDelistTokenEvent> = {
+  source: 'transaction',
+
   type: EVENT_TYPE_KALAMINT_DELIST_TOKEN,
 
   accept: {

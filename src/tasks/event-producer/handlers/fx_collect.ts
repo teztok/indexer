@@ -2,7 +2,7 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, Describe, array } from 'superstruct';
 import { TezosAddress, ContractAddress, IsoDateString, PositiveInteger, PgBigInt, SaleInterface } from '../../../lib/validators';
-import { Handler, TokenEvent, Transaction, SaleEventInterface } from '../../../types';
+import { TransactionHandler, TokenEvent, Transaction, SaleEventInterface } from '../../../types';
 import { createEventId, findDiff } from '../../../lib/utils';
 import { FX_CONTRACT_MARKETPLACE, SALE_INTERFACE } from '../../../consts';
 
@@ -32,7 +32,9 @@ const FxCollectEventSchema: Describe<Omit<FxCollectEvent, 'type' | 'implements'>
   artist_address: TezosAddress,
 });
 
-const FxCollectHandler: Handler<Transaction, FxCollectEvent> = {
+const FxCollectHandler: TransactionHandler<FxCollectEvent> = {
+  source: 'transaction',
+
   type: EVENT_TYPE_FX_COLLECT,
 
   accept: {

@@ -2,7 +2,7 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, Describe, optional } from 'superstruct';
 import { ContractAddress, TezosAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
-import { Handler, TokenEvent, Transaction } from '../../../types';
+import { TransactionHandler, TokenEvent, Transaction } from '../../../types';
 import { findDiff, createEventId } from '../../../lib/utils';
 import { VERSUM_CONTRACT_MARKETPLACE } from '../../../consts';
 
@@ -28,7 +28,9 @@ const VersumCancelSwapEventSchema: Describe<Omit<VersumCancelSwapEvent, 'type'>>
   swap_id: PgBigInt,
 });
 
-const VersumCancelSwapHandler: Handler<Transaction, VersumCancelSwapEvent> = {
+const VersumCancelSwapHandler: TransactionHandler<VersumCancelSwapEvent> = {
+  source: 'transaction',
+
   type: EVENT_TYPE_VERSUM_CANCEL_SWAP,
 
   accept: {

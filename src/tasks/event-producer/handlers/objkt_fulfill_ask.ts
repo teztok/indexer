@@ -2,7 +2,7 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, Describe } from 'superstruct';
 import { ContractAddress, TezosAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
-import { Handler, TokenEvent, Transaction, SaleEventInterface } from '../../../types';
+import { TransactionHandler, TokenEvent, Transaction, SaleEventInterface } from '../../../types';
 import { findDiff, createEventId } from '../../../lib/utils';
 import { OBJKT_CONTRACT_MARKETPLACE, SALE_INTERFACE } from '../../../consts';
 
@@ -34,7 +34,9 @@ const ObjktFulfillAskEventSchema: Describe<Omit<ObjktFulfillAskEvent, 'type' | '
   price: PgBigInt,
 });
 
-const ObjktFulfillAskHandler: Handler<Transaction, ObjktFulfillAskEvent> = {
+const ObjktFulfillAskHandler: TransactionHandler<ObjktFulfillAskEvent> = {
+  source: 'transaction',
+
   type: EVENT_TYPE_OBJKT_FULFILL_ASK,
 
   accept: {

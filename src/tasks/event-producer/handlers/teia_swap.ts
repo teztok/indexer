@@ -2,7 +2,7 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, Describe } from 'superstruct';
 import { ContractAddress, TezosAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
-import { Handler, TokenEvent, Transaction } from '../../../types';
+import { TransactionHandler, TokenEvent, Transaction } from '../../../types';
 import { createEventId } from '../../../lib/utils';
 import { TEIA_CONTRACT_MARKETPLACE } from '../../../consts';
 
@@ -35,7 +35,9 @@ const TeiaSwapEventSchema: Describe<Omit<TeiaSwapEvent, 'type'>> = object({
   amount: PgBigInt,
 });
 
-const TeiaSwapHandler: Handler<Transaction, TeiaSwapEvent> = {
+const TeiaSwapHandler: TransactionHandler<TeiaSwapEvent> = {
+  source: 'transaction',
+
   type: EVENT_TYPE_TEIA_SWAP,
 
   accept: {

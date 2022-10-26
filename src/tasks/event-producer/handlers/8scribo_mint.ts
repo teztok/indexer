@@ -2,7 +2,7 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, boolean, Describe } from 'superstruct';
 import { TezosAddress, ContractAddress, IsoDateString, MetadataUri, PositiveInteger, PgBigInt } from '../../../lib/validators';
-import { Handler, MintEvent, Transaction, RoyaltyShares } from '../../../types';
+import { TransactionHandler, MintEvent, Transaction, RoyaltyShares } from '../../../types';
 import { createEventId, royaltiesToRoyaltyShares } from '../../../lib/utils';
 import { RoyaltySharesSchema } from '../../../lib/schemas';
 import { EIGHTSCRIBO_CONTRACT_FA2 } from '../../../consts';
@@ -38,7 +38,9 @@ const EightscriboMintEventSchema: Describe<Omit<EightscriboMintEvent, 'type'>> =
   royalty_shares: RoyaltySharesSchema,
 });
 
-const EightscriboMintHandler: Handler<Transaction, EightscriboMintEvent> = {
+const EightscriboMintHandler: TransactionHandler<EightscriboMintEvent> = {
+  source: 'transaction',
+
   type: EVENT_TYPE_8SCRIBO_MINT,
 
   accept: {

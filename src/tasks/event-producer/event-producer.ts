@@ -8,13 +8,13 @@ import { run } from 'graphile-worker';
 import { handlers as defaultHandlers } from './handlers/index';
 import { processors } from './processors/index';
 import { Pattern, Patterns, Transaction, Transactions, GetTransactionsFilters, Event, TokenEvent, Token } from '../../types';
-import { transactionMatchesPattern, getTransactions, getTaskName } from '../../lib/utils';
+import { transactionMatchesPattern, getTransactions, getOriginations, getTaskName } from '../../lib/utils';
 import * as eventsDao from '../../lib/daos/events';
 import logger from '../../lib/logger';
 import config from '../../lib/config';
 import dbConfig from '../../knexfile';
 import db from '../../lib/db';
-import { Task, Handler } from '../../types';
+import { Task, TransactionHandler } from '../../types';
 
 interface EventProducerTaskPayload {
   filters: GetTransactionsFilters;
@@ -30,7 +30,7 @@ interface Operation {
 type AcceptFn = (transaction: Transaction, operation: Operation) => boolean;
 
 interface ProcessItem {
-  handler: Handler<Transaction, any>;
+  handler: TransactionHandler<any>;
   transaction: Transaction;
   operation: Operation;
 }
@@ -111,7 +111,9 @@ export async function processEvents(events: Array<Event>) {
 
 export async function produceEvents(payload: EventProducerTaskPayload) {
   const transactions = await getTransactions(payload.filters);
-  let events = await transactionsToEvents(transactions);
+  const originations = await getOriginations(payload.filters);
+
+  let events = transactionsToEvents(transactions);
   // TODO: add originationsToEvents
 
   events = events.filter((event) => {

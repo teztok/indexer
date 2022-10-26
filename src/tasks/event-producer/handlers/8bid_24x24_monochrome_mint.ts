@@ -2,7 +2,7 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, optional, Describe, boolean } from 'superstruct';
 import { TezosAddress, ContractAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
-import { Handler, MintEvent, Transaction, RoyaltyShares } from '../../../types';
+import { TransactionHandler, MintEvent, Transaction, RoyaltyShares } from '../../../types';
 import { createEventId, royaltiesToRoyaltyShares } from '../../../lib/utils';
 import { RoyaltySharesSchema } from '../../../lib/schemas';
 import { EIGHTBIDOU_24X24_MONOCHROME_CONTRACT_FA2 } from '../../../consts';
@@ -40,7 +40,9 @@ const EightbidMint24x24MonochromeSchema: Describe<Omit<EightbidMint24x24Monochro
   royalty_shares: RoyaltySharesSchema,
 });
 
-const EightbidMint24x24MonochromeHandler: Handler<Transaction, EightbidMint24x24MonochromeEvent> = {
+const EightbidMint24x24MonochromeHandler: TransactionHandler<EightbidMint24x24MonochromeEvent> = {
+  source: 'transaction',
+
   type: EVENT_TYPE_8BID_24X24_MONOCHROME_MINT,
 
   accept: {

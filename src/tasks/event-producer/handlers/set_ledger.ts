@@ -6,7 +6,7 @@ import { assert, object, Describe, string, is, boolean } from 'superstruct';
 import { TezosAddress, ContractAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
 import { TokenStorageSchema } from '../../../lib/schemas';
 import {
-  Handler,
+  TransactionHandler,
   TokenEvent,
   Transaction,
   BigmapDiffContent,
@@ -86,7 +86,9 @@ export function isValidNFTAssetLedgerEntry(entry: BigmapDiffContent) {
   return is(entry.value, TezosAddress) && isString(entry.key);
 }
 
-const SetLedgerHandler: Handler<Transaction, SetLedgerEvent> = {
+const SetLedgerHandler: TransactionHandler<SetLedgerEvent> = {
+  source: 'transaction',
+
   type: EVENT_TYPE_SET_LEDGER,
 
   accept: (transaction) => {

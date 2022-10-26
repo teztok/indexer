@@ -12,9 +12,11 @@ import {
   BigmapDiffAction,
   KeysEnum,
   Pattern,
+  Transactions,
   Transaction,
   GetTransactionsFilters,
-  Transactions,
+  Originations,
+  GetOriginationsFilters,
 } from '../types';
 import { CURRENCY_MAPPINGS } from '../consts';
 import isIPFS from 'is-ipfs';
@@ -106,6 +108,7 @@ export async function getTransactions(filters: GetTransactionsFilters, perPage: 
         offset: currentPage * perPage,
         limit: perPage,
         status: 'applied',
+        // TODO: give plugins the chance to extend this list?
         select: 'id,level,timestamp,block,hash,counter,nonce,sender,target,amount,parameter,status,hasInternals,initiator,storage,diffs',
       },
     }).json<Transactions>();
@@ -120,6 +123,33 @@ export async function getTransactions(filters: GetTransactionsFilters, perPage: 
   } while (currentPage < maxPages);
 
   return uniqBy(allTransactions, 'id');
+}
+
+export async function getOriginations(filters: GetOriginationsFilters, perPage: number = 2000, maxPages: number = 20) {
+  const allOriginations: Originations = [];
+  let currentPage = 0;
+
+  do {
+    const originations = await got(`${config.tzktApiUrl}/operations/originations`, {
+      searchParams: {
+        ...filters,
+        offset: currentPage * perPage,
+        limit: perPage,
+        status: 'applied',
+        select: 'id,nonce,level,timestamp,block,counter,hash,initiator,sender,status,storage,originatedContract',
+      },
+    }).json<Originations>();
+
+    allOriginations.push(...originations);
+
+    if (originations.length < perPage) {
+      break;
+    }
+
+    currentPage++;
+  } while (currentPage < maxPages);
+
+  return uniqBy(allOriginations, 'id');
 }
 
 type ObjktCurrencyTez = { tez: {} };

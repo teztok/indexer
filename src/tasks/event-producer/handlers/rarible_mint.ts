@@ -2,7 +2,7 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, boolean, Describe } from 'superstruct';
 import { TezosAddress, ContractAddress, IsoDateString, MetadataUri, PositiveInteger, PgBigInt } from '../../../lib/validators';
-import { Handler, MintEvent, Transaction, RoyaltyShares } from '../../../types';
+import { TransactionHandler, MintEvent, Transaction, RoyaltyShares } from '../../../types';
 import { createEventId, normalizeMetadataIpfsUri } from '../../../lib/utils';
 import { RoyaltySharesSchema } from '../../../lib/schemas';
 import { RARIBLE_CONTRACT_FA2 } from '../../../consts';
@@ -31,7 +31,9 @@ const RaribleMintEventSchema: Describe<Omit<RaribleMintEvent, 'type'>> = object(
   royalty_shares: RoyaltySharesSchema,
 });
 
-const RaribleMintHandler: Handler<Transaction, RaribleMintEvent> = {
+const RaribleMintHandler: TransactionHandler<RaribleMintEvent> = {
+  source: 'transaction',
+
   type: EVENT_TYPE_RARIBLE_MINT,
 
   accept: {

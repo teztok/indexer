@@ -2,7 +2,7 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, boolean, Describe } from 'superstruct';
 import { TezosAddress, ContractAddress, IsoDateString, MetadataUri, PositiveInteger, PgBigInt } from '../../../lib/validators';
-import { Handler, MintEvent, Transaction, SaleEventInterface, RoyaltyShares } from '../../../types';
+import { TransactionHandler, MintEvent, Transaction, SaleEventInterface, RoyaltyShares } from '../../../types';
 import { RoyaltySharesSchema } from '../../../lib/schemas';
 import { createEventId, findDiff, splitsToRoyaltyShares } from '../../../lib/utils';
 import { FX_CONTRACT_MINT_V3, FX_CONTRACT_FA2_V3, SALE_INTERFACE } from '../../../consts';
@@ -43,7 +43,9 @@ const FxMintV3EventSchema: Describe<Omit<FxMintV3Event, 'type' | 'implements'>> 
   royalty_shares: RoyaltySharesSchema,
 });
 
-const FxMintIssuerHandler: Handler<Transaction, FxMintV3Event> = {
+const FxMintIssuerHandler: TransactionHandler<FxMintV3Event> = {
+  source: 'transaction',
+
   type: EVENT_TYPE_FX_MINT_V3,
 
   accept: [

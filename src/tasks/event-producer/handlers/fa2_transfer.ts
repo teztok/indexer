@@ -2,7 +2,7 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { array, assert, object, Describe, string, is } from 'superstruct';
 import { TezosAddress, ContractAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
-import { Handler, TokenEvent, Transaction } from '../../../types';
+import { TransactionHandler, TokenEvent, Transaction } from '../../../types';
 import logger from '../../../lib/logger';
 import { createEventId } from '../../../lib/utils';
 
@@ -46,7 +46,9 @@ const Fa2TransferParameterSchema: Describe<Fa2TransferParameter> = array(
   object({ from_: TezosAddress, txs: array(object({ to_: TezosAddress, amount: PgBigInt, token_id: string() })) })
 );
 
-const Fa2TransferHandler: Handler<Transaction, Fa2TransferEvent> = {
+const Fa2TransferHandler: TransactionHandler<Fa2TransferEvent> = {
+  source: 'transaction',
+
   type: EVENT_TYPE_FA2_TRANSFER,
 
   accept: (transaction) => {
