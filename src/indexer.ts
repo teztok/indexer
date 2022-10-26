@@ -1,4 +1,4 @@
-import { getWorkerUtils, getTaskName } from './lib/utils';
+import { getWorkerUtils } from './lib/utils';
 import { tasksByName } from './tasks/index';
 
 const indexer = {

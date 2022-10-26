@@ -3,7 +3,7 @@ import fs from 'fs';
 require('dotenv').config();
 
 const defaultConfig = {
-  eventProducerConcurrency: 4,
+  eventProducerConcurrency: 4, // TODO: 1?
   fetchMetadataConcurrency: 4,
   eventProcessorConcurrency: 4,
   rebuildTokenConcurrency: 1,
