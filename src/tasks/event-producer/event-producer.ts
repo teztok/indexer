@@ -93,27 +93,6 @@ export function transactionsToEvents(transactions: Transactions = [], handlers =
   return events;
 }
 
-async function postProcessEvents(events: Array<Event>, handlers = defaultHandlers): Promise<Array<Event>> {
-  const handlersByType = keyBy(handlers, ({ type }) => type);
-  const eventsByType = groupBy(events, 'type');
-  const types = uniqBy(events, ({ type }) => type).map(({ type }) => type);
-  const results = [];
-
-  for (const type of types) {
-    const typeEvents = eventsByType[type];
-    const handler = handlersByType[type];
-
-    if (handler.postProcess) {
-      const processedEvents = await handler.postProcess(typeEvents as any);
-      results.push(...processedEvents);
-    } else {
-      results.push(...typeEvents);
-    }
-  }
-
-  return results;
-}
-
 const ignoredContractAddressesObj: Record<string, boolean> = config.ignoredContractAddresses.reduce(
   (lookup, address) => ({ [address]: true, ...lookup }),
   {}
@@ -121,7 +100,7 @@ const ignoredContractAddressesObj: Record<string, boolean> = config.ignoredContr
 
 export async function produceEvents(payload: EventProducerTaskPayload) {
   const transactions = await getTransactions(payload.filters);
-  let events = await postProcessEvents(transactionsToEvents(transactions));
+  let events = await transactionsToEvents(transactions);
 
   events = events.filter((event) => {
     if (!('fa2_address' in event)) {
