@@ -2,7 +2,7 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, Describe } from 'superstruct';
 import { TezosAddress, IsoDateString, PositiveInteger, PgBigInt, ContractAddress } from '../../../lib/validators';
-import { Handler, TokenEvent, Transaction, SaleEventInterface } from '../../../types';
+import { TransactionHandler, TokenEvent, Transaction, SaleEventInterface } from '../../../types';
 import { findDiff, transactionMatchesPattern, createEventId } from '../../../lib/utils';
 import { TYPED_CONTRACT_MARKETPLACE, SALE_INTERFACE } from '../../../consts';
 
@@ -33,7 +33,9 @@ const TypedCollectEventSchema: Describe<Omit<TypedCollectEvent, 'type' | 'implem
   price: PgBigInt,
 });
 
-const TypedCollectHandler: Handler<Transaction, TypedCollectEvent> = {
+const TypedCollectHandler: TransactionHandler<TypedCollectEvent> = {
+  source: 'transaction',
+
   type: EVENT_TYPE_TYPED_COLLECT,
 
   accept: (transaction) => {

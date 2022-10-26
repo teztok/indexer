@@ -3,7 +3,7 @@ import keyBy from 'lodash/keyBy';
 import omit from 'lodash/omit';
 import { assert, object, string, optional, Describe } from 'superstruct';
 import { TezosAddress, IsoDateString, PositiveInteger, PgBigInt, ContractAddress } from '../../../lib/validators';
-import { Handler, TokenEvent, Transaction, MintEvent, SaleEventInterface } from '../../../types';
+import { TransactionHandler, TokenEvent, Transaction, MintEvent, SaleEventInterface } from '../../../types';
 import { findDiff, createEventId } from '../../../lib/utils';
 import * as eventsDao from '../../../lib/daos/events';
 import { VERSUM_CONTRACT_MARKETPLACE, SALE_INTERFACE } from '../../../consts';
@@ -38,7 +38,9 @@ const VersumCollectEventSchema: Describe<Omit<VersumCollectEvent, 'type' | 'impl
   amount: PgBigInt,
 });
 
-const VersumCollectSwapHandler: Handler<Transaction, VersumCollectEvent> = {
+const VersumCollectSwapHandler: TransactionHandler<VersumCollectEvent> = {
+  source: 'transaction',
+
   type: EVENT_TYPE_VERSUM_COLLECT_SWAP,
 
   accept: {

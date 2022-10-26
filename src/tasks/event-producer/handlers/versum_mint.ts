@@ -3,7 +3,7 @@ import omit from 'lodash/omit';
 import { assert, object, string, boolean, Describe } from 'superstruct';
 import { TezosAddress, ContractAddress, IsoDateString, MetadataUri, PositiveInteger, PgBigInt } from '../../../lib/validators';
 import { RoyaltySharesSchema } from '../../../lib/schemas';
-import { Handler, MintEvent, Transaction, RoyaltyShares } from '../../../types';
+import { TransactionHandler, MintEvent, Transaction, RoyaltyShares } from '../../../types';
 import { createEventId, splitsToRoyaltyShares } from '../../../lib/utils';
 import { VERSUM_CONTRACT_FA2 } from '../../../consts';
 
@@ -32,7 +32,9 @@ const VersumMintEventSchema: Describe<Omit<VersumMintEvent, 'type'>> = object({
   royalty_shares: RoyaltySharesSchema,
 });
 
-const VersumMintHandler: Handler<Transaction, VersumMintEvent> = {
+const VersumMintHandler: TransactionHandler<VersumMintEvent> = {
+  source: 'transaction',
+
   type: EVENT_TYPE_VERSUM_MINT,
 
   accept: {

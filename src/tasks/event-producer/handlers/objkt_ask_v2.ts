@@ -2,7 +2,7 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { optional, assert, object, string, Describe } from 'superstruct';
 import { TezosAddress, ContractAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
-import { Handler, TokenEvent, Transaction } from '../../../types';
+import { TransactionHandler, TokenEvent, Transaction } from '../../../types';
 import { createEventId } from '../../../lib/utils';
 import { OBJKT_CONTRACT_MARKETPLACE_V2 } from '../../../consts';
 
@@ -36,7 +36,9 @@ const ObjktAskV2EventSchema: Describe<Omit<ObjktAskV2Event, 'type'>> = object({
   end_time: optional(IsoDateString),
 });
 
-const ObjktAskHandler: Handler<Transaction, ObjktAskV2Event> = {
+const ObjktAskHandler: TransactionHandler<ObjktAskV2Event> = {
+  source: 'transaction',
+
   type: EVENT_TYPE_OBJKT_ASK_V2,
 
   accept: {

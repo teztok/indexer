@@ -2,7 +2,7 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, Describe, optional } from 'superstruct';
 import { TezosAddress, ContractAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
-import { Handler, TokenEvent, Transaction, SaleEventInterface } from '../../../types';
+import { TransactionHandler, TokenEvent, Transaction, SaleEventInterface } from '../../../types';
 import { createEventId, findDiff } from '../../../lib/utils';
 import { VERSUM_CONTRACT_MARKETPLACE, SALE_INTERFACE } from '../../../consts';
 
@@ -35,7 +35,9 @@ const VersumAcceptOfferEventSchema: Describe<Omit<VersumAcceptOfferEvent, 'type'
   amount: PgBigInt,
 });
 
-const VersumAcceptOfferHandler: Handler<Transaction, VersumAcceptOfferEvent> = {
+const VersumAcceptOfferHandler: TransactionHandler<VersumAcceptOfferEvent> = {
+  source: 'transaction',
+
   type: EVENT_TYPE_VERSUM_ACCEPT_OFFER,
 
   accept: {

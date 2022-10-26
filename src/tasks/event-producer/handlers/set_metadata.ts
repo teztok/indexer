@@ -4,7 +4,7 @@ import { assert, object, type, string, Describe, is, optional } from 'superstruc
 import { ContractAddress, IsoDateString, MetadataUri, PositiveInteger, PgBigInt } from '../../../lib/validators';
 import { TokenStorageSchema } from '../../../lib/schemas';
 import logger from '../../../lib/logger';
-import { Handler, TokenEvent, Transaction } from '../../../types';
+import { TransactionHandler, TokenEvent, Transaction } from '../../../types';
 import { createEventId, filterDiffs } from '../../../lib/utils';
 import { normalizeMetadataIpfsUri } from '../../../lib/utils';
 
@@ -60,7 +60,9 @@ const TokenMetadataDiffOnchainSchema: Describe<TokenMetadataDiffOnchain> = type(
   }),
 });
 
-const SetMetadataHandler: Handler<Transaction, SetMetadataEvent> = {
+const SetMetadataHandler: TransactionHandler<SetMetadataEvent> = {
+  source: 'transaction',
+
   type: EVENT_TYPE_SET_METADATA,
 
   accept: (transaction) => {

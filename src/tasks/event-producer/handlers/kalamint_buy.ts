@@ -2,7 +2,7 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, Describe } from 'superstruct';
 import { TezosAddress, IsoDateString, PositiveInteger, PgBigInt, ContractAddress } from '../../../lib/validators';
-import { Handler, TokenEvent, Transaction, SaleEventInterface } from '../../../types';
+import { TransactionHandler, TokenEvent, Transaction, SaleEventInterface } from '../../../types';
 import { createEventId } from '../../../lib/utils';
 import { KALAMINT_CONTRACT_FA2, SALE_INTERFACE } from '../../../consts';
 
@@ -29,7 +29,9 @@ const KalamintBuyEventSchema: Describe<Omit<KalamintBuyEvent, 'type' | 'implemen
   price: PgBigInt,
 });
 
-const KalamintBuyHandler: Handler<Transaction, KalamintBuyEvent> = {
+const KalamintBuyHandler: TransactionHandler<KalamintBuyEvent> = {
+  source: 'transaction',
+
   type: EVENT_TYPE_KALAMINT_BUY,
 
   accept: {

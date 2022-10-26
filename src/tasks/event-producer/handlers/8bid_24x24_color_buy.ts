@@ -2,7 +2,7 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, Describe } from 'superstruct';
 import { ContractAddress, TezosAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
-import { Handler, TokenEvent, Transaction, SaleEventInterface } from '../../../types';
+import { TransactionHandler, TokenEvent, Transaction, SaleEventInterface } from '../../../types';
 import { createEventId, findDiff } from '../../../lib/utils';
 import logger from '../../../lib/logger';
 import { EIGHTBIDOU_24X24_COLOR_CONTRACT_MARKETPLACE, SALE_INTERFACE } from '../../../consts';
@@ -35,7 +35,9 @@ const EightbidBuy24x24ColorEventSchema: Describe<Omit<EightbidBuy24x24ColorEvent
   price: PgBigInt,
 });
 
-const EightbidBuy24x24ColorHandler: Handler<Transaction, EightbidBuy24x24ColorEvent> = {
+const EightbidBuy24x24ColorHandler: TransactionHandler<EightbidBuy24x24ColorEvent> = {
+  source: 'transaction',
+
   type: EVENT_TYPE_8BID_24X24_COLOR_BUY,
 
   accept: {

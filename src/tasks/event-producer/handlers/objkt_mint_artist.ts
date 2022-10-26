@@ -3,7 +3,7 @@ import omit from 'lodash/omit';
 import { assert, object, string, boolean, Describe } from 'superstruct';
 import { TezosAddress, ContractAddress, IsoDateString, MetadataUri, PositiveInteger, PgBigInt } from '../../../lib/validators';
 import { normalizeMetadataIpfsUri } from '../../../lib/utils';
-import { Handler, MintEvent, Transaction } from '../../../types';
+import { TransactionHandler, MintEvent, Transaction } from '../../../types';
 import { createEventId } from '../../../lib/utils';
 import { OBJKT_CONTRACT_MINTING_FACTORY } from '../../../consts';
 
@@ -30,7 +30,9 @@ const ObjktMintArtistEventSchema: Describe<Omit<ObjktMintArtistEvent, 'type'>> =
   metadata_uri: MetadataUri,
 });
 
-const HenMintHandler: Handler<Transaction, ObjktMintArtistEvent> = {
+const HenMintHandler: TransactionHandler<ObjktMintArtistEvent> = {
+  source: 'transaction',
+
   type: EVENT_TYPE_OBJKT_MINT_ARTIST,
 
   accept: [

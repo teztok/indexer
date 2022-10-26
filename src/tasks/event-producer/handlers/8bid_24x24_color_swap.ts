@@ -2,7 +2,7 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, Describe } from 'superstruct';
 import { ContractAddress, TezosAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
-import { Handler, TokenEvent, Transaction } from '../../../types';
+import { TransactionHandler, TokenEvent, Transaction } from '../../../types';
 import { createEventId } from '../../../lib/utils';
 import { EIGHTBIDOU_24X24_COLOR_CONTRACT_MARKETPLACE } from '../../../consts';
 
@@ -35,7 +35,9 @@ const EightbidSwap24x24ColorSchema: Describe<Omit<EightbidSwap24x24ColorEvent, '
   amount: PgBigInt,
 });
 
-const EightbidSwap8x8ColorHandler: Handler<Transaction, EightbidSwap24x24ColorEvent> = {
+const EightbidSwap8x8ColorHandler: TransactionHandler<EightbidSwap24x24ColorEvent> = {
+  source: 'transaction',
+
   type: EVENT_TYPE_8BID_24X24_COLOR_SWAP,
 
   accept: {

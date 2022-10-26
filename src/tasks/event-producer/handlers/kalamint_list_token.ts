@@ -2,7 +2,7 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, Describe } from 'superstruct';
 import { ContractAddress, TezosAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
-import { Handler, TokenEvent, Transaction } from '../../../types';
+import { TransactionHandler, TokenEvent, Transaction } from '../../../types';
 import { createEventId, findDiff } from '../../../lib/utils';
 import { KALAMINT_CONTRACT_FA2 } from '../../../consts';
 
@@ -26,7 +26,9 @@ const KalamintListTokenEventSchema: Describe<Omit<KalamintListTokenEvent, 'type'
   price: PgBigInt,
 });
 
-const KalamintListTokenHandler: Handler<Transaction, KalamintListTokenEvent> = {
+const KalamintListTokenHandler: TransactionHandler<KalamintListTokenEvent> = {
+  source: 'transaction',
+
   type: EVENT_TYPE_KALAMINT_LIST_TOKEN,
 
   accept: {

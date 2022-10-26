@@ -2,7 +2,7 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, Describe } from 'superstruct';
 import { TezosAddress, IsoDateString, PositiveInteger, PgBigInt, ContractAddress } from '../../../lib/validators';
-import { Handler, TokenEvent, Transaction, SaleEventInterface } from '../../../types';
+import { TransactionHandler, TokenEvent, Transaction, SaleEventInterface } from '../../../types';
 import { findDiff, createEventId } from '../../../lib/utils';
 import { CURRENCY_MAPPINGS, OBJKT_CONTRACT_ENGLISH_AUCTION_V2, SALE_INTERFACE } from '../../../consts';
 
@@ -45,7 +45,9 @@ const ObjktSettleEnglishAuctionEventSchema: Describe<Omit<ObjktSettleEnglishAuct
   auction_id: PgBigInt,
 });
 
-const ObjktSettleEnglishAuctionHandler: Handler<Transaction, ObjktSettleEnglishAuctionEvent> = {
+const ObjktSettleEnglishAuctionHandler: TransactionHandler<ObjktSettleEnglishAuctionEvent> = {
+  source: 'transaction',
+
   type: EVENT_TYPE_OBJKT_SETTLE_ENGLISH_AUCTION,
 
   accept: {

@@ -2,7 +2,7 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, Describe } from 'superstruct';
 import { ContractAddress, TezosAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
-import { Handler, TokenEvent, Transaction } from '../../../types';
+import { TransactionHandler, TokenEvent, Transaction } from '../../../types';
 import { findDiff, transactionMatchesPattern, createEventId } from '../../../lib/utils';
 import { TEIA_CONTRACT_MARKETPLACE } from '../../../consts';
 
@@ -29,7 +29,9 @@ const TeiaCancelSwapEventSchema: Describe<Omit<TeiaCancelSwapEvent, 'type'>> = o
   swap_id: PgBigInt,
 });
 
-const TeiaCancelSwapHandler: Handler<Transaction, TeiaCancelSwapEvent> = {
+const TeiaCancelSwapHandler: TransactionHandler<TeiaCancelSwapEvent> = {
+  source: 'transaction',
+
   type: EVENT_TYPE_TEIA_CANCEL_SWAP,
 
   accept: (transaction) => {
