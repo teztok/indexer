@@ -14,8 +14,8 @@ const TokenProcessor: Processor = {
 
     for (const event of uniqEvents) {
       await workerUtils.addJob(
-        getTaskName('rebuild-token'),
-        { fa2_address: event.fa2_address, token_id: event.token_id },
+        getTaskName('rebuild'),
+        { type: 'token', fa2_address: event.fa2_address, token_id: event.token_id },
         { jobKey: `rebuild-token-${event.fa2_address}-${event.token_id}`, maxAttempts: 2 }
       );
     }

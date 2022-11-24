@@ -6,8 +6,8 @@ const defaultConfig = {
   eventProducerConcurrency: 4, // TODO: 1?
   fetchMetadataConcurrency: 4,
   eventProcessorConcurrency: 4,
-  rebuildTokenConcurrency: 1,
-  rebuildTokenPollInterval: 500,
+  rebuildConcurrency: 1,
+  rebuildPollInterval: 500,
   workerPollInterval: 500,
   startBlock: 1365000,
   maxBlocksPerIteration: 1000,
@@ -15,6 +15,7 @@ const defaultConfig = {
   fetchMetadataTimeout: process.env.FETCH_METADATA_TIMEOUT ? parseInt(process.env.FETCH_METADATA_TIMEOUT, 10) : 40000,
   metadataMaxFilesize: 1024 * 30, // 30kb
   thumbnailWidths: [320, 640, 960],
+  allowedContractAddresses: null, // if empty, all contracts are allowed
   ignoredContractAddresses: [
     'KT1AFA2mwNUMNd4SsujE1YYp29vd8BZejyKW', // hDAO
     'KT1M81KrJr6TxYLkZkVqcpSTNKGoya8XytWT', // ECOIN NETWORK

@@ -9,7 +9,7 @@
     "start:ctrl": "node ./build/ctrl.js",
     "start-worker:event-producer": "node ./build/spawn-workers.js event-producer",
     "start-worker:fetch-metadata": "node ./build/spawn-workers.js fetch-metadata",
-    "start-worker:rebuild-token": "node ./build/spawn-workers.js rebuild-token",
+    "start-worker:rebuild-token": "node ./build/spawn-workers.js rebuild",
     "init:db": "npm run-script build && node ./build/scripts/init-db.js",
     "format": "prettier --single-quote --tab-width 2 --print-width 140 --write 'src/**/*.@(js|ts|mjs)'",
     "build": "tsc -p .",

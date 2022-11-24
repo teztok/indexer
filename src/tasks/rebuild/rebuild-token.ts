@@ -1,4 +1,3 @@
-import { run } from 'graphile-worker';
 import get from 'lodash/get';
 import sum from 'lodash/sum';
 import maxBy from 'lodash/maxBy';
@@ -10,16 +9,16 @@ import isString from 'lodash/isString';
 import findLast from 'lodash/findLast';
 import snakeCase from 'lodash/snakeCase';
 import { is } from 'superstruct';
-import dbConfig from '../../knexfile';
 import db from '../../lib/db';
 import config from '../../lib/config';
-import { getTaskName, isTezLikeCurrency } from '../../lib/utils';
-import { Task, Platform, Metadata, Token, AnyListing, AnyOffer, SaleEvent, ObjktListingV2, RoyaltyShares } from '../../types';
+import { isTezLikeCurrency } from '../../lib/utils';
+import { Platform, Metadata, Token, AnyListing, AnyOffer, SaleEvent, ObjktListingV2, RoyaltyShares, Holding } from '../../types';
 import { isValidTezosAddress } from '../../lib/validators';
 import { cleanString, cleanUri, cleanAttributes, cleanTags, cleanCreators, cleanFormats, RoyaltySharesSchema } from '../../lib/schemas';
 import * as eventsDao from '../../lib/daos/events';
 import * as metadataDao from '../../lib/daos/metadata';
 import { AnyEvent } from '../event-producer/handlers/index';
+import { triggerTokenRebuild } from '../../plugins/plugins';
 import {
   HEN_CONTRACT_MARKETPLACE_V2,
   OBJKT_CONTRACT_MARKETPLACE,
@@ -40,7 +39,8 @@ import {
   KALAMINT_CONTRACT_FA2,
 } from '../../consts';
 
-interface RebuildTokenTaskPayload {
+export interface RebuildTokenTaskPayload {
+  type: 'token';
   fa2_address: string;
   token_id: string;
 }
@@ -121,7 +121,7 @@ export function royaltySharesToRoyaltyReceivers(royaltyShares: RoyaltyShares): A
 }
 
 export function compileToken(fa2Address: string, tokenId: string, events: Array<AnyEvent>, metadataStatus: string, metadata?: Metadata) {
-  const holders: Record<string, { last_received_at: string; first_received_at: string; amount: number }> = {};
+  const holders: Record<string, Holding> = {};
   const listings: Record<string, AnyListing> = {};
   const offers: Record<string, AnyOffer> = {};
   const sales: Array<SaleEvent> = [];
@@ -1406,25 +1406,18 @@ export async function rebuildToken(payload: RebuildTokenTaskPayload) {
     }
   });
 
+  await triggerTokenRebuild({
+    token_id: tokenId,
+    fa2_address: fa2Address,
+    events,
+    token,
+    listings,
+    offers,
+    holders,
+    tags,
+    royaltyReceivers,
+    metadata,
+  });
+
   return token;
 }
-
-const task: Task = {
-  name: 'rebuild-token',
-
-  spawnWorkers: async () => {
-    await run({
-      connectionString: dbConfig.connection,
-      concurrency: config.rebuildTokenConcurrency,
-      noHandleSignals: false,
-      pollInterval: config.rebuildTokenPollInterval || config.workerPollInterval,
-      taskList: {
-        [getTaskName('rebuild-token')]: async (payload) => {
-          await rebuildToken(payload as RebuildTokenTaskPayload);
-        },
-      },
-    });
-  },
-};
-
-export default task;

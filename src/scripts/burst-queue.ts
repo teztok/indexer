@@ -1,12 +1,12 @@
 import { produceEvents } from '../tasks/event-producer/event-producer';
-import { rebuildToken } from '../tasks/rebuild-token/rebuild-token';
+import { rebuild } from '../tasks/rebuild/rebuild';
 import { processMetadata } from '../tasks/fetch-metadata/fetch-metadata';
 import { getTaskName } from '../lib/utils';
 import db from '../lib/db';
 
 const tasks: Record<string, (payload: any) => {}> = {
   'event-producer': produceEvents,
-  'rebuild-token': rebuildToken,
+  rebuild: rebuild,
   'fetch-metadata': processMetadata,
 };
 

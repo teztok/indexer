@@ -1,9 +1,10 @@
+import './bootstrap';
 import { HubConnectionBuilder } from '@microsoft/signalr';
 import uniqBy from 'lodash/uniqBy';
 import config from './lib/config';
 import * as eventsDao from './lib/daos/events';
 import { getWorkerUtils } from './lib/utils';
-import { rebuildToken } from './tasks/rebuild-token/rebuild-token';
+import { rebuild } from './tasks/rebuild/rebuild';
 import logger from './lib/logger';
 import db from './lib/db';
 import { getTaskName } from './lib/utils';
@@ -17,12 +18,9 @@ async function rebuildOutstandingTokens(max = 200) {
   isRebuildingTokens = true;
 
   try {
-    const results = await db
-      .select('*')
-      .from('graphile_worker.jobs')
-      .where('task_identifier', getTaskName('rebuild-token'))
-      .orderBy('id', 'desc')
-      .limit(max);
+    const results = (
+      await db.select('*').from('graphile_worker.jobs').where('task_identifier', getTaskName('rebuild')).orderBy('id', 'desc').limit(max)
+    ).filter(({ payload }) => payload.type === 'token');
 
     for (let i = 0; i < results.length; i++) {
       const result = results[i];
@@ -34,7 +32,7 @@ async function rebuildOutstandingTokens(max = 200) {
 
         console.log(`rebuilding token ${i}`);
 
-        await rebuildToken!(result.payload);
+        await rebuild!(result.payload);
         await db('graphile_worker.jobs').where('id', result.id).del();
       } catch (err) {
         tokensWithErrors[`${result.payload.fa2_address}_${result.payload.token_id}`] = true;
@@ -78,10 +76,11 @@ export async function run() {
       const uniqInvalidTokenEvents: Array<TokenEvent> = uniqBy(invalidEvents, (event) => `${event.fa2_address}-${event.token_id}`);
       await db('events').where('level', '>', lastValidBlock).del();
 
+      // TODO: handle case of other data models than tokens
       for (const event of uniqInvalidTokenEvents) {
         await workerUtils.addJob(
-          getTaskName('rebuild-token'),
-          { fa2_address: event.fa2_address, token_id: event.token_id },
+          getTaskName('rebuild'),
+          { type: 'token', fa2_address: event.fa2_address, token_id: event.token_id },
           { jobKey: `rebuild-token-${event.fa2_address}-${event.token_id}`, maxAttempts: 2 }
         );
       }

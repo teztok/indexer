@@ -2,6 +2,7 @@ import differenceBy from 'lodash/differenceBy';
 import difference from 'lodash/difference';
 import db from '../db';
 import { TokenEvent, Event } from '../../types';
+import { AnyEvent } from '../../tasks/event-producer/handlers/index';
 
 const TABLE = 'events';
 
@@ -15,7 +16,7 @@ export async function getLatestLevel() {
   return parseInt(max, 10);
 }
 
-export async function getNotExistingEvents(events: Array<Event>): Promise<Array<Event>> {
+export async function getNotExistingEvents(events: Array<AnyEvent>): Promise<Array<AnyEvent>> {
   const existingEvents = await db(TABLE)
     .select('id')
     .whereIn(
