@@ -1,3 +1,4 @@
+import '../../bootstrap';
 import { assert } from 'superstruct';
 import got from 'got';
 import { run, JobHelpers } from 'graphile-worker';
@@ -11,6 +12,7 @@ import ipfsClient from '../../lib/ipfs-client';
 import * as metadataDao from '../../lib/daos/metadata';
 import * as tokensDao from '../../lib/daos/tokens';
 import config from '../../lib/config';
+import { triggerMetadataFetched } from '../../plugins/plugins';
 
 interface FetchMetadataTaskPayload {
   metadata_uri: string;
@@ -102,13 +104,15 @@ export async function processMetadata(payload: FetchMetadataTaskPayload, helpers
 
     await metadataDao.update(metadataUri, 'processed', metadata);
 
+    await triggerMetadataFetched(metadataUri, metadata);
+
     const tokens = await tokensDao.getByField('metadata_uri', metadataUri);
 
     if (tokens && tokens.length) {
       for (const token of tokens) {
         await workerUtils.addJob(
-          getTaskName('rebuild-token'),
-          { fa2_address: token.fa2_address, token_id: token.token_id },
+          getTaskName('rebuild'),
+          { type: 'token', fa2_address: token.fa2_address, token_id: token.token_id },
           { jobKey: `rebuild-token-${token.fa2_address}-${token.token_id}`, maxAttempts: 2 }
         );
       }

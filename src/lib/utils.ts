@@ -15,6 +15,7 @@ import {
   Transactions,
   Transaction,
   GetTransactionsFilters,
+  Origination,
   Originations,
   GetOriginationsFilters,
 } from '../types';
@@ -87,7 +88,7 @@ export function transactionMatchesPattern(transaction: Transaction, pattern: Pat
   return Object.entries(pattern).every(([key, val]) => get(transaction, PATTERN_TO_PATH[key as keyof Pattern]) === val);
 }
 
-export function createEventId(handlerName: string, transaction: Transaction, idx: number = 0) {
+export function createEventId(handlerName: string, transaction: Transaction | Origination, idx: number = 0) {
   if (!('hash' in transaction && 'counter' in transaction && 'nonce' in transaction)) {
     throw new Error('transaction does not have all the properties needed (counter, hash and nonce) to create an eventId.');
   }

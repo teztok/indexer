@@ -1,3 +1,4 @@
+import '../../bootstrap';
 import groupBy from 'lodash/groupBy';
 import uniqBy from 'lodash/uniqBy';
 import chunk from 'lodash/chunk';
@@ -5,16 +6,34 @@ import keyBy from 'lodash/keyBy';
 import isFunction from 'lodash/isFunction';
 import isArray from 'lodash/isArray';
 import { run } from 'graphile-worker';
-import { handlers as defaultHandlers } from './handlers/index';
+import { handlers as defaultHandlers, AnyEvent } from './handlers/index';
 import { processors } from './processors/index';
-import { Pattern, Patterns, Transaction, Transactions, GetTransactionsFilters, Event, TokenEvent, Token } from '../../types';
+import {
+  Pattern,
+  Patterns,
+  Transaction,
+  Transactions,
+  GetTransactionsFilters,
+  Event,
+  TokenEvent,
+  Token,
+  Origination,
+  Originations,
+  Task,
+  TransactionHandler,
+  OriginationHandler,
+} from '../../types';
 import { transactionMatchesPattern, getTransactions, getOriginations, getTaskName } from '../../lib/utils';
 import * as eventsDao from '../../lib/daos/events';
 import logger from '../../lib/logger';
 import config from '../../lib/config';
 import dbConfig from '../../knexfile';
 import db from '../../lib/db';
-import { Task, TransactionHandler } from '../../types';
+import {
+  triggerEventsProduced,
+  transactionHandlers as pluginTransactionHandlers,
+  originationHandlers as pluginOriginationHandlers,
+} from '../../plugins/plugins';
 
 interface EventProducerTaskPayload {
   filters: GetTransactionsFilters;
@@ -27,17 +46,30 @@ interface Operation {
   transactions: Transactions;
 }
 
-type AcceptFn = (transaction: Transaction, operation: Operation) => boolean;
+type TransactionAcceptFn = (transaction: Transaction, operation: Operation) => boolean;
 
-interface ProcessItem {
-  handler: TransactionHandler<any>;
+interface TransactionProcessItem {
+  handler: TransactionHandler<AnyEvent>;
   transaction: Transaction;
   operation: Operation;
 }
 
-function toAcceptFn(accept: Pattern | Patterns | AcceptFn): AcceptFn {
+interface OriginationProcessItem {
+  handler: OriginationHandler<AnyEvent>;
+  origination: Origination;
+}
+
+const transactionHandlers: Array<TransactionHandler<AnyEvent>> = defaultHandlers.filter(({ source }) => source === 'transaction') as Array<
+  TransactionHandler<AnyEvent>
+>;
+
+const originationHandlers: Array<OriginationHandler<AnyEvent>> = defaultHandlers.filter(({ source }) => source === 'origination') as Array<
+  OriginationHandler<AnyEvent>
+>;
+
+function toTransactionAcceptFn(accept: Pattern | Patterns | TransactionAcceptFn): TransactionAcceptFn {
   if (isFunction(accept)) {
-    return accept as AcceptFn;
+    return accept as TransactionAcceptFn;
   }
 
   if (isArray(accept)) {
@@ -55,20 +87,20 @@ function toAcceptFn(accept: Pattern | Patterns | AcceptFn): AcceptFn {
   return (transaction) => transactionMatchesPattern(transaction, accept as Pattern);
 }
 
-export function transactionsToEvents(transactions: Transactions = [], handlers = defaultHandlers) {
+export function transactionsToEvents(transactions: Transactions = [], handlers: Array<TransactionHandler<AnyEvent>>) {
   const operations = Object.values<Transactions>(groupBy(transactions, 'hash')).map<Operation>((operationTransactions) => ({
     hash: operationTransactions[0].hash,
     transactions: operationTransactions,
   }));
 
   const operationsByHash = keyBy(operations, 'hash');
-  const processQueue: Array<ProcessItem> = [];
+  const processQueue: Array<TransactionProcessItem> = [];
 
   for (const transaction of transactions) {
     for (const handler of handlers) {
       const operation = operationsByHash[transaction.hash];
 
-      if (toAcceptFn(handler.accept)(transaction, operation)) {
+      if (toTransactionAcceptFn(handler.accept)(transaction, operation)) {
         processQueue.push({
           handler,
           transaction,
@@ -78,7 +110,7 @@ export function transactionsToEvents(transactions: Transactions = [], handlers =
     }
   }
 
-  const events: Array<Event> = [];
+  const events: Array<AnyEvent> = [];
 
   for (const processItem of processQueue) {
     try {
@@ -87,6 +119,36 @@ export function transactionsToEvents(transactions: Transactions = [], handlers =
     } catch (err) {
       logger.error(
         `handler "${processItem.handler.type}" failed to process transaction ${processItem.transaction.id}: ${(err as Error).message}`
+      );
+    }
+  }
+
+  return events;
+}
+
+export function originationsToEvents(originations: Originations = [], handlers: Array<OriginationHandler<AnyEvent>>) {
+  const processQueue: Array<OriginationProcessItem> = [];
+
+  for (const origination of originations) {
+    for (const handler of handlers) {
+      if (handler.accept(origination)) {
+        processQueue.push({
+          handler,
+          origination,
+        });
+      }
+    }
+  }
+
+  const events: Array<AnyEvent> = [];
+
+  for (const processItem of processQueue) {
+    try {
+      const event = processItem.handler.exec(processItem.origination);
+      events.push(...(isArray(event) ? event : [event]));
+    } catch (err) {
+      logger.error(
+        `handler "${processItem.handler.type}" failed to process origination ${processItem.origination.id}: ${(err as Error).message}`
       );
     }
   }
@@ -113,12 +175,18 @@ export async function produceEvents(payload: EventProducerTaskPayload) {
   const transactions = await getTransactions(payload.filters);
   const originations = await getOriginations(payload.filters);
 
-  let events = transactionsToEvents(transactions);
-  // TODO: add originationsToEvents
+  let events = [
+    ...originationsToEvents(originations, [...originationHandlers, ...pluginOriginationHandlers]),
+    ...transactionsToEvents(transactions, [...transactionHandlers, ...pluginTransactionHandlers]),
+  ];
 
   events = events.filter((event) => {
     if (!('fa2_address' in event)) {
       return true;
+    }
+
+    if (config.allowedContractAddresses && Array.isArray(config.allowedContractAddresses)) {
+      return (config.allowedContractAddresses as Array<string>).includes((event as TokenEvent).fa2_address);
     }
 
     // TODO: generalize this?
@@ -168,6 +236,8 @@ export async function produceEvents(payload: EventProducerTaskPayload) {
   });
 
   await processEvents(events);
+
+  await triggerEventsProduced(events);
 }
 
 const task: Task = {

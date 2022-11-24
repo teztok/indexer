@@ -20,7 +20,7 @@ export interface Operation {
   transactions: Transactions;
 }
 
-export type AcceptFn = (transaction: Transaction, operation: Operation) => boolean;
+export type TransactionAcceptFn = (transaction: Transaction, operation: Operation) => boolean;
 
 export interface Event {
   id: string;
@@ -54,8 +54,6 @@ export interface SaleEvent extends Event {
   currency?: string;
   implements: SaleEventInterface;
 }
-
-export type AnyEvent = Event | TokenEvent | MetadataEvent | MintEvent;
 
 export type KeysEnum<T> = { [P in keyof Required<T>]: string };
 
@@ -123,6 +121,8 @@ export interface GetOriginationsFilters {
   level?: number;
 }
 
+export type OriginationAcceptFn = (origination: Origination) => boolean;
+
 export interface Origination {
   id: number;
   level: number;
@@ -140,7 +140,8 @@ export interface Origination {
     alias?: string;
     address: string;
   } | null;
-  storage?: unknown; // TODO
+  storage?: unknown;
+  originatedContract: unknown;
 }
 
 export type Originations = Array<Origination>;
@@ -149,9 +150,19 @@ export interface TransactionHandler<E extends Event> {
 
   type: string;
 
-  accept: AcceptFn | Pattern | Patterns;
+  accept: TransactionAcceptFn | Pattern | Patterns;
 
   exec: (transaction: Transaction, operation: Operation) => E | Array<E>;
+}
+
+export interface OriginationHandler<E extends Event> {
+  source: 'origination';
+
+  type: string;
+
+  accept: OriginationAcceptFn;
+
+  exec: (origination: Origination) => E | Array<E>;
 }
 
 export interface Processor<T extends Event = Event> {
@@ -485,3 +496,9 @@ export type Holders = Record<string, number>;
 
 export type LedgerTypeMultiAsset = 'MULTI_ASSET';
 export type LedgerTypeNftAsset = 'NFT_ASSET';
+
+export interface Holding {
+  last_received_at: string;
+  first_received_at: string;
+  amount: number;
+}
