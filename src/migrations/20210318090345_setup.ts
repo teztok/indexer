@@ -268,11 +268,11 @@ export async function up(knex: Knex): Promise<void> {
     })
     .createTable('teia_users', (table) => {
       table.string('user_address', 36).notNullable();
-      table.text('subjkt');
+      table.text('name');
       table.text('metadata_uri');
       table.boolean('is_split');
 
-      table.index('subjkt');
+      table.index('name');
       table.primary(['user_address']);
     })
     .createTable('teia_split_contracts', (table) => {
