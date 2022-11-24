@@ -15,7 +15,7 @@ const defaultConfig = {
   fetchMetadataTimeout: process.env.FETCH_METADATA_TIMEOUT ? parseInt(process.env.FETCH_METADATA_TIMEOUT, 10) : 40000,
   metadataMaxFilesize: 1024 * 30, // 30kb
   thumbnailWidths: [320, 640, 960],
-  allowedContractAddresses: null, // if empty, all contracts are allowed
+  allowedContractAddresses: ['KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton'], // if empty, all contracts are allowed
   ignoredContractAddresses: [
     'KT1AFA2mwNUMNd4SsujE1YYp29vd8BZejyKW', // hDAO
     'KT1M81KrJr6TxYLkZkVqcpSTNKGoya8XytWT', // ECOIN NETWORK
