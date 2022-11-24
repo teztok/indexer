@@ -17,7 +17,7 @@ import db from '../../lib/db';
 
 interface User {
   user_address: string;
-  subjkt?: string;
+  name?: string;
   metadata_uri?: string;
   is_split: boolean;
 }
@@ -92,7 +92,7 @@ onRebuild(async (type, payload) => {
     .first<TeiaSubjktRegistryEvent>();
 
   if (latestSubjktRegistryEvent) {
-    user.subjkt = get(latestSubjktRegistryEvent, 'custom_data.subjkt');
+    user.name = get(latestSubjktRegistryEvent, 'custom_data.subjkt');
     user.metadata_uri = get(latestSubjktRegistryEvent, 'metadata_uri');
   }
 
