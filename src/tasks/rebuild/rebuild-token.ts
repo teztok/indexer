@@ -20,6 +20,7 @@ import * as metadataDao from '../../lib/daos/metadata';
 import { AnyEvent } from '../event-producer/handlers/index';
 import { triggerTokenRebuild } from '../../plugins/plugins';
 import {
+  HEN_CONTRACT_MARKETPLACE,
   HEN_CONTRACT_MARKETPLACE_V2,
   OBJKT_CONTRACT_MARKETPLACE,
   OBJKT_CONTRACT_MARKETPLACE_V2,
@@ -201,7 +202,7 @@ export function compileToken(fa2Address: string, tokenId: string, events: Array<
         }
         break;
 
-      case 'HEN_MINT':
+      case 'HEN_MINT': {
         platform = 'HEN';
         artistAddress = event.artist_address;
         isVerifiedArtist = event.is_verified_artist;
@@ -213,6 +214,46 @@ export function compileToken(fa2Address: string, tokenId: string, events: Array<
         }
 
         break;
+      }
+
+      case 'HEN_SWAP':
+        listings[createListingKey(HEN_CONTRACT_MARKETPLACE, event.swap_id)] = {
+          type: 'HEN_SWAP',
+          contract_address: HEN_CONTRACT_MARKETPLACE,
+          created_at: event.timestamp,
+          swap_id: event.swap_id,
+          seller_address: event.seller_address,
+          amount: parseInt(event.amount, 10),
+          amount_left: parseInt(event.amount, 10),
+          price: event.price,
+          status: 'active',
+        };
+        break;
+
+      case 'HEN_CANCEL_SWAP': {
+        const listingKey = createListingKey(HEN_CONTRACT_MARKETPLACE, event.swap_id);
+
+        if (listingKey in listings) {
+          listings[listingKey].status = 'canceled';
+        }
+
+        break;
+      }
+
+      case 'HEN_COLLECT': {
+        const listingKey = createListingKey(HEN_CONTRACT_MARKETPLACE, event.swap_id);
+
+        if (listingKey in listings) {
+          const amountLeft = listings[listingKey].amount_left - 1;
+          listings[listingKey].amount_left = amountLeft;
+
+          if (amountLeft <= 0) {
+            listings[listingKey].status = 'sold_out';
+          }
+        }
+
+        break;
+      }
 
       case 'HEN_SWAP_V2': {
         const listingKey = createListingKey(HEN_CONTRACT_MARKETPLACE_V2, event.swap_id);
