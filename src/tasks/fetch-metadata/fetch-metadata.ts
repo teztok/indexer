@@ -62,7 +62,7 @@ export async function downloadFromIpfs(ipfsCid: string) {
 }
 
 export function validateMetadata(metadata: MetadataBase) {
-  assert(metadata, MetadataBaseSchema); // make sure the metadata has the minimum in required fields
+  //assert(metadata, MetadataBaseSchema); // make sure the metadata has the minimum in required fields
 
   const metadataStr = JSON.stringify(metadata);
   const size = metadataStr.length;
