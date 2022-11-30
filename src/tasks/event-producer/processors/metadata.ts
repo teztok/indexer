@@ -1,10 +1,12 @@
 import uniqBy from 'lodash/uniqBy';
+import get from 'lodash/get';
+import isString from 'lodash/isString';
 import { Processor, MetadataEvent } from '../../../types';
 import { getWorkerUtils, getTaskName } from '../../../lib/utils';
 import * as metadataDao from '../../../lib/daos/metadata';
 
 const MetadataProcessor: Processor = {
-  accept: (event) => 'metadata_uri' in event,
+  accept: (event) => isString(get(event, 'metadata_uri')),
 
   exec: async (events) => {
     const uniqEvents: Array<MetadataEvent> = uniqBy(events, (event) => (event as MetadataEvent).metadata_uri) as Array<MetadataEvent>;
