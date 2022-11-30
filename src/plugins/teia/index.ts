@@ -112,6 +112,7 @@ onRebuild(async (type, payload) => {
   }
 
   await db.transaction(async (trx) => {
+    await trx.raw('SET CONSTRAINTS ALL DEFERRED;');
     await trx('teia_users').where('user_address', '=', payload.user_address).del().transacting(trx);
     await trx('teia_users').insert(user).transacting(trx);
   });
@@ -154,6 +155,7 @@ onRebuild(async (type, payload) => {
   };
 
   await db.transaction(async (trx) => {
+    await trx.raw('SET CONSTRAINTS ALL DEFERRED;');
     await trx('teia_split_contracts').where('contract_address', '=', payload.contract_address).del().transacting(trx);
     await trx('teia_shareholders').where('contract_address', '=', payload.contract_address).del().transacting(trx);
 
@@ -207,6 +209,7 @@ onTokenRebuild(async ({ token, events, metadata }) => {
   }
 
   await db.transaction(async (trx) => {
+    await trx.raw('SET CONSTRAINTS ALL DEFERRED;');
     await trx('teia_signatures')
       .where('fa2_address', '=', token.fa2_address)
       .andWhere('token_id', '=', token.token_id)
