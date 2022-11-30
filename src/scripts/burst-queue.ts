@@ -1,3 +1,4 @@
+import '../bootstrap';
 import { produceEvents } from '../tasks/event-producer/event-producer';
 import { rebuild } from '../tasks/rebuild/rebuild';
 import { processMetadata } from '../tasks/fetch-metadata/fetch-metadata';

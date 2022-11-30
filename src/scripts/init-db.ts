@@ -1,3 +1,4 @@
+import '../bootstrap';
 import path from 'path';
 import db from '../lib/db';
 

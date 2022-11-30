@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import '../bootstrap';
 import isNumber from 'lodash/isNumber';
 import minimist from 'minimist';
 import indexer from '../indexer';

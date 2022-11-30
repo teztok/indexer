@@ -1,3 +1,4 @@
+import '../bootstrap';
 import get from 'lodash/get';
 import minimist from 'minimist';
 

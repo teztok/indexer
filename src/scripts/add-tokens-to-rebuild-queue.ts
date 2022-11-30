@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import '../bootstrap';
 import minimist from 'minimist';
 import indexer from '../indexer';
 import { getTaskName } from '../lib/utils';
