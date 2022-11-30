@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import '../bootstrap';
 import minimist from 'minimist';
 import { rebuildToken } from '../tasks/rebuild/rebuild-token';
 

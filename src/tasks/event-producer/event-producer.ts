@@ -161,7 +161,7 @@ const ignoredContractAddressesObj: Record<string, boolean> = config.ignoredContr
   {}
 );
 
-export async function processEvents(events: Array<Event>) {
+export async function processEvents(events: Array<AnyEvent>) {
   for (const processor of processors) {
     const acceptedEvents = events.filter((event) => processor.accept(event));
 
@@ -169,6 +169,8 @@ export async function processEvents(events: Array<Event>) {
       await processor.exec(acceptedEvents);
     }
   }
+
+  await triggerEventsProduced(events);
 }
 
 export async function produceEvents(payload: EventProducerTaskPayload) {
@@ -236,8 +238,6 @@ export async function produceEvents(payload: EventProducerTaskPayload) {
   });
 
   await processEvents(events);
-
-  await triggerEventsProduced(events);
 }
 
 const task: Task = {
