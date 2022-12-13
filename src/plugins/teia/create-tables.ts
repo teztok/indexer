@@ -37,6 +37,7 @@ export default async function createTables() {
       table.string('fa2_address', 36).notNullable();
       table.text('token_id').notNullable();
       table.boolean('is_signed').notNullable();
+      table.text('preview_uri');
       table.jsonb('accessibility');
       table.text('content_rating');
 

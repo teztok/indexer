@@ -13,7 +13,10 @@ import TeiaSplitContractOriginationHandler, {
   TeiaSplitContractOriginationEvent,
 } from './handlers/teia_split_contract_origination';
 import { getWorkerUtils, getTaskName } from '../../lib/utils';
+import { createPreviewImageUri } from './utils';
 import db from '../../lib/db';
+
+require('dotenv').config();
 
 interface User {
   user_address: string;
@@ -208,6 +211,18 @@ onTokenRebuild(async ({ token, events, metadata }) => {
     }
   }
 
+  let previewUri: string | null = null;
+
+  if (process.env.IMGPROXY_SALT && process.env.IMGPROXY_SECRET && process.env.THUMBNAIL_IPFS_GATEWAY) {
+    previewUri = createPreviewImageUri(
+      token,
+      process.env.THUMBNAIL_IPFS_GATEWAY,
+      process.env.IMGPROXY_SALT,
+      process.env.IMGPROXY_SECRET,
+      process.env.IMGPROXY_THUMBNAIL_PARAMS ? process.env.IMGPROXY_THUMBNAIL_PARAMS : '/rs:fit:960:0:true/format:webp/plain/'
+    );
+  }
+
   await db.transaction(async (trx) => {
     await trx.raw('SET CONSTRAINTS ALL DEFERRED;');
     await trx('teia_signatures')
@@ -230,6 +245,7 @@ onTokenRebuild(async ({ token, events, metadata }) => {
         fa2_address: token.fa2_address,
         token_id: token.token_id,
         is_signed: isSigned,
+        preview_uri: previewUri,
         accessibility: isObject(get(metadata, 'accessibility')) ? get(metadata, 'accessibility') : null,
         content_rating: isString(get(metadata, 'contentRating')) ? get(metadata, 'contentRating') : null,
       })

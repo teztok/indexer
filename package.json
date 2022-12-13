@@ -20,6 +20,7 @@
   "dependencies": {
     "@microsoft/signalr": "^6.0.3",
     "@taquito/utils": "^11.0.1",
+    "create-hmac": "^1.1.7",
     "dotenv": "^10.0.0",
     "got": "^11.8.2",
     "graphile-worker": "^0.12.2",
@@ -40,6 +41,7 @@
     "@babel/preset-env": "^7.16.4",
     "@babel/preset-typescript": "^7.16.0",
     "@types/backblaze-b2": "^1.5.1",
+    "@types/create-hmac": "^1.1.0",
     "@types/fluent-ffmpeg": "^2.1.20",
     "@types/gm": "^1.18.11",
     "@types/jest": "^27.0.3",
