@@ -1,6 +1,7 @@
 import get from 'lodash/get';
 import isString from 'lodash/isString';
 import isObject from 'lodash/isObject';
+import uniqBy from 'lodash/uniqBy';
 import difference from 'lodash/difference';
 import { registerTransactionEventHandler, registerOriginationEventHandler, onEventsProduced, onRebuild, onTokenRebuild } from '../plugins';
 import TeiaSubjktRegistryHandler, { EVENT_TYPE_TEIA_SUBJKT_REGISTRY, TeiaSubjktRegistryEvent } from './handlers/teia_subjkt_registry';
@@ -187,11 +188,14 @@ onTokenRebuild(async ({ token, events, metadata }) => {
   ) as Array<TeiaSplitContractSignEvent>;
   let isSigned = false;
 
-  const signatures: Array<Signature> = splitContractSignEvents.map((event) => ({
-    fa2_address: event.fa2_address,
-    token_id: event.token_id,
-    shareholder_address: event.owner_address,
-  }));
+  const signatures: Array<Signature> = uniqBy(
+    splitContractSignEvents.map((event) => ({
+      fa2_address: event.fa2_address,
+      token_id: event.token_id,
+      shareholder_address: event.owner_address,
+    })),
+    'shareholder_address'
+  );
 
   if (token.artist_address && token.artist_address.startsWith('KT')) {
     const latestSplitContractOriginationEvent = await db
