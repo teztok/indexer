@@ -24,6 +24,7 @@ async function run() {
   for (let i = 0; i < tokens.length; i++) {
     const token = tokens[i];
     await indexer.addJob(getTaskName('rebuild'), {
+      type: 'token',
       fa2_address: token.fa2_address,
       token_id: token.token_id,
     });
