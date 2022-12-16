@@ -47,6 +47,19 @@ interface Signature {
   shareholder_address: string;
 }
 
+async function getLatestSplitContractOriginationEvent(contractAddress: string) {
+  return db
+    .select('*')
+    .from('events')
+    .where('type', '=', TEIA_SPLIT_CONTRACT_ORIGINATION)
+    .andWhere('contract_address', '=', contractAddress)
+    .orderBy([
+      { column: 'timestamp', order: 'desc' },
+      { column: 'opid', order: 'desc' },
+    ])
+    .first<TeiaSplitContractOriginationEvent>();
+}
+
 onEventsProduced(async (events) => {
   const workerUtils = await getWorkerUtils();
   const subjkEvents = events.filter(({ type }) =>
@@ -91,8 +104,10 @@ onRebuild(async (type, payload) => {
     .from('events')
     .where('type', '=', EVENT_TYPE_TEIA_SUBJKT_REGISTRY)
     .andWhere('owner_address', '=', payload.user_address)
-    .orderBy('timestamp')
-    .orderBy('opid')
+    .orderBy([
+      { column: 'timestamp', order: 'desc' },
+      { column: 'opid', order: 'desc' },
+    ])
     .first<TeiaSubjktRegistryEvent>();
 
   if (latestSubjktRegistryEvent) {
@@ -101,14 +116,7 @@ onRebuild(async (type, payload) => {
   }
 
   if (payload.user_address.startsWith('KT')) {
-    const latestSplitContractOriginationEvent = await db
-      .select('id')
-      .from('events')
-      .where('type', '=', TEIA_SPLIT_CONTRACT_ORIGINATION)
-      .andWhere('contract_address', '=', payload.user_address)
-      .orderBy('timestamp')
-      .orderBy('opid')
-      .first<TeiaSplitContractOriginationEvent>();
+    const latestSplitContractOriginationEvent = await getLatestSplitContractOriginationEvent(payload.user_address);
 
     if (latestSplitContractOriginationEvent) {
       user.is_split = true;
@@ -128,14 +136,7 @@ onRebuild(async (type, payload) => {
     return;
   }
 
-  const latestSplitContractOriginationEvent = await db
-    .select('*')
-    .from('events')
-    .where('type', '=', TEIA_SPLIT_CONTRACT_ORIGINATION)
-    .andWhere('contract_address', '=', payload.contract_address)
-    .orderBy('timestamp')
-    .orderBy('opid')
-    .first<TeiaSplitContractOriginationEvent>();
+  const latestSplitContractOriginationEvent = await getLatestSplitContractOriginationEvent(payload.contract_address);
 
   const shareholders: Array<Shareholder> = [];
 
@@ -198,14 +199,7 @@ onTokenRebuild(async ({ token, events, metadata }) => {
   );
 
   if (token.artist_address && token.artist_address.startsWith('KT')) {
-    const latestSplitContractOriginationEvent = await db
-      .select('*')
-      .from('events')
-      .where('type', '=', TEIA_SPLIT_CONTRACT_ORIGINATION)
-      .andWhere('contract_address', '=', token.artist_address)
-      .orderBy('timestamp')
-      .orderBy('opid')
-      .first<TeiaSplitContractOriginationEvent>();
+    const latestSplitContractOriginationEvent = await getLatestSplitContractOriginationEvent(token.artist_address);
 
     if (latestSplitContractOriginationEvent) {
       const signaturesRequired = latestSplitContractOriginationEvent.custom_data.core_participants;
