@@ -1,5 +1,7 @@
 import isString from 'lodash/isString';
+import uniq from 'lodash/uniq';
 import createHmac from 'create-hmac';
+import isIPFS from 'is-ipfs';
 import { Token } from '../../types';
 
 const SUPPORTED_IMAGE_MIME_TYPES = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif', 'image/tiff', 'image/webp', 'image/avif'];
@@ -56,4 +58,15 @@ export function createPreviewImageUri(
 
   const signature = sign(path, imgproxySalt, imgproxySecret);
   return `/${signature}${path}`;
+}
+
+export function extractCIDsFromMetadata(metadataUri: string, metadata: any) {
+  const metadataStr = `${metadataUri},${JSON.stringify(metadata)}`;
+  const words = metadataStr.match(/\b(\w+)\b/g);
+
+  if (!words) {
+    return [];
+  }
+
+  return uniq(words.filter((word) => isIPFS.cid(word)));
 }

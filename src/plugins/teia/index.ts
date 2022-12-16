@@ -3,7 +3,15 @@ import isString from 'lodash/isString';
 import isObject from 'lodash/isObject';
 import uniqBy from 'lodash/uniqBy';
 import difference from 'lodash/difference';
-import { registerTransactionEventHandler, registerOriginationEventHandler, onEventsProduced, onRebuild, onTokenRebuild } from '../plugins';
+import got from 'got';
+import {
+  registerTransactionEventHandler,
+  registerOriginationEventHandler,
+  onEventsProduced,
+  onRebuild,
+  onTokenRebuild,
+  onMetadataFetched,
+} from '../plugins';
 import TeiaSubjktRegistryHandler, { EVENT_TYPE_TEIA_SUBJKT_REGISTRY, TeiaSubjktRegistryEvent } from './handlers/teia_subjkt_registry';
 import TeiaSplitContractSignHandler, {
   TeiaSplitContractSignEvent,
@@ -14,7 +22,7 @@ import TeiaSplitContractOriginationHandler, {
   TeiaSplitContractOriginationEvent,
 } from './handlers/teia_split_contract_origination';
 import { getWorkerUtils, getTaskName } from '../../lib/utils';
-import { createPreviewImageUri } from './utils';
+import { createPreviewImageUri, extractCIDsFromMetadata } from './utils';
 import db from '../../lib/db';
 
 require('dotenv').config();
@@ -249,6 +257,33 @@ onTokenRebuild(async ({ token, events, metadata }) => {
       })
       .transacting(trx);
   });
+});
+
+onMetadataFetched(async (metadataUri, metadata) => {
+  if (!process.env.PINNING_ENDPOINT) {
+    return;
+  }
+
+  const CIDs = extractCIDsFromMetadata(metadataUri, metadata);
+
+  if (!CIDs.length) {
+    return;
+  }
+
+  const headers: Record<string, string> = {};
+
+  if (process.env.PINNING_ENDPOINT_ACCESS_TOKEN) {
+    headers['Authorization'] = `Bearer ${process.env.PINNING_ENDPOINT_ACCESS_TOKEN}`;
+  }
+
+  for (const cid of CIDs) {
+    await got.post(process.env.PINNING_ENDPOINT, {
+      json: {
+        cid,
+      },
+      headers,
+    });
+  }
 });
 
 registerTransactionEventHandler(TeiaSubjktRegistryHandler);
