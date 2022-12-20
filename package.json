@@ -20,6 +20,7 @@
   "dependencies": {
     "@microsoft/signalr": "^6.0.3",
     "@taquito/utils": "^11.0.1",
+    "axios": "^1.2.1",
     "create-hmac": "^1.1.7",
     "dotenv": "^10.0.0",
     "got": "^11.8.2",

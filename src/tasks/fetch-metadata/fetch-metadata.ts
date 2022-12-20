@@ -1,69 +1,35 @@
 import '../../bootstrap';
-import { assert } from 'superstruct';
-import got from 'got';
 import { run, JobHelpers } from 'graphile-worker';
-import { pipeline } from 'stream/promises';
 import dbConfig from '../../knexfile';
 import { Task, MetadataBase } from '../../types';
-import { MetadataBaseSchema } from '../../lib/schemas';
 import { getWorkerUtils, getTaskName } from '../../lib/utils';
 import logger from '../../lib/logger';
-import ipfsClient from '../../lib/ipfs-client';
+import axios from 'axios';
 import * as metadataDao from '../../lib/daos/metadata';
 import * as tokensDao from '../../lib/daos/tokens';
 import config from '../../lib/config';
 import { triggerMetadataFetched } from '../../plugins/plugins';
 
+require('dotenv').config();
+
 interface FetchMetadataTaskPayload {
   metadata_uri: string;
 }
 
-export async function downloadFromIpfs(ipfsCid: string) {
-  const ac = new AbortController();
-  let timeoutReached = false;
-  let data = '';
+async function downloadMetadata(url: string) {
+  const { data } = await axios.get(url, {
+    timeout: config.fetchMetadataTimeout,
+    maxContentLength: config.metadataMaxFilesize,
+  });
 
-  const timer = setTimeout(() => {
-    timeoutReached = true;
-    ac.abort();
-  }, config.fetchMetadataTimeout);
+  return data;
+}
 
-  try {
-    await pipeline(ipfsClient.cat(ipfsCid, { signal: ac.signal }), async function* (source) {
-      let size = 0;
-
-      for await (const chunk of source) {
-        size += chunk.length;
-        data += chunk.toString();
-
-        if (size > config.metadataMaxFilesize) {
-          ac.abort();
-        }
-
-        yield chunk;
-      }
-    });
-
-    if (!data) {
-      throw new Error('invalid metadata');
-    }
-    clearTimeout(timer);
-
-    return data;
-  } catch (err) {
-    clearTimeout(timer);
-
-    if (timeoutReached) {
-      throw new Error('timeout reached');
-    }
-
-    throw err;
-  }
+export async function downloadMetadataFromIpfs(ipfsCid: string) {
+  return downloadMetadata(`${process.env.IPFS_GATEWAY}${process.env.IPFS_GATEWAY?.endsWith('/') ? '' : '/'}${ipfsCid}`);
 }
 
 export function validateMetadata(metadata: MetadataBase) {
-  //assert(metadata, MetadataBaseSchema); // make sure the metadata has the minimum in required fields
-
   const metadataStr = JSON.stringify(metadata);
   const size = metadataStr.length;
 
@@ -82,11 +48,9 @@ export async function processMetadata(payload: FetchMetadataTaskPayload, helpers
 
     if (metadataUriLowerCased.startsWith('ipfs://')) {
       const ipfsHash = metadataUri.substr(7);
-      const metadataRaw = await downloadFromIpfs(ipfsHash);
-
-      metadata = JSON.parse(metadataRaw as string);
+      metadata = await downloadMetadataFromIpfs(ipfsHash);
     } else if (metadataUriLowerCased.startsWith('http://') || metadataUriLowerCased.startsWith('https://')) {
-      metadata = await got(metadataUri, { timeout: { request: 3000 } }).json();
+      metadata = await downloadMetadata(metadataUriLowerCased);
     } else {
       // unsupported format
       await metadataDao.update(metadataUri, 'error');
