@@ -15,7 +15,7 @@ const CONTRACT_TO_BIGMAP: Record<string, number> = {
 
 export interface ObjktConcludeEnglishAuctionEvent extends TokenEvent {
   type: typeof EVENT_TYPE_OBJKT_CONCLUDE_ENGLISH_AUCTION;
-  implements: SaleEventInterface;
+  implements?: SaleEventInterface;
   seller_address: string;
   buyer_address: string;
   artist_address: string;
@@ -89,7 +89,6 @@ const ObjktConcludeEnglishAuctionHandler: TransactionHandler<ObjktConcludeEnglis
     const event: ObjktConcludeEnglishAuctionEvent = {
       id,
       type: EVENT_TYPE_OBJKT_CONCLUDE_ENGLISH_AUCTION,
-      implements: SALE_INTERFACE,
       opid: String(transaction.id),
       ophash: transaction.hash,
       timestamp: transaction.timestamp,
@@ -108,6 +107,10 @@ const ObjktConcludeEnglishAuctionHandler: TransactionHandler<ObjktConcludeEnglis
       auction_id: auctionId,
       price: currentPrice,
     };
+
+    if (sellerAddress !== highestBidderAddress) {
+      event.implements = SALE_INTERFACE;
+    }
 
     assert(omit(event, ['type', 'implements']), ObjktConcludeEnglishAuctionEventSchema);
 

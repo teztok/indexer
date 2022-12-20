@@ -122,6 +122,63 @@ test('creates OBJKT_CONCLUDE_ENGLISH_AUCTION events', async () => {
         },
       ],
     },
+    {
+      id: 358449097474048,
+      level: 2815177,
+      timestamp: '2022-10-21T14:49:44Z',
+      block: 'BLdZNBc9MrSisCzp48UEAXiBfQLWoJDJdiwW8VBZ3BNh5LvYx3U',
+      hash: 'ooykUjfrLxUauhYqXZCWWcanVxEm6R4Xoj7fSztmMvtJZbMm4iu',
+      counter: 49985453,
+      sender: {
+        address: 'tz1PLNscHFFHxYZLXnaeSxDqnC7pvM5Ran6E',
+      },
+      target: {
+        alias: 'objkt.com English Auctions',
+        address: 'KT1XjcRq5MLAzMKQ3UHsrue2SeU2NbxUrzmU',
+      },
+      amount: 0,
+      parameter: {
+        entrypoint: 'conclude_auction',
+        value: '81920',
+      },
+      status: 'applied',
+      hasInternals: true,
+      initiator: null,
+      storage: {
+        admin: 'KT19kCpYFxrNPegMBYKKH44szaqv8offqBRz',
+        auctions: 6210,
+        metadata: 6211,
+        auction_id: '81921',
+        management_fee: '25',
+      },
+      diffs: [
+        {
+          bigmap: 6210,
+          path: 'auctions',
+          action: 'update_key',
+          content: {
+            hash: 'expruH2y4bGaEoYRiHu99HitMa3Ki6rRkvzY8RuVcQXJVtSswwECh6',
+            key: '81920',
+            value: {
+              fa2: 'KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton',
+              state: '2',
+              artist: 'tz1hQVph4YyhG8ecTfZbeFFRFt7MCRUvm2SQ',
+              creator: 'tz1fUF5sZ8MThzwxyCLHpveJUyztxtQ5d8rJ',
+              reserve: '100000000',
+              end_time: '2022-05-02T23:18:12Z',
+              objkt_id: '726538',
+              royalties: '100',
+              start_time: '2022-05-01T23:18:12Z',
+              current_price: '0',
+              extension_time: '600',
+              highest_bidder: 'tz1fUF5sZ8MThzwxyCLHpveJUyztxtQ5d8rJ',
+              price_increment: '1000000',
+            },
+          },
+        },
+      ],
+      nonce: null,
+    },
   ];
 
   const events = transactionsToEvents(transactions, [ObjktConcludeEnglishAuctionHandler]);
@@ -173,6 +230,28 @@ test('creates OBJKT_CONCLUDE_ENGLISH_AUCTION events', async () => {
       royalties: '100',
       price_increment: '1000000',
       auction_id: '10060',
+    },
+
+    {
+      artist_address: 'tz1hQVph4YyhG8ecTfZbeFFRFt7MCRUvm2SQ',
+      auction_id: '81920',
+      buyer_address: 'tz1fUF5sZ8MThzwxyCLHpveJUyztxtQ5d8rJ',
+      end_time: '2022-05-02T23:18:12Z',
+      extension_time: '600',
+      fa2_address: 'KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton',
+      id: '83cd1deeaebbd186ed0899f28f679619',
+      level: 2815177,
+      ophash: 'ooykUjfrLxUauhYqXZCWWcanVxEm6R4Xoj7fSztmMvtJZbMm4iu',
+      opid: '358449097474048',
+      price: '0',
+      price_increment: '1000000',
+      reserve: '100000000',
+      royalties: '100',
+      seller_address: 'tz1fUF5sZ8MThzwxyCLHpveJUyztxtQ5d8rJ',
+      start_time: '2022-05-01T23:18:12Z',
+      timestamp: '2022-10-21T14:49:44Z',
+      token_id: '726538',
+      type: 'OBJKT_CONCLUDE_ENGLISH_AUCTION',
     },
   ]);
 });
