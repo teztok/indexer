@@ -1,29 +1,66 @@
 import { createPreviewImageUri, extractCIDsFromMetadata } from './utils';
 
 test('creates signed preview thumbnail uris', async () => {
-  expect(createPreviewImageUri({ display_uri: 'ipfs://foo' } as any, 'https://cache.teia.rocks/ipfs', 'my-salt', 'my-secret')).toBe(
-    '/3gUWoL8w6YynENEDd_tFlLwm5F-ZLIrhAcUiYUXrs0M/rs:fit:960:0:true/format:webp/plain/https://cache.teia.rocks/ipfs/foo'
-  );
   expect(
     createPreviewImageUri(
-      { artifact_uri: 'ipfs://bar', mime_type: 'image/jpeg' } as any,
+      'ipfs://foo',
+      null,
+      null,
+      null,
       'https://cache.teia.rocks/ipfs',
       'my-salt',
-      'my-secret'
+      'my-secret',
+      '/rs:fit:640:0:true/format:webp/plain/'
     )
-  ).toBe('/Dh_5ZvWq4c0rpbfiYF3ETVeF0jGqQhBxlC1MVepO8aE/rs:fit:960:0:true/format:webp/plain/https://cache.teia.rocks/ipfs/bar');
+  ).toBe('/ydwWOGkO9y0QBk0giDfzTNXfMZleb7DdjLafDIwLRS8/rs:fit:640:0:true/format:webp/plain/https://cache.teia.rocks/ipfs/foo');
   expect(
     createPreviewImageUri(
-      { artifact_uri: 'ipfs://bar', mime_type: 'not_supported' } as any,
+      null,
+      'ipfs://bar',
+      null,
+      'image/jpeg',
       'https://cache.teia.rocks/ipfs',
       'my-salt',
-      'my-secret'
+      'my-secret',
+      '/rs:fit:640:0:true/format:webp/plain/'
+    )
+  ).toBe('/4iqDkdN8FFSnFMwXJRumxB-YgGsommmQ3kbGimnbwPc/rs:fit:640:0:true/format:webp/plain/https://cache.teia.rocks/ipfs/bar');
+  expect(
+    createPreviewImageUri(
+      null,
+      'ipfs://bar',
+      null,
+      'not_supported',
+      'https://cache.teia.rocks/ipfs',
+      'my-salt',
+      'my-secret',
+      '/rs:fit:640:0:true/format:webp/plain/'
     )
   ).toBe(null);
-  expect(createPreviewImageUri({ thumbnail_uri: 'ipfs://baz' } as any, 'https://cache.teia.rocks/ipfs', 'my-salt', 'my-secret')).toBe(
-    '/YhvQ5-LsRXZ9yjrN3D-D_jcEtpZSKmp9u0FvyZQSgjc/rs:fit:960:0:true/format:webp/plain/https://cache.teia.rocks/ipfs/baz'
-  );
-  expect(createPreviewImageUri({ thumbnail_uri: 'baz' } as any, 'https://cache.teia.rocks/ipfs', 'my-salt', 'my-secret')).toBe(null);
+  expect(
+    createPreviewImageUri(
+      null,
+      null,
+      'ipfs://baz',
+      null,
+      'https://cache.teia.rocks/ipfs',
+      'my-salt',
+      'my-secret',
+      '/rs:fit:640:0:true/format:webp/plain/'
+    )
+  ).toBe('/gcNVj6SXyd7U4JMUUfMp-9cxwYz72mY0u71oO1pW8Hw/rs:fit:640:0:true/format:webp/plain/https://cache.teia.rocks/ipfs/baz');
+  expect(
+    createPreviewImageUri(
+      null,
+      null,
+      'baz',
+      null,
+      'https://cache.teia.rocks/ipfs',
+      'my-salt',
+      'my-secret',
+      '/rs:fit:640:0:true/format:webp/plain/'
+    )
+  ).toBe(null);
 });
 
 test('extracts all CIDs from a metadata json', async () => {

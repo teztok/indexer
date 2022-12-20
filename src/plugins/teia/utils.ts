@@ -2,7 +2,6 @@ import isString from 'lodash/isString';
 import uniq from 'lodash/uniq';
 import createHmac from 'create-hmac';
 import isIPFS from 'is-ipfs';
-import { Token } from '../../types';
 
 const SUPPORTED_IMAGE_MIME_TYPES = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif', 'image/tiff', 'image/webp', 'image/avif'];
 
@@ -28,20 +27,23 @@ const sign = (input: string, salt: string, secret: string) => {
 };
 
 export function createPreviewImageUri(
-  token: Token,
+  displayUri: string | null,
+  artifactUri: string | null,
+  thumbnailUri: string | null,
+  mimeType: string | null,
   ipfsGatewayUri: string,
   imgproxySalt: string,
   imgproxySecret: string,
-  imgproxyParams: string = '/rs:fit:960:0:true/format:webp/plain/'
+  imgproxyParams: string
 ) {
   let sourceUri = null;
 
-  if (token.display_uri) {
-    sourceUri = token.display_uri;
-  } else if (token.mime_type && isSupportedImageMimeType(token.mime_type)) {
-    sourceUri = token.artifact_uri;
-  } else if (token.thumbnail_uri) {
-    sourceUri = token.thumbnail_uri;
+  if (displayUri) {
+    sourceUri = displayUri;
+  } else if (mimeType && isSupportedImageMimeType(mimeType)) {
+    sourceUri = artifactUri;
+  } else if (thumbnailUri) {
+    sourceUri = thumbnailUri;
   }
 
   if (isString(sourceUri)) {

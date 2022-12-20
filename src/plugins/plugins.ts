@@ -21,7 +21,7 @@ type MetadataFetchedListener = (metadataUri: string, metadata: any) => Promise<a
 
 export const transactionHandlers: Array<TransactionHandler<AnyEvent>> = [];
 export const originationHandlers: Array<OriginationHandler<AnyEvent>> = [];
-const tasks: Array<Task> = [];
+export const tasks: Array<Task> = [];
 
 const rebuildListeners: Array<RebuildListener> = [];
 const tokenRebuildListeners: Array<TokenRebuildListener> = [];
