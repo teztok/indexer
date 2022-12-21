@@ -704,6 +704,76 @@ test('creates SET_METADATA events', async () => {
       ],
       nonce: null,
     },
+    {
+      id: 410828946800640,
+      level: 2982497,
+      timestamp: '2022-12-19T09:08:59Z',
+      block: 'BKrUrUpqiLBZ7jtBkwNq4fG3yNUfHcj9NTLxNbWxBzyyb1zwzs1',
+      hash: 'ooh8Q27x78Fyjx1D146qETso7qrFHvoW9zqDJveKrMYMZn9rfoB',
+      counter: 87103317,
+      sender: {
+        address: 'tz2WbetYprSXdP5JfxEcYecmv7FmJKUNtByf',
+      },
+      target: {
+        alias: 'The Keys of Manchester United digital collectibles',
+        address: 'KT1V7QCmuKpGsThwCNRALmsVfDAYopV98EEL',
+      },
+      amount: 0,
+      parameter: {
+        entrypoint: 'create_token',
+        value: {
+          token_id: '1588037',
+          token_info: {
+            '': '74657a6f732d73746f726167653a61',
+          },
+        },
+      },
+      status: 'applied',
+      hasInternals: false,
+      initiator: null,
+      storage: {
+        admin: {
+          admin: 'tz2WbetYprSXdP5JfxEcYecmv7FmJKUNtByf',
+          paused: false,
+          pending_admin: null,
+        },
+        assets: {
+          ledger: 347453,
+          operators: 347454,
+          token_metadata: 347455,
+          token_total_supply: 347456,
+        },
+        metadata: 347457,
+      },
+      diffs: [
+        {
+          bigmap: 347456,
+          path: 'assets.token_total_supply',
+          action: 'add_key',
+          content: {
+            hash: 'expruMe7HF1KFFqDSY4dwQzxT4Wff4JQxv18cZneiCNymwAQSpdyGt',
+            key: '1588037',
+            value: '0',
+          },
+        },
+        {
+          bigmap: 347455,
+          path: 'assets.token_metadata',
+          action: 'add_key',
+          content: {
+            hash: 'expruMe7HF1KFFqDSY4dwQzxT4Wff4JQxv18cZneiCNymwAQSpdyGt',
+            key: '1588037',
+            value: {
+              token_id: '1588037',
+              token_info: {
+                '': '74657a6f732d73746f726167653a61',
+              },
+            },
+          },
+        },
+      ],
+      nonce: null,
+    },
   ];
 
   const events = transactionsToEvents(transactions, [SetMetadataHandler]);

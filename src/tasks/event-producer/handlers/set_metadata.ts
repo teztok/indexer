@@ -107,6 +107,11 @@ const SetMetadataHandler: Handler<Transaction, SetMetadataEvent> = {
 
           if (is(diff.content.value, TokenMetadataDiffOffchainSchema)) {
             metadataUri = normalizeMetadataIpfsUri(Buffer.from(get(diff, 'content.value.token_info.'), 'hex').toString());
+
+            if (metadataUri.startsWith('tezos-storage')) {
+              // TODO: add support for tokens that use tezos-storage (e.g. manchester united token tokens)
+              return false;
+            }
           } else {
             for (const [key, val] of Object.entries(get(diff, 'content.value.token_info'))) {
               const str = Buffer.from(val as string, 'hex')
