@@ -34,7 +34,7 @@ import { Task } from '../../types';
 
 require('dotenv').config();
 
-const DEFAULT_THUMBNAIL_PARAMS = '/rs:fit:640:0:true/format:webp/plain/';
+const DEFAULT_THUMBNAIL_PARAMS = '/rs:fit:640:0:false/format:webp/plain/';
 
 interface User {
   user_address: string;
