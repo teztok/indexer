@@ -10,9 +10,9 @@ test('creates signed preview thumbnail uris', async () => {
       'https://cache.teia.rocks/ipfs',
       'my-salt',
       'my-secret',
-      '/rs:fit:640:0:true/format:webp/plain/'
+      '/rs:fit:640:0:false/format:webp/plain/'
     )
-  ).toBe('/ydwWOGkO9y0QBk0giDfzTNXfMZleb7DdjLafDIwLRS8/rs:fit:640:0:true/format:webp/plain/https://cache.teia.rocks/ipfs/foo');
+  ).toBe('/4cgojqZO7Ws3pSXE_-ICor0syBcuKdO4ksbLBtrK-_s/rs:fit:640:0:false/format:webp/plain/https://cache.teia.rocks/ipfs/foo');
   expect(
     createPreviewImageUri(
       null,
@@ -22,9 +22,9 @@ test('creates signed preview thumbnail uris', async () => {
       'https://cache.teia.rocks/ipfs',
       'my-salt',
       'my-secret',
-      '/rs:fit:640:0:true/format:webp/plain/'
+      '/rs:fit:640:0:false/format:webp/plain/'
     )
-  ).toBe('/4iqDkdN8FFSnFMwXJRumxB-YgGsommmQ3kbGimnbwPc/rs:fit:640:0:true/format:webp/plain/https://cache.teia.rocks/ipfs/bar');
+  ).toBe('/92dJEzhySjNjzliHlcN0jaleGDRsmWfHJRwhH1rEi1o/rs:fit:640:0:false/format:webp/plain/https://cache.teia.rocks/ipfs/bar');
   expect(
     createPreviewImageUri(
       null,
@@ -34,7 +34,7 @@ test('creates signed preview thumbnail uris', async () => {
       'https://cache.teia.rocks/ipfs',
       'my-salt',
       'my-secret',
-      '/rs:fit:640:0:true/format:webp/plain/'
+      '/rs:fit:640:0:false/format:webp/plain/'
     )
   ).toBe(null);
   expect(
@@ -46,9 +46,9 @@ test('creates signed preview thumbnail uris', async () => {
       'https://cache.teia.rocks/ipfs',
       'my-salt',
       'my-secret',
-      '/rs:fit:640:0:true/format:webp/plain/'
+      '/rs:fit:640:0:false/format:webp/plain/'
     )
-  ).toBe('/gcNVj6SXyd7U4JMUUfMp-9cxwYz72mY0u71oO1pW8Hw/rs:fit:640:0:true/format:webp/plain/https://cache.teia.rocks/ipfs/baz');
+  ).toBe('/bSMP9Uva51OKcI29UJ_ccVLbXFVOdVuenTtPkqLpdbs/rs:fit:640:0:false/format:webp/plain/https://cache.teia.rocks/ipfs/baz');
   expect(
     createPreviewImageUri(
       null,
@@ -58,9 +58,21 @@ test('creates signed preview thumbnail uris', async () => {
       'https://cache.teia.rocks/ipfs',
       'my-salt',
       'my-secret',
-      '/rs:fit:640:0:true/format:webp/plain/'
+      '/rs:fit:640:0:false/format:webp/plain/'
     )
   ).toBe(null);
+  expect(
+    createPreviewImageUri(
+      null,
+      null,
+      'ipfs://baz',
+      null,
+      'https://cache.teia.rocks/ipfs',
+      'my-salt',
+      'my-secret',
+      '/rs:fit:640:0:false/format:webp/plain/'
+    )
+  ).toBe('/bSMP9Uva51OKcI29UJ_ccVLbXFVOdVuenTtPkqLpdbs/rs:fit:640:0:false/format:webp/plain/https://cache.teia.rocks/ipfs/baz');
 });
 
 test('extracts all CIDs from a metadata json', async () => {
