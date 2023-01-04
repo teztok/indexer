@@ -6,7 +6,7 @@ export default {
     process.env.POSTGRES_PORT
   }/${process.env.POSTGRES_DB}`,
   pool: {
-    min: 2,
+    min: 0,
     max: 4,
   },
   migrations: {
