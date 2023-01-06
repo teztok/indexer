@@ -1125,7 +1125,7 @@ export function compileToken(fa2Address: string, tokenId: string, events: Array<
   }
 
   const lastEvent = events.length ? events[events.length - 1] : null;
-  const listingsArr = orderBy(Object.values(listings), ({ price }) => price);
+  const listingsArr = orderBy(Object.values(listings), ({ price }) => parseInt(price, 10));
   const activeListings = listingsArr.filter(({ status }) => status === 'active');
   const objktAskV2Listings = listingsArr.filter(({ type }) => type === 'OBJKT_ASK_V2') as Array<ObjktListingV2>;
 
@@ -1250,7 +1250,7 @@ export function compileToken(fa2Address: string, tokenId: string, events: Array<
     lowest_sales_price: lowestSalePrice,
     first_sales_price: firstSalePrice,
 
-    lowest_price_listing: activeListings.length ? activeListings[0] : null,
+    lowest_price_listing: cheapestListing ? cheapestListing : null,
 
     current_price_to_last_sales_price_diff: calcPriceDiff(cheapestPrice, lastSalePrice),
     current_price_to_last_sales_price_pct: calcPricePct(cheapestPrice, lastSalePrice),
