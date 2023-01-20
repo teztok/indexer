@@ -31,6 +31,8 @@ const KalamintListTokenHandler: TransactionHandler<KalamintListTokenEvent> = {
 
   type: EVENT_TYPE_KALAMINT_LIST_TOKEN,
 
+  description: `A token was listed for sale on Kalamint.`,
+
   accept: {
     entrypoint: 'list_token',
     target_address: KALAMINT_CONTRACT_FA2,

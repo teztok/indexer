@@ -34,6 +34,8 @@ const EightscriboCancelSwapHandler: TransactionHandler<EightscriboCancelSwapEven
 
   type: EVENT_TYPE_8SCRIBO_CANCEL_SWAP,
 
+  description: `A swap was canceled on 8SCRIBO.`,
+
   accept: (transaction) => {
     if (
       !transactionMatchesPattern(transaction, {

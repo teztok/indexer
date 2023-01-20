@@ -37,6 +37,8 @@ const TypedSwapHandler: TransactionHandler<TypedSwapEvent> = {
 
   type: EVENT_TYPE_TYPED_SWAP,
 
+  description: `A token was swapped on typed (marketplace contract: KT1VoZeuBMJF6vxtLqEFMoc4no5VDG789D7z).`,
+
   accept: {
     entrypoint: 'swap',
     target_address: TYPED_CONTRACT_MARKETPLACE,

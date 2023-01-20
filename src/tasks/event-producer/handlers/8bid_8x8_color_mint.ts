@@ -45,6 +45,8 @@ const EightbidMint8x8ColorHandler: TransactionHandler<EightbidMint8x8ColorEvent>
 
   type: EVENT_TYPE_8BID_8X8_COLOR_MINT,
 
+  description: `An 8x8 color token was minted on 8bidou.`,
+
   accept: {
     entrypoint: 'mint',
     target_address: EIGHTBIDOU_8X8_COLOR_CONTRACT_FA2,

@@ -43,6 +43,8 @@ const ObjktCreateDutchAuctionHandler: TransactionHandler<ObjktCreateDutchAuction
 
   type: EVENT_TYPE_OBJKT_CREATE_DUTCH_AUCTION,
 
+  description: `A dutch auction was created on objkt.com (marketplace contract: KT1ET45vnyEFMLS9wX1dYHEs9aCN3twDEiQw or KT1QJ71jypKGgyTNtXjkCAYJZNhCKWiHuT2r).`,
+
   accept: (transaction) => {
     return (
       transactionMatchesPattern(transaction, {

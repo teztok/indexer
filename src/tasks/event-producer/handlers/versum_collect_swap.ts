@@ -43,6 +43,8 @@ const VersumCollectSwapHandler: TransactionHandler<VersumCollectEvent> = {
 
   type: EVENT_TYPE_VERSUM_COLLECT_SWAP,
 
+  description: `A token was collected on versum (marketplace contract: KT1GyRAJNdizF1nojQz62uGYkx8WFRUJm9X5).`,
+
   accept: {
     entrypoint: 'collect_swap',
     target_address: VERSUM_CONTRACT_MARKETPLACE,

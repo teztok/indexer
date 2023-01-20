@@ -38,6 +38,8 @@ const TypedCollectHandler: TransactionHandler<TypedCollectEvent> = {
 
   type: EVENT_TYPE_TYPED_COLLECT,
 
+  description: `A token was collected on typed (marketplace contract: KT1VoZeuBMJF6vxtLqEFMoc4no5VDG789D7z).`,
+
   accept: (transaction) => {
     if (
       !transactionMatchesPattern(transaction, {

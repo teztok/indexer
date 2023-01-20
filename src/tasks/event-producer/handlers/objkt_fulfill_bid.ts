@@ -38,6 +38,8 @@ const ObjktFulfillBidHandler: TransactionHandler<ObjktFulfillBidEvent> = {
 
   type: EVENT_TYPE_OBJKT_FULFILL_BID,
 
+  description: `A bid (also known as an offer) was fulfilled on objkt.com (marketplace contract: KT1FvqJwEDWb1Gwc55Jd1jjTHRVWbYKUUpyq).`,
+
   accept: {
     entrypoint: 'fulfill_bid',
     target_address: OBJKT_CONTRACT_MARKETPLACE,

@@ -34,6 +34,8 @@ const TypedCancelSwapHandler: TransactionHandler<TypedCancelSwapEvent> = {
 
   type: EVENT_TYPE_TYPED_CANCEL_SWAP,
 
+  description: `A swap was canceled on typed (marketplace contract: KT1VoZeuBMJF6vxtLqEFMoc4no5VDG789D7z).`,
+
   accept: (transaction) => {
     if (
       !transactionMatchesPattern(transaction, {

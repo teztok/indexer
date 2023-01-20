@@ -150,6 +150,8 @@ export interface TransactionHandler<E extends Event> {
 
   type: string;
 
+  description: string;
+
   accept: TransactionAcceptFn | Pattern | Patterns;
 
   exec: (transaction: Transaction, operation: Operation) => E | Array<E>;
@@ -159,6 +161,8 @@ export interface OriginationHandler<E extends Event> {
   source: 'origination';
 
   type: string;
+
+  description: string;
 
   accept: OriginationAcceptFn;
 

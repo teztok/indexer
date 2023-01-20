@@ -53,6 +53,8 @@ const ObjktBuyDutchAuctionHandler: TransactionHandler<ObjktBuyDutchAuctionEvent>
 
   type: EVENT_TYPE_OBJKT_BUY_DUTCH_AUCTION,
 
+  description: `A token that was auctioned through a dutch auction was bought on objkt.com (marketplace contract: KT1ET45vnyEFMLS9wX1dYHEs9aCN3twDEiQw or KT1QJ71jypKGgyTNtXjkCAYJZNhCKWiHuT2r).`,
+
   accept: (transaction) => {
     return (
       transactionMatchesPattern(transaction, {

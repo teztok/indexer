@@ -39,6 +39,8 @@ const EightbidBuy8x8ColorHandler: TransactionHandler<EightbidBuy8x8ColorEvent> =
 
   type: EVENT_TYPE_8BID_8X8_COLOR_BUY,
 
+  description: `An 8x8 color token was bought on 8bidou.`,
+
   accept: {
     entrypoint: 'buy',
     target_address: EIGHTBIDOU_8X8_COLOR_CONTRACT_MARKETPLACE,

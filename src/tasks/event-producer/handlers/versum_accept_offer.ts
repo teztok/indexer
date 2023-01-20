@@ -40,6 +40,8 @@ const VersumAcceptOfferHandler: TransactionHandler<VersumAcceptOfferEvent> = {
 
   type: EVENT_TYPE_VERSUM_ACCEPT_OFFER,
 
+  description: `An offer was accepted on versum (marketplace contract: KT1GyRAJNdizF1nojQz62uGYkx8WFRUJm9X5).`,
+
   accept: {
     entrypoint: 'accept_offer',
     target_address: VERSUM_CONTRACT_MARKETPLACE,

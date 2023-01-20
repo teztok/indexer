@@ -43,6 +43,8 @@ const EightscriboMintHandler: TransactionHandler<EightscriboMintEvent> = {
 
   type: EVENT_TYPE_8SCRIBO_MINT,
 
+  description: `A token was minted on 8SCRIBO.`,
+
   accept: {
     entrypoint: 'mint_haiku',
     target_address: EIGHTSCRIBO_CONTRACT_FA2,

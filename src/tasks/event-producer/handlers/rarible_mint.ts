@@ -36,6 +36,8 @@ const RaribleMintHandler: TransactionHandler<RaribleMintEvent> = {
 
   type: EVENT_TYPE_RARIBLE_MINT,
 
+  description: `A token was minted on rarible.`,
+
   accept: {
     entrypoint: 'mint',
     target_address: RARIBLE_CONTRACT_FA2,

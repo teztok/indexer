@@ -35,6 +35,8 @@ const ObjktRetractOfferHandler: TransactionHandler<ObjktRetractOfferEvent> = {
 
   type: EVENT_TYPE_OBJKT_RETRACT_OFFER,
 
+  description: `An offer was canceled on objkt.com (marketplace contract: KT1WvzYHCNBvDSdwafTHv7nJ1dWmZ8GCYuuC).`,
+
   accept: (transaction) => {
     if (
       !transactionMatchesPattern(transaction, {

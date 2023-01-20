@@ -39,6 +39,8 @@ const VersumCreateAuctionHandler: TransactionHandler<VersumCreateAuctionEvent> =
 
   type: EVENT_TYPE_VERSUM_CREATE_AUCTION,
 
+  description: `An auction was created on versum.`,
+
   accept: {
     entrypoint: 'create_auction',
     target_address: VERSUM_CONTRACT_MARKETPLACE,

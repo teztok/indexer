@@ -36,6 +36,8 @@ const FxListingAcceptHandler: TransactionHandler<FxListingAcceptEvent> = {
 
   type: EVENT_TYPE_FX_LISTING_ACCEPT,
 
+  description: `A listing was accepted on fxhash (marketplace contract: KT1GbyoDi7H1sfXmimXpptZJuCdHMh66WS9u).`,
+
   accept: {
     entrypoint: 'listing_accept',
     target_address: FX_CONTRACT_MARKETPLACE_V3,

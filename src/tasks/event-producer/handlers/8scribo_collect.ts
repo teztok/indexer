@@ -38,6 +38,8 @@ const EightscriboCollectHandler: TransactionHandler<EightscriboCollectEvent> = {
 
   type: EVENT_TYPE_8SCRIBO_COLLECT,
 
+  description: `A token was collected on 8SCRIBO.`,
+
   accept: (transaction) => {
     if (
       !transactionMatchesPattern(transaction, {

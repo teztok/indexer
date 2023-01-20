@@ -34,6 +34,8 @@ const TeiaSubjktRegistryHandler: TransactionHandler<TeiaSubjktRegistryEvent> = {
 
   type: EVENT_TYPE_TEIA_SUBJKT_REGISTRY,
 
+  description: `A hic et nunc user was created.`,
+
   accept: {
     entrypoint: 'registry',
     target_address: HEN_SUBJKT_REGISTRY_ADDRESS,

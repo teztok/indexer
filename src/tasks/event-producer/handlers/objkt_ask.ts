@@ -39,6 +39,8 @@ const ObjktAskHandler: TransactionHandler<ObjktAskEvent> = {
 
   type: EVENT_TYPE_OBJKT_ASK,
 
+  description: `An ask was created on objkt.com (marketplace contract: KT1FvqJwEDWb1Gwc55Jd1jjTHRVWbYKUUpyq).`,
+
   accept: {
     entrypoint: 'ask',
     target_address: OBJKT_CONTRACT_MARKETPLACE,

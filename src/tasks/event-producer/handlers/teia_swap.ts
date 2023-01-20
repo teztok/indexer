@@ -40,6 +40,8 @@ const TeiaSwapHandler: TransactionHandler<TeiaSwapEvent> = {
 
   type: EVENT_TYPE_TEIA_SWAP,
 
+  description: `A token was swapped on the Teia marketplace contract (marketplace contract: KT1PHubm9HtyQEJ4BBpMTVomq6mhbfNZ9z5w).`,
+
   accept: {
     entrypoint: 'swap',
     target_address: TEIA_CONTRACT_MARKETPLACE,

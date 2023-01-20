@@ -65,6 +65,8 @@ const SetMetadataHandler: TransactionHandler<SetMetadataEvent> = {
 
   type: EVENT_TYPE_SET_METADATA,
 
+  description: `The metadata URI of a token was updated. This event usually also fires during the mint of a token.`,
+
   accept: (transaction) => {
     const isUnderStorage = is(get(transaction, 'storage'), TokenStorageSchema);
     const isUnderAssets = is(get(transaction, 'storage.assets'), TokenStorageSchema);

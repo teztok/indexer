@@ -37,6 +37,8 @@ const VersumCancelOfferHandler: TransactionHandler<VersumCancelOfferEvent> = {
 
   type: EVENT_TYPE_VERSUM_CANCEL_OFFER,
 
+  description: `An offer was canceled on versum (marketplace contract: KT1GyRAJNdizF1nojQz62uGYkx8WFRUJm9X5).`,
+
   accept: {
     entrypoint: 'cancel_offer',
     target_address: VERSUM_CONTRACT_MARKETPLACE,

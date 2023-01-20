@@ -39,6 +39,8 @@ const HenSwapHandler: TransactionHandler<HenSwapV2Event> = {
 
   type: EVENT_TYPE_HEN_SWAP_V2,
 
+  description: `A token was swapped on the second version of the hic et nunc marketplace contract (marketplace contract: KT1HbQepzV1nVGg8QVznG7z4RcHseD5kwqBn).`,
+
   accept: {
     entrypoint: 'swap',
     target_address: HEN_CONTRACT_MARKETPLACE_V2,

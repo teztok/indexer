@@ -48,6 +48,8 @@ const ObjktCancelDutchAuctionHandler: TransactionHandler<ObjktCancelDutchAuction
 
   type: EVENT_TYPE_OBJKT_CANCEL_DUTCH_AUCTION,
 
+  description: `A dutch auction was canceled on objkt.com (marketplace contract: KT1ET45vnyEFMLS9wX1dYHEs9aCN3twDEiQw or KT1QJ71jypKGgyTNtXjkCAYJZNhCKWiHuT2r).`,
+
   accept: (transaction) => {
     return (
       transactionMatchesPattern(transaction, {

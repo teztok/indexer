@@ -45,6 +45,8 @@ const EightbidMint24x24MonochromeHandler: TransactionHandler<EightbidMint24x24Mo
 
   type: EVENT_TYPE_8BID_24X24_MONOCHROME_MINT,
 
+  description: `A 24x24 monochrome token was minted on 8bidou.`,
+
   accept: {
     entrypoint: 'mint',
     target_address: EIGHTBIDOU_24X24_MONOCHROME_CONTRACT_FA2,

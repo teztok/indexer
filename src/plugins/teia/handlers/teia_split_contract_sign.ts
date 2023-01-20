@@ -29,6 +29,8 @@ const TeiaSplitContractSignHandler: TransactionHandler<TeiaSplitContractSignEven
 
   type: EVENT_TYPE_TEIA_SPLIT_CONTRACT_SIGN,
 
+  description: `A participant of a split contract signed a token on teia.`,
+
   accept: {
     entrypoint: 'sign',
     target_address: SIGN_CONTRACT_ADDRESS,

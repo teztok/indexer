@@ -38,6 +38,8 @@ const FxOfferHandler: TransactionHandler<FxOfferV3Event> = {
     target_address: FX_CONTRACT_MARKETPLACE_V3,
   },
 
+  description: `An offer was created on fxhash (marketplace contract: KT1GbyoDi7H1sfXmimXpptZJuCdHMh66WS9u).`,
+
   exec: (transaction) => {
     const price = String(get(transaction, 'amount'));
     const tokenId = get(transaction, 'parameter.value.gentk.id');

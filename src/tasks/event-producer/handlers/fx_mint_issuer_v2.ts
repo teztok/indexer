@@ -41,6 +41,8 @@ const FxMintIssuerV2Handler: TransactionHandler<FxMintIssuerV2Event> = {
 
   type: EVENT_TYPE_FX_MINT_ISSUER_V2,
 
+  description: `A generator was created on fxhash (contract: KT1XCoGnfupWk7Sp8536EfrxcP73LmT68Nyr).`,
+
   accept: {
     entrypoint: 'mint_issuer',
     target_address: FX_CONTRACT_MINT_V2,

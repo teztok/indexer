@@ -51,6 +51,8 @@ const Fa2TransferHandler: TransactionHandler<Fa2TransferEvent> = {
 
   type: EVENT_TYPE_FA2_TRANSFER,
 
+  description: `A token got transferred from one Tezos account to another.`,
+
   accept: (transaction) => {
     if (get(transaction, 'parameter.entrypoint') !== 'transfer') {
       return false;

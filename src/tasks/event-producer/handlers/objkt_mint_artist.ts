@@ -35,6 +35,8 @@ const HenMintHandler: TransactionHandler<ObjktMintArtistEvent> = {
 
   type: EVENT_TYPE_OBJKT_MINT_ARTIST,
 
+  description: `A token was minted in an artist collection on objkt.com.`,
+
   accept: [
     {
       entrypoint: 'mint_artist',

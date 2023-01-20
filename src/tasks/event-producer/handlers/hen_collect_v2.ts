@@ -38,6 +38,8 @@ const HenMintHandler: TransactionHandler<HenCollectV2Event> = {
 
   type: EVENT_TYPE_HEN_COLLECT_V2,
 
+  description: `A token was collected on the second version of the hic et nunc marketplace contract (marketplace contract: KT1HbQepzV1nVGg8QVznG7z4RcHseD5kwqBn).`,
+
   accept: (transaction) => {
     if (
       !transactionMatchesPattern(transaction, {
