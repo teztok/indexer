@@ -37,6 +37,8 @@ const VersumMintHandler: TransactionHandler<VersumMintEvent> = {
 
   type: EVENT_TYPE_VERSUM_MINT,
 
+  description: `A token was minted on versum.`,
+
   accept: {
     entrypoint: 'mint',
     target_address: VERSUM_CONTRACT_FA2,

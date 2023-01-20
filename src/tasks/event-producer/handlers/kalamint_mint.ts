@@ -44,6 +44,8 @@ const KalamintMintHandler: TransactionHandler<KalamintMintEvent> = {
 
   type: EVENT_TYPE_KALAMINT_MINT,
 
+  description: `A token was minted on Kalamint.`,
+
   accept: {
     entrypoint: 'mint',
     target_address: KALAMINT_CONTRACT_FA2,

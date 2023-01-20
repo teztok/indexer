@@ -37,6 +37,8 @@ const FxOfferHandler: TransactionHandler<FxOfferEvent> = {
 
   type: EVENT_TYPE_FX_OFFER,
 
+  description: `An offer was created on fxhash. In this case, the offer is like a swap or an ask. (marketplace contract: KT1Xo5B7PNBAeynZPmca4bRh6LQow4og1Zb9).`,
+
   accept: {
     entrypoint: 'offer',
     target_address: FX_CONTRACT_MARKETPLACE,

@@ -35,6 +35,8 @@ const TypedMintHandler: TransactionHandler<TypedMintEvent> = {
 
   type: EVENT_TYPE_TYPED_MINT,
 
+  description: `A token was minted on typed.`,
+
   accept: [
     {
       entrypoint: 'mint_TYPED',

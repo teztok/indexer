@@ -30,6 +30,8 @@ const KalamintDelistTokenHandler: TransactionHandler<KalamintDelistTokenEvent> =
 
   type: EVENT_TYPE_KALAMINT_DELIST_TOKEN,
 
+  description: `A token was delisted on Kalamint.`,
+
   accept: {
     entrypoint: 'delist_token',
     target_address: KALAMINT_CONTRACT_FA2,

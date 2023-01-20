@@ -33,6 +33,8 @@ const FxCancelOfferHandler: TransactionHandler<FxCancelOfferEvent> = {
 
   type: EVENT_TYPE_FX_CANCEL_OFFER,
 
+  description: `An offer was canceled on fxhash. In this case, the offer is like a swap or an ask. (marketplace contract: KT1Xo5B7PNBAeynZPmca4bRh6LQow4og1Zb9).`,
+
   accept: {
     entrypoint: 'cancel_offer',
     target_address: FX_CONTRACT_MARKETPLACE,

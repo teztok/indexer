@@ -54,6 +54,8 @@ const ObjktCancelEnglishAuctionHandler: TransactionHandler<ObjktCancelEnglishAuc
 
   type: EVENT_TYPE_OBJKT_CANCEL_ENGLISH_AUCTION,
 
+  description: `An english auction was canceled on objkt.com (marketplace contract: KT1ET45vnyEFMLS9wX1dYHEs9aCN3twDEiQw or KT1QJ71jypKGgyTNtXjkCAYJZNhCKWiHuT2r).`,
+
   accept: (transaction) => {
     return (
       transactionMatchesPattern(transaction, {

@@ -40,6 +40,8 @@ const EightscriboSwapHandler: TransactionHandler<EightscriboSwapEvent> = {
 
   type: EVENT_TYPE_8SCRIBO_SWAP,
 
+  description: `A token was swapped on 8SCRIBO.`,
+
   accept: {
     entrypoint: 'swap',
     target_address: EIGHTSCRIBO_CONTRACT_MARKETPLACE,

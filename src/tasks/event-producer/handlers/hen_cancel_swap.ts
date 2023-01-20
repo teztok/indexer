@@ -31,6 +31,8 @@ const HenSwapHandler: TransactionHandler<HenCancelSwapEvent> = {
 
   type: EVENT_TYPE_HEN_CANCEL_SWAP,
 
+  description: `A swap on the first version of the hic et nunc marketplace contract was canceled (marketplace contract: KT1Hkg5qeNhfwpKW4fXvq7HGZB9z2EnmCCA9).`,
+
   accept: (transaction) => {
     if (
       !transactionMatchesPattern(transaction, {

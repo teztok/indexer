@@ -43,6 +43,8 @@ const VersumSwapHandler: TransactionHandler<VersumSwapEvent> = {
 
   type: EVENT_TYPE_VERSUM_SWAP,
 
+  description: `A token was swapped on versum (marketplace contract: KT1GyRAJNdizF1nojQz62uGYkx8WFRUJm9X5).`,
+
   accept: {
     entrypoint: 'create_swap',
     target_address: VERSUM_CONTRACT_MARKETPLACE,

@@ -34,6 +34,8 @@ const KalamintBuyHandler: TransactionHandler<KalamintBuyEvent> = {
 
   type: EVENT_TYPE_KALAMINT_BUY,
 
+  description: `A token was bought on Kalamint.`,
+
   accept: {
     entrypoint: 'buy',
     target_address: KALAMINT_CONTRACT_FA2,

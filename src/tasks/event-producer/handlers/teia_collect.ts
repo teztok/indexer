@@ -38,6 +38,8 @@ const TeiaCollectHandler: TransactionHandler<TeiaCollectEvent> = {
 
   type: EVENT_TYPE_TEIA_COLLECT,
 
+  description: `A token was collected on the Teia marketplace contract (marketplace contract: KT1PHubm9HtyQEJ4BBpMTVomq6mhbfNZ9z5w).`,
+
   accept: (transaction) => {
     if (
       !transactionMatchesPattern(transaction, {

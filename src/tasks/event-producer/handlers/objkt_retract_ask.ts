@@ -33,6 +33,8 @@ const ObjktRetractAskHandler: TransactionHandler<ObjktRetractAskEvent> = {
 
   type: EVENT_TYPE_OBJKT_RETRACT_ASK,
 
+  description: `An ask was cancelled on objkt.com (marketplace contract: KT1FvqJwEDWb1Gwc55Jd1jjTHRVWbYKUUpyq).`,
+
   accept: {
     entrypoint: 'retract_ask',
     target_address: OBJKT_CONTRACT_MARKETPLACE,

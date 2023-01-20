@@ -40,6 +40,8 @@ const ObjktAskHandler: TransactionHandler<ObjktOfferEvent> = {
 
   type: EVENT_TYPE_OBJKT_OFFER,
 
+  description: `An offer was created on objkt.com (marketplace contract: KT1WvzYHCNBvDSdwafTHv7nJ1dWmZ8GCYuuC).`,
+
   accept: (transaction) => {
     if (
       !transactionMatchesPattern(transaction, {

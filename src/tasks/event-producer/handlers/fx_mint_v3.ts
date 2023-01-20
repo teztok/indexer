@@ -48,6 +48,8 @@ const FxMintIssuerHandler: TransactionHandler<FxMintV3Event> = {
 
   type: EVENT_TYPE_FX_MINT_V3,
 
+  description: `A token was minted on fxhash (mint contract: KT1BJC12dG17CVvPKJ1VYaNnaT5mzfnUTwXv).`,
+
   accept: [
     {
       entrypoint: 'mint',

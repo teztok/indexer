@@ -37,6 +37,8 @@ const VersumMakeOfferHandler: TransactionHandler<VersumMakeOfferEvent> = {
 
   type: EVENT_TYPE_VERSUM_MAKE_OFFER,
 
+  description: `An offer was created on versum (marketplace contract: KT1GyRAJNdizF1nojQz62uGYkx8WFRUJm9X5).`,
+
   accept: {
     entrypoint: 'make_offer',
     target_address: VERSUM_CONTRACT_MARKETPLACE,

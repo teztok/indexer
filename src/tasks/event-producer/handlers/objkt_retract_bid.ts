@@ -33,6 +33,8 @@ const ObjktRetractBidHandler: TransactionHandler<ObjktRetractBidEvent> = {
 
   type: EVENT_TYPE_OBJKT_RETRACT_BID,
 
+  description: `A bid (also known as an offer) was canceled on objkt.com (marketplace contract: KT1FvqJwEDWb1Gwc55Jd1jjTHRVWbYKUUpyq).`,
+
   accept: {
     entrypoint: 'retract_bid',
     target_address: OBJKT_CONTRACT_MARKETPLACE,

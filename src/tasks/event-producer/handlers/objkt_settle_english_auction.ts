@@ -50,6 +50,8 @@ const ObjktSettleEnglishAuctionHandler: TransactionHandler<ObjktSettleEnglishAuc
 
   type: EVENT_TYPE_OBJKT_SETTLE_ENGLISH_AUCTION,
 
+  description: `An English auction was settled on objkt.com. Either the token was bought or the auction ended without a sale. (marketplace contract: KT18p94vjkkHYY3nPmernmgVR7HdZFzE7NAk).`,
+
   accept: {
     entrypoint: 'settle_auction',
     target_address: OBJKT_CONTRACT_ENGLISH_AUCTION_V2,

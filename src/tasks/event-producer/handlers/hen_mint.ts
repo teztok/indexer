@@ -38,6 +38,8 @@ const HenMintHandler: TransactionHandler<HenMintEvent> = {
 
   type: EVENT_TYPE_HEN_MINT,
 
+  description: `A token was minted on hic et nunc.`,
+
   accept: [
     {
       entrypoint: 'mint_OBJKT',

@@ -36,6 +36,8 @@ const FxOfferAcceptV3Handler: TransactionHandler<FxOfferAcceptV3Event> = {
 
   type: EVENT_TYPE_FX_OFFER_ACCEPT_V3,
 
+  description: `An offer was accepted on fxhash (marketplace contract: KT1GbyoDi7H1sfXmimXpptZJuCdHMh66WS9u).`,
+
   accept: {
     entrypoint: 'offer_accept',
     target_address: FX_CONTRACT_MARKETPLACE_V3,

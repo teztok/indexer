@@ -34,6 +34,8 @@ const EightbidCancelSwap8x8ColorEvent: TransactionHandler<EightbidCancelSwap24x2
 
   type: EVENT_TYPE_8BID_24X24_COLOR_CANCEL_SWAP,
 
+  description: `A swap of a 24x24 color token was canceled on 8bidou.`,
+
   accept: {
     entrypoint: 'cancelswap',
     target_address: EIGHTBIDOU_24X24_COLOR_CONTRACT_MARKETPLACE,

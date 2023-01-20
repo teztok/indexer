@@ -40,6 +40,8 @@ const EightbidBuy24x24ColorHandler: TransactionHandler<EightbidBuy24x24ColorEven
 
   type: EVENT_TYPE_8BID_24X24_COLOR_BUY,
 
+  description: `A 24x24 color token was bought on 8bidou.`,
+
   accept: {
     entrypoint: 'buy',
     target_address: EIGHTBIDOU_24X24_COLOR_CONTRACT_MARKETPLACE,

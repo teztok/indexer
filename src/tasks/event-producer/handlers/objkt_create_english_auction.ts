@@ -46,6 +46,8 @@ const ObjktCreateEnglishAuctionHandler: TransactionHandler<ObjktCreateEnglishAuc
 
   type: EVENT_TYPE_OBJKT_CREATE_ENGLISH_AUCTION,
 
+  description: `An english auction was created on objkt.com (marketplace contract: KT1Wvk8fon9SgNEPQKewoSL2ziGGuCQebqZc or KT1XjcRq5MLAzMKQ3UHsrue2SeU2NbxUrzmU).`,
+
   accept: (transaction) => {
     return (
       transactionMatchesPattern(transaction, {

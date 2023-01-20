@@ -58,6 +58,8 @@ const ObjktBidEnglishAuctionHandler: TransactionHandler<ObjktBidEnglishAuctionEv
 
   type: EVENT_TYPE_OBJKT_BID_ENGLISH_AUCTION,
 
+  description: `A bid on an English auction on objkt.com was made (marketplace contract: KT1Wvk8fon9SgNEPQKewoSL2ziGGuCQebqZc or KT1XjcRq5MLAzMKQ3UHsrue2SeU2NbxUrzmU).`,
+
   accept: (transaction) => {
     return (
       transactionMatchesPattern(transaction, {

@@ -27,6 +27,8 @@ const KalamintRegisterAuctionHandler: TransactionHandler<KalamintRegisterAuction
 
   type: EVENT_TYPE_KALAMINT_REGISTER_AUCTION,
 
+  description: `An auction was created on Kalamint.`,
+
   accept: {
     entrypoint: 'register_auction',
     target_address: KALAMINT_CONTRACT_FA2,

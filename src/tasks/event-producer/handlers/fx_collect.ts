@@ -37,6 +37,8 @@ const FxCollectHandler: TransactionHandler<FxCollectEvent> = {
 
   type: EVENT_TYPE_FX_COLLECT,
 
+  description: `A token was collected on fxhash (marketplace contract: KT1Xo5B7PNBAeynZPmca4bRh6LQow4og1Zb9).`,
+
   accept: {
     entrypoint: 'collect',
     target_address: FX_CONTRACT_MARKETPLACE,

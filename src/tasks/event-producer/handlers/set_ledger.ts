@@ -91,6 +91,8 @@ const SetLedgerHandler: TransactionHandler<SetLedgerEvent> = {
 
   type: EVENT_TYPE_SET_LEDGER,
 
+  description: `The balance of a ledger entry got updated. This happens for example when editions of a token get transferred.`,
+
   accept: (transaction) => {
     const isUnderStorage = is(get(transaction, 'storage'), TokenStorageSchema);
     const isUnderAssets = is(get(transaction, 'storage.assets'), TokenStorageSchema);

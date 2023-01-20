@@ -37,6 +37,8 @@ const ObjktBidHandler: TransactionHandler<ObjktBidEvent> = {
 
   type: EVENT_TYPE_OBJKT_BID,
 
+  description: `A bid (also known as an offer) was created on objkt.com (marketplace contract: KT1FvqJwEDWb1Gwc55Jd1jjTHRVWbYKUUpyq).`,
+
   accept: {
     entrypoint: 'bid',
     target_address: OBJKT_CONTRACT_MARKETPLACE,

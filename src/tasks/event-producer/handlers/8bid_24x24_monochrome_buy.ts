@@ -40,6 +40,8 @@ const EightbidBuy24x24MonochromeHandler: TransactionHandler<EightbidBuy24x24Mono
 
   type: EVENT_TYPE_8BID_24X24_MONOCHROME_BUY,
 
+  description: `A 24x24 monochrome token was bought on 8bidou.`,
+
   accept: {
     entrypoint: 'buy',
     target_address: EIGHTBIDOU_24X24_MONOCHROME_CONTRACT_MARKETPLACE,

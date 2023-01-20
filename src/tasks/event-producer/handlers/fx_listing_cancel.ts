@@ -31,6 +31,8 @@ const FxListingCancelHandler: TransactionHandler<FxListingCancelEvent> = {
 
   type: EVENT_TYPE_FX_LISTING_CANCEL,
 
+  description: `A listing was canceled on fxhash (marketplace contract: KT1GbyoDi7H1sfXmimXpptZJuCdHMh66WS9u).`,
+
   accept: {
     entrypoint: 'listing_cancel',
     target_address: FX_CONTRACT_MARKETPLACE_V3,

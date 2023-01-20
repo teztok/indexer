@@ -38,6 +38,8 @@ const ObjktFulfillAskV2Handler: TransactionHandler<ObjktFulfillAskV2Event> = {
 
   type: EVENT_TYPE_OBJKT_FULFILL_ASK_V2,
 
+  description: `An ask was fulfilled on objkt.com (marketplace contract: KT1WvzYHCNBvDSdwafTHv7nJ1dWmZ8GCYuuC).`,
+
   accept: {
     entrypoint: 'fulfill_ask',
     target_address: OBJKT_CONTRACT_MARKETPLACE_V2,

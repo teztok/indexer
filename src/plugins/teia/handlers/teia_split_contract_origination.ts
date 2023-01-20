@@ -40,6 +40,8 @@ const TeiaSplitContractOriginationHandler: OriginationHandler<TeiaSplitContractO
 
   type: TEIA_SPLIT_CONTRACT_ORIGINATION,
 
+  description: `A split contract was created on teia.`,
+
   accept: (origination) => {
     return (
       get(origination, 'sender.address') === SPLIT_CONTRACT_FACTORY_ADDRESS &&

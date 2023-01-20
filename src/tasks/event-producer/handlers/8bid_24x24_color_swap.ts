@@ -40,6 +40,8 @@ const EightbidSwap8x8ColorHandler: TransactionHandler<EightbidSwap24x24ColorEven
 
   type: EVENT_TYPE_8BID_24X24_COLOR_SWAP,
 
+  description: `A 24x24 color token was swapped on 8bidou.`,
+
   accept: {
     entrypoint: 'swap',
     target_address: EIGHTBIDOU_24X24_COLOR_CONTRACT_MARKETPLACE,

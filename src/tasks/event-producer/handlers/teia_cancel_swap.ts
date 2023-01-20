@@ -34,6 +34,8 @@ const TeiaCancelSwapHandler: TransactionHandler<TeiaCancelSwapEvent> = {
 
   type: EVENT_TYPE_TEIA_CANCEL_SWAP,
 
+  description: `A swap on the Teia marketplace contract was canceled (marketplace contract: KT1PHubm9HtyQEJ4BBpMTVomq6mhbfNZ9z5w).`,
+
   accept: (transaction) => {
     if (
       !transactionMatchesPattern(transaction, {
