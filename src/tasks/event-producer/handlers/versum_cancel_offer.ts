@@ -2,9 +2,10 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, Describe, optional } from 'superstruct';
 import { ContractAddress, TezosAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
-import { TransactionHandler, TokenEvent, Transaction } from '../../../types';
+import { TransactionHandler, TokenEvent } from '../../../types';
 import { findDiff, createEventId } from '../../../lib/utils';
 import { VERSUM_CONTRACT_MARKETPLACE } from '../../../consts';
+import { tokenEventFields, buyerAddressField, artistAddressField, offerIdField, amountField, priceField } from '../event-fields-meta';
 
 export const EVENT_TYPE_VERSUM_CANCEL_OFFER = 'VERSUM_CANCEL_OFFER';
 
@@ -37,7 +38,10 @@ const VersumCancelOfferHandler: TransactionHandler<VersumCancelOfferEvent> = {
 
   type: EVENT_TYPE_VERSUM_CANCEL_OFFER,
 
-  description: `An offer was canceled on versum (marketplace contract: KT1GyRAJNdizF1nojQz62uGYkx8WFRUJm9X5).`,
+  meta: {
+    eventDescription: `An offer was canceled on versum (marketplace contract: KT1GyRAJNdizF1nojQz62uGYkx8WFRUJm9X5).`,
+    eventFields: [...tokenEventFields, buyerAddressField, artistAddressField, offerIdField, amountField, priceField],
+  },
 
   accept: {
     entrypoint: 'cancel_offer',

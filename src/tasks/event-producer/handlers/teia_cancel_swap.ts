@@ -2,9 +2,10 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, Describe } from 'superstruct';
 import { ContractAddress, TezosAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
-import { TransactionHandler, TokenEvent, Transaction } from '../../../types';
+import { TransactionHandler, TokenEvent } from '../../../types';
 import { findDiff, transactionMatchesPattern, createEventId } from '../../../lib/utils';
 import { TEIA_CONTRACT_MARKETPLACE } from '../../../consts';
+import { tokenEventFields, sellerAddressField, artistAddressField, swapIdField } from '../event-fields-meta';
 
 export const EVENT_TYPE_TEIA_CANCEL_SWAP = 'TEIA_CANCEL_SWAP';
 
@@ -34,7 +35,10 @@ const TeiaCancelSwapHandler: TransactionHandler<TeiaCancelSwapEvent> = {
 
   type: EVENT_TYPE_TEIA_CANCEL_SWAP,
 
-  description: `A swap on the Teia marketplace contract was canceled (marketplace contract: KT1PHubm9HtyQEJ4BBpMTVomq6mhbfNZ9z5w).`,
+  meta: {
+    eventDescription: `A swap on the Teia marketplace contract was canceled (marketplace contract: KT1PHubm9HtyQEJ4BBpMTVomq6mhbfNZ9z5w).`,
+    eventFields: [...tokenEventFields, sellerAddressField, artistAddressField, swapIdField],
+  },
 
   accept: (transaction) => {
     if (

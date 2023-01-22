@@ -2,9 +2,10 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, Describe } from 'superstruct';
 import { TezosAddress, ContractAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
-import { TransactionHandler, TokenEvent, Transaction } from '../../../types';
+import { TransactionHandler, TokenEvent } from '../../../types';
 import { createEventId } from '../../../lib/utils';
 import { OBJKT_CONTRACT_MARKETPLACE } from '../../../consts';
+import { tokenEventFields, bidIdField, buyerAddressField, artistAddressField, royaltiesField, priceField } from '../event-fields-meta';
 
 export const EVENT_TYPE_OBJKT_BID = 'OBJKT_BID';
 
@@ -37,7 +38,10 @@ const ObjktBidHandler: TransactionHandler<ObjktBidEvent> = {
 
   type: EVENT_TYPE_OBJKT_BID,
 
-  description: `A bid (also known as an offer) was created on objkt.com (marketplace contract: KT1FvqJwEDWb1Gwc55Jd1jjTHRVWbYKUUpyq).`,
+  meta: {
+    eventDescription: `A bid (also known as an offer) was created on objkt.com (marketplace contract: KT1FvqJwEDWb1Gwc55Jd1jjTHRVWbYKUUpyq).`,
+    eventFields: [...tokenEventFields, bidIdField, buyerAddressField, artistAddressField, royaltiesField, priceField],
+  },
 
   accept: {
     entrypoint: 'bid',

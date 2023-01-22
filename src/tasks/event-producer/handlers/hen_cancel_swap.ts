@@ -2,9 +2,10 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, Describe } from 'superstruct';
 import { IsoDateString, PositiveInteger, ContractAddress, TezosAddress, PgBigInt } from '../../../lib/validators';
-import { TransactionHandler, TokenEvent, Transaction } from '../../../types';
+import { TransactionHandler, TokenEvent } from '../../../types';
 import { findDiff, transactionMatchesPattern, createEventId } from '../../../lib/utils';
 import { HEN_CONTRACT_MARKETPLACE } from '../../../consts';
+import { tokenEventFields, sellerAddressField, swapIdField } from '../event-fields-meta';
 
 export const EVENT_TYPE_HEN_CANCEL_SWAP = 'HEN_CANCEL_SWAP';
 
@@ -20,9 +21,9 @@ const HenSwapEventSchema: Describe<Omit<HenCancelSwapEvent, 'type'>> = object({
   timestamp: IsoDateString,
   level: PositiveInteger,
   fa2_address: ContractAddress,
-  seller_address: TezosAddress,
   token_id: string(),
   ophash: string(),
+  seller_address: TezosAddress,
   swap_id: PgBigInt,
 });
 
@@ -31,7 +32,10 @@ const HenSwapHandler: TransactionHandler<HenCancelSwapEvent> = {
 
   type: EVENT_TYPE_HEN_CANCEL_SWAP,
 
-  description: `A swap on the first version of the hic et nunc marketplace contract was canceled (marketplace contract: KT1Hkg5qeNhfwpKW4fXvq7HGZB9z2EnmCCA9).`,
+  meta: {
+    eventDescription: `A swap on the first version of the hic et nunc marketplace contract was canceled (marketplace contract: KT1Hkg5qeNhfwpKW4fXvq7HGZB9z2EnmCCA9).`,
+    eventFields: [...tokenEventFields, sellerAddressField, swapIdField],
+  },
 
   accept: (transaction) => {
     if (

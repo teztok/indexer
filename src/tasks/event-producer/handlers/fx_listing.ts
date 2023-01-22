@@ -2,9 +2,10 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, Describe } from 'superstruct';
 import { TezosAddress, ContractAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
-import { TransactionHandler, TokenEvent, Transaction } from '../../../types';
+import { TransactionHandler, TokenEvent } from '../../../types';
 import { createEventId } from '../../../lib/utils';
 import { FX_CONTRACT_MARKETPLACE_V3, GENTK_VERSION_TO_FA2_CONTRACT_MAPPING } from '../../../consts';
+import { tokenEventFields, sellerAddressField, swapIdField, priceField } from '../event-fields-meta';
 
 export const EVENT_TYPE_FX_LISTING = 'FX_LISTING';
 
@@ -33,7 +34,10 @@ const FxOfferHandler: TransactionHandler<FxListingEvent> = {
 
   type: EVENT_TYPE_FX_LISTING,
 
-  description: `A listing was created on fxhash (marketplace contract: KT1GbyoDi7H1sfXmimXpptZJuCdHMh66WS9u).`,
+  meta: {
+    eventDescription: `A listing was created on fxhash (marketplace contract: KT1GbyoDi7H1sfXmimXpptZJuCdHMh66WS9u).`,
+    eventFields: [...tokenEventFields, sellerAddressField, swapIdField, priceField],
+  },
 
   accept: {
     entrypoint: 'listing',

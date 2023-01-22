@@ -3,9 +3,18 @@ import omit from 'lodash/omit';
 import { assert, object, string, boolean, Describe } from 'superstruct';
 import { TezosAddress, ContractAddress, IsoDateString, MetadataUri, PositiveInteger, PgBigInt } from '../../../lib/validators';
 import { RoyaltySharesSchema } from '../../../lib/schemas';
-import { TransactionHandler, MintEvent, Transaction, RoyaltyShares } from '../../../types';
+import { TransactionHandler, MintEvent, RoyaltyShares } from '../../../types';
 import { createEventId, splitsToRoyaltyShares } from '../../../lib/utils';
 import { VERSUM_CONTRACT_FA2 } from '../../../consts';
+import {
+  tokenEventFields,
+  artistAddressField,
+  isVerifiedArtistField,
+  royaltiesField,
+  editionsField,
+  metadataUriField,
+  royaltySharesField,
+} from '../event-fields-meta';
 
 export const EVENT_TYPE_VERSUM_MINT = 'VERSUM_MINT';
 
@@ -37,7 +46,18 @@ const VersumMintHandler: TransactionHandler<VersumMintEvent> = {
 
   type: EVENT_TYPE_VERSUM_MINT,
 
-  description: `A token was minted on versum.`,
+  meta: {
+    eventDescription: `A token was minted on versum.`,
+    eventFields: [
+      ...tokenEventFields,
+      artistAddressField,
+      isVerifiedArtistField,
+      royaltiesField,
+      editionsField,
+      metadataUriField,
+      royaltySharesField,
+    ],
+  },
 
   accept: {
     entrypoint: 'mint',

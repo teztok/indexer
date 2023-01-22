@@ -3,9 +3,17 @@ import omit from 'lodash/omit';
 import { assert, object, string, boolean, Describe } from 'superstruct';
 import { TezosAddress, ContractAddress, IsoDateString, MetadataUri, PositiveInteger, PgBigInt } from '../../../lib/validators';
 import { normalizeMetadataIpfsUri } from '../../../lib/utils';
-import { TransactionHandler, MintEvent, Transaction } from '../../../types';
+import { TransactionHandler, MintEvent } from '../../../types';
 import { createEventId } from '../../../lib/utils';
 import { OBJKT_CONTRACT_MINTING_FACTORY } from '../../../consts';
+import {
+  tokenEventFields,
+  artistAddressField,
+  isVerifiedArtistField,
+  collectionIdField,
+  editionsField,
+  metadataUriField,
+} from '../event-fields-meta';
 
 export const EVENT_TYPE_OBJKT_MINT_ARTIST = 'OBJKT_MINT_ARTIST';
 
@@ -35,7 +43,10 @@ const HenMintHandler: TransactionHandler<ObjktMintArtistEvent> = {
 
   type: EVENT_TYPE_OBJKT_MINT_ARTIST,
 
-  description: `A token was minted in an artist collection on objkt.com.`,
+  meta: {
+    eventDescription: `A token was minted in an artist collection on objkt.com.`,
+    eventFields: [...tokenEventFields, artistAddressField, isVerifiedArtistField, collectionIdField, editionsField, metadataUriField],
+  },
 
   accept: [
     {

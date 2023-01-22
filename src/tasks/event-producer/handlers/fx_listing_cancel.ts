@@ -5,6 +5,7 @@ import { ContractAddress, TezosAddress, IsoDateString, PositiveInteger, PgBigInt
 import { TransactionHandler, TokenEvent, Transaction } from '../../../types';
 import { findDiff, createEventId } from '../../../lib/utils';
 import { FX_CONTRACT_MARKETPLACE_V3, GENTK_VERSION_TO_FA2_CONTRACT_MAPPING } from '../../../consts';
+import { tokenEventFields, swapIdField } from '../event-fields-meta';
 
 export const EVENT_TYPE_FX_LISTING_CANCEL = 'FX_LISTING_CANCEL';
 
@@ -31,7 +32,10 @@ const FxListingCancelHandler: TransactionHandler<FxListingCancelEvent> = {
 
   type: EVENT_TYPE_FX_LISTING_CANCEL,
 
-  description: `A listing was canceled on fxhash (marketplace contract: KT1GbyoDi7H1sfXmimXpptZJuCdHMh66WS9u).`,
+  meta: {
+    eventDescription: `A listing was canceled on fxhash (marketplace contract: KT1GbyoDi7H1sfXmimXpptZJuCdHMh66WS9u).`,
+    eventFields: [...tokenEventFields, swapIdField],
+  },
 
   accept: {
     entrypoint: 'listing_cancel',

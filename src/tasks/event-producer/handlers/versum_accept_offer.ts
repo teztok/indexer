@@ -2,9 +2,10 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, Describe, optional } from 'superstruct';
 import { TezosAddress, ContractAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
-import { TransactionHandler, TokenEvent, Transaction, SaleEventInterface } from '../../../types';
+import { TransactionHandler, TokenEvent, SaleEventInterface } from '../../../types';
 import { createEventId, findDiff } from '../../../lib/utils';
 import { VERSUM_CONTRACT_MARKETPLACE, SALE_INTERFACE } from '../../../consts';
+import { tokenSaleEventFields, artistAddressField, offerIdField, amountField } from '../event-fields-meta';
 
 export const EVENT_TYPE_VERSUM_ACCEPT_OFFER = 'VERSUM_ACCEPT_OFFER';
 
@@ -40,7 +41,10 @@ const VersumAcceptOfferHandler: TransactionHandler<VersumAcceptOfferEvent> = {
 
   type: EVENT_TYPE_VERSUM_ACCEPT_OFFER,
 
-  description: `An offer was accepted on versum (marketplace contract: KT1GyRAJNdizF1nojQz62uGYkx8WFRUJm9X5).`,
+  meta: {
+    eventDescription: `An offer was accepted on versum (marketplace contract: KT1GyRAJNdizF1nojQz62uGYkx8WFRUJm9X5).`,
+    eventFields: [...tokenSaleEventFields, artistAddressField, offerIdField, amountField],
+  },
 
   accept: {
     entrypoint: 'accept_offer',

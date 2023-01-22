@@ -6,6 +6,7 @@ import { TransactionHandler, TokenEvent, SaleEventInterface } from '../../../typ
 import { createEventId, findDiff } from '../../../lib/utils';
 import logger from '../../../lib/logger';
 import { EIGHTBIDOU_8X8_COLOR_CONTRACT_MARKETPLACE, SALE_INTERFACE } from '../../../consts';
+import { tokenSaleEventFields, artistAddressField, swapIdField } from '../event-fields-meta';
 
 export const EVENT_TYPE_8BID_8X8_COLOR_BUY = '8BID_8X8_COLOR_BUY';
 
@@ -39,7 +40,10 @@ const EightbidBuy8x8ColorHandler: TransactionHandler<EightbidBuy8x8ColorEvent> =
 
   type: EVENT_TYPE_8BID_8X8_COLOR_BUY,
 
-  description: `An 8x8 color token was bought on 8bidou.`,
+  meta: {
+    eventDescription: `An 8x8 color token was bought on 8bidou.`,
+    eventFields: [...tokenSaleEventFields, artistAddressField, swapIdField],
+  },
 
   accept: {
     entrypoint: 'buy',

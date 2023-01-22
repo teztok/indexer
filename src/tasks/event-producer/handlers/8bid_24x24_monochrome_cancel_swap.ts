@@ -5,6 +5,7 @@ import { ContractAddress, TezosAddress, IsoDateString, PositiveInteger, PgBigInt
 import { TransactionHandler, TokenEvent, Transaction } from '../../../types';
 import { findDiff, createEventId } from '../../../lib/utils';
 import { EIGHTBIDOU_24X24_MONOCHROME_CONTRACT_MARKETPLACE } from '../../../consts';
+import { tokenEventFields, sellerAddressField, artistAddressField, swapIdField } from '../event-fields-meta';
 
 export const EVENT_TYPE_8BID_24X24_MONOCHROME_CANCEL_SWAP = '8BID_24X24_MONOCHROME_CANCEL_SWAP';
 
@@ -34,7 +35,10 @@ const EightbidCancelSwap8x8ColorEvent: TransactionHandler<EightbidCancelSwap24x2
 
   type: EVENT_TYPE_8BID_24X24_MONOCHROME_CANCEL_SWAP,
 
-  description: `A swap of a 24x24 monochrome token was canceled on 8bidou.`,
+  meta: {
+    eventDescription: `A swap of a 24x24 monochrome token was canceled on 8bidou.`,
+    eventFields: [...tokenEventFields, sellerAddressField, artistAddressField, swapIdField],
+  },
 
   accept: {
     entrypoint: 'cancelswap',

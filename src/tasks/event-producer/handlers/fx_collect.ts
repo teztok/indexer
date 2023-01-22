@@ -1,10 +1,11 @@
 import get from 'lodash/get';
 import omit from 'lodash/omit';
-import { assert, object, string, Describe, array } from 'superstruct';
-import { TezosAddress, ContractAddress, IsoDateString, PositiveInteger, PgBigInt, SaleInterface } from '../../../lib/validators';
-import { TransactionHandler, TokenEvent, Transaction, SaleEventInterface } from '../../../types';
+import { assert, object, string, Describe } from 'superstruct';
+import { TezosAddress, ContractAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
+import { TransactionHandler, TokenEvent, SaleEventInterface } from '../../../types';
 import { createEventId, findDiff } from '../../../lib/utils';
 import { FX_CONTRACT_MARKETPLACE, SALE_INTERFACE } from '../../../consts';
+import { tokenSaleEventFields, offerIdField, artistAddressField, sellerAddressField } from '../event-fields-meta';
 
 export const EVENT_TYPE_FX_COLLECT = 'FX_COLLECT';
 export interface FxCollectEvent extends TokenEvent {
@@ -37,7 +38,10 @@ const FxCollectHandler: TransactionHandler<FxCollectEvent> = {
 
   type: EVENT_TYPE_FX_COLLECT,
 
-  description: `A token was collected on fxhash (marketplace contract: KT1Xo5B7PNBAeynZPmca4bRh6LQow4og1Zb9).`,
+  meta: {
+    eventDescription: `A token was collected on fxhash (marketplace contract: KT1Xo5B7PNBAeynZPmca4bRh6LQow4og1Zb9).`,
+    eventFields: [...tokenSaleEventFields, offerIdField, artistAddressField, sellerAddressField],
+  },
 
   accept: {
     entrypoint: 'collect',

@@ -2,9 +2,10 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, Describe } from 'superstruct';
 import { ContractAddress, TezosAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
-import { TransactionHandler, TokenEvent, Transaction } from '../../../types';
+import { TransactionHandler, TokenEvent } from '../../../types';
 import { createEventId } from '../../../lib/utils';
 import { HEN_CONTRACT_MARKETPLACE } from '../../../consts';
+import { tokenEventFields, sellerAddressField, swapIdField, priceField, amountField } from '../event-fields-meta';
 
 export const EVENT_TYPE_HEN_SWAP = 'HEN_SWAP';
 
@@ -35,7 +36,10 @@ const HenSwapHandler: TransactionHandler<HenSwapEvent> = {
 
   type: EVENT_TYPE_HEN_SWAP,
 
-  description: `A token was swapped on the first version of the hic et nunc marketplace contract (marketplace contract: KT1Hkg5qeNhfwpKW4fXvq7HGZB9z2EnmCCA9).`,
+  meta: {
+    eventDescription: `A token was swapped on the first version of the hic et nunc marketplace contract (marketplace contract: KT1Hkg5qeNhfwpKW4fXvq7HGZB9z2EnmCCA9).`,
+    eventFields: [...tokenEventFields, sellerAddressField, swapIdField, priceField, amountField],
+  },
 
   accept: {
     entrypoint: 'swap',

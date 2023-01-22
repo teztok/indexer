@@ -5,6 +5,15 @@ import { ContractAddress, TezosAddress, IsoDateString, PositiveInteger, PgBigInt
 import { TransactionHandler, TokenEvent, Transaction } from '../../../types';
 import { createEventId } from '../../../lib/utils';
 import { EIGHTBIDOU_24X24_MONOCHROME_CONTRACT_MARKETPLACE } from '../../../consts';
+import {
+  tokenEventFields,
+  artistAddressField,
+  sellerAddressField,
+  swapIdField,
+  priceField,
+  royaltiesField,
+  amountField,
+} from '../event-fields-meta';
 
 export const EVENT_TYPE_8BID_24X24_MONOCHROME_SWAP = '8BID_24X24_MONOCHROME_SWAP';
 
@@ -40,7 +49,10 @@ const EightbidSwap8x8ColorHandler: TransactionHandler<EightbidSwap24x24Monochrom
 
   type: EVENT_TYPE_8BID_24X24_MONOCHROME_SWAP,
 
-  description: `A 24x24 monochrome token was swapped on 8bidou.`,
+  meta: {
+    eventDescription: `A 24x24 monochrome token was swapped on 8bidou.`,
+    eventFields: [...tokenEventFields, artistAddressField, sellerAddressField, swapIdField, priceField, royaltiesField, amountField],
+  },
 
   accept: {
     entrypoint: 'swap',

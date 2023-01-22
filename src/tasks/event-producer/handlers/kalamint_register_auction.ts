@@ -1,10 +1,11 @@
 import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, Describe } from 'superstruct';
-import { ContractAddress, TezosAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
-import { TransactionHandler, TokenEvent, Transaction } from '../../../types';
+import { ContractAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
+import { TransactionHandler, TokenEvent } from '../../../types';
 import { createEventId } from '../../../lib/utils';
 import { KALAMINT_CONTRACT_FA2 } from '../../../consts';
+import { tokenEventFields } from '../event-fields-meta';
 
 export const EVENT_TYPE_KALAMINT_REGISTER_AUCTION = 'KALAMINT_REGISTER_AUCTION';
 
@@ -27,7 +28,10 @@ const KalamintRegisterAuctionHandler: TransactionHandler<KalamintRegisterAuction
 
   type: EVENT_TYPE_KALAMINT_REGISTER_AUCTION,
 
-  description: `An auction was created on Kalamint.`,
+  meta: {
+    eventDescription: `An auction was created on Kalamint.`,
+    eventFields: [...tokenEventFields],
+  },
 
   accept: {
     entrypoint: 'register_auction',

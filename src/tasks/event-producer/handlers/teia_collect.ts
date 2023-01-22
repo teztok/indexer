@@ -5,6 +5,7 @@ import { TezosAddress, IsoDateString, PositiveInteger, PgBigInt, ContractAddress
 import { TransactionHandler, TokenEvent, Transaction, SaleEventInterface } from '../../../types';
 import { findDiff, transactionMatchesPattern, createEventId } from '../../../lib/utils';
 import { TEIA_CONTRACT_MARKETPLACE, SALE_INTERFACE } from '../../../consts';
+import { tokenSaleEventFields, artistAddressField, swapIdField } from '../event-fields-meta';
 
 export const EVENT_TYPE_TEIA_COLLECT = 'TEIA_COLLECT';
 
@@ -38,7 +39,10 @@ const TeiaCollectHandler: TransactionHandler<TeiaCollectEvent> = {
 
   type: EVENT_TYPE_TEIA_COLLECT,
 
-  description: `A token was collected on the Teia marketplace contract (marketplace contract: KT1PHubm9HtyQEJ4BBpMTVomq6mhbfNZ9z5w).`,
+  meta: {
+    eventDescription: `A token was collected on the Teia marketplace contract (marketplace contract: KT1PHubm9HtyQEJ4BBpMTVomq6mhbfNZ9z5w).`,
+    eventFields: [...tokenSaleEventFields, artistAddressField, swapIdField],
+  },
 
   accept: (transaction) => {
     if (

@@ -2,9 +2,20 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, Describe } from 'superstruct';
 import { TezosAddress, IsoDateString, PositiveInteger, PgBigInt, ContractAddress } from '../../../lib/validators';
-import { TransactionHandler, TokenEvent, Transaction, SaleEventInterface } from '../../../types';
+import { TransactionHandler, TokenEvent, SaleEventInterface } from '../../../types';
 import { findDiff, transactionMatchesPattern, createEventId } from '../../../lib/utils';
 import { OBJKT_CONTRACT_DUTCH_AUCTION_PRE, OBJKT_CONTRACT_DUTCH_AUCTION_V1, SALE_INTERFACE } from '../../../consts';
+import {
+  tokenSaleEventFields,
+  artistAddressField,
+  startTimeField,
+  endTimeField,
+  startPriceField,
+  endPriceField,
+  priceField,
+  royaltiesField,
+  auctionIdField,
+} from '../event-fields-meta';
 
 export const EVENT_TYPE_OBJKT_BUY_DUTCH_AUCTION = 'OBJKT_BUY_DUTCH_AUCTION';
 
@@ -53,7 +64,20 @@ const ObjktBuyDutchAuctionHandler: TransactionHandler<ObjktBuyDutchAuctionEvent>
 
   type: EVENT_TYPE_OBJKT_BUY_DUTCH_AUCTION,
 
-  description: `A token that was auctioned through a dutch auction was bought on objkt.com (marketplace contract: KT1ET45vnyEFMLS9wX1dYHEs9aCN3twDEiQw or KT1QJ71jypKGgyTNtXjkCAYJZNhCKWiHuT2r).`,
+  meta: {
+    eventDescription: `A token that was auctioned through a dutch auction was bought on objkt.com (marketplace contract: KT1ET45vnyEFMLS9wX1dYHEs9aCN3twDEiQw or KT1QJ71jypKGgyTNtXjkCAYJZNhCKWiHuT2r).`,
+    eventFields: [
+      ...tokenSaleEventFields,
+      artistAddressField,
+      startTimeField,
+      endTimeField,
+      startPriceField,
+      endPriceField,
+      priceField,
+      royaltiesField,
+      auctionIdField,
+    ],
+  },
 
   accept: (transaction) => {
     return (

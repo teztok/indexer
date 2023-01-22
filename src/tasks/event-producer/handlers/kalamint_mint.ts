@@ -6,6 +6,18 @@ import { TransactionHandler, MintEvent, Transaction, RoyaltyShares } from '../..
 import { createEventId, royaltiesToRoyaltyShares } from '../../../lib/utils';
 import { RoyaltySharesSchema } from '../../../lib/schemas';
 import { KALAMINT_CONTRACT_FA2 } from '../../../consts';
+import {
+  tokenEventFields,
+  artistAddressField,
+  isVerifiedArtistField,
+  editionsField,
+  priceField,
+  metadataUriField,
+  royaltySharesField,
+  kalamintEditionField,
+  kalamintEditionsField,
+  kalamintOnSaleField,
+} from '../event-fields-meta';
 
 export const EVENT_TYPE_KALAMINT_MINT = 'KALAMINT_MINT';
 
@@ -44,7 +56,21 @@ const KalamintMintHandler: TransactionHandler<KalamintMintEvent> = {
 
   type: EVENT_TYPE_KALAMINT_MINT,
 
-  description: `A token was minted on Kalamint.`,
+  meta: {
+    eventDescription: `A token was minted on Kalamint.`,
+    eventFields: [
+      ...tokenEventFields,
+      artistAddressField,
+      isVerifiedArtistField,
+      editionsField,
+      priceField,
+      metadataUriField,
+      royaltySharesField,
+      kalamintEditionField,
+      kalamintEditionsField,
+      kalamintOnSaleField,
+    ],
+  },
 
   accept: {
     entrypoint: 'mint',

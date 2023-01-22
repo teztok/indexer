@@ -5,17 +5,10 @@ import isString from 'lodash/isString';
 import { assert, object, Describe, string, is, boolean } from 'superstruct';
 import { TezosAddress, ContractAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
 import { TokenStorageSchema } from '../../../lib/schemas';
-import {
-  TransactionHandler,
-  TokenEvent,
-  Transaction,
-  BigmapDiffContent,
-  BigmapDiffKey,
-  LedgerTypeMultiAsset,
-  LedgerTypeNftAsset,
-} from '../../../types';
+import { TransactionHandler, TokenEvent, BigmapDiffContent, BigmapDiffKey, LedgerTypeMultiAsset, LedgerTypeNftAsset } from '../../../types';
 import { createEventId, filterDiffs } from '../../../lib/utils';
 import logger from '../../../lib/logger';
+import { tokenEventFields, ledgerTypeField, holderAddressField, amountField, isMintField } from '../event-fields-meta';
 
 export const EVENT_TYPE_SET_LEDGER = 'SET_LEDGER';
 
@@ -91,7 +84,10 @@ const SetLedgerHandler: TransactionHandler<SetLedgerEvent> = {
 
   type: EVENT_TYPE_SET_LEDGER,
 
-  description: `The balance of a ledger entry got updated. This happens for example when editions of a token get transferred.`,
+  meta: {
+    eventDescription: `The balance of a ledger entry got updated. This happens for example when editions of a token get transferred.`,
+    eventFields: [...tokenEventFields, ledgerTypeField, holderAddressField, amountField, isMintField],
+  },
 
   accept: (transaction) => {
     const isUnderStorage = is(get(transaction, 'storage'), TokenStorageSchema);

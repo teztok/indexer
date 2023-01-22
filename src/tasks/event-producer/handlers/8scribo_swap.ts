@@ -2,9 +2,18 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, Describe } from 'superstruct';
 import { ContractAddress, TezosAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
-import { TransactionHandler, TokenEvent, Transaction } from '../../../types';
+import { TransactionHandler, TokenEvent } from '../../../types';
 import { createEventId } from '../../../lib/utils';
 import { EIGHTSCRIBO_CONTRACT_MARKETPLACE } from '../../../consts';
+import {
+  tokenEventFields,
+  artistAddressField,
+  sellerAddressField,
+  swapIdField,
+  priceField,
+  royaltiesField,
+  amountField,
+} from '../event-fields-meta';
 
 export const EVENT_TYPE_8SCRIBO_SWAP = '8SCRIBO_SWAP';
 
@@ -40,7 +49,10 @@ const EightscriboSwapHandler: TransactionHandler<EightscriboSwapEvent> = {
 
   type: EVENT_TYPE_8SCRIBO_SWAP,
 
-  description: `A token was swapped on 8SCRIBO.`,
+  meta: {
+    eventDescription: `A token was swapped on 8SCRIBO.`,
+    eventFields: [...tokenEventFields, artistAddressField, sellerAddressField, swapIdField, priceField, royaltiesField, amountField],
+  },
 
   accept: {
     entrypoint: 'swap',

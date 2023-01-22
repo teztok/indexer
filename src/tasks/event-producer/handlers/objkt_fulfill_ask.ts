@@ -2,9 +2,10 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, Describe } from 'superstruct';
 import { ContractAddress, TezosAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
-import { TransactionHandler, TokenEvent, Transaction, SaleEventInterface } from '../../../types';
+import { TransactionHandler, TokenEvent, SaleEventInterface } from '../../../types';
 import { findDiff, createEventId } from '../../../lib/utils';
 import { OBJKT_CONTRACT_MARKETPLACE, SALE_INTERFACE } from '../../../consts';
+import { tokenSaleEventFields, artistAddressField, askIdField } from '../event-fields-meta';
 
 export const EVENT_TYPE_OBJKT_FULFILL_ASK = 'OBJKT_FULFILL_ASK';
 
@@ -39,7 +40,10 @@ const ObjktFulfillAskHandler: TransactionHandler<ObjktFulfillAskEvent> = {
 
   type: EVENT_TYPE_OBJKT_FULFILL_ASK,
 
-  description: `An ask was fulfilled on objkt.com (marketplace contract: KT1FvqJwEDWb1Gwc55Jd1jjTHRVWbYKUUpyq).`,
+  meta: {
+    eventDescription: `An ask was fulfilled on objkt.com (marketplace contract: KT1FvqJwEDWb1Gwc55Jd1jjTHRVWbYKUUpyq).`,
+    eventFields: [...tokenSaleEventFields, artistAddressField, askIdField],
+  },
 
   accept: {
     entrypoint: 'fulfill_ask',

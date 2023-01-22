@@ -5,6 +5,16 @@ import { TezosAddress, IsoDateString, PositiveInteger, PgBigInt, ContractAddress
 import { TransactionHandler, TokenEvent, Transaction, SaleEventInterface } from '../../../types';
 import { findDiff, createEventId, extractObjktCurrency } from '../../../lib/utils';
 import { OBJKT_CONTRACT_DUTCH_AUCTION_V2, SALE_INTERFACE } from '../../../consts';
+import {
+  tokenSaleEventFields,
+  currencyField,
+  startTimeField,
+  endTimeField,
+  startPriceField,
+  endPriceField,
+  amountField,
+  auctionIdField,
+} from '../event-fields-meta';
 
 export const EVENT_TYPE_OBJKT_BUY_DUTCH_AUCTION_V2 = 'OBJKT_BUY_DUTCH_AUCTION_V2';
 
@@ -49,7 +59,19 @@ const ObjktBuyDutchAuctionHandlerV2: TransactionHandler<ObjktBuyDutchAuctionV2Ev
 
   type: EVENT_TYPE_OBJKT_BUY_DUTCH_AUCTION_V2,
 
-  description: `A token that was auctioned through a dutch auction was bought on objkt.com (marketplace contract: KT1XXu88HkNzQRHNgAf7Mnq68LyS9MZJNoHP).`,
+  meta: {
+    eventDescription: `A token that was auctioned through a dutch auction was bought on objkt.com (marketplace contract: KT1XXu88HkNzQRHNgAf7Mnq68LyS9MZJNoHP).`,
+    eventFields: [
+      ...tokenSaleEventFields,
+      currencyField,
+      startTimeField,
+      endTimeField,
+      startPriceField,
+      endPriceField,
+      amountField,
+      auctionIdField,
+    ],
+  },
 
   accept: {
     entrypoint: 'buy',

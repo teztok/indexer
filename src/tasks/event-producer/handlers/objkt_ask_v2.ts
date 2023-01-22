@@ -2,9 +2,19 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { optional, assert, object, string, Describe } from 'superstruct';
 import { TezosAddress, ContractAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
-import { TransactionHandler, TokenEvent, Transaction } from '../../../types';
+import { TransactionHandler, TokenEvent } from '../../../types';
 import { createEventId } from '../../../lib/utils';
 import { OBJKT_CONTRACT_MARKETPLACE_V2 } from '../../../consts';
+import {
+  tokenEventFields,
+  askIdField,
+  sellerAddressField,
+  artistAddressField,
+  currencyField,
+  priceField,
+  amountField,
+  endTimeField,
+} from '../event-fields-meta';
 
 export const EVENT_TYPE_OBJKT_ASK_V2 = 'OBJKT_ASK_V2';
 
@@ -41,7 +51,19 @@ const ObjktAskHandler: TransactionHandler<ObjktAskV2Event> = {
 
   type: EVENT_TYPE_OBJKT_ASK_V2,
 
-  description: `An ask was created on objkt.com (marketplace contract: KT1WvzYHCNBvDSdwafTHv7nJ1dWmZ8GCYuuC)`,
+  meta: {
+    eventDescription: `An ask was created on objkt.com (marketplace contract: KT1WvzYHCNBvDSdwafTHv7nJ1dWmZ8GCYuuC).`,
+    eventFields: [
+      ...tokenEventFields,
+      askIdField,
+      sellerAddressField,
+      artistAddressField,
+      currencyField,
+      priceField,
+      amountField,
+      endTimeField,
+    ],
+  },
 
   accept: {
     entrypoint: 'ask',

@@ -2,9 +2,18 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, Describe } from 'superstruct';
 import { ContractAddress, TezosAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
-import { TransactionHandler, TokenEvent, Transaction } from '../../../types';
+import { TransactionHandler, TokenEvent } from '../../../types';
 import { createEventId } from '../../../lib/utils';
 import { EIGHTBIDOU_8X8_COLOR_CONTRACT_MARKETPLACE } from '../../../consts';
+import {
+  tokenEventFields,
+  artistAddressField,
+  sellerAddressField,
+  swapIdField,
+  priceField,
+  royaltiesField,
+  amountField,
+} from '../event-fields-meta';
 
 export const EVENT_TYPE_8BID_8X8_COLOR_SWAP = '8BID_8X8_COLOR_SWAP';
 
@@ -40,7 +49,10 @@ const EightbidSwap8x8ColorHandler: TransactionHandler<EightbidSwap8x8ColorEvent>
 
   type: EVENT_TYPE_8BID_8X8_COLOR_SWAP,
 
-  description: `An 8x8 color token was swapped on 8bidou.`,
+  meta: {
+    eventDescription: `An 8x8 color token was swapped on 8bidou.`,
+    eventFields: [...tokenEventFields, artistAddressField, sellerAddressField, swapIdField, priceField, royaltiesField, amountField],
+  },
 
   accept: {
     entrypoint: 'swap',

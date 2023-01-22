@@ -2,9 +2,10 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, Describe } from 'superstruct';
 import { ContractAddress, TezosAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
-import { TransactionHandler, TokenEvent, Transaction } from '../../../types';
+import { TransactionHandler, TokenEvent } from '../../../types';
 import { findDiff, createEventId } from '../../../lib/utils';
 import { KALAMINT_CONTRACT_FA2 } from '../../../consts';
+import { tokenEventFields, sellerAddressField } from '../event-fields-meta';
 
 export const EVENT_TYPE_KALAMINT_DELIST_TOKEN = 'KALAMINT_DELIST_TOKEN';
 
@@ -30,7 +31,10 @@ const KalamintDelistTokenHandler: TransactionHandler<KalamintDelistTokenEvent> =
 
   type: EVENT_TYPE_KALAMINT_DELIST_TOKEN,
 
-  description: `A token was delisted on Kalamint.`,
+  meta: {
+    eventDescription: `A token was delisted on Kalamint.`,
+    eventFields: [...tokenEventFields, sellerAddressField],
+  },
 
   accept: {
     entrypoint: 'delist_token',

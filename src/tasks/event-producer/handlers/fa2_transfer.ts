@@ -2,9 +2,10 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { array, assert, object, Describe, string, is } from 'superstruct';
 import { TezosAddress, ContractAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
-import { TransactionHandler, TokenEvent, Transaction } from '../../../types';
+import { TransactionHandler, TokenEvent } from '../../../types';
 import logger from '../../../lib/logger';
 import { createEventId } from '../../../lib/utils';
+import { tokenEventFields, fromAddressField, toAddressField, amountField } from '../event-fields-meta';
 
 export const EVENT_TYPE_FA2_TRANSFER = 'FA2_TRANSFER';
 
@@ -51,7 +52,10 @@ const Fa2TransferHandler: TransactionHandler<Fa2TransferEvent> = {
 
   type: EVENT_TYPE_FA2_TRANSFER,
 
-  description: `A token got transferred from one Tezos account to another.`,
+  meta: {
+    eventDescription: `A token got transferred from one Tezos account to another.`,
+    eventFields: [...tokenEventFields, fromAddressField, toAddressField, amountField],
+  },
 
   accept: (transaction) => {
     if (get(transaction, 'parameter.entrypoint') !== 'transfer') {
