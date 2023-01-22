@@ -2,9 +2,10 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, Describe } from 'superstruct';
 import { ContractAddress, TezosAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
-import { TransactionHandler, TokenEvent, Transaction } from '../../../types';
+import { TransactionHandler, TokenEvent } from '../../../types';
 import { findDiff, transactionMatchesPattern, createEventId } from '../../../lib/utils';
 import { HEN_CONTRACT_MARKETPLACE_V2 } from '../../../consts';
+import { tokenEventFields, sellerAddressField, artistAddressField, swapIdField } from '../event-fields-meta';
 
 export const EVENT_TYPE_HEN_CANCEL_SWAP_V2 = 'HEN_CANCEL_SWAP_V2';
 
@@ -34,7 +35,10 @@ const HenCancelSwapHandler: TransactionHandler<HenCancelSwapV2Event> = {
 
   type: EVENT_TYPE_HEN_CANCEL_SWAP_V2,
 
-  description: `A swap on the second version of the hic et nunc marketplace contract was cancelled (marketplace contract: KT1HbQepzV1nVGg8QVznG7z4RcHseD5kwqBn).`,
+  meta: {
+    eventDescription: `A swap on the second version of the hic et nunc marketplace contract was cancelled (marketplace contract: KT1HbQepzV1nVGg8QVznG7z4RcHseD5kwqBn).`,
+    eventFields: [...tokenEventFields, sellerAddressField, artistAddressField, swapIdField],
+  },
 
   accept: (transaction) => {
     if (

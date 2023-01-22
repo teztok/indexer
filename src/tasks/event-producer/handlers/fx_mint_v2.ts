@@ -6,6 +6,17 @@ import { TransactionHandler, MintEvent, Transaction, SaleEventInterface, Royalty
 import { createEventId, findDiff, royaltiesToRoyaltyShares } from '../../../lib/utils';
 import { RoyaltySharesSchema } from '../../../lib/schemas';
 import { FX_CONTRACT_MINT_V2, FX_CONTRACT_FA2, SALE_INTERFACE } from '../../../consts';
+import {
+  tokenSaleEventFields,
+  artistAddressField,
+  isVerifiedArtistField,
+  royaltiesField,
+  issuerIdField,
+  editionsField,
+  iterationField,
+  metadataUriField,
+  royaltySharesField,
+} from '../event-fields-meta';
 
 export const EVENT_TYPE_FX_MINT_V2 = 'FX_MINT_V2';
 
@@ -48,7 +59,20 @@ const FxMintIssuerHandler: TransactionHandler<FxMintV2Event> = {
 
   type: EVENT_TYPE_FX_MINT_V2,
 
-  description: `A token was minted on fxhash (mint contract: KT1XCoGnfupWk7Sp8536EfrxcP73LmT68Nyr).`,
+  meta: {
+    eventDescription: `A token was minted on fxhash (mint contract: KT1XCoGnfupWk7Sp8536EfrxcP73LmT68Nyr).`,
+    eventFields: [
+      ...tokenSaleEventFields,
+      artistAddressField,
+      isVerifiedArtistField,
+      royaltiesField,
+      issuerIdField,
+      editionsField,
+      iterationField,
+      metadataUriField,
+      royaltySharesField,
+    ],
+  },
 
   accept: [
     {

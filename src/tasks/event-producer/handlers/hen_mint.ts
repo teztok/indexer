@@ -6,6 +6,15 @@ import { TransactionHandler, MintEvent, Transaction, RoyaltyShares } from '../..
 import { createEventId, royaltiesToRoyaltyShares } from '../../../lib/utils';
 import { RoyaltySharesSchema } from '../../../lib/schemas';
 import { HEN_CONTRACT_MARKETPLACE, HEN_CONTRACT_FA2 } from '../../../consts';
+import {
+  tokenEventFields,
+  artistAddressField,
+  isVerifiedArtistField,
+  royaltiesField,
+  editionsField,
+  metadataUriField,
+  royaltySharesField,
+} from '../event-fields-meta';
 
 export const EVENT_TYPE_HEN_MINT = 'HEN_MINT';
 
@@ -38,7 +47,18 @@ const HenMintHandler: TransactionHandler<HenMintEvent> = {
 
   type: EVENT_TYPE_HEN_MINT,
 
-  description: `A token was minted on hic et nunc.`,
+  meta: {
+    eventDescription: `A token was minted on hic et nunc.`,
+    eventFields: [
+      ...tokenEventFields,
+      artistAddressField,
+      isVerifiedArtistField,
+      royaltiesField,
+      editionsField,
+      metadataUriField,
+      royaltySharesField,
+    ],
+  },
 
   accept: [
     {

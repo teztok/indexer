@@ -2,9 +2,21 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, Describe } from 'superstruct';
 import { TezosAddress, IsoDateString, PositiveInteger, PgBigInt, ContractAddress } from '../../../lib/validators';
-import { TransactionHandler, TokenEvent, Transaction, SaleEventInterface } from '../../../types';
+import { TransactionHandler, TokenEvent, SaleEventInterface } from '../../../types';
 import { findDiff, transactionMatchesPattern, createEventId } from '../../../lib/utils';
 import { OBJKT_CONTRACT_ENGLISH_AUCTION_PRE, OBJKT_CONTRACT_ENGLISH_AUCTION_V1, SALE_INTERFACE } from '../../../consts';
+import {
+  tokenSaleEventFields,
+  artistAddressField,
+  reserveField,
+  startTimeField,
+  endTimeField,
+  priceField,
+  extensionTimeField,
+  royaltiesField,
+  priceIncrementField,
+  auctionIdField,
+} from '../event-fields-meta';
 
 export const EVENT_TYPE_OBJKT_CONCLUDE_ENGLISH_AUCTION = 'OBJKT_CONCLUDE_ENGLISH_AUCTION';
 
@@ -55,7 +67,21 @@ const ObjktConcludeEnglishAuctionHandler: TransactionHandler<ObjktConcludeEnglis
 
   type: EVENT_TYPE_OBJKT_CONCLUDE_ENGLISH_AUCTION,
 
-  description: `An English auction was concluded on objkt.com (marketplace contract: KT1Wvk8fon9SgNEPQKewoSL2ziGGuCQebqZc or KT1XjcRq5MLAzMKQ3UHsrue2SeU2NbxUrzmU).`,
+  meta: {
+    eventDescription: `An English auction was concluded on objkt.com (marketplace contract: KT1Wvk8fon9SgNEPQKewoSL2ziGGuCQebqZc or KT1XjcRq5MLAzMKQ3UHsrue2SeU2NbxUrzmU).`,
+    eventFields: [
+      ...tokenSaleEventFields,
+      artistAddressField,
+      reserveField,
+      startTimeField,
+      endTimeField,
+      priceField,
+      extensionTimeField,
+      royaltiesField,
+      priceIncrementField,
+      auctionIdField,
+    ],
+  },
 
   accept: (transaction) => {
     return (

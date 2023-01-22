@@ -2,9 +2,18 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, Describe, optional } from 'superstruct';
 import { TezosAddress, IsoDateString, PositiveInteger, PgBigInt, ContractAddress } from '../../../lib/validators';
-import { TransactionHandler, TokenEvent, Transaction } from '../../../types';
+import { TransactionHandler, TokenEvent } from '../../../types';
 import { createEventId } from '../../../lib/utils';
 import { VERSUM_CONTRACT_MARKETPLACE } from '../../../consts';
+import {
+  tokenEventFields,
+  sellerAddressField,
+  artistAddressField,
+  endTimeField,
+  amountField,
+  auctionIdField,
+  startPriceField,
+} from '../event-fields-meta';
 
 export const EVENT_TYPE_VERSUM_CREATE_AUCTION = 'VERSUM_CREATE_AUCTION';
 
@@ -39,7 +48,10 @@ const VersumCreateAuctionHandler: TransactionHandler<VersumCreateAuctionEvent> =
 
   type: EVENT_TYPE_VERSUM_CREATE_AUCTION,
 
-  description: `An auction was created on versum.`,
+  meta: {
+    eventDescription: `An auction was created on versum.`,
+    eventFields: [...tokenEventFields, sellerAddressField, artistAddressField, endTimeField, amountField, auctionIdField, startPriceField],
+  },
 
   accept: {
     entrypoint: 'create_auction',

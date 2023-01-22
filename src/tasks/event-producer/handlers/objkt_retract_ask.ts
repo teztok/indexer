@@ -2,9 +2,10 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, Describe } from 'superstruct';
 import { ContractAddress, TezosAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
-import { TransactionHandler, TokenEvent, Transaction } from '../../../types';
+import { TransactionHandler, TokenEvent } from '../../../types';
 import { findDiff, createEventId } from '../../../lib/utils';
 import { OBJKT_CONTRACT_MARKETPLACE } from '../../../consts';
+import { tokenEventFields, artistAddressField, sellerAddressField, askIdField } from '../event-fields-meta';
 
 export const EVENT_TYPE_OBJKT_RETRACT_ASK = 'OBJKT_RETRACT_ASK';
 
@@ -33,7 +34,10 @@ const ObjktRetractAskHandler: TransactionHandler<ObjktRetractAskEvent> = {
 
   type: EVENT_TYPE_OBJKT_RETRACT_ASK,
 
-  description: `An ask was cancelled on objkt.com (marketplace contract: KT1FvqJwEDWb1Gwc55Jd1jjTHRVWbYKUUpyq).`,
+  meta: {
+    eventDescription: `An ask was cancelled on objkt.com (marketplace contract: KT1FvqJwEDWb1Gwc55Jd1jjTHRVWbYKUUpyq).`,
+    eventFields: [...tokenEventFields, artistAddressField, sellerAddressField, askIdField],
+  },
 
   accept: {
     entrypoint: 'retract_ask',

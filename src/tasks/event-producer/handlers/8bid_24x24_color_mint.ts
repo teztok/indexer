@@ -6,6 +6,18 @@ import { TransactionHandler, MintEvent, Transaction, RoyaltyShares } from '../..
 import { createEventId, royaltiesToRoyaltyShares } from '../../../lib/utils';
 import { RoyaltySharesSchema } from '../../../lib/schemas';
 import { EIGHTBIDOU_24X24_COLOR_CONTRACT_FA2 } from '../../../consts';
+import {
+  tokenEventFields,
+  isVerifiedArtistField,
+  editionsField,
+  artistAddressField,
+  tokenNameField,
+  creatorNameField,
+  tokenDescriptionField,
+  metadataUriField,
+  rgbField,
+  royaltySharesField,
+} from '../event-fields-meta';
 
 export const EVENT_TYPE_8BID_24X24_COLOR_MINT = '8BID_24X24_COLOR_MINT';
 
@@ -45,7 +57,21 @@ const EightbidMint24x24ColorHandler: TransactionHandler<EightbidMint24x24ColorEv
 
   type: EVENT_TYPE_8BID_24X24_COLOR_MINT,
 
-  description: `A 24x24 color token was minted on 8bidou.`,
+  meta: {
+    eventDescription: `A 24x24 color token was minted on 8bidou.`,
+    eventFields: [
+      ...tokenEventFields,
+      isVerifiedArtistField,
+      editionsField,
+      artistAddressField,
+      tokenNameField,
+      creatorNameField,
+      tokenDescriptionField,
+      metadataUriField,
+      rgbField,
+      royaltySharesField,
+    ],
+  },
 
   accept: {
     entrypoint: 'mint',

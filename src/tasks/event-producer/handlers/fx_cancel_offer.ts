@@ -2,9 +2,10 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, Describe } from 'superstruct';
 import { ContractAddress, TezosAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
-import { TransactionHandler, TokenEvent, Transaction } from '../../../types';
-import { findDiff, transactionMatchesPattern, createEventId } from '../../../lib/utils';
+import { TransactionHandler, TokenEvent } from '../../../types';
+import { findDiff, createEventId } from '../../../lib/utils';
 import { FX_CONTRACT_MARKETPLACE } from '../../../consts';
+import { tokenEventFields, sellerAddressField, artistAddressField, offerIdField } from '../event-fields-meta';
 
 export const EVENT_TYPE_FX_CANCEL_OFFER = 'FX_CANCEL_OFFER';
 
@@ -33,7 +34,10 @@ const FxCancelOfferHandler: TransactionHandler<FxCancelOfferEvent> = {
 
   type: EVENT_TYPE_FX_CANCEL_OFFER,
 
-  description: `An offer was canceled on fxhash. In this case, the offer is like a swap or an ask. (marketplace contract: KT1Xo5B7PNBAeynZPmca4bRh6LQow4og1Zb9).`,
+  meta: {
+    eventDescription: `An offer was canceled on fxhash. In this case, the offer is like a swap or an ask. (marketplace contract: KT1Xo5B7PNBAeynZPmca4bRh6LQow4og1Zb9).`,
+    eventFields: [...tokenEventFields, sellerAddressField, artistAddressField, offerIdField],
+  },
 
   accept: {
     entrypoint: 'cancel_offer',

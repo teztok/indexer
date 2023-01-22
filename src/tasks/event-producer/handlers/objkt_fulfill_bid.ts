@@ -2,9 +2,10 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, Describe } from 'superstruct';
 import { ContractAddress, TezosAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
-import { TransactionHandler, TokenEvent, Transaction, SaleEventInterface } from '../../../types';
+import { TransactionHandler, TokenEvent, SaleEventInterface } from '../../../types';
 import { findDiff, createEventId } from '../../../lib/utils';
 import { OBJKT_CONTRACT_MARKETPLACE, SALE_INTERFACE } from '../../../consts';
+import { tokenSaleEventFields, bidIdField, artistAddressField } from '../event-fields-meta';
 
 export const EVENT_TYPE_OBJKT_FULFILL_BID = 'OBJKT_FULFILL_BID';
 
@@ -38,7 +39,10 @@ const ObjktFulfillBidHandler: TransactionHandler<ObjktFulfillBidEvent> = {
 
   type: EVENT_TYPE_OBJKT_FULFILL_BID,
 
-  description: `A bid (also known as an offer) was fulfilled on objkt.com (marketplace contract: KT1FvqJwEDWb1Gwc55Jd1jjTHRVWbYKUUpyq).`,
+  meta: {
+    eventDescription: `A bid (also known as an offer) was fulfilled on objkt.com (marketplace contract: KT1FvqJwEDWb1Gwc55Jd1jjTHRVWbYKUUpyq).`,
+    eventFields: [...tokenSaleEventFields, bidIdField, artistAddressField],
+  },
 
   accept: {
     entrypoint: 'fulfill_bid',

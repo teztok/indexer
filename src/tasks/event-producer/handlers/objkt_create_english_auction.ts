@@ -2,9 +2,21 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, Describe } from 'superstruct';
 import { TezosAddress, IsoDateString, PositiveInteger, PgBigInt, ContractAddress } from '../../../lib/validators';
-import { TransactionHandler, TokenEvent, Transaction } from '../../../types';
+import { TransactionHandler, TokenEvent } from '../../../types';
 import { transactionMatchesPattern, createEventId } from '../../../lib/utils';
 import { OBJKT_CONTRACT_ENGLISH_AUCTION_PRE, OBJKT_CONTRACT_ENGLISH_AUCTION_V1 } from '../../../consts';
+import {
+  tokenEventFields,
+  sellerAddressField,
+  artistAddressField,
+  reserveField,
+  startTimeField,
+  endTimeField,
+  extensionTimeField,
+  royaltiesField,
+  priceIncrementField,
+  amountField,
+} from '../event-fields-meta';
 
 export const EVENT_TYPE_OBJKT_CREATE_ENGLISH_AUCTION = 'OBJKT_CREATE_ENGLISH_AUCTION';
 
@@ -46,7 +58,21 @@ const ObjktCreateEnglishAuctionHandler: TransactionHandler<ObjktCreateEnglishAuc
 
   type: EVENT_TYPE_OBJKT_CREATE_ENGLISH_AUCTION,
 
-  description: `An english auction was created on objkt.com (marketplace contract: KT1Wvk8fon9SgNEPQKewoSL2ziGGuCQebqZc or KT1XjcRq5MLAzMKQ3UHsrue2SeU2NbxUrzmU).`,
+  meta: {
+    eventDescription: `An english auction was created on objkt.com (marketplace contract: KT1Wvk8fon9SgNEPQKewoSL2ziGGuCQebqZc or KT1XjcRq5MLAzMKQ3UHsrue2SeU2NbxUrzmU).`,
+    eventFields: [
+      ...tokenEventFields,
+      sellerAddressField,
+      artistAddressField,
+      reserveField,
+      startTimeField,
+      endTimeField,
+      extensionTimeField,
+      royaltiesField,
+      priceIncrementField,
+      amountField,
+    ],
+  },
 
   accept: (transaction) => {
     return (

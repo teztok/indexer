@@ -2,9 +2,10 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, Describe } from 'superstruct';
 import { ContractAddress, TezosAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
-import { TransactionHandler, TokenEvent, Transaction } from '../../../types';
+import { TransactionHandler, TokenEvent } from '../../../types';
 import { findDiff, createEventId } from '../../../lib/utils';
 import { EIGHTBIDOU_8X8_COLOR_CONTRACT_MARKETPLACE } from '../../../consts';
+import { tokenEventFields, sellerAddressField, artistAddressField, swapIdField } from '../event-fields-meta';
 
 export const EVENT_TYPE_8BID_8X8_COLOR_CANCEL_SWAP = '8BID_8X8_COLOR_CANCEL_SWAP';
 
@@ -34,7 +35,10 @@ const EightbidCancelSwap8x8ColorEvent: TransactionHandler<EightbidCancelSwap8x8C
 
   type: EVENT_TYPE_8BID_8X8_COLOR_CANCEL_SWAP,
 
-  description: `A swap of an 8x8 color token was canceled on 8bidou.`,
+  meta: {
+    eventDescription: `A swap of an 8x8 color token was canceled on 8bidou.`,
+    eventFields: [...tokenEventFields, sellerAddressField, artistAddressField, swapIdField],
+  },
 
   accept: {
     entrypoint: 'cancelswap',

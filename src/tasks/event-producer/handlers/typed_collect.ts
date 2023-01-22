@@ -5,6 +5,7 @@ import { TezosAddress, IsoDateString, PositiveInteger, PgBigInt, ContractAddress
 import { TransactionHandler, TokenEvent, Transaction, SaleEventInterface } from '../../../types';
 import { findDiff, transactionMatchesPattern, createEventId } from '../../../lib/utils';
 import { TYPED_CONTRACT_MARKETPLACE, SALE_INTERFACE } from '../../../consts';
+import { tokenSaleEventFields, artistAddressField, swapIdField } from '../event-fields-meta';
 
 export const EVENT_TYPE_TYPED_COLLECT = 'TYPED_COLLECT';
 
@@ -38,7 +39,10 @@ const TypedCollectHandler: TransactionHandler<TypedCollectEvent> = {
 
   type: EVENT_TYPE_TYPED_COLLECT,
 
-  description: `A token was collected on typed (marketplace contract: KT1VoZeuBMJF6vxtLqEFMoc4no5VDG789D7z).`,
+  meta: {
+    eventDescription: `A token was collected on typed (marketplace contract: KT1VoZeuBMJF6vxtLqEFMoc4no5VDG789D7z).`,
+    eventFields: [...tokenSaleEventFields, artistAddressField, swapIdField],
+  },
 
   accept: (transaction) => {
     if (

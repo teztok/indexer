@@ -2,10 +2,22 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, boolean, Describe } from 'superstruct';
 import { TezosAddress, ContractAddress, IsoDateString, MetadataUri, PositiveInteger, PgBigInt } from '../../../lib/validators';
-import { TransactionHandler, MintEvent, Transaction, RoyaltyShares } from '../../../types';
+import { TransactionHandler, MintEvent, RoyaltyShares } from '../../../types';
 import { createEventId, royaltiesToRoyaltyShares } from '../../../lib/utils';
 import { RoyaltySharesSchema } from '../../../lib/schemas';
 import { EIGHTSCRIBO_CONTRACT_FA2 } from '../../../consts';
+import {
+  tokenEventFields,
+  isVerifiedArtistField,
+  editionsField,
+  artistAddressField,
+  eightscriboTitleField,
+  eightscriboRowoneField,
+  eightscriboRowtwoField,
+  eightscriboRowthreeField,
+  metadataUriField,
+  royaltySharesField,
+} from '../event-fields-meta';
 
 export const EVENT_TYPE_8SCRIBO_MINT = '8SCRIBO_MINT';
 
@@ -43,7 +55,21 @@ const EightscriboMintHandler: TransactionHandler<EightscriboMintEvent> = {
 
   type: EVENT_TYPE_8SCRIBO_MINT,
 
-  description: `A token was minted on 8SCRIBO.`,
+  meta: {
+    eventDescription: `A token was minted on 8SCRIBO.`,
+    eventFields: [
+      ...tokenEventFields,
+      isVerifiedArtistField,
+      editionsField,
+      artistAddressField,
+      eightscriboTitleField,
+      eightscriboRowoneField,
+      eightscriboRowtwoField,
+      eightscriboRowthreeField,
+      metadataUriField,
+      royaltySharesField,
+    ],
+  },
 
   accept: {
     entrypoint: 'mint_haiku',

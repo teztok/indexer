@@ -2,9 +2,18 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { optional, assert, object, string, Describe } from 'superstruct';
 import { TezosAddress, ContractAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
-import { TransactionHandler, TokenEvent, Transaction } from '../../../types';
+import { TransactionHandler, TokenEvent } from '../../../types';
 import { createEventId, transactionMatchesPattern } from '../../../lib/utils';
 import { OBJKT_CONTRACT_MARKETPLACE_V2 } from '../../../consts';
+import {
+  tokenEventFields,
+  offerIdField,
+  buyerAddressField,
+  artistAddressField,
+  currencyField,
+  priceField,
+  endPriceField,
+} from '../event-fields-meta';
 
 export const EVENT_TYPE_OBJKT_OFFER = 'OBJKT_OFFER';
 
@@ -40,7 +49,10 @@ const ObjktAskHandler: TransactionHandler<ObjktOfferEvent> = {
 
   type: EVENT_TYPE_OBJKT_OFFER,
 
-  description: `An offer was created on objkt.com (marketplace contract: KT1WvzYHCNBvDSdwafTHv7nJ1dWmZ8GCYuuC).`,
+  meta: {
+    eventDescription: `An offer was created on objkt.com (marketplace contract: KT1WvzYHCNBvDSdwafTHv7nJ1dWmZ8GCYuuC).`,
+    eventFields: [...tokenEventFields, offerIdField, buyerAddressField, artistAddressField, currencyField, priceField, endPriceField],
+  },
 
   accept: (transaction) => {
     if (

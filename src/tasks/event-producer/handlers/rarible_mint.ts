@@ -6,6 +6,14 @@ import { TransactionHandler, MintEvent, Transaction, RoyaltyShares } from '../..
 import { createEventId, normalizeMetadataIpfsUri } from '../../../lib/utils';
 import { RoyaltySharesSchema } from '../../../lib/schemas';
 import { RARIBLE_CONTRACT_FA2 } from '../../../consts';
+import {
+  tokenEventFields,
+  artistAddressField,
+  isVerifiedArtistField,
+  editionsField,
+  metadataUriField,
+  royaltySharesField,
+} from '../event-fields-meta';
 
 export const EVENT_TYPE_RARIBLE_MINT = 'RARIBLE_MINT';
 
@@ -36,7 +44,10 @@ const RaribleMintHandler: TransactionHandler<RaribleMintEvent> = {
 
   type: EVENT_TYPE_RARIBLE_MINT,
 
-  description: `A token was minted on rarible.`,
+  meta: {
+    eventDescription: `A token was minted on rarible.`,
+    eventFields: [...tokenEventFields, artistAddressField, isVerifiedArtistField, editionsField, metadataUriField, royaltySharesField],
+  },
 
   accept: {
     entrypoint: 'mint',

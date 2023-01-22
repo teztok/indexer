@@ -4,9 +4,10 @@ import { assert, object, type, string, Describe, is, optional } from 'superstruc
 import { ContractAddress, IsoDateString, MetadataUri, PositiveInteger, PgBigInt } from '../../../lib/validators';
 import { TokenStorageSchema } from '../../../lib/schemas';
 import logger from '../../../lib/logger';
-import { TransactionHandler, TokenEvent, Transaction } from '../../../types';
+import { TransactionHandler, TokenEvent } from '../../../types';
 import { createEventId, filterDiffs } from '../../../lib/utils';
 import { normalizeMetadataIpfsUri } from '../../../lib/utils';
+import { tokenEventFields, metadataUriField, metadataField } from '../event-fields-meta';
 
 export const EVENT_TYPE_SET_METADATA = 'SET_METADATA';
 
@@ -65,7 +66,10 @@ const SetMetadataHandler: TransactionHandler<SetMetadataEvent> = {
 
   type: EVENT_TYPE_SET_METADATA,
 
-  description: `The metadata URI of a token was updated. This event usually also fires during the mint of a token.`,
+  meta: {
+    eventDescription: `The metadata URI of a token was updated. This event usually also fires during the mint of a token.`,
+    eventFields: [...tokenEventFields, metadataUriField, metadataField],
+  },
 
   accept: (transaction) => {
     const isUnderStorage = is(get(transaction, 'storage'), TokenStorageSchema);

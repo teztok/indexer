@@ -2,10 +2,22 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, optional, boolean, Describe } from 'superstruct';
 import { TezosAddress, ContractAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
-import { TransactionHandler, MintEvent, Transaction, RoyaltyShares } from '../../../types';
+import { TransactionHandler, MintEvent, RoyaltyShares } from '../../../types';
 import { createEventId, royaltiesToRoyaltyShares } from '../../../lib/utils';
 import { RoyaltySharesSchema } from '../../../lib/schemas';
 import { EIGHTBIDOU_8X8_COLOR_CONTRACT_FA2 } from '../../../consts';
+import {
+  tokenEventFields,
+  isVerifiedArtistField,
+  editionsField,
+  artistAddressField,
+  tokenNameField,
+  creatorNameField,
+  tokenDescriptionField,
+  metadataUriField,
+  rgbField,
+  royaltySharesField,
+} from '../event-fields-meta';
 
 export const EVENT_TYPE_8BID_8X8_COLOR_MINT = '8BID_8X8_COLOR_MINT';
 
@@ -45,7 +57,21 @@ const EightbidMint8x8ColorHandler: TransactionHandler<EightbidMint8x8ColorEvent>
 
   type: EVENT_TYPE_8BID_8X8_COLOR_MINT,
 
-  description: `An 8x8 color token was minted on 8bidou.`,
+  meta: {
+    eventDescription: `An 8x8 color token was minted on 8bidou.`,
+    eventFields: [
+      ...tokenEventFields,
+      isVerifiedArtistField,
+      editionsField,
+      artistAddressField,
+      tokenNameField,
+      creatorNameField,
+      tokenDescriptionField,
+      metadataUriField,
+      rgbField,
+      royaltySharesField,
+    ],
+  },
 
   accept: {
     entrypoint: 'mint',

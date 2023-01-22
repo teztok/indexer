@@ -2,9 +2,20 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, Describe, optional, boolean } from 'superstruct';
 import { ContractAddress, TezosAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
-import { TransactionHandler, TokenEvent, Transaction } from '../../../types';
+import { TransactionHandler, TokenEvent } from '../../../types';
 import { createEventId } from '../../../lib/utils';
 import { VERSUM_CONTRACT_MARKETPLACE } from '../../../consts';
+import {
+  tokenEventFields,
+  artistAddressField,
+  sellerAddressField,
+  swapIdField,
+  startPriceField,
+  endPriceField,
+  endTimeField,
+  amountField,
+  burnOnEndField,
+} from '../event-fields-meta';
 
 export const EVENT_TYPE_VERSUM_SWAP = 'VERSUM_SWAP';
 
@@ -43,7 +54,20 @@ const VersumSwapHandler: TransactionHandler<VersumSwapEvent> = {
 
   type: EVENT_TYPE_VERSUM_SWAP,
 
-  description: `A token was swapped on versum (marketplace contract: KT1GyRAJNdizF1nojQz62uGYkx8WFRUJm9X5).`,
+  meta: {
+    eventDescription: `A token was swapped on versum (marketplace contract: KT1GyRAJNdizF1nojQz62uGYkx8WFRUJm9X5).`,
+    eventFields: [
+      ...tokenEventFields,
+      artistAddressField,
+      sellerAddressField,
+      swapIdField,
+      startPriceField,
+      endPriceField,
+      endTimeField,
+      amountField,
+      burnOnEndField,
+    ],
+  },
 
   accept: {
     entrypoint: 'create_swap',

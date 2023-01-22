@@ -2,10 +2,18 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, boolean, string, Describe } from 'superstruct';
 import { TezosAddress, ContractAddress, IsoDateString, MetadataUri, PositiveInteger, PgBigInt } from '../../../lib/validators';
-import { TransactionHandler, MintEvent, Transaction, RoyaltyShares } from '../../../types';
+import { TransactionHandler, MintEvent, RoyaltyShares } from '../../../types';
 import { createEventId, royaltiesToRoyaltyShares } from '../../../lib/utils';
 import { RoyaltySharesSchema } from '../../../lib/schemas';
 import { TYPED_CONTRACT_MINT, TYPED_CONTRACT_FA2 } from '../../../consts';
+import {
+  tokenEventFields,
+  artistAddressField,
+  isVerifiedArtistField,
+  editionsField,
+  metadataUriField,
+  royaltySharesField,
+} from '../event-fields-meta';
 
 export const EVENT_TYPE_TYPED_MINT = 'TYPED_MINT';
 
@@ -35,7 +43,10 @@ const TypedMintHandler: TransactionHandler<TypedMintEvent> = {
 
   type: EVENT_TYPE_TYPED_MINT,
 
-  description: `A token was minted on typed.`,
+  meta: {
+    eventDescription: `A token was minted on typed.`,
+    eventFields: [...tokenEventFields, artistAddressField, isVerifiedArtistField, editionsField, metadataUriField, royaltySharesField],
+  },
 
   accept: [
     {

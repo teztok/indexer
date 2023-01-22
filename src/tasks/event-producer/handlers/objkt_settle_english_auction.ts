@@ -2,9 +2,20 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, Describe } from 'superstruct';
 import { TezosAddress, IsoDateString, PositiveInteger, PgBigInt, ContractAddress } from '../../../lib/validators';
-import { TransactionHandler, TokenEvent, Transaction, SaleEventInterface } from '../../../types';
+import { TransactionHandler, TokenEvent, SaleEventInterface } from '../../../types';
 import { findDiff, createEventId } from '../../../lib/utils';
 import { CURRENCY_MAPPINGS, OBJKT_CONTRACT_ENGLISH_AUCTION_V2, SALE_INTERFACE } from '../../../consts';
+import {
+  tokenSaleEventFields,
+  currencyField,
+  reserveField,
+  startTimeField,
+  endTimeField,
+  priceField,
+  editionsField,
+  priceIncrementField,
+  auctionIdField,
+} from '../event-fields-meta';
 
 export const EVENT_TYPE_OBJKT_SETTLE_ENGLISH_AUCTION = 'OBJKT_SETTLE_ENGLISH_AUCTION';
 
@@ -50,7 +61,20 @@ const ObjktSettleEnglishAuctionHandler: TransactionHandler<ObjktSettleEnglishAuc
 
   type: EVENT_TYPE_OBJKT_SETTLE_ENGLISH_AUCTION,
 
-  description: `An English auction was settled on objkt.com. Either the token was bought or the auction ended without a sale. (marketplace contract: KT18p94vjkkHYY3nPmernmgVR7HdZFzE7NAk).`,
+  meta: {
+    eventDescription: `An English auction was settled on objkt.com. Either the token was bought or the auction ended without a sale. (marketplace contract: KT18p94vjkkHYY3nPmernmgVR7HdZFzE7NAk).`,
+    eventFields: [
+      ...tokenSaleEventFields,
+      currencyField,
+      reserveField,
+      startTimeField,
+      endTimeField,
+      priceField,
+      editionsField,
+      priceIncrementField,
+      auctionIdField,
+    ],
+  },
 
   accept: {
     entrypoint: 'settle_auction',

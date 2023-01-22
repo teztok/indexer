@@ -145,12 +145,25 @@ export interface Origination {
 }
 
 export type Originations = Array<Origination>;
+
+type EventFieldName = string;
+type EventFieldType = 'string' | 'big integer' | 'timestamp' | 'json' | 'boolean';
+type EventFieldDescription = string;
+
+export type EventField = [EventFieldName, EventFieldType, EventFieldDescription];
+
+interface HandlerMeta {
+  eventDescription: string;
+
+  eventFields?: Array<EventField>;
+}
+
 export interface TransactionHandler<E extends Event> {
   source: 'transaction';
 
   type: string;
 
-  description: string;
+  meta: HandlerMeta;
 
   accept: TransactionAcceptFn | Pattern | Patterns;
 
@@ -162,7 +175,7 @@ export interface OriginationHandler<E extends Event> {
 
   type: string;
 
-  description: string;
+  meta: HandlerMeta;
 
   accept: OriginationAcceptFn;
 

@@ -2,9 +2,10 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, Describe } from 'superstruct';
 import { TezosAddress, ContractAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
-import { TransactionHandler, TokenEvent, Transaction, SaleEventInterface } from '../../../types';
+import { TransactionHandler, TokenEvent, SaleEventInterface } from '../../../types';
 import { createEventId, findDiff } from '../../../lib/utils';
 import { FX_CONTRACT_MARKETPLACE_V3, GENTK_VERSION_TO_FA2_CONTRACT_MAPPING, SALE_INTERFACE } from '../../../consts';
+import { tokenSaleEventFields, swapIdField } from '../event-fields-meta';
 
 export const EVENT_TYPE_FX_LISTING_ACCEPT = 'FX_LISTING_ACCEPT';
 
@@ -36,7 +37,10 @@ const FxListingAcceptHandler: TransactionHandler<FxListingAcceptEvent> = {
 
   type: EVENT_TYPE_FX_LISTING_ACCEPT,
 
-  description: `A listing was accepted on fxhash (marketplace contract: KT1GbyoDi7H1sfXmimXpptZJuCdHMh66WS9u).`,
+  meta: {
+    eventDescription: `A listing was accepted on fxhash (marketplace contract: KT1GbyoDi7H1sfXmimXpptZJuCdHMh66WS9u).`,
+    eventFields: [...tokenSaleEventFields, swapIdField],
+  },
 
   accept: {
     entrypoint: 'listing_accept',

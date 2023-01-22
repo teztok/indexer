@@ -2,9 +2,10 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, Describe } from 'superstruct';
 import { TezosAddress, IsoDateString, PositiveInteger, PgBigInt, ContractAddress } from '../../../lib/validators';
-import { TransactionHandler, TokenEvent, Transaction, SaleEventInterface } from '../../../types';
+import { TransactionHandler, TokenEvent, SaleEventInterface } from '../../../types';
 import { createEventId } from '../../../lib/utils';
 import { KALAMINT_CONTRACT_FA2, SALE_INTERFACE } from '../../../consts';
+import { tokenSaleEventFields } from '../event-fields-meta';
 
 export const EVENT_TYPE_KALAMINT_BUY = 'KALAMINT_BUY';
 
@@ -34,7 +35,10 @@ const KalamintBuyHandler: TransactionHandler<KalamintBuyEvent> = {
 
   type: EVENT_TYPE_KALAMINT_BUY,
 
-  description: `A token was bought on Kalamint.`,
+  meta: {
+    eventDescription: `A token was bought on Kalamint.`,
+    eventFields: [...tokenSaleEventFields],
+  },
 
   accept: {
     entrypoint: 'buy',

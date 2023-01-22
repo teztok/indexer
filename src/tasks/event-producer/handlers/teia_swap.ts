@@ -2,9 +2,18 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, Describe } from 'superstruct';
 import { ContractAddress, TezosAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
-import { TransactionHandler, TokenEvent, Transaction } from '../../../types';
+import { TransactionHandler, TokenEvent } from '../../../types';
 import { createEventId } from '../../../lib/utils';
 import { TEIA_CONTRACT_MARKETPLACE } from '../../../consts';
+import {
+  tokenEventFields,
+  artistAddressField,
+  sellerAddressField,
+  swapIdField,
+  priceField,
+  royaltiesField,
+  amountField,
+} from '../event-fields-meta';
 
 export const EVENT_TYPE_TEIA_SWAP = 'TEIA_SWAP';
 
@@ -40,7 +49,10 @@ const TeiaSwapHandler: TransactionHandler<TeiaSwapEvent> = {
 
   type: EVENT_TYPE_TEIA_SWAP,
 
-  description: `A token was swapped on the Teia marketplace contract (marketplace contract: KT1PHubm9HtyQEJ4BBpMTVomq6mhbfNZ9z5w).`,
+  meta: {
+    eventDescription: `A token was swapped on the Teia marketplace contract (marketplace contract: KT1PHubm9HtyQEJ4BBpMTVomq6mhbfNZ9z5w).`,
+    eventFields: [...tokenEventFields, artistAddressField, sellerAddressField, swapIdField, priceField, royaltiesField, amountField],
+  },
 
   accept: {
     entrypoint: 'swap',

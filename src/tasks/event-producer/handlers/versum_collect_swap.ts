@@ -1,13 +1,11 @@
 import get from 'lodash/get';
-import keyBy from 'lodash/keyBy';
 import omit from 'lodash/omit';
 import { assert, object, string, optional, Describe } from 'superstruct';
 import { TezosAddress, IsoDateString, PositiveInteger, PgBigInt, ContractAddress } from '../../../lib/validators';
-import { TransactionHandler, TokenEvent, Transaction, MintEvent, SaleEventInterface } from '../../../types';
+import { TransactionHandler, TokenEvent, SaleEventInterface } from '../../../types';
 import { findDiff, createEventId } from '../../../lib/utils';
-import * as eventsDao from '../../../lib/daos/events';
 import { VERSUM_CONTRACT_MARKETPLACE, SALE_INTERFACE } from '../../../consts';
-import { EVENT_TYPE_VERSUM_MINT } from './versum_mint';
+import { tokenSaleEventFields, artistAddressField, swapIdField, amountField } from '../event-fields-meta';
 
 export const EVENT_TYPE_VERSUM_COLLECT_SWAP = 'VERSUM_COLLECT_SWAP';
 
@@ -43,7 +41,10 @@ const VersumCollectSwapHandler: TransactionHandler<VersumCollectEvent> = {
 
   type: EVENT_TYPE_VERSUM_COLLECT_SWAP,
 
-  description: `A token was collected on versum (marketplace contract: KT1GyRAJNdizF1nojQz62uGYkx8WFRUJm9X5).`,
+  meta: {
+    eventDescription: `A token was collected on versum (marketplace contract: KT1GyRAJNdizF1nojQz62uGYkx8WFRUJm9X5).`,
+    eventFields: [...tokenSaleEventFields, artistAddressField, swapIdField, amountField],
+  },
 
   accept: {
     entrypoint: 'collect_swap',

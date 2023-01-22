@@ -2,9 +2,23 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, Describe } from 'superstruct';
 import { TezosAddress, IsoDateString, PositiveInteger, PgBigInt, ContractAddress } from '../../../lib/validators';
-import { TransactionHandler, TokenEvent, Transaction } from '../../../types';
+import { TransactionHandler, TokenEvent } from '../../../types';
 import { findDiff, transactionMatchesPattern, createEventId } from '../../../lib/utils';
 import { OBJKT_CONTRACT_ENGLISH_AUCTION_PRE, OBJKT_CONTRACT_ENGLISH_AUCTION_V1 } from '../../../consts';
+import {
+  tokenEventFields,
+  sellerAddressField,
+  artistAddressField,
+  reserveField,
+  startTimeField,
+  endTimeField,
+  currentPriceField,
+  extensionTimeField,
+  highestBidderAddressField,
+  royaltiesField,
+  priceIncrementField,
+  auctionIdField,
+} from '../event-fields-meta';
 
 export const EVENT_TYPE_OBJKT_CANCEL_ENGLISH_AUCTION = 'OBJKT_CANCEL_ENGLISH_AUCTION';
 
@@ -54,7 +68,23 @@ const ObjktCancelEnglishAuctionHandler: TransactionHandler<ObjktCancelEnglishAuc
 
   type: EVENT_TYPE_OBJKT_CANCEL_ENGLISH_AUCTION,
 
-  description: `An english auction was canceled on objkt.com (marketplace contract: KT1ET45vnyEFMLS9wX1dYHEs9aCN3twDEiQw or KT1QJ71jypKGgyTNtXjkCAYJZNhCKWiHuT2r).`,
+  meta: {
+    eventDescription: `An english auction was canceled on objkt.com (marketplace contract: KT1ET45vnyEFMLS9wX1dYHEs9aCN3twDEiQw or KT1QJ71jypKGgyTNtXjkCAYJZNhCKWiHuT2r).`,
+    eventFields: [
+      ...tokenEventFields,
+      sellerAddressField,
+      artistAddressField,
+      reserveField,
+      startTimeField,
+      endTimeField,
+      currentPriceField,
+      extensionTimeField,
+      highestBidderAddressField,
+      royaltiesField,
+      priceIncrementField,
+      auctionIdField,
+    ],
+  },
 
   accept: (transaction) => {
     return (

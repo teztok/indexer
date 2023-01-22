@@ -2,9 +2,25 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, boolean, Describe } from 'superstruct';
 import { TezosAddress, ContractAddress, IsoDateString, MetadataUri, PositiveInteger, PgBigInt } from '../../../lib/validators';
-import { TransactionHandler, Event, Transaction } from '../../../types';
+import { TransactionHandler, Event } from '../../../types';
 import { createEventId } from '../../../lib/utils';
 import { FX_CONTRACT_MINT_V2 } from '../../../consts';
+import {
+  idField,
+  typeField,
+  opidField,
+  timestampField,
+  levelField,
+  fa2AddressField,
+  artistAddressField,
+  isVerifiedArtistField,
+  ophashField,
+  issuerIdField,
+  royaltiesField,
+  editionsField,
+  metadataUriField,
+  priceField,
+} from '../event-fields-meta';
 
 export const EVENT_TYPE_FX_MINT_ISSUER_V2 = 'FX_MINT_ISSUER_V2';
 
@@ -41,7 +57,25 @@ const FxMintIssuerV2Handler: TransactionHandler<FxMintIssuerV2Event> = {
 
   type: EVENT_TYPE_FX_MINT_ISSUER_V2,
 
-  description: `A generator was created on fxhash (contract: KT1XCoGnfupWk7Sp8536EfrxcP73LmT68Nyr).`,
+  meta: {
+    eventDescription: `A generator token was created on fxhash (contract: KT1XCoGnfupWk7Sp8536EfrxcP73LmT68Nyr).`,
+    eventFields: [
+      idField,
+      typeField,
+      opidField,
+      timestampField,
+      levelField,
+      fa2AddressField,
+      artistAddressField,
+      isVerifiedArtistField,
+      ophashField,
+      issuerIdField,
+      royaltiesField,
+      editionsField,
+      metadataUriField,
+      priceField,
+    ],
+  },
 
   accept: {
     entrypoint: 'mint_issuer',
