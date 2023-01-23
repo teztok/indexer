@@ -2,7 +2,8 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { optional, assert, object, string, Describe } from 'superstruct';
 import { TezosAddress, ContractAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
-import { TransactionHandler, TokenEvent } from '../../../types';
+import { RoyaltySharesSchema } from '../../../lib/schemas';
+import { TransactionHandler, TokenEvent, RoyaltyShares } from '../../../types';
 import { createEventId } from '../../../lib/utils';
 import { OBJKT_CONTRACT_MARKETPLACE_V2 } from '../../../consts';
 import {
@@ -26,6 +27,7 @@ export interface ObjktAskV2Event extends TokenEvent {
   price: string;
   amount: string;
   currency: string;
+  royalty_shares: RoyaltyShares;
   end_time?: string;
 }
 
@@ -43,6 +45,7 @@ const ObjktAskV2EventSchema: Describe<Omit<ObjktAskV2Event, 'type'>> = object({
   currency: string(),
   price: PgBigInt,
   amount: PgBigInt,
+  royalty_shares: RoyaltySharesSchema,
   end_time: optional(IsoDateString),
 });
 
@@ -80,8 +83,7 @@ const ObjktAskHandler: TransactionHandler<ObjktAskV2Event> = {
     const currency = Object.keys(get(transaction, 'parameter.value.currency'))[0];
     const price = get(transaction, 'parameter.value.amount');
     const id = createEventId(EVENT_TYPE_OBJKT_ASK_V2, transaction);
-
-    // TODO: add artist
+    const shares: Array<{ amount: string; recipient: string }> = get(transaction, 'parameter.value.shares');
 
     const event: ObjktAskV2Event = {
       id,
@@ -97,6 +99,13 @@ const ObjktAskHandler: TransactionHandler<ObjktAskV2Event> = {
       currency,
       price: price,
       amount: amount,
+      royalty_shares: {
+        decimals: 4,
+        shares: (shares || []).reduce<Record<string, string>>((memo, entry) => {
+          memo[entry.recipient] = entry.amount;
+          return memo;
+        }, {}),
+      },
     };
 
     if (expiryTime) {

@@ -1,4 +1,4 @@
-import { compileToken, calcPriceDiff, calcPricePct, royaltySharesToRoyaltyReceivers } from './rebuild-token';
+import { compileToken, calcPriceDiff, calcPricePct, royaltySharesToRoyaltyReceivers, areRoyaltyReceiversTheSame } from './rebuild-token';
 import { AnyEvent } from '../event-producer/handlers/index';
 
 const TEST_FA2_ADDRESS = 'KT1PHubm9HtyQEJ4BBpMTVomq6mhbfNZ9z5w';
@@ -1190,6 +1190,12 @@ test('handles OBJKT_ASK_V2 and OBJKT_FULFILL_ASK_V2 events', () => {
       currency: 'tez',
       price: TEST_PRICE,
       amount: '10',
+      royalty_shares: {
+        decimals: 4,
+        shares: {
+          tz1P3LVXdgtMmWfvag98ELYvA45KsMaSCd3W: '2500',
+        },
+      },
     },
     {
       id: '9909b01937459a2ba0d6facf413b5ee1',
@@ -1256,6 +1262,12 @@ test('handles OBJKT_ASK_V2 and OBJKT_FULFILL_ASK_V2 events, sold out case', () =
       currency: 'tez',
       price: TEST_PRICE,
       amount: '1',
+      royalty_shares: {
+        decimals: 4,
+        shares: {
+          tz1P3LVXdgtMmWfvag98ELYvA45KsMaSCd3W: '2500',
+        },
+      },
     },
     {
       id: '9909b01937459a2ba0d6facf413b5ee1',
@@ -1292,6 +1304,121 @@ test('handles OBJKT_ASK_V2 and OBJKT_FULFILL_ASK_V2 events, sold out case', () =
   ]);
 });
 
+test('does create an OBJKT_ASK_V2 listing if the royalty shares between token and swap do match', () => {
+  const events: Array<AnyEvent> = [
+    {
+      id: 'bbbf0d6b108216ca4162179aed96f8f0',
+      type: 'SET_LEDGER',
+      opid: '1',
+      ophash: TEST_OPHASH,
+      timestamp: '2021-01-01T03:39:21Z',
+      level: 1365242,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      holder_address: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
+      amount: '10',
+      is_mint: true,
+      ledger_type: 'MULTI_ASSET',
+    },
+    {
+      id: '22af9d5162ba6343a8ebaefe8de0e606',
+      type: 'OBJKT_ASK_V2',
+      opid: '170773706',
+      ophash: TEST_OPHASH,
+      timestamp: '2022-02-10T13:01:54Z',
+      level: 2105745,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      ask_id: TEST_SWAP_ID,
+      seller_address: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
+      currency: 'tez',
+      price: TEST_PRICE,
+      amount: '1',
+      royalty_shares: {
+        decimals: 4,
+        shares: {
+          tz1P3LVXdgtMmWfvag98ELYvA45KsMaSCd3W: '2500',
+        },
+      },
+    },
+  ];
+
+  const { listings } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'processed', {
+    royalties: {
+      decimals: 4,
+      shares: {
+        tz1P3LVXdgtMmWfvag98ELYvA45KsMaSCd3W: '2500',
+      },
+    },
+  } as any);
+
+  expect(listings).toEqual([
+    {
+      type: 'OBJKT_ASK_V2',
+      contract_address: 'KT1WvzYHCNBvDSdwafTHv7nJ1dWmZ8GCYuuC',
+      created_at: '2022-02-10T13:01:54Z',
+      ask_id: TEST_SWAP_ID,
+      seller_address: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
+      amount: 1,
+      amount_left: 1,
+      price: TEST_PRICE,
+      currency: 'tez',
+      status: 'active',
+    },
+  ]);
+});
+
+test('does not create an OBJKT_ASK_V2 listing if the royalty shares between token and swap do not match', () => {
+  const events: Array<AnyEvent> = [
+    {
+      id: 'bbbf0d6b108216ca4162179aed96f8f0',
+      type: 'SET_LEDGER',
+      opid: '1',
+      ophash: TEST_OPHASH,
+      timestamp: '2021-01-01T03:39:21Z',
+      level: 1365242,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      holder_address: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
+      amount: '10',
+      is_mint: true,
+      ledger_type: 'MULTI_ASSET',
+    },
+    {
+      id: '22af9d5162ba6343a8ebaefe8de0e606',
+      type: 'OBJKT_ASK_V2',
+      opid: '170773706',
+      ophash: TEST_OPHASH,
+      timestamp: '2022-02-10T13:01:54Z',
+      level: 2105745,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      ask_id: TEST_SWAP_ID,
+      seller_address: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
+      currency: 'tez',
+      price: TEST_PRICE,
+      amount: '1',
+      royalty_shares: {
+        decimals: 4,
+        shares: {
+          tz1P3LVXdgtMmWfvag98ELYvA45KsMaSCd3W: '2500',
+        },
+      },
+    },
+  ];
+
+  const { listings } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'processed', {
+    royalties: {
+      decimals: 4,
+      shares: {
+        tz1P3LVXdgtMmWfvag98ELYvA45KsMaSCd3W: '1000',
+      },
+    },
+  } as any);
+
+  expect(listings).toEqual([]);
+});
+
 test('handles OBJKT_RETRACT_ASK_V2 events', () => {
   const events: Array<AnyEvent> = [
     {
@@ -1322,6 +1449,12 @@ test('handles OBJKT_RETRACT_ASK_V2 events', () => {
       currency: 'tez',
       price: TEST_PRICE,
       amount: '10',
+      royalty_shares: {
+        decimals: 4,
+        shares: {
+          tz1P3LVXdgtMmWfvag98ELYvA45KsMaSCd3W: '2500',
+        },
+      },
     },
     {
       id: 'fe0383a5510b522499102bf7be229feb',
@@ -1385,6 +1518,12 @@ test('handles OBJKT_ASK_V2 events, case where the seller transferred the token w
       currency: 'tez',
       price: TEST_PRICE,
       amount: '10',
+      royalty_shares: {
+        decimals: 4,
+        shares: {
+          tz1P3LVXdgtMmWfvag98ELYvA45KsMaSCd3W: '2500',
+        },
+      },
     },
     {
       id: 'bbbf0d6b108216ca4162179aed96f8f0',
@@ -4214,4 +4353,57 @@ test('transforms royalty shares to royalty receivers', () => {
   expect(royaltySharesToRoyaltyReceivers({ decimals: 8, shares: { tz1McBtWiJREYBvYzH1VAN4dgMVsdinjsqmU: '10000001' } })).toStrictEqual([]);
 
   expect(royaltySharesToRoyaltyReceivers({ decimals: 8, shares: { tz1McBtWiJREYBvYzH1VAN4dgMVsdinjsqmU: '5000000' } })).toStrictEqual([]);
+});
+
+test('check if two royalty receiver arrays are the same', () => {
+  expect(
+    areRoyaltyReceiversTheSame(
+      [
+        {
+          receiver_address: 'tz1McBtWiJREYBvYzH1VAN4dgMVsdinjsqmU',
+          royalties: '5000',
+        },
+      ],
+      [
+        {
+          receiver_address: 'tz1McBtWiJREYBvYzH1VAN4dgMVsdinjsqmU',
+          royalties: '5000',
+        },
+      ]
+    )
+  ).toBe(true);
+
+  expect(
+    areRoyaltyReceiversTheSame(
+      [
+        {
+          receiver_address: 'tz1McBtWiJREYBvYzH1VAN4dgMVsdinjsqmU',
+          royalties: '5000',
+        },
+      ],
+      [
+        {
+          receiver_address: 'tz1McBtWiJREYBvYzH1VAN4dgMVsdinjsqmU',
+          royalties: '4000',
+        },
+      ]
+    )
+  ).toBe(false);
+
+  expect(
+    areRoyaltyReceiversTheSame(
+      [
+        {
+          receiver_address: 'tz1McBtWiJREYBvYzH1VAN4dgMVsdinjsqmU',
+          royalties: '5000',
+        },
+      ],
+      [
+        {
+          receiver_address: 'tz1McBtWiJREYBvYzH1VAN4dgMVsdinjsqmX',
+          royalties: '5000',
+        },
+      ]
+    )
+  ).toBe(false);
 });
