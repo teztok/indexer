@@ -2,7 +2,7 @@ import { EventField } from '../../types';
 
 export const idField: EventField = ['id', 'string', 'A unique ID, is used to identify the event.'];
 export const fa2AddressField: EventField = ['fa2_address', 'string', 'The contract address of the token (always starts with “KT”).'];
-export const tokenIdField: EventField = ['fa2_address', 'string', 'The contract address of the token (always starts with “KT”).'];
+export const tokenIdField: EventField = ['token_id', 'string', 'The ID of the token. This is a numeric value but stored as a string because it can contain a lot of digits in some rare cases.'];
 export const opidField: EventField = ['opid', 'big integer', 'The ID of the operation which led to this event (created by TzKT).'];
 export const levelField: EventField = [
   'level',
