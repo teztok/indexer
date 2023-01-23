@@ -6,6 +6,7 @@ import orderBy from 'lodash/orderBy';
 import omit from 'lodash/omit';
 import chunk from 'lodash/chunk';
 import isString from 'lodash/isString';
+import isEqual from 'lodash/isEqual';
 import findLast from 'lodash/findLast';
 import snakeCase from 'lodash/snakeCase';
 import { is } from 'superstruct';
@@ -45,6 +46,8 @@ export interface RebuildTokenTaskPayload {
   fa2_address: string;
   token_id: string;
 }
+
+type RoyaltyReceivers = Array<{ receiver_address: string; royalties: string }>;
 
 function createListingKey(contractAddress: string, id: string) {
   return `${contractAddress}:${id}`;
@@ -119,6 +122,17 @@ export function royaltySharesToRoyaltyReceivers(royaltyShares: RoyaltyShares): A
       royalties: royaltiesStrNormalized,
     };
   });
+}
+
+function royaltyReceiversToRecord(royaltyReceivers: RoyaltyReceivers) {
+  return royaltyReceivers.reduce<Record<string, string>>((memo, entry) => {
+    memo[entry.receiver_address] = entry.royalties;
+    return memo;
+  }, {});
+}
+
+export function areRoyaltyReceiversTheSame(royaltyReceiversA: RoyaltyReceivers, royaltyReceiversB: RoyaltyReceivers) {
+  return isEqual(royaltyReceiversToRecord(royaltyReceiversA), royaltyReceiversToRecord(royaltyReceiversB));
 }
 
 export function compileToken(fa2Address: string, tokenId: string, events: Array<AnyEvent>, metadataStatus: string, metadata?: Metadata) {
@@ -408,6 +422,15 @@ export function compileToken(fa2Address: string, tokenId: string, events: Array<
       }
 
       case 'OBJKT_ASK_V2': {
+        if (
+          event.royalty_shares &&
+          royaltyReceivers &&
+          !areRoyaltyReceiversTheSame(royaltySharesToRoyaltyReceivers(event.royalty_shares), royaltyReceivers)
+        ) {
+          // potentially fraudulent swap, ignore
+          break;
+        }
+
         listings[createListingKey(OBJKT_CONTRACT_MARKETPLACE_V2, event.ask_id)] = {
           type: 'OBJKT_ASK_V2',
           contract_address: OBJKT_CONTRACT_MARKETPLACE_V2,
@@ -420,6 +443,7 @@ export function compileToken(fa2Address: string, tokenId: string, events: Array<
           currency: event.currency,
           status: 'active',
         };
+
         break;
       }
 
