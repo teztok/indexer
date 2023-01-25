@@ -185,10 +185,14 @@ test('creates OBJKT_OFFER events', async () => {
       token_id: '667462',
       offer_id: '1000001',
       buyer_address: 'tz2A1H2nqwm2ZYzyRsFs1iWPsCjdmWd4Srmz',
-      //artist_address: 'tz1aWL8AMR6CH4NMdUuiLekQbQ5TPYMzvtuQ',
-      //royalties: '200',
       price: '3000000',
       currency: 'tez',
+      royalty_shares: {
+        decimals: 4,
+        shares: {
+          tz1imc2GqQMk12cwj4LcQmiSaA9TBA1nn6FF: '1000',
+        },
+      },
     },
   ]);
 });

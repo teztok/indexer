@@ -1673,6 +1673,12 @@ test('handles OBJKT_OFFER and OBJKT_FULFILL_OFFER events', () => {
       buyer_address: 'tz2A1H2nqwm2ZYzyRsFs1iWPsCjdmWd4Srmz',
       price: TEST_PRICE,
       currency: 'tez',
+      royalty_shares: {
+        decimals: 4,
+        shares: {
+          tz1imc2GqQMk12cwj4LcQmiSaA9TBA1nn6FF: '1000',
+        },
+      },
     },
     {
       id: '6912624af7a500ed5b0fb043d1fc3b20',
@@ -1706,6 +1712,88 @@ test('handles OBJKT_OFFER and OBJKT_FULFILL_OFFER events', () => {
   ]);
 });
 
+test('does not create an offer of type OBJKT_OFFER if royalties do not match', () => {
+  const events: Array<AnyEvent> = [
+    {
+      id: '20d0768554f43551632182f124a1dcc3',
+      type: 'OBJKT_OFFER',
+      opid: '170991604',
+      ophash: TEST_OPHASH,
+      timestamp: '2022-02-10T18:39:24Z',
+      level: 2106420,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      offer_id: TEST_SWAP_ID,
+      buyer_address: 'tz2A1H2nqwm2ZYzyRsFs1iWPsCjdmWd4Srmz',
+      price: TEST_PRICE,
+      currency: 'tez',
+      royalty_shares: {
+        decimals: 4,
+        shares: {
+          tz1imc2GqQMk12cwj4LcQmiSaA9TBA1nn6FF: '1000',
+        },
+      },
+    },
+  ];
+
+  const { offers } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'processed', {
+    royalties: {
+      decimals: 4,
+      shares: {
+        tz1imc2GqQMk12cwj4LcQmiSaA9TBA1nn6FF: '2000',
+      },
+    },
+  } as any);
+
+  expect(offers).toEqual([]);
+});
+
+test('does create an offer of type OBJKT_OFFER if royalties match', () => {
+  const events: Array<AnyEvent> = [
+    {
+      id: '20d0768554f43551632182f124a1dcc3',
+      type: 'OBJKT_OFFER',
+      opid: '170991604',
+      ophash: TEST_OPHASH,
+      timestamp: '2022-02-10T18:39:24Z',
+      level: 2106420,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      offer_id: TEST_SWAP_ID,
+      buyer_address: 'tz2A1H2nqwm2ZYzyRsFs1iWPsCjdmWd4Srmz',
+      price: TEST_PRICE,
+      currency: 'tez',
+      royalty_shares: {
+        decimals: 4,
+        shares: {
+          tz1imc2GqQMk12cwj4LcQmiSaA9TBA1nn6FF: '1000',
+        },
+      },
+    },
+  ];
+
+  const { offers } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'processed', {
+    royalties: {
+      decimals: 4,
+      shares: {
+        tz1imc2GqQMk12cwj4LcQmiSaA9TBA1nn6FF: '1000',
+      },
+    },
+  } as any);
+
+  expect(offers).toEqual([
+    {
+      type: 'OBJKT_OFFER',
+      contract_address: 'KT1WvzYHCNBvDSdwafTHv7nJ1dWmZ8GCYuuC',
+      created_at: '2022-02-10T18:39:24Z',
+      offer_id: TEST_SWAP_ID,
+      buyer_address: 'tz2A1H2nqwm2ZYzyRsFs1iWPsCjdmWd4Srmz',
+      price: TEST_PRICE,
+      status: 'active',
+    },
+  ]);
+});
+
 test('handles OBJKT_RETRACT_OFFER events', () => {
   const events: Array<AnyEvent> = [
     {
@@ -1721,6 +1809,12 @@ test('handles OBJKT_RETRACT_OFFER events', () => {
       buyer_address: 'tz2A1H2nqwm2ZYzyRsFs1iWPsCjdmWd4Srmz',
       price: TEST_PRICE,
       currency: 'tez',
+      royalty_shares: {
+        decimals: 4,
+        shares: {
+          tz1imc2GqQMk12cwj4LcQmiSaA9TBA1nn6FF: '1000',
+        },
+      },
     },
     {
       id: 'bb47c9392cbb7ddbc34c57daa75ea11c',

@@ -2,7 +2,8 @@ import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { optional, assert, object, string, Describe } from 'superstruct';
 import { TezosAddress, ContractAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
-import { TransactionHandler, TokenEvent } from '../../../types';
+import { TransactionHandler, TokenEvent, RoyaltyShares } from '../../../types';
+import { RoyaltySharesSchema } from '../../../lib/schemas';
 import { createEventId, transactionMatchesPattern } from '../../../lib/utils';
 import { OBJKT_CONTRACT_MARKETPLACE_V2 } from '../../../consts';
 import {
@@ -13,6 +14,7 @@ import {
   currencyField,
   priceField,
   endPriceField,
+  royaltySharesField,
 } from '../event-fields-meta';
 
 export const EVENT_TYPE_OBJKT_OFFER = 'OBJKT_OFFER';
@@ -24,6 +26,7 @@ export interface ObjktOfferEvent extends TokenEvent {
   artist_address?: string;
   price: string;
   currency: string;
+  royalty_shares: RoyaltyShares;
   end_time?: string;
 }
 
@@ -41,6 +44,7 @@ const ObjktOfferEventSchema: Describe<Omit<ObjktOfferEvent, 'type'>> = object({
   artist_address: optional(TezosAddress),
   currency: string(),
   price: PgBigInt,
+  royalty_shares: RoyaltySharesSchema,
   end_time: optional(IsoDateString),
 });
 
@@ -51,7 +55,16 @@ const ObjktAskHandler: TransactionHandler<ObjktOfferEvent> = {
 
   meta: {
     eventDescription: `An offer was created on objkt.com (marketplace contract: KT1WvzYHCNBvDSdwafTHv7nJ1dWmZ8GCYuuC).`,
-    eventFields: [...tokenEventFields, offerIdField, buyerAddressField, artistAddressField, currencyField, priceField, endPriceField],
+    eventFields: [
+      ...tokenEventFields,
+      offerIdField,
+      buyerAddressField,
+      artistAddressField,
+      currencyField,
+      priceField,
+      endPriceField,
+      royaltySharesField,
+    ],
   },
 
   accept: (transaction) => {
@@ -76,8 +89,7 @@ const ObjktAskHandler: TransactionHandler<ObjktOfferEvent> = {
     const currency = Object.keys(get(transaction, 'parameter.value.currency'))[0];
     const price = get(transaction, 'parameter.value.amount');
     const id = createEventId(EVENT_TYPE_OBJKT_OFFER, transaction);
-
-    // TODO: add artist
+    const shares: Array<{ amount: string; recipient: string }> = get(transaction, 'parameter.value.shares');
 
     const event: ObjktOfferEvent = {
       id,
@@ -92,6 +104,13 @@ const ObjktAskHandler: TransactionHandler<ObjktOfferEvent> = {
       buyer_address: buyerAddress,
       currency,
       price: price,
+      royalty_shares: {
+        decimals: 4,
+        shares: (shares || []).reduce<Record<string, string>>((memo, entry) => {
+          memo[entry.recipient] = entry.amount;
+          return memo;
+        }, {}),
+      },
     };
 
     if (expiryTime) {
