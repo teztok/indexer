@@ -15,6 +15,7 @@ import {
   priceField,
   amountField,
   endTimeField,
+  royaltySharesField,
 } from '../event-fields-meta';
 
 export const EVENT_TYPE_OBJKT_ASK_V2 = 'OBJKT_ASK_V2';
@@ -65,6 +66,7 @@ const ObjktAskHandler: TransactionHandler<ObjktAskV2Event> = {
       priceField,
       amountField,
       endTimeField,
+      royaltySharesField,
     ],
   },
 

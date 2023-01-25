@@ -507,6 +507,15 @@ export function compileToken(fa2Address: string, tokenId: string, events: Array<
       }
 
       case 'OBJKT_OFFER': {
+        if (
+          event.royalty_shares &&
+          royaltyReceivers &&
+          !areRoyaltyReceiversTheSame(royaltySharesToRoyaltyReceivers(event.royalty_shares), royaltyReceivers)
+        ) {
+          // potentially fraudulent offer, ignore
+          break;
+        }
+
         offers[createListingKey(OBJKT_CONTRACT_MARKETPLACE_V2, event.offer_id)] = {
           type: 'OBJKT_OFFER',
           contract_address: OBJKT_CONTRACT_MARKETPLACE_V2,
