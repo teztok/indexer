@@ -98,6 +98,16 @@ export function createEventId(handlerName: string, transaction: Transaction | Or
   );
 }
 
+export async function getBlockQuotes(level: number, currencies: Array<string>) {
+  const result = await got(`${config.tzktApiUrl}/blocks/${level}`, {
+    searchParams: {
+      quote: currencies.join(','),
+    },
+  }).json<{ quote: Record<string, number> }>();
+
+  return result.quote;
+}
+
 export async function getTransactions(filters: GetTransactionsFilters, perPage: number = 2000, maxPages: number = 20) {
   const allTransactions: Transactions = [];
   let currentPage = 0;
