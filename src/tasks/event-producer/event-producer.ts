@@ -1,6 +1,7 @@
 import '../../bootstrap';
 import groupBy from 'lodash/groupBy';
 import uniqBy from 'lodash/uniqBy';
+import uniq from 'lodash/uniq';
 import chunk from 'lodash/chunk';
 import keyBy from 'lodash/keyBy';
 import isFunction from 'lodash/isFunction';
@@ -23,7 +24,7 @@ import {
   TransactionHandler,
   OriginationHandler,
 } from '../../types';
-import { transactionMatchesPattern, getTransactions, getOriginations, getTaskName } from '../../lib/utils';
+import { transactionMatchesPattern, getBlockQuotes, getTransactions, getOriginations, getTaskName } from '../../lib/utils';
 import * as eventsDao from '../../lib/daos/events';
 import logger from '../../lib/logger';
 import config from '../../lib/config';
@@ -173,6 +174,51 @@ export async function processEvents(events: Array<AnyEvent>) {
   await triggerEventsProduced(events);
 }
 
+export async function addQuotesToEvents(events: Array<AnyEvent>) {
+  const blockLevels = uniq(events.map((event) => event.level).filter((level) => level));
+
+  for (const level of blockLevels) {
+    const quotes = await getBlockQuotes(level, ['btc', 'eth', 'eur', 'usd', 'cny', 'jpy', 'krw', 'gbp']);
+
+    try {
+      for (const event of events) {
+        event.quotes = quotes;
+
+        if ('price' in event && event.price && (!('currency' in event) || !event.currency || ['tez', 'otez'].includes(event.currency))) {
+          const price = parseInt(event.price, 10);
+
+          if (quotes.eur) {
+            // note that the user needs to devide this by 1000000, since price is in muTEZ
+            event.price_in_eur = String((price * quotes.eur).toFixed(0));
+          }
+
+          if (quotes.usd) {
+            event.price_in_usd = String((price * quotes.usd).toFixed(0));
+          }
+
+          if (quotes.cny) {
+            event.price_in_cny = String((price * quotes.cny).toFixed(0));
+          }
+
+          if (quotes.jpy) {
+            event.price_in_jpy = String((price * quotes.jpy).toFixed(0));
+          }
+
+          if (quotes.krw) {
+            event.price_in_krw = String((price * quotes.krw).toFixed(0));
+          }
+
+          if (quotes.gbp) {
+            event.price_in_gbp = String((price * quotes.gbp).toFixed(0));
+          }
+        }
+      }
+    } catch (err) {
+      logger.error(`failed to set quotes in events of block-level ${level}`, err);
+    }
+  }
+}
+
 export async function produceEvents(payload: EventProducerTaskPayload) {
   const transactions = await getTransactions(payload.filters);
   const originations = await getOriginations(payload.filters);
@@ -208,6 +254,8 @@ export async function produceEvents(payload: EventProducerTaskPayload) {
   if (!events.length) {
     return;
   }
+
+  await addQuotesToEvents(events);
 
   const tokenEvents = events.filter((event) => 'fa2_address' in event && 'token_id' in event) as Array<TokenEvent>;
   const tokens = uniqBy(tokenEvents, ({ fa2_address, token_id }) => `${fa2_address}-${token_id}`).map((event) => ({

@@ -29,6 +29,13 @@ export interface Event {
   level: number;
   opid: string;
   ophash: string;
+  quotes?: Record<string, number>;
+  price_in_eur?: string;
+  price_in_usd?: string;
+  price_in_cny?: string;
+  price_in_jpy?: string;
+  price_in_krw?: string;
+  price_in_gbp?: string;
 }
 
 export interface TokenEvent extends Event {
@@ -49,10 +56,12 @@ export interface MintEvent extends TokenEvent {
 export type SaleEventInterface = 'SALE';
 
 export interface SaleEvent extends Event {
-  price: string;
   amount?: string;
   currency?: string;
   implements: SaleEventInterface;
+  seller_address: string;
+  buyer_address: string;
+  price: string;
 }
 
 export type KeysEnum<T> = { [P in keyof Required<T>]: string };

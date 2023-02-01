@@ -191,6 +191,13 @@ export async function up(knex: Knex): Promise<void> {
       table.string('buyer_address', 36);
       table.bigInteger('swap_id');
       table.bigInteger('price');
+      table.bigInteger('price_in_eur');
+      table.bigInteger('price_in_usd');
+      table.bigInteger('price_in_cny');
+      table.bigInteger('price_in_jpy');
+      table.bigInteger('price_in_krw');
+      table.bigInteger('price_in_gbp');
+      table.jsonb('quotes');
       table.bigInteger('royalties');
       table.jsonb('royalty_shares');
       table.bigInteger('editions');
