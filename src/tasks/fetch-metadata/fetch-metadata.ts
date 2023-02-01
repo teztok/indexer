@@ -84,14 +84,14 @@ export async function processMetadata(payload: FetchMetadataTaskPayload, helpers
   } catch (err) {
     const errMessage = (err as Error).message;
 
-    logger.error(`failed to fetch metadata: ${errMessage}`, { metadata_uri: metadataUri });
-
     if (errMessage === 'The user aborted a request.' || errMessage === 'invalid metadata') {
+      logger.error(`failed to fetch metadata: ${errMessage}`, { metadata_uri: metadataUri });
       await metadataDao.update(metadataUri, 'error');
       return;
     }
 
     if (helpers && helpers.job.max_attempts === helpers.job.attempts) {
+      logger.error(`failed to fetch metadata, max attempts reached: ${errMessage}`, { metadata_uri: metadataUri });
       await metadataDao.update(metadataUri, 'error');
     }
 
