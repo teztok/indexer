@@ -30,7 +30,7 @@ const MetadataProcessor: Processor = {
         await workerUtils.addJob(
           getTaskName('fetch-metadata'),
           { metadata_uri: uri },
-          { jobKey: `resolve-metadata-${uri}`, maxAttempts: 6 }
+          { jobKey: `resolve-metadata-${uri.slice(400)}`, maxAttempts: 6 }
         );
       }
     }
