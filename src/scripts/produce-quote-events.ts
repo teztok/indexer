@@ -4,13 +4,7 @@ import { getTaskName } from '../lib/utils';
 import db from '../lib/db';
 
 async function run() {
-
-  const results = await db
-    .select('level')
-    .from('events')
-    .whereNull('quotes')
-    .orderBy('level')
-    .distinctOn('level');
+  const results = await db.select('level').from('events').whereNull('quotes').orderBy('level').distinctOn('level');
 
   for (let i = 0; i < results.length; i++) {
     const result = results[i];
