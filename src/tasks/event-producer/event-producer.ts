@@ -174,6 +174,14 @@ export async function processEvents(events: Array<AnyEvent>) {
   await triggerEventsProduced(events);
 }
 
+function convertPriceToCurrency(price: string, quote: number) {
+  const priceMutez = parseInt(price, 10);
+  const priceInCurrency = String((priceMutez * quote).toFixed(0));
+
+  // check if it fits into a bigint column
+  return BigInt(priceInCurrency) <= 9223372036854775807 ? priceInCurrency : null;
+}
+
 export async function addQuotesToEvents(events: Array<AnyEvent>) {
   const blockLevels = uniq(events.map((event) => event.level).filter((level) => level));
 
@@ -184,32 +192,36 @@ export async function addQuotesToEvents(events: Array<AnyEvent>) {
       for (const event of events) {
         event.quotes = quotes;
 
-        if ('price' in event && event.price && (!('currency' in event) || !event.currency || ['tez', 'otez'].includes(event.currency))) {
-          const price = parseInt(event.price, 10);
-
+        if (
+          'implements' in event &&
+          event.implements === 'SALE' &&
+          'price' in event &&
+          event.price &&
+          (!('currency' in event) || !event.currency || ['tez', 'otez'].includes(event.currency))
+        ) {
           if (quotes.eur) {
             // note that the user needs to devide this by 1000000, since price is in muTEZ
-            event.price_in_eur = String((price * quotes.eur).toFixed(0));
+            event.price_in_eur = convertPriceToCurrency(event.price, quotes.eur);
           }
 
           if (quotes.usd) {
-            event.price_in_usd = String((price * quotes.usd).toFixed(0));
+            event.price_in_usd = convertPriceToCurrency(event.price, quotes.usd);
           }
 
           if (quotes.cny) {
-            event.price_in_cny = String((price * quotes.cny).toFixed(0));
+            event.price_in_cny = convertPriceToCurrency(event.price, quotes.cny);
           }
 
           if (quotes.jpy) {
-            event.price_in_jpy = String((price * quotes.jpy).toFixed(0));
+            event.price_in_jpy = convertPriceToCurrency(event.price, quotes.jpy);
           }
 
           if (quotes.krw) {
-            event.price_in_krw = String((price * quotes.krw).toFixed(0));
+            event.price_in_krw = convertPriceToCurrency(event.price, quotes.krw);
           }
 
           if (quotes.gbp) {
-            event.price_in_gbp = String((price * quotes.gbp).toFixed(0));
+            event.price_in_gbp = convertPriceToCurrency(event.price, quotes.gbp);
           }
         }
       }

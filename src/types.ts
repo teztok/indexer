@@ -30,12 +30,12 @@ export interface Event {
   opid: string;
   ophash: string;
   quotes?: Record<string, number>;
-  price_in_eur?: string;
-  price_in_usd?: string;
-  price_in_cny?: string;
-  price_in_jpy?: string;
-  price_in_krw?: string;
-  price_in_gbp?: string;
+  price_in_eur?: string | null;
+  price_in_usd?: string | null;
+  price_in_cny?: string | null;
+  price_in_jpy?: string | null;
+  price_in_krw?: string | null;
+  price_in_gbp?: string | null;
 }
 
 export interface TokenEvent extends Event {

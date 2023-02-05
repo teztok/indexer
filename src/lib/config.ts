@@ -135,6 +135,7 @@ const defaultConfig = {
     'KT1MdBEZd21VuyM9G1RLzUdogfvzv7p6ZM2N',
     'KT1TRtYkzHivDvRAQxYNDBmdnyVfjGtDUZrU',
     'KT1Edj7sMUFvrUetdDZLs2K9wusJjUF9Fm7P',
+    'KT1Qhu6nFTJLno4YELMSZR5krwaFnaEg7Qv6' // unexistant token
   ],
 };
 
