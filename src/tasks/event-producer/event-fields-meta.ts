@@ -101,6 +101,18 @@ export const kalamintEditionField: EventField = [
 export const customDataField: EventField = ['custom_data', 'json', `A property that can contain some custom data (used by plugins).`];
 export const contractAddressField: EventField = ['contract_address', 'string', `The address of the contract.`];
 
+export const quotesField: EventField = [
+  'quotes',
+  'json',
+  'An object with quotes from the time when this happened. These quotes are available: BTC, ETH, EUR, USD, CNY, JPY, KRW, GBP',
+];
+export const eurField: EventField = ['price_in_eur', 'big integer', 'The price in EUR (needs to be divided by 1000000).'];
+export const usdField: EventField = ['price_in_usd', 'big integer', 'The price in USD (needs to be divided by 1000000).'];
+export const cnyField: EventField = ['price_in_cny', 'big integer', 'The price in CNY (needs to be divided by 1000000).'];
+export const jpyField: EventField = ['price_in_jpy', 'big integer', 'The price in JPY (needs to be divided by 1000000).'];
+export const krwField: EventField = ['price_in_krw', 'big integer', 'The price in KRW (needs to be divided by 1000000).'];
+export const gbpField: EventField = ['price_in_gbp', 'big integer', 'The price in GBP (needs to be divided by 1000000).'];
+
 export const tokenEventFields: Array<EventField> = [
   idField,
   typeField,
@@ -110,6 +122,7 @@ export const tokenEventFields: Array<EventField> = [
   ophashField,
   fa2AddressField,
   tokenIdField,
+  quotesField,
 ];
 export const tokenSaleEventFields: Array<EventField> = [
   ...tokenEventFields,
@@ -117,4 +130,10 @@ export const tokenSaleEventFields: Array<EventField> = [
   sellerAddressField,
   buyerAddressField,
   priceField,
+  eurField,
+  usdField,
+  cnyField,
+  jpyField,
+  krwField,
+  gbpField,
 ];
