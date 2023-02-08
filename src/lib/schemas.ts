@@ -36,7 +36,7 @@ function removeEmptyStrings<T, S>(struct: Struct<T, S>): Struct<T, S> {
 }
 
 function removeDuplicates<T, S>(struct: Struct<T, S>): Struct<T, S> {
-  return coerce(struct, array(string()), (x) => uniqBy(x, (e) => e.toLowerCase()));
+  return coerce(struct, array(string()), (x) => uniqBy(x, (e) => e.toLowerCase().trim()));
 }
 
 export const TokenStorageSchema: Describe<TokenStorage> = type({

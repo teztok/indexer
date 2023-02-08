@@ -2358,7 +2358,7 @@ test('sets the token metadata correctly', () => {
     rightUri: 'ipfs://eee',
     creators: ['aaa'],
     contributors: ['bbb'],
-    tags: ['aaaa', 'bbbb'],
+    tags: ['aaaa', 'bbbb', '3d ', ' 3d '],
     attributes: [
       { name: 'foo', val: 'foo val' },
       { name: 'bar', val: 'bar val' },
@@ -2402,7 +2402,7 @@ test('sets the token metadata correctly', () => {
     ],
   });
 
-  expect(tags).toEqual(['aaaa', 'bbbb']);
+  expect(tags).toEqual(['aaaa', 'bbbb', '3d']);
 
   expect(royaltyReceivers).toStrictEqual([
     { receiver_address: 'tz1Q1UgXfAv2sWNCapibCakdBjB68hk6QuoV', royalties: '100000' },
