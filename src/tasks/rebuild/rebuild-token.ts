@@ -425,7 +425,8 @@ export function compileToken(fa2Address: string, tokenId: string, events: Array<
         if (
           event.royalty_shares &&
           royaltyReceivers &&
-          !areRoyaltyReceiversTheSame(royaltySharesToRoyaltyReceivers(event.royalty_shares), royaltyReceivers)
+          !areRoyaltyReceiversTheSame(royaltySharesToRoyaltyReceivers(event.royalty_shares), royaltyReceivers) &&
+          artistAddress !== event.seller_address
         ) {
           // potentially fraudulent swap, ignore
           break;

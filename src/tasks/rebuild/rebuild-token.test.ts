@@ -1419,6 +1419,91 @@ test('does not create an OBJKT_ASK_V2 listing if the royalty shares between toke
   expect(listings).toEqual([]);
 });
 
+test('does create an OBJKT_ASK_V2 listing if the royalty shares between token and swap do not match but the seller is the artist', () => {
+  const events: Array<AnyEvent> = [
+    {
+      id: 'fbf621a7b2f699d41a7a8ca205e1a1be',
+      type: 'HEN_MINT',
+      opid: '1',
+      ophash: TEST_OPHASH,
+      timestamp: '2021-11-20T08:09:22Z',
+      level: 1879134,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      editions: '10',
+      artist_address: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
+      is_verified_artist: true,
+      royalties: '150',
+      metadata_uri: 'ipfs://QmUuZ2GYamdpPE8TUYzQkQC2jjnq7oiYVeZwdKpB4SCarG',
+      royalty_shares: {
+        decimals: 3,
+        shares: {
+          tz1c8riGC9WHnrncStfM5jwKyhUwwRfb31hQ: '150',
+        },
+      },
+    },
+    {
+      id: 'bbbf0d6b108216ca4162179aed96f8f0',
+      type: 'SET_LEDGER',
+      opid: '2',
+      ophash: TEST_OPHASH,
+      timestamp: '2021-12-01T03:39:21Z',
+      level: 1365242,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      holder_address: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
+      amount: '10',
+      is_mint: true,
+      ledger_type: 'MULTI_ASSET',
+    },
+    {
+      id: '22af9d5162ba6343a8ebaefe8de0e606',
+      type: 'OBJKT_ASK_V2',
+      opid: '3',
+      ophash: TEST_OPHASH,
+      timestamp: '2022-02-10T13:01:54Z',
+      level: 2105745,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      ask_id: TEST_SWAP_ID,
+      seller_address: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
+      currency: 'tez',
+      price: TEST_PRICE,
+      amount: '1',
+      royalty_shares: {
+        decimals: 4,
+        shares: {
+          tz1P3LVXdgtMmWfvag98ELYvA45KsMaSCd3W: '2500',
+        },
+      },
+    },
+  ];
+
+  const { listings } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'processed', {
+    royalties: {
+      decimals: 4,
+      shares: {
+        tz1P3LVXdgtMmWfvag98ELYvA45KsMaSCd3W: '1000',
+      },
+    },
+  } as any);
+
+  expect(listings).toEqual([
+    {
+      type: 'OBJKT_ASK_V2',
+      contract_address: 'KT1WvzYHCNBvDSdwafTHv7nJ1dWmZ8GCYuuC',
+      created_at: '2022-02-10T13:01:54Z',
+      ask_id: TEST_SWAP_ID,
+      seller_address: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
+      amount: 1,
+      amount_left: 1,
+      price: TEST_PRICE,
+      currency: 'tez',
+      status: 'active',
+    },
+  ]);
+});
+
 test('handles OBJKT_RETRACT_ASK_V2 events', () => {
   const events: Array<AnyEvent> = [
     {
