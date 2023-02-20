@@ -82,6 +82,7 @@ import KalamintListTokenHandler, { KalamintListTokenEvent } from './kalamint_lis
 import KalamintDelistTokenHandler, { KalamintDelistTokenEvent } from './kalamint_delist_token';
 import KalamintBuyHandler, { KalamintBuyEvent } from './kalamint_buy';
 import KalamintRegisterAuctionHandler, { KalamintRegisterAuctionEvent } from './kalamint_register_auction';
+import ObjktClaimHandler, { ObjktClaimEvent } from './objkt_claim';
 import { TransactionHandler, OriginationHandler } from '../../../types';
 import { AnyPluginEvent } from '../../../plugins/types';
 
@@ -109,6 +110,7 @@ export type AnyEvent =
   | ObjktRetractBidEvent
   | ObjktRetractOfferEvent
   | ObjktSettleEnglishAuctionEvent
+  | ObjktClaimEvent
   | FxMintIssuerEvent
   | FxMintIssuerV2Event
   | FxMintIssuerV3Event
@@ -204,6 +206,7 @@ export const handlers: Array<TransactionHandler<AnyEvent> | OriginationHandler<A
   ObjktBuyDutchAuctionHandler,
   ObjktSettleEnglishAuctionHandler,
   ObjktBuyDutchAuctionV2Handler,
+  ObjktClaimHandler,
   FxMintIssuerHandler,
   FxMintIssuerV2Handler,
   FxMintIssuerV3Handler,
