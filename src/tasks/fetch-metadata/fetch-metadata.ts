@@ -25,8 +25,12 @@ async function downloadMetadata(url: string) {
   return data;
 }
 
-export async function downloadMetadataFromIpfs(ipfsCid: string) {
-  return downloadMetadata(`${process.env.IPFS_GATEWAY}${process.env.IPFS_GATEWAY?.endsWith('/') ? '' : '/'}${ipfsCid}`);
+function getIpfsGateways() {
+  return process.env.IPFS_GATEWAY?.split(',').map((ipfsGateway) => ipfsGateway.trim());
+}
+
+export async function downloadMetadataFromIpfs(ipfsCid: string, ipfsGateway: string) {
+  return downloadMetadata(`${ipfsGateway}${ipfsGateway?.endsWith('/') ? '' : '/'}${ipfsCid}`);
 }
 
 export function validateMetadata(metadata: MetadataBase) {
@@ -41,6 +45,7 @@ export function validateMetadata(metadata: MetadataBase) {
 export async function processMetadata(payload: FetchMetadataTaskPayload, helpers?: JobHelpers) {
   const metadataUri = payload.metadata_uri;
   const workerUtils = await getWorkerUtils();
+  const ipfsGateways = getIpfsGateways();
 
   try {
     const metadataUriLowerCased = metadataUri.toLowerCase();
@@ -48,7 +53,23 @@ export async function processMetadata(payload: FetchMetadataTaskPayload, helpers
 
     if (metadataUriLowerCased.startsWith('ipfs://')) {
       const ipfsHash = metadataUri.substr(7);
-      metadata = await downloadMetadataFromIpfs(ipfsHash);
+
+      if (!ipfsGateways) {
+        throw new Error('missing ipfs gateways');
+      }
+
+      for (let i = 0; i < ipfsGateways?.length; i++) {
+        const ipfsGateway = ipfsGateways[i];
+
+        try {
+          metadata = await downloadMetadataFromIpfs(ipfsHash, ipfsGateway);
+          break;
+        } catch (err) {
+          if (i === ipfsGateways.length - 1) {
+            throw err;
+          }
+        }
+      }
     } else if (metadataUriLowerCased.startsWith('http://') || metadataUriLowerCased.startsWith('https://')) {
       metadata = await downloadMetadata(metadataUriLowerCased);
     } else {
