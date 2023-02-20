@@ -226,7 +226,7 @@ onTokenRebuild(async ({ token, events, metadata }) => {
       const signaturesRequired = latestSplitContractOriginationEvent.custom_data.core_participants;
       const signaturesCreated = signatures.map(({ shareholder_address }) => shareholder_address);
 
-      isSigned = difference(signaturesRequired, signaturesCreated).length === 0;
+      isSigned = !!(signaturesRequired.length && difference(signaturesRequired, signaturesCreated).length === 0);
     }
   }
 
