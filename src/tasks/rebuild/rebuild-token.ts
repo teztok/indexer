@@ -203,7 +203,7 @@ export function compileToken(fa2Address: string, tokenId: string, events: Array<
           }
         }
 
-        if (event.is_mint) {
+        if (event.is_mint && !minterAddress && !mintedAt) {
           minterAddress = event.holder_address;
           mintedAt = event.timestamp;
         }
@@ -378,6 +378,18 @@ export function compileToken(fa2Address: string, tokenId: string, events: Array<
         artistAddress = event.artist_address;
         isVerifiedArtist = event.is_verified_artist;
         objktArtistCollectionId = event.collection_id;
+        break;
+      }
+
+      case 'OBJKT_CREATE_TOKEN': {
+        platform = 'OBJKT';
+        artistAddress = event.artist_address;
+        isVerifiedArtist = event.is_verified_artist;
+        if (!mintedAt && !minterAddress) {
+          // technically it's debatable if the token is already minted
+          mintedAt = event.timestamp;
+          minterAddress = event.artist_address;
+        }
         break;
       }
 

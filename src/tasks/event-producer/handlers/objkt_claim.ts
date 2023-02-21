@@ -1,39 +1,14 @@
 import get from 'lodash/get';
 import omit from 'lodash/omit';
-import { assert, object, string, Describe, type, number, is } from 'superstruct';
+import { assert, object, string, Describe, is } from 'superstruct';
 import { ContractAddress, TezosAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
 import { TransactionHandler, TokenEvent, SaleEventInterface } from '../../../types';
+import { ObjktcomOpenEditionArtistContractSchema } from '../../../lib/schemas';
 import { createEventId } from '../../../lib/utils';
 import { SALE_INTERFACE } from '../../../consts';
 import { tokenSaleEventFields } from '../event-fields-meta';
 
 export const EVENT_TYPE_OBJKT_CLAIM = 'OBJKT_CLAIM';
-
-interface ObjktcomArtistContractStorage {
-  ledger: number;
-  locked: number;
-  supply: number;
-  claimed: number;
-  managers: number;
-  metadata: number;
-  operators: number;
-  administrator: string;
-  last_token_id: string;
-  token_metadata: number;
-}
-
-const ObjktcomArtistContractSchema: Describe<ObjktcomArtistContractStorage> = type({
-  ledger: number(),
-  locked: number(),
-  supply: number(),
-  claimed: number(),
-  managers: number(),
-  metadata: number(),
-  operators: number(),
-  administrator: string(),
-  last_token_id: string(),
-  token_metadata: number(),
-});
 
 export interface ObjktClaimEvent extends TokenEvent {
   type: typeof EVENT_TYPE_OBJKT_CLAIM;
@@ -75,7 +50,7 @@ const ObjktClaimHandler: TransactionHandler<ObjktClaimEvent> = {
       return false;
     }
 
-    return is(get(transaction, 'storage'), ObjktcomArtistContractSchema);
+    return is(get(transaction, 'storage'), ObjktcomOpenEditionArtistContractSchema);
   },
 
   exec: (transaction) => {

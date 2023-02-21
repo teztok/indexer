@@ -1004,6 +1004,35 @@ test('handles OBJKT_MINT_ARTIST events', () => {
   });
 });
 
+test('handles OBJKT_CREATE_TOKEN events', () => {
+  const events: Array<AnyEvent> = [
+    {
+      id: 'b1bccac4c5e19f989dfa4fd515875ec5',
+      type: 'OBJKT_CREATE_TOKEN',
+      opid: '464433999511552',
+      ophash: 'onzEiVRuhgHkAVAQhinVkQfU9EJB52CfesHKRiGqrYynxSfUj22',
+      timestamp: '2023-02-16T09:24:44Z',
+      level: 3150451,
+      fa2_address: 'KT1NuUtVpKJgWEcWVDhGPhNRkygqeiTgRhGk',
+      artist_address: 'tz2Dz5UbqBSaLq1HmP3kimoCyPYjLb7aXwFe',
+      is_verified_artist: true,
+      token_id: '1',
+      editions: '0',
+      metadata_uri: 'ipfs://QmbsZcoygonuS8uGRPfsB14WYQKXkDGQbDBAegDWahbENT',
+    },
+  ];
+
+  const { token } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
+
+  expect(token).toMatchObject({
+    platform: 'OBJKT',
+    artist_address: 'tz2Dz5UbqBSaLq1HmP3kimoCyPYjLb7aXwFe',
+    is_verified_artist: true,
+    minted_at: '2023-02-16T09:24:44Z',
+    minter_address: 'tz2Dz5UbqBSaLq1HmP3kimoCyPYjLb7aXwFe',
+  });
+});
+
 test('handles OBJKT_ASK and OBJKT_FULFILL_ASK events', () => {
   const events: Array<AnyEvent> = [
     {

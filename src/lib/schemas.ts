@@ -44,6 +44,19 @@ export const TokenStorageSchema: Describe<TokenStorage> = type({
   token_metadata: number(),
 });
 
+interface ObjktcomOpenEditionArtistContractStorage {
+  ledger: number;
+  locked: number;
+  supply: number;
+  claimed: number;
+  managers: number;
+  metadata: number;
+  operators: number;
+  administrator: string;
+  last_token_id: string;
+  token_metadata: number;
+}
+
 export const DataRateSchema: Describe<DataRate> = type({
   value: number(),
   unit: sanitizeString(string()),
@@ -103,6 +116,19 @@ export const MetadataBaseSchema: Describe<MetadataBase> = type({
 });
 
 export const RoyaltySharesSchema: Describe<RoyaltyShares> = object({ decimals: number(), shares: record(TezosAddress, Royalty) });
+
+export const ObjktcomOpenEditionArtistContractSchema: Describe<ObjktcomOpenEditionArtistContractStorage> = type({
+  ledger: number(),
+  locked: number(),
+  supply: number(),
+  claimed: number(),
+  managers: number(),
+  metadata: number(),
+  operators: number(),
+  administrator: string(),
+  last_token_id: string(),
+  token_metadata: number(),
+});
 
 export function cleanString(val: any, fallback = null) {
   try {
