@@ -83,6 +83,7 @@ import KalamintDelistTokenHandler, { KalamintDelistTokenEvent } from './kalamint
 import KalamintBuyHandler, { KalamintBuyEvent } from './kalamint_buy';
 import KalamintRegisterAuctionHandler, { KalamintRegisterAuctionEvent } from './kalamint_register_auction';
 import ObjktClaimHandler, { ObjktClaimEvent } from './objkt_claim';
+import ObjktCreateTokenHandler, { ObjktCreateTokenEvent } from './objkt_create_token';
 import { TransactionHandler, OriginationHandler } from '../../../types';
 import { AnyPluginEvent } from '../../../plugins/types';
 
@@ -134,6 +135,7 @@ export type AnyEvent =
   | ObjktCancelDutchAuctionEvent
   | ObjktBuyDutchAuctionEvent
   | ObjktBuyDutchAuctionV2Event
+  | ObjktCreateTokenEvent
   | SetMetadataEvent
   | VersumMintEvent
   | VersumSwapEvent
@@ -207,6 +209,7 @@ export const handlers: Array<TransactionHandler<AnyEvent> | OriginationHandler<A
   ObjktSettleEnglishAuctionHandler,
   ObjktBuyDutchAuctionV2Handler,
   ObjktClaimHandler,
+  ObjktCreateTokenHandler,
   FxMintIssuerHandler,
   FxMintIssuerV2Handler,
   FxMintIssuerV3Handler,
