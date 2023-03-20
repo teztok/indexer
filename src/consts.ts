@@ -25,6 +25,10 @@ export const FX_CONTRACT_FA2_V3 = 'KT1U6EHmNxJTkvaWJ4ThczG4FSDaHC21ssvi';
 export const FX_CONTRACT_MINT_V3 = 'KT1BJC12dG17CVvPKJ1VYaNnaT5mzfnUTwXv';
 export const FX_CONTRACT_MARKETPLACE_V3 = 'KT1GbyoDi7H1sfXmimXpptZJuCdHMh66WS9u';
 
+export const FX_CONTRACT_FA2_V4 = 'KT1EfsNuqwLAWDd3o4pvfUx1CAh5GMdTrRvr';
+export const FX_CONTRACT_TICKET_FA2 = 'KT19etLCjCCzTLFFAxsxLFsVYMRPetr2bTD5';
+export const FX_CONTRACT_MINT_V4 = 'KT1Xpmp15KfqoePNW9HczFmqaGNHwadV2a3b';
+
 export const VERSUM_CONTRACT_FA2 = 'KT1LjmAdYQCLBjwv4S2oFkEzyHVkomAf5MrW';
 export const VERSUM_CONTRACT_MARKETPLACE = 'KT1GyRAJNdizF1nojQz62uGYkx8WFRUJm9X5';
 
@@ -61,4 +65,5 @@ export const CURRENCY_MAPPINGS: Record<string, string> = {
 export const GENTK_VERSION_TO_FA2_CONTRACT_MAPPING: Record<string, string> = {
   '0': 'KT1KEa8z6vWXDJrVqtMrAeDVzsvxat3kHaCE',
   '1': 'KT1U6EHmNxJTkvaWJ4ThczG4FSDaHC21ssvi',
+  '2': 'KT1EfsNuqwLAWDd3o4pvfUx1CAh5GMdTrRvr',
 };
