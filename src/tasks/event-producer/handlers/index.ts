@@ -29,6 +29,7 @@ import FxListingAcceptHandler, { FxListingAcceptEvent } from './fx_listing_accep
 import FxMintHandler, { FxMintEvent } from './fx_mint';
 import FxMintV2Handler, { FxMintV2Event } from './fx_mint_v2';
 import FxMintV3Handler, { FxMintV3Event } from './fx_mint_v3';
+import FxMintV4Handler, { FxMintV4Event } from './fx_mint_v4';
 import FxOfferHandler, { FxOfferEvent } from './fx_offer';
 import FxListingHandler, { FxListingEvent } from './fx_listing';
 import FxCancelOfferHandler, { FxCancelOfferEvent } from './fx_cancel_offer';
@@ -123,6 +124,7 @@ export type AnyEvent =
   | FxMintEvent
   | FxMintV2Event
   | FxMintV3Event
+  | FxMintV4Event
   | FxOfferEvent
   | FxListingEvent
   | FxCancelOfferEvent
@@ -223,6 +225,7 @@ export const handlers: Array<TransactionHandler<AnyEvent> | OriginationHandler<A
   FxMintHandler,
   FxMintV2Handler,
   FxMintV3Handler,
+  FxMintV4Handler,
   FxOfferHandler,
   FxListingHandler,
   FxCancelOfferHandler,
