@@ -36,6 +36,7 @@ import {
   SALE_INTERFACE,
   FX_CONTRACT_FA2,
   FX_CONTRACT_FA2_V3,
+  FX_CONTRACT_FA2_V4,
   TYPED_CONTRACT_MARKETPLACE,
   EIGHTSCRIBO_CONTRACT_MARKETPLACE,
   KALAMINT_CONTRACT_FA2,
@@ -579,6 +580,20 @@ export function compileToken(fa2Address: string, tokenId: string, events: Array<
       }
 
       case 'FX_MINT_V3': {
+        platform = 'FXHASH';
+        artistAddress = event.artist_address;
+        isVerifiedArtist = event.is_verified_artist;
+        fxIssuerId = event.issuer_id;
+        fxIteration = event.iteration;
+
+        if (!royaltyReceivers && event.royalty_shares) {
+          royaltyReceivers = royaltySharesToRoyaltyReceivers(event.royalty_shares);
+        }
+
+        break;
+      }
+
+      case 'FX_MINT_WITH_TICKET': {
         platform = 'FXHASH';
         artistAddress = event.artist_address;
         isVerifiedArtist = event.is_verified_artist;
@@ -1364,13 +1379,13 @@ export async function rebuildToken(payload: RebuildTokenTaskPayload) {
 
   const { token, listings, holders, tags, offers, royaltyReceivers } = compileToken(fa2Address, tokenId, events, status, metadata);
 
-  if ([FX_CONTRACT_FA2, FX_CONTRACT_FA2_V3].includes(token.fa2_address) && isString(token.fx_issuer_id)) {
+  if ([FX_CONTRACT_FA2, FX_CONTRACT_FA2_V3, FX_CONTRACT_FA2_V4].includes(token.fa2_address) && isString(token.fx_issuer_id)) {
     // add the displayUri and the thumbnailUri of the the fxhash collection to the token
     try {
       const fxMintIssuerEvent = await db
         .select('*')
         .from('events')
-        .whereIn('type', ['FX_MINT_ISSUER', 'FX_MINT_ISSUER_V2', 'FX_MINT_ISSUER_V3'])
+        .whereIn('type', ['FX_MINT_ISSUER', 'FX_MINT_ISSUER_V2', 'FX_MINT_ISSUER_V3', 'FX_MINT_ISSUER_V4'])
         .andWhere('issuer_id', '=', token.fx_issuer_id)
         .first();
 

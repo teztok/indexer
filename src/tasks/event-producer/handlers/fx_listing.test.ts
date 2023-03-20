@@ -142,6 +142,76 @@ test('creates FX_LISTING events', async () => {
         },
       ],
     },
+    {
+      id: 491890330828800,
+      level: 3242291,
+      timestamp: '2023-03-20T11:20:59Z',
+      block: 'BLkcgaobj9khvuS1txjueJK6VbmaVURqgUHtogzRXFTXQPiBy1t',
+      hash: 'oohwztNqzvyypiDenVUQpnDzF7XXCtSLYQsieynTtvwozzd27J4',
+      counter: 83347388,
+      sender: {
+        address: 'tz1QPQFwE98bF5KcYW9RFpDcq8g5i82XYtMU',
+      },
+      target: {
+        alias: 'FXHASH Marketplace v2',
+        address: 'KT1GbyoDi7H1sfXmimXpptZJuCdHMh66WS9u',
+      },
+      amount: 0,
+      parameter: {
+        entrypoint: 'listing',
+        value: {
+          gentk: {
+            id: '438',
+            version: '2',
+          },
+          price: '38000000',
+        },
+      },
+      status: 'applied',
+      hasInternals: true,
+      initiator: null,
+      storage: {
+        fees: '25',
+        admin: 'tz1fepn7jZsCYBqCDhpM63hzh9g2Ytqk4Tpv',
+        offers: 149789,
+        paused: false,
+        big_map: 149790,
+        auctions: 149781,
+        listings: 149787,
+        metadata: 149815,
+        treasury: 'KT1P2BXYb894MekrCcSrnidzQYPVqitLoVLc',
+        locked_eps: false,
+        offers_count: '57744',
+        auctions_count: '0',
+        listings_count: '926176',
+        gentk_contracts: 149786,
+        extended_storage: 149785,
+        collection_offers: 149783,
+        entrypoints_enabled: 149784,
+        auctions_bid_increments: 149782,
+        collection_offers_count: '0',
+      },
+      diffs: [
+        {
+          bigmap: 149787,
+          path: 'listings',
+          action: 'add_key',
+          content: {
+            hash: 'exprvQq7PRoeEKQY9pCAQfoNgqU1EYwN15QZbfDzrhEPXyN5pmFk4V',
+            key: '926175',
+            value: {
+              gentk: {
+                id: '438',
+                version: '2',
+              },
+              price: '38000000',
+              seller: 'tz1QPQFwE98bF5KcYW9RFpDcq8g5i82XYtMU',
+            },
+          },
+        },
+      ],
+      nonce: null,
+    },
   ];
 
   const events = transactionsToEvents(transactions, [FxListingHandler]);
@@ -172,6 +242,19 @@ test('creates FX_LISTING events', async () => {
       swap_id: '5',
       seller_address: 'tz1Lup7XznCYm746dZQScwDgfP8bjYbB1See',
       price: '3000000',
+    },
+    {
+      id: 'b78d42a1dcd9cd4c44c7b073eff5dcf6',
+      type: 'FX_LISTING',
+      opid: '491890330828800',
+      ophash: 'oohwztNqzvyypiDenVUQpnDzF7XXCtSLYQsieynTtvwozzd27J4',
+      timestamp: '2023-03-20T11:20:59Z',
+      level: 3242291,
+      fa2_address: 'KT1EfsNuqwLAWDd3o4pvfUx1CAh5GMdTrRvr',
+      token_id: '438',
+      swap_id: '926175',
+      seller_address: 'tz1QPQFwE98bF5KcYW9RFpDcq8g5i82XYtMU',
+      price: '38000000',
     },
   ]);
 });

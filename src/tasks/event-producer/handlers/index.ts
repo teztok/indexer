@@ -23,6 +23,7 @@ import ObjktRetractOfferHandler, { ObjktRetractOfferEvent } from './objkt_retrac
 import FxMintIssuerHandler, { FxMintIssuerEvent } from './fx_mint_issuer';
 import FxMintIssuerV2Handler, { FxMintIssuerV2Event } from './fx_mint_issuer_v2';
 import FxMintIssuerV3Handler, { FxMintIssuerV3Event } from './fx_mint_issuer_v3';
+import FxMintIssuerV4Handler, { FxMintIssuerV4Event } from './fx_mint_issuer_v4';
 import FxCollectHandler, { FxCollectEvent } from './fx_collect';
 import FxListingAcceptHandler, { FxListingAcceptEvent } from './fx_listing_accept';
 import FxMintHandler, { FxMintEvent } from './fx_mint';
@@ -35,6 +36,7 @@ import FxListingCancelHandler, { FxListingCancelEvent } from './fx_listing_cance
 import FxOfferV3Handler, { FxOfferV3Event } from './fx_offer_v3';
 import FxOfferAcceptV3Handler, { FxOfferAcceptV3Event } from './fx_offer_accept_v3';
 import FxOfferCancelV3EventHandler, { FxOfferCancelV3Event } from './fx_offer_cancel_v3';
+import FxMintWithTicketHandler, { FxMintWithTicketEvent } from './fx_mint_with_ticket';
 import ObjktCreateEnglishAuctionHandler, { ObjktCreateEnglishAuctionEvent } from './objkt_create_english_auction';
 import ObjktBidEnglishAuctionHandler, { ObjktBidEnglishAuctionEvent } from './objkt_bid_english_auction';
 import ObjktCancelEnglishAuctionHandler, { ObjktCancelEnglishAuctionEvent } from './objkt_cancel_english_auction';
@@ -115,6 +117,7 @@ export type AnyEvent =
   | FxMintIssuerEvent
   | FxMintIssuerV2Event
   | FxMintIssuerV3Event
+  | FxMintIssuerV4Event
   | FxCollectEvent
   | FxListingAcceptEvent
   | FxMintEvent
@@ -127,6 +130,7 @@ export type AnyEvent =
   | FxOfferV3Event
   | FxOfferAcceptV3Event
   | FxOfferCancelV3Event
+  | FxMintWithTicketEvent
   | ObjktCreateEnglishAuctionEvent
   | ObjktBidEnglishAuctionEvent
   | ObjktCancelEnglishAuctionEvent
@@ -213,6 +217,7 @@ export const handlers: Array<TransactionHandler<AnyEvent> | OriginationHandler<A
   FxMintIssuerHandler,
   FxMintIssuerV2Handler,
   FxMintIssuerV3Handler,
+  FxMintIssuerV4Handler,
   FxCollectHandler,
   FxListingAcceptHandler,
   FxMintHandler,
@@ -225,6 +230,7 @@ export const handlers: Array<TransactionHandler<AnyEvent> | OriginationHandler<A
   FxOfferV3Handler,
   FxOfferAcceptV3Handler,
   FxOfferCancelV3EventHandler,
+  FxMintWithTicketHandler,
   SetMetadataHandler,
   VersumMintHandler,
   VersumSwapHandler,
