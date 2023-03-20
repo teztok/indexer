@@ -3614,6 +3614,49 @@ test('handles FX_MINT_V3 events', () => {
   expect(royaltyReceivers).toStrictEqual([{ receiver_address: 'tz1MBrwe8EgiZJ5kgVEDnL5emVM294J5RiaW', royalties: '166666' }]);
 });
 
+test('handles FX_MINT_V4 events', () => {
+  const events: Array<AnyEvent> = [
+    {
+      id: 'dcaacc3302b4552b4dc7eebf3554144a',
+      type: 'FX_MINT_V4',
+      implements: 'SALE',
+      opid: '491477618655232',
+      ophash: 'opYJABcmSNqxfbJULtMRQogi1dsSYP7AfpTupJTyYkWU2zYeYwZ',
+      timestamp: '2023-03-19T23:29:59Z',
+      level: 3240869,
+      fa2_address: 'KT1EfsNuqwLAWDd3o4pvfUx1CAh5GMdTrRvr',
+      token_id: '0',
+      editions: '1',
+      seller_address: 'tz2JyW132finpXHFNCSrHtcBEHRmwp5ffYks',
+      artist_address: 'tz2JyW132finpXHFNCSrHtcBEHRmwp5ffYks',
+      buyer_address: 'tz1QXGY9z6RWC6Toy88ixFfsXFKwEN9q5khd',
+      is_verified_artist: false,
+      issuer_id: '26049',
+      iteration: '1',
+      royalties: '120',
+      price: '2500000',
+      metadata_uri: 'ipfs://QmZZVBKapDg2wXzwpDxdmL9Ah665h9ZzeJ9gYdbTZ4GBzf',
+      royalty_shares: {
+        decimals: 6,
+        shares: {
+          tz2JyW132finpXHFNCSrHtcBEHRmwp5ffYks: '120000',
+        },
+      },
+    },
+  ];
+
+  const { token, royaltyReceivers } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
+
+  expect(token).toMatchObject({
+    platform: 'FXHASH',
+    artist_address: 'tz2JyW132finpXHFNCSrHtcBEHRmwp5ffYks',
+    fx_issuer_id: '26049',
+    fx_iteration: '1',
+  });
+
+  expect(royaltyReceivers).toStrictEqual([{ receiver_address: 'tz2JyW132finpXHFNCSrHtcBEHRmwp5ffYks', royalties: '120000' }]);
+});
+
 test('handles FX_MINT_WITH_TICKET events', () => {
   const events: Array<AnyEvent> = [
     {

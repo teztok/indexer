@@ -593,6 +593,20 @@ export function compileToken(fa2Address: string, tokenId: string, events: Array<
         break;
       }
 
+      case 'FX_MINT_V4': {
+        platform = 'FXHASH';
+        artistAddress = event.artist_address;
+        isVerifiedArtist = event.is_verified_artist;
+        fxIssuerId = event.issuer_id;
+        fxIteration = event.iteration;
+
+        if (!royaltyReceivers && event.royalty_shares) {
+          royaltyReceivers = royaltySharesToRoyaltyReceivers(event.royalty_shares);
+        }
+
+        break;
+      }
+
       case 'FX_MINT_WITH_TICKET': {
         platform = 'FXHASH';
         artistAddress = event.artist_address;
