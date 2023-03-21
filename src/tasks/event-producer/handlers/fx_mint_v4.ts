@@ -1,7 +1,15 @@
 import get from 'lodash/get';
 import omit from 'lodash/omit';
 import { assert, object, string, boolean, Describe } from 'superstruct';
-import { TezosAddress, ContractAddress, IsoDateString, MetadataUri, PositiveInteger, PgBigInt } from '../../../lib/validators';
+import {
+  TezosAddress,
+  ContractAddress,
+  IsoDateString,
+  MetadataUri,
+  PositiveInteger,
+  PgBigInt,
+  isValidTezosAddress,
+} from '../../../lib/validators';
 import { TransactionHandler, MintEvent, SaleEventInterface, RoyaltyShares } from '../../../types';
 import { RoyaltySharesSchema } from '../../../lib/schemas';
 import { createEventId, findDiff, splitsToRoyaltyShares } from '../../../lib/utils';
@@ -96,10 +104,12 @@ const FxMintV4Handler: TransactionHandler<FxMintV4Event> = {
     const tokenId = get(fa2MintTransaction, 'parameter.value.token_id');
     const issuerId = get(fa2MintTransaction, 'parameter.value.issuer_id');
     const iteration = get(fa2MintTransaction, 'parameter.value.iteration');
+    const recipient = get(fa2MintTransaction, 'parameter.value.recipient');
     const royalties = get(fa2MintTransaction, 'parameter.value.royalties');
     const splits = get(fa2MintTransaction, 'parameter.value.royalties_split');
     const diff = findDiff(transaction.diffs!, 411393, 'ledger', ['update_key'], issuerId);
     const artistAddress = get(diff, 'content.value.author');
+    const buyerAddress = isValidTezosAddress(recipient) ? recipient : transaction.sender.address;
     const editions = '1';
     const price = String(get(transaction, 'amount'));
     const fa2Address = FX_CONTRACT_FA2_V4;
@@ -116,7 +126,7 @@ const FxMintV4Handler: TransactionHandler<FxMintV4Event> = {
       level: transaction.level,
       fa2_address: fa2Address,
       seller_address: artistAddress,
-      buyer_address: transaction.sender.address,
+      buyer_address: buyerAddress,
       artist_address: artistAddress,
       is_verified_artist: false,
       issuer_id: issuerId,
