@@ -36,6 +36,7 @@ import FxCancelOfferHandler, { FxCancelOfferEvent } from './fx_cancel_offer';
 import FxListingCancelHandler, { FxListingCancelEvent } from './fx_listing_cancel';
 import FxOfferV3Handler, { FxOfferV3Event } from './fx_offer_v3';
 import FxOfferAcceptV3Handler, { FxOfferAcceptV3Event } from './fx_offer_accept_v3';
+import FxCollectionOfferAcceptHandler, { FxCollectionOfferAcceptEvent } from './fx_collection_offer_accept';
 import FxOfferCancelV3EventHandler, { FxOfferCancelV3Event } from './fx_offer_cancel_v3';
 import FxMintWithTicketHandler, { FxMintWithTicketEvent } from './fx_mint_with_ticket';
 import ObjktCreateEnglishAuctionHandler, { ObjktCreateEnglishAuctionEvent } from './objkt_create_english_auction';
@@ -133,6 +134,7 @@ export type AnyEvent =
   | FxOfferAcceptV3Event
   | FxOfferCancelV3Event
   | FxMintWithTicketEvent
+  | FxCollectionOfferAcceptEvent
   | ObjktCreateEnglishAuctionEvent
   | ObjktBidEnglishAuctionEvent
   | ObjktCancelEnglishAuctionEvent
@@ -234,6 +236,7 @@ export const handlers: Array<TransactionHandler<AnyEvent> | OriginationHandler<A
   FxOfferAcceptV3Handler,
   FxOfferCancelV3EventHandler,
   FxMintWithTicketHandler,
+  FxCollectionOfferAcceptHandler,
   SetMetadataHandler,
   VersumMintHandler,
   VersumSwapHandler,
