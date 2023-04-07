@@ -136,6 +136,7 @@ const defaultConfig = {
     'KT1TRtYkzHivDvRAQxYNDBmdnyVfjGtDUZrU',
     'KT1Edj7sMUFvrUetdDZLs2K9wusJjUF9Fm7P',
     'KT1Qhu6nFTJLno4YELMSZR5krwaFnaEg7Qv6', // unexistant token
+    'KT1BRADdqGk2eLmMqvyWzqVmPQ1RCBCbW5dY', // McLaren F1 Collectible. rebuilding this token slows down the indexer too much. ignore for now.
   ],
 };
 
