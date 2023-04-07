@@ -95,16 +95,22 @@ const FxMintV4Handler: TransactionHandler<FxMintV4Event> = {
 
   exec: (transaction, operation) => {
     const transactionIdx = operation.transactions.findIndex(({ id }) => transaction.id === id);
-    const fa2MintTransaction = get(operation, ['transactions', transactionIdx + 1]);
+    const inputBytes = get(transaction, 'parameter.value.input_bytes');
+    const createTicket = get(transaction, 'parameter.value.create_ticket');
+    const isNonTicketMint = inputBytes === '' || (inputBytes !== '' && !createTicket);
 
-    if (get(fa2MintTransaction, 'target.address') !== FX_CONTRACT_FA2_V4) {
+    if (!isNonTicketMint) {
       return [];
     }
+
+    const fa2MintTransaction = operation.transactions
+      .slice(transactionIdx > 0 ? transactionIdx : 0)
+      .find((transaction) => get(transaction, 'target.address') === FX_CONTRACT_FA2_V4);
 
     const tokenId = get(fa2MintTransaction, 'parameter.value.token_id');
     const issuerId = get(fa2MintTransaction, 'parameter.value.issuer_id');
     const iteration = get(fa2MintTransaction, 'parameter.value.iteration');
-    const recipient = get(fa2MintTransaction, 'parameter.value.recipient');
+    const recipient = get(transaction, 'parameter.value.recipient');
     const royalties = get(fa2MintTransaction, 'parameter.value.royalties');
     const splits = get(fa2MintTransaction, 'parameter.value.royalties_split');
     const diff = findDiff(transaction.diffs!, 411393, 'ledger', ['update_key'], issuerId);
