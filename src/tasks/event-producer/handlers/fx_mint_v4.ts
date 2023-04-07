@@ -96,7 +96,7 @@ const FxMintV4Handler: TransactionHandler<FxMintV4Event> = {
   exec: (transaction, operation) => {
     const transactionIdx = operation.transactions.findIndex(({ id }) => transaction.id === id);
     const inputBytes = get(transaction, 'parameter.value.input_bytes');
-    const createTicket = get(transaction, 'parameter.value.create_ticket');
+    const createTicket = get(transaction, 'parameter.value.create_ticket') !== null;
     const isNonTicketMint = inputBytes === '' || (inputBytes !== '' && !createTicket);
 
     if (!isNonTicketMint) {
