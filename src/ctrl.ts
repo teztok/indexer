@@ -19,7 +19,7 @@ async function rebuildOutstandingTokens(max = 200) {
 
   try {
     const results = (
-      await db.select('*').from('graphile_worker.jobs').where('task_identifier', getTaskName('rebuild')).orderBy('id', 'desc').limit(max)
+      await db.select('*').from('graphile_worker.jobs').where('task_identifier', getTaskName('rebuild')).andWhere('attempts', '=', 0).orderBy('id', 'desc').limit(max)
     ).filter(({ payload }) => payload.type === 'token');
 
     for (let i = 0; i < results.length; i++) {
