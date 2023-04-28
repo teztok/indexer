@@ -231,45 +231,6 @@ export function compileToken(fa2Address: string, tokenId: string, events: Array<
         break;
       }
 
-      case 'HEN_SWAP':
-        listings[createListingKey(HEN_CONTRACT_MARKETPLACE, event.swap_id)] = {
-          type: 'HEN_SWAP',
-          contract_address: HEN_CONTRACT_MARKETPLACE,
-          created_at: event.timestamp,
-          swap_id: event.swap_id,
-          seller_address: event.seller_address,
-          amount: parseInt(event.amount, 10),
-          amount_left: parseInt(event.amount, 10),
-          price: event.price,
-          status: 'active',
-        };
-        break;
-
-      case 'HEN_CANCEL_SWAP': {
-        const listingKey = createListingKey(HEN_CONTRACT_MARKETPLACE, event.swap_id);
-
-        if (listingKey in listings) {
-          listings[listingKey].status = 'canceled';
-        }
-
-        break;
-      }
-
-      case 'HEN_COLLECT': {
-        const listingKey = createListingKey(HEN_CONTRACT_MARKETPLACE, event.swap_id);
-
-        if (listingKey in listings) {
-          const amountLeft = listings[listingKey].amount_left - 1;
-          listings[listingKey].amount_left = amountLeft;
-
-          if (amountLeft <= 0) {
-            listings[listingKey].status = 'sold_out';
-          }
-        }
-
-        break;
-      }
-
       case 'HEN_SWAP_V2': {
         const listingKey = createListingKey(HEN_CONTRACT_MARKETPLACE_V2, event.swap_id);
 
