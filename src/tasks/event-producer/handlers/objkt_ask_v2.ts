@@ -4,7 +4,7 @@ import { optional, assert, object, string, Describe } from 'superstruct';
 import { TezosAddress, ContractAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
 import { RoyaltySharesSchema } from '../../../lib/schemas';
 import { TransactionHandler, TokenEvent, RoyaltyShares } from '../../../types';
-import { createEventId } from '../../../lib/utils';
+import { createEventId, extractObjktCurrency, isTezLikeCurrency } from '../../../lib/utils';
 import { OBJKT_CONTRACT_MARKETPLACE_V2 } from '../../../consts';
 import {
   tokenEventFields,
@@ -82,10 +82,14 @@ const ObjktAskHandler: TransactionHandler<ObjktAskV2Event> = {
     const sellerAddress = get(transaction, 'sender.address');
     const amount = get(transaction, 'parameter.value.editions');
     const expiryTime = get(transaction, 'parameter.value.expiry_time');
-    const currency = Object.keys(get(transaction, 'parameter.value.currency'))[0];
+    const currency = extractObjktCurrency(get(transaction, 'parameter.value.currency'));
     const price = get(transaction, 'parameter.value.amount');
     const id = createEventId(EVENT_TYPE_OBJKT_ASK_V2, transaction);
     const shares: Array<{ amount: string; recipient: string }> = get(transaction, 'parameter.value.shares');
+
+    if (!currency || !isTezLikeCurrency(currency)) {
+      throw new Error(`unsupported currency`);
+    }
 
     const event: ObjktAskV2Event = {
       id,

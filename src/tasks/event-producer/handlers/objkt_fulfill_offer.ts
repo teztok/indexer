@@ -3,7 +3,7 @@ import omit from 'lodash/omit';
 import { assert, object, string, Describe, optional } from 'superstruct';
 import { ContractAddress, TezosAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
 import { TransactionHandler, TokenEvent, SaleEventInterface } from '../../../types';
-import { findDiff, createEventId } from '../../../lib/utils';
+import { findDiff, createEventId, extractObjktCurrency, isTezLikeCurrencyStrict } from '../../../lib/utils';
 import { OBJKT_CONTRACT_MARKETPLACE_V2, SALE_INTERFACE } from '../../../consts';
 import { tokenSaleEventFields, offerIdField, artistAddressField } from '../event-fields-meta';
 
@@ -59,6 +59,12 @@ const ObjktFulfillOfferHandler: TransactionHandler<ObjktFulfillOfferEvent> = {
     const buyerAddress = get(diff, 'content.value.creator');
     //const artistAddress = get(diff, 'content.value.artist');
     const id = createEventId(EVENT_TYPE_OBJKT_FULFILL_OFFER, transaction);
+
+    const currency = extractObjktCurrency(get(diff, 'content.value.currency'));
+
+    if (!isTezLikeCurrencyStrict(currency)) {
+      throw new Error(`unsupported currency`);
+    }
 
     const event: ObjktFulfillOfferEvent = {
       id,

@@ -169,6 +169,96 @@ test('creates OBJKT_OFFER events', async () => {
         },
       ],
     },
+    {
+      id: 542692282990592,
+      level: 3433229,
+      timestamp: '2023-04-27T15:33:10Z',
+      block: 'BLugKQxJTJKByeGKEUthsGdVHiBNNNeFG69TNSTgnLMX3QTzWB2',
+      hash: 'onrUHGikmaxrjrG2mKtxMCcAVPsxoFuqGNGF58UqPsDXjviXhCW',
+      counter: 14036219,
+      sender: {
+        address: 'tz1Vn4EjDNpXWhaQhXPiT6w6L5rkEsVLL3Y2',
+      },
+      target: {
+        alias: 'objkt.com Marketplace v2',
+        address: 'KT1WvzYHCNBvDSdwafTHv7nJ1dWmZ8GCYuuC',
+      },
+      amount: 0,
+      parameter: {
+        entrypoint: 'offer',
+        value: {
+          proxy: null,
+          token: {
+            address: 'KT1K7BGwGTwJQP1x14avmqEmZU94gKK3frR1',
+            token_id: '25',
+          },
+          amount: '5110000000000',
+          shares: [
+            {
+              amount: '2500',
+              recipient: 'tz1eZFuyDDijm6dk77zaUnveUV9SEhR9DN42',
+            },
+          ],
+          target: null,
+          currency: {
+            fa2: {
+              address: 'KT1XRPEPXbZK25r3Htzp2o1x7xdMMmfocKNW',
+              token_id: '0',
+            },
+          },
+          expiry_time: '2023-04-28T15:32:37Z',
+        },
+      },
+      status: 'applied',
+      hasInternals: false,
+      initiator: null,
+      storage: {
+        asks: 103258,
+        offers: 103260,
+        paused: false,
+        big_map: 103261,
+        metadata: 103259,
+        upgradable: false,
+        next_ask_id: '3391701',
+        next_offer_id: '1618927',
+        token_registry: 'KT1Pbj1uKjxZJLHyoQ2YUs4kukjvLJdheyfU',
+        permission_module: 'KT1DF2c7VUED7W3h5BnqUKdB87Ke7XdCjQiY',
+      },
+      diffs: [
+        {
+          bigmap: 103260,
+          path: 'offers',
+          action: 'add_key',
+          content: {
+            hash: 'exprtyy4JHx5z7VpEkMwVnbjKSXPHeV81aqdp4zAVuQH53T2xa7qP8',
+            key: '1618926',
+            value: {
+              token: {
+                address: 'KT1K7BGwGTwJQP1x14avmqEmZU94gKK3frR1',
+                token_id: '25',
+              },
+              amount: '5110000000000',
+              shares: [
+                {
+                  amount: '2500',
+                  recipient: 'tz1eZFuyDDijm6dk77zaUnveUV9SEhR9DN42',
+                },
+              ],
+              target: null,
+              creator: 'tz1Vn4EjDNpXWhaQhXPiT6w6L5rkEsVLL3Y2',
+              currency: {
+                fa2: {
+                  address: 'KT1XRPEPXbZK25r3Htzp2o1x7xdMMmfocKNW',
+                  token_id: '0',
+                },
+              },
+              expiry_time: '2023-04-28T15:32:37Z',
+            },
+          },
+        },
+      ],
+      nonce: null,
+    },
   ];
 
   const events = transactionsToEvents(transactions, [ObjktOfferHandler]);

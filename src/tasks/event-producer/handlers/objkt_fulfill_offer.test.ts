@@ -143,6 +143,78 @@ test('creates OBJKT_FULFILL_OFFER events', async () => {
         },
       ],
     },
+    {
+      id: 542693462638592,
+      level: 3433233,
+      timestamp: '2023-04-27T15:34:10Z',
+      block: 'BM1hHRbUfZ6vNniVfmVdNraAkRRVXbaqykyFg3DcTs2wZQGAW4R',
+      hash: 'opRgzVjRQDQjdj4yQwR7MNrrk4PQaTRTGZSGzi3NyUKCCMExEau',
+      counter: 92652996,
+      sender: {
+        address: 'tz1b7z1ymB5Bjmh44HrVwYCopYcziDw64W4t',
+      },
+      target: {
+        alias: 'objkt.com Marketplace v2',
+        address: 'KT1WvzYHCNBvDSdwafTHv7nJ1dWmZ8GCYuuC',
+      },
+      amount: 0,
+      parameter: {
+        entrypoint: 'fulfill_offer',
+        value: {
+          offer_id: '1618926',
+          token_id: '25',
+        },
+      },
+      status: 'applied',
+      hasInternals: true,
+      initiator: null,
+      storage: {
+        asks: 103258,
+        offers: 103260,
+        paused: false,
+        big_map: 103261,
+        metadata: 103259,
+        upgradable: false,
+        next_ask_id: '3391702',
+        next_offer_id: '1618928',
+        token_registry: 'KT1Pbj1uKjxZJLHyoQ2YUs4kukjvLJdheyfU',
+        permission_module: 'KT1DF2c7VUED7W3h5BnqUKdB87Ke7XdCjQiY',
+      },
+      diffs: [
+        {
+          bigmap: 103260,
+          path: 'offers',
+          action: 'remove_key',
+          content: {
+            hash: 'exprtyy4JHx5z7VpEkMwVnbjKSXPHeV81aqdp4zAVuQH53T2xa7qP8',
+            key: '1618926',
+            value: {
+              token: {
+                address: 'KT1K7BGwGTwJQP1x14avmqEmZU94gKK3frR1',
+                token_id: '25',
+              },
+              amount: '5110000000000',
+              shares: [
+                {
+                  amount: '2500',
+                  recipient: 'tz1eZFuyDDijm6dk77zaUnveUV9SEhR9DN42',
+                },
+              ],
+              target: null,
+              creator: 'tz1Vn4EjDNpXWhaQhXPiT6w6L5rkEsVLL3Y2',
+              currency: {
+                fa2: {
+                  address: 'KT1XRPEPXbZK25r3Htzp2o1x7xdMMmfocKNW',
+                  token_id: '0',
+                },
+              },
+              expiry_time: '2023-04-28T15:32:37Z',
+            },
+          },
+        },
+      ],
+      nonce: null,
+    },
   ];
 
   const events = transactionsToEvents(transactions, [ObjktFulfillOfferHandler]);

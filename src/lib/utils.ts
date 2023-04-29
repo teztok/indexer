@@ -201,6 +201,10 @@ export function isTezLikeCurrency(currency: unknown) {
   return currency === 'tez' || currency === 'otez';
 }
 
+export function isTezLikeCurrencyStrict(currency: unknown) {
+  return currency === 'tez' || currency === 'otez';
+}
+
 export function splitsToRoyaltyShares(splits: Array<{ pct: string; address: string }>, totalRoyalties: string): RoyaltyShares {
   const totalRoyaltiesInt = parseInt(totalRoyalties, 10);
 
