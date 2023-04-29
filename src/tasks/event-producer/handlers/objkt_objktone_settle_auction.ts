@@ -3,7 +3,7 @@ import omit from 'lodash/omit';
 import { assert, object, string, Describe } from 'superstruct';
 import { TezosAddress, IsoDateString, PositiveInteger, PgBigInt, ContractAddress } from '../../../lib/validators';
 import { TransactionHandler, TokenEvent, SaleEventInterface } from '../../../types';
-import { findDiff, createEventId } from '../../../lib/utils';
+import { findDiff, createEventId, isTezLikeCurrency, extractObjktCurrency } from '../../../lib/utils';
 import { CURRENCY_MAPPINGS, OBJKT_CONTRACT_OBJKTONE_AUCTIONS, SALE_INTERFACE } from '../../../consts';
 import {
   tokenSaleEventFields,
@@ -76,8 +76,13 @@ const ObjktObjktoneAuctionHandler: TransactionHandler<ObjktObjktoneSettleAuction
     const priceIncrement = get(diff, 'content.value.price_increment');
     const highestBidderAddress = get(diff, 'content.value.highest_bidder');
     const currentPrice = get(diff, 'content.value.current_price');
-    const currencyAddress = get(diff, 'content.value.currency.fa12');
     const id = createEventId(EVENT_TYPE_OBJKT_OBJKTONE_SETTLE_AUCTION, transaction);
+
+    const currency = extractObjktCurrency(get(diff, 'content.value.currency'));
+
+    if (!currency || !isTezLikeCurrency(currency)) {
+      throw new Error(`unsupported currency`);
+    }
 
     const event: ObjktObjktoneSettleAuctionEvent = {
       id,
@@ -90,7 +95,7 @@ const ObjktObjktoneAuctionHandler: TransactionHandler<ObjktObjktoneSettleAuction
       token_id: tokenId,
       seller_address: sellerAddress,
       buyer_address: highestBidderAddress,
-      currency: currencyAddress in CURRENCY_MAPPINGS ? CURRENCY_MAPPINGS[currencyAddress] : currencyAddress,
+      currency: currency,
       reserve,
       extension_time: extensionTime,
       price_increment: priceIncrement,

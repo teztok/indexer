@@ -140,6 +140,74 @@ test('creates OBJKT_SETTLE_ENGLISH_AUCTION events', async () => {
         },
       ],
     },
+    {
+      id: 541194114301952,
+      level: 3427793,
+      timestamp: '2023-04-26T16:43:39Z',
+      block: 'BKwdrVea6T1RUDNm7oiGriqHcyrqCJMdZ1ix879u7bBFcm3pWrD',
+      hash: 'ooLbXrSNbuFwfr42Deu68WdLSA547jq8AwHAmj9JdMit9irYB6F',
+      counter: 95061601,
+      sender: {
+        address: 'tz1MqfPirhUaaJbneoUdeXCRudPUgAGTHEbc',
+      },
+      target: {
+        alias: 'objkt.com English Auctions v2',
+        address: 'KT18p94vjkkHYY3nPmernmgVR7HdZFzE7NAk',
+      },
+      amount: 0,
+      parameter: {
+        entrypoint: 'settle_auction',
+        value: '1164788',
+      },
+      status: 'applied',
+      hasInternals: true,
+      initiator: null,
+      storage: {
+        paused: false,
+        big_map: 103264,
+        auctions: 103262,
+        metadata: 103263,
+        upgradable: false,
+        token_registry: 'KT1Pbj1uKjxZJLHyoQ2YUs4kukjvLJdheyfU',
+        next_auction_id: '1164846',
+        permission_module: 'KT1DF2c7VUED7W3h5BnqUKdB87Ke7XdCjQiY',
+      },
+      diffs: [
+        {
+          bigmap: 103262,
+          path: 'auctions',
+          action: 'remove_key',
+          content: {
+            hash: 'exprtmxVxQwwtnWYcipdKACSiPCyZrnGs8UJ1eKMMvcRgy4ZQDjfSD',
+            key: '1164788',
+            value: {
+              token: {
+                address: 'KT1BCVdzWPeR1BnjdsCeDRwhkXfRXEDjYwMh',
+                token_id: '1099',
+              },
+              shares: [
+                {
+                  amount: '1000',
+                  recipient: 'tz1fu7sYWaE3H7ApjikX81pXGmMnPAbxHjjx',
+                },
+              ],
+              creator: 'tz2HX5Q1vH5XhQqpo4mYCsvagzSBsPGaZnJV',
+              reserve: '29000000',
+              currency: {
+                fa12: 'KT1LN4LPSqTMS7Sd2CJw4bbDGRkMv2t68Fy9',
+              },
+              end_time: '2023-04-26T16:43:29Z',
+              start_time: '2023-04-26T10:43:29Z',
+              current_price: '0',
+              extension_time: '600',
+              highest_bidder: 'tz2HX5Q1vH5XhQqpo4mYCsvagzSBsPGaZnJV',
+              price_increment: '1000000',
+            },
+          },
+        },
+      ],
+      nonce: null,
+    },
   ];
 
   const events = transactionsToEvents(transactions, [ObjktSettleEnglishAuctionHandler]);
