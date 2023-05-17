@@ -299,6 +299,8 @@ export interface Token {
 
   minted_at: string | null;
 
+  contract_creator_address: string | null;
+
   minter_address: string | null;
   artist_address: string | null;
   is_verified_artist: boolean;
