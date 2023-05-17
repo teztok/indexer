@@ -19,9 +19,9 @@ import { cleanString, cleanUri, cleanAttributes, cleanTags, cleanCreators, clean
 import * as eventsDao from '../../lib/daos/events';
 import * as metadataDao from '../../lib/daos/metadata';
 import { AnyEvent } from '../event-producer/handlers/index';
+import { ContractOriginationEvent, CONTRACT_ORIGINATION } from '../event-producer/handlers/contract_origination';
 import { triggerTokenRebuild } from '../../plugins/plugins';
 import {
-  HEN_CONTRACT_MARKETPLACE,
   HEN_CONTRACT_MARKETPLACE_V2,
   OBJKT_CONTRACT_MARKETPLACE,
   OBJKT_CONTRACT_MARKETPLACE_V2,
@@ -136,7 +136,14 @@ export function areRoyaltyReceiversTheSame(royaltyReceiversA: RoyaltyReceivers, 
   return isEqual(royaltyReceiversToRecord(royaltyReceiversA), royaltyReceiversToRecord(royaltyReceiversB));
 }
 
-export function compileToken(fa2Address: string, tokenId: string, events: Array<AnyEvent>, metadataStatus: string, metadata?: Metadata) {
+export function compileToken(
+  fa2Address: string,
+  tokenId: string,
+  events: Array<AnyEvent>,
+  metadataStatus: string,
+  metadata?: Metadata,
+  contractOriginationEvent?: ContractOriginationEvent
+) {
   const holders: Record<string, Holding> = {};
   const listings: Record<string, AnyListing> = {};
   const offers: Record<string, AnyOffer> = {};
@@ -150,6 +157,8 @@ export function compileToken(fa2Address: string, tokenId: string, events: Array<
   let minterAddress = null;
   let metadataUri = null;
   let mintedAt = null;
+
+  let contractCreatorAddress = null;
 
   let name = null;
   let description = null;
@@ -170,6 +179,14 @@ export function compileToken(fa2Address: string, tokenId: string, events: Array<
 
   if (metadata && metadata.royalties && is(metadata.royalties, RoyaltySharesSchema)) {
     royaltyReceivers = royaltySharesToRoyaltyReceivers(metadata.royalties);
+  }
+
+  if (contractOriginationEvent) {
+    if (contractOriginationEvent.initiator_address) {
+      contractCreatorAddress = contractOriginationEvent.initiator_address;
+    } else if (contractOriginationEvent.sender_address) {
+      contractCreatorAddress = contractOriginationEvent.sender_address;
+    }
   }
 
   for (const event of events) {
@@ -1257,6 +1274,8 @@ export function compileToken(fa2Address: string, tokenId: string, events: Array<
     editions: String(editions),
     burned_editions: String(burnedEditions),
 
+    contract_creator_address: contractCreatorAddress,
+
     minter_address: minterAddress,
     artist_address: artistAddress,
     is_verified_artist: isVerifiedArtist,
@@ -1352,7 +1371,21 @@ export async function rebuildToken(payload: RebuildTokenTaskPayload) {
     }
   }
 
-  const { token, listings, holders, tags, offers, royaltyReceivers } = compileToken(fa2Address, tokenId, events, status, metadata);
+  const contractOriginationEvent = await db
+    .select('*')
+    .from('events')
+    .where('type', '=', CONTRACT_ORIGINATION)
+    .andWhere('contract_address', '=', fa2Address)
+    .first();
+
+  const { token, listings, holders, tags, offers, royaltyReceivers } = compileToken(
+    fa2Address,
+    tokenId,
+    events,
+    status,
+    metadata,
+    contractOriginationEvent
+  );
 
   if ([FX_CONTRACT_FA2, FX_CONTRACT_FA2_V3, FX_CONTRACT_FA2_V4].includes(token.fa2_address) && isString(token.fx_issuer_id)) {
     // add the displayUri and the thumbnailUri of the the fxhash collection to the token

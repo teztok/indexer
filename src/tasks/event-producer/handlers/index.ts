@@ -89,6 +89,7 @@ import KalamintRegisterAuctionHandler, { KalamintRegisterAuctionEvent } from './
 import ObjktClaimHandler, { ObjktClaimEvent } from './objkt_claim';
 import ObjktCreateTokenHandler, { ObjktCreateTokenEvent } from './objkt_create_token';
 import ObjktObjktoneAuctionHandler, { ObjktObjktoneSettleAuctionEvent } from './objkt_objktone_settle_auction';
+import ContractOriginationHandler, { ContractOriginationEvent } from './contract_origination';
 import { TransactionHandler, OriginationHandler } from '../../../types';
 import { AnyPluginEvent } from '../../../plugins/types';
 
@@ -184,6 +185,7 @@ export type AnyEvent =
   | KalamintDelistTokenEvent
   | KalamintBuyEvent
   | KalamintRegisterAuctionEvent
+  | ContractOriginationEvent
   | AnyPluginEvent;
 
 export const handlers: Array<TransactionHandler<AnyEvent> | OriginationHandler<AnyEvent>> = [
@@ -278,4 +280,5 @@ export const handlers: Array<TransactionHandler<AnyEvent> | OriginationHandler<A
   KalamintDelistTokenHandler,
   KalamintBuyHandler,
   KalamintRegisterAuctionHandler,
+  ContractOriginationHandler,
 ];

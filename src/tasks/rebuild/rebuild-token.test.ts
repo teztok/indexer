@@ -2312,6 +2312,51 @@ test('handles VERSUM_CANCEL_OFFER events', () => {
   ]);
 });
 
+test('sets the contract_creator_address to the initiator_address, if present', () => {
+  const originationEvent: AnyEvent = {
+    id: 'bd962a9a27ca682335043da2b93faa40',
+    type: 'CONTRACT_ORIGINATION',
+    opid: '457372699983872',
+    ophash: 'onr3kUkoLpjZtXEh36p6sJrYzzHHMZkNG8rXscfNvFyt1dHzXua',
+    timestamp: '2023-02-08T04:55:14Z',
+    level: 3127113,
+    contract_address: 'KT1FMasdf9h94fULdtLgSpauMVkNuTu8bELJ',
+    initiator_address: 'tz1YWa3PRGZRipxYn5EfCZn5RQvUqmRwKmbZ',
+    sender_address: 'KT1Aq4wWmVanpQhq4TTfjZXB5AjFpx15iQMM',
+    code_hash: 199145999,
+    type_hash: -213411401,
+    tzips: ['fa2'],
+  };
+
+  const { token } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, [], 'unprocessed', undefined, originationEvent);
+
+  expect(token).toMatchObject({
+    contract_creator_address: 'tz1YWa3PRGZRipxYn5EfCZn5RQvUqmRwKmbZ',
+  });
+});
+
+test('sets the contract_creator_address to the sender_address, if initiator_address is not present', () => {
+  const originationEvent: AnyEvent = {
+    code_hash: 1095391981,
+    contract_address: 'KT1LHHLso8zQWQWg1HUukajdxxbkGfNoHjh6',
+    id: '8777d7eb96bf409f39022982cf6f5599',
+    level: 1640824,
+    ophash: 'ooc4mPK7GWpFnvFY78qG9AZmPPQnpqUwMaaQf7zavq6QjucUFdQ',
+    opid: '74231807213568',
+    sender_address: 'tz1hFhmqKNB7hnHVHAFSk9wNqm7K9GgF2GDN',
+    timestamp: '2021-08-26T18:55:16Z',
+    type: 'CONTRACT_ORIGINATION',
+    type_hash: 558799600,
+    tzips: ['fa2'],
+  };
+
+  const { token } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, [], 'unprocessed', undefined, originationEvent);
+
+  expect(token).toMatchObject({
+    contract_creator_address: 'tz1hFhmqKNB7hnHVHAFSk9wNqm7K9GgF2GDN',
+  });
+});
+
 test('sets the token metadata correctly', () => {
   const metadata = {
     symbol: ' OBJKT',
@@ -2342,6 +2387,7 @@ test('sets the token metadata correctly', () => {
   const { token, tags, royaltyReceivers } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, [], 'processed', metadata as any);
 
   expect(token).toMatchObject({
+    contract_creator_address: null,
     metadata_status: 'processed',
     symbol: 'OBJKT',
     name: 'something great',

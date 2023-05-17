@@ -113,6 +113,26 @@ export const jpyField: EventField = ['price_in_jpy', 'big integer', 'The price i
 export const krwField: EventField = ['price_in_krw', 'big integer', 'The price in KRW (needs to be divided by 1000000).'];
 export const gbpField: EventField = ['price_in_gbp', 'big integer', 'The price in GBP (needs to be divided by 1000000).'];
 
+export const initiatorAddress: EventField = ['initiator_address', 'string', 'The Tezos address that initiated the contract origination.'];
+export const senderAddress: EventField = [
+  'sender_address',
+  'string',
+  'The Tezos address that created the contract (might be the address of a factory contract).',
+];
+export const typeHash: EventField = [
+  'type_hash',
+  'big integer',
+  '32-bit hash of originated contract parameter and storage types (helpful for searching originations of similar contracts).',
+];
+export const codeHash: EventField = [
+  'code_hash',
+  'big integer',
+  '32-bit hash of originated contract code (helpful for searching originations of same contracts).',
+];
+export const tzips: EventField = ['tzips', 'json', 'array with tzips the contract supports.'];
+
+export const commonEventFields: Array<EventField> = [idField, typeField, opidField, levelField, timestampField, ophashField];
+
 export const tokenEventFields: Array<EventField> = [
   idField,
   typeField,
@@ -124,6 +144,7 @@ export const tokenEventFields: Array<EventField> = [
   tokenIdField,
   quotesField,
 ];
+
 export const tokenSaleEventFields: Array<EventField> = [
   ...tokenEventFields,
   implementsField,

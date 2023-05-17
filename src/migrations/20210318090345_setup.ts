@@ -26,6 +26,7 @@ export async function up(knex: Knex): Promise<void> {
       table.bigInteger('editions');
       table.bigInteger('burned_editions');
       table.timestamp('minted_at');
+      table.string('contract_creator_address', 36);
       table.string('minter_address', 36);
       table.string('artist_address', 36);
       table.text('symbol');
@@ -91,6 +92,7 @@ export async function up(knex: Knex): Promise<void> {
       table.index('metadata_uri');
       table.index('artifact_uri');
       table.index('metadata_status');
+      table.index('contract_creator_address');
       table.index('minter_address');
       table.index('artist_address');
       table.index('mime_type');
@@ -242,6 +244,12 @@ export async function up(knex: Knex): Promise<void> {
       table.bigInteger('kalamint_edition');
       table.jsonb('custom_data');
       table.string('contract_address', 36);
+
+      table.string('sender_address', 36);
+      table.string('initiator_address', 36);
+      table.bigInteger('type_hash');
+      table.bigInteger('code_hash');
+      table.jsonb('tzips');
 
       table.index('level');
       table.index('implements');
