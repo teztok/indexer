@@ -198,7 +198,6 @@ test('creates CONTRACT_ORIGINATION events', async () => {
       sender_address: 'KT1Aq4wWmVanpQhq4TTfjZXB5AjFpx15iQMM',
       code_hash: 199145999,
       type_hash: -213411401,
-      tzips: ['fa2'],
     },
     {
       code_hash: 1095391981,
@@ -211,7 +210,6 @@ test('creates CONTRACT_ORIGINATION events', async () => {
       timestamp: '2021-08-26T18:55:16Z',
       type: 'CONTRACT_ORIGINATION',
       type_hash: 558799600,
-      tzips: ['fa2'],
     },
     {
       code_hash: 916104367,
@@ -224,7 +222,6 @@ test('creates CONTRACT_ORIGINATION events', async () => {
       timestamp: '2023-02-18T14:19:44Z',
       type: 'CONTRACT_ORIGINATION',
       type_hash: 860155969,
-      tzips: ['fa2'],
     },
     {
       code_hash: 916104367,
@@ -237,7 +234,6 @@ test('creates CONTRACT_ORIGINATION events', async () => {
       timestamp: '2023-04-07T11:33:09Z',
       type: 'CONTRACT_ORIGINATION',
       type_hash: 860155969,
-      tzips: ['fa2'],
     },
     {
       code_hash: -1760376355,

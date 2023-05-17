@@ -129,7 +129,6 @@ export const codeHash: EventField = [
   'big integer',
   '32-bit hash of originated contract code (helpful for searching originations of same contracts).',
 ];
-export const tzips: EventField = ['tzips', 'json', 'array with tzips the contract supports.'];
 
 export const commonEventFields: Array<EventField> = [idField, typeField, opidField, levelField, timestampField, ophashField];
 

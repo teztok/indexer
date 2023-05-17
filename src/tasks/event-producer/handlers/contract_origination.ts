@@ -4,7 +4,7 @@ import { array, assert, object, number, string, optional, Describe } from 'super
 import { TezosAddress, IsoDateString, PositiveInteger, PgBigInt, ContractAddress } from '../../../lib/validators';
 import { OriginationHandler, Event } from '../../../types';
 import { createEventId } from '../../../lib/utils';
-import { commonEventFields, initiatorAddress, senderAddress, typeHash, codeHash, tzips } from '../event-fields-meta';
+import { commonEventFields, initiatorAddress, senderAddress, typeHash, codeHash } from '../event-fields-meta';
 
 export const CONTRACT_ORIGINATION = 'CONTRACT_ORIGINATION';
 
@@ -15,7 +15,6 @@ export interface ContractOriginationEvent extends Event {
   sender_address: string;
   code_hash: number;
   type_hash: number;
-  tzips?: Array<string>;
 }
 
 const ContractOriginationEventSchema: Describe<Omit<ContractOriginationEvent, 'type'>> = object({
@@ -29,7 +28,6 @@ const ContractOriginationEventSchema: Describe<Omit<ContractOriginationEvent, 't
   sender_address: TezosAddress,
   code_hash: number(),
   type_hash: number(),
-  tzips: optional(array(string())),
 });
 
 const ContractOriginationHandler: OriginationHandler<ContractOriginationEvent> = {
@@ -39,7 +37,7 @@ const ContractOriginationHandler: OriginationHandler<ContractOriginationEvent> =
 
   meta: {
     eventDescription: `A contract originated.`,
-    eventFields: [...commonEventFields, initiatorAddress, senderAddress, typeHash, codeHash, tzips],
+    eventFields: [...commonEventFields, initiatorAddress, senderAddress, typeHash, codeHash],
   },
 
   accept: () => true,
@@ -48,7 +46,6 @@ const ContractOriginationHandler: OriginationHandler<ContractOriginationEvent> =
     const contractAddress = get(origination, 'originatedContract.address');
     const initiatorAddress = get(origination, 'initiator.address');
     const senderAddress = get(origination, 'sender.address');
-    const tzips = get(origination, 'originatedContract.tzips');
     const typeHash = get(origination, 'originatedContract.typeHash');
     const codeHash = get(origination, 'originatedContract.codeHash');
 
@@ -69,10 +66,6 @@ const ContractOriginationHandler: OriginationHandler<ContractOriginationEvent> =
 
     if (initiatorAddress) {
       event.initiator_address = initiatorAddress;
-    }
-
-    if (tzips) {
-      event.tzips = tzips;
     }
 
     assert(omit(event, ['type']), ContractOriginationEventSchema);

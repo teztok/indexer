@@ -249,7 +249,6 @@ export async function up(knex: Knex): Promise<void> {
       table.string('initiator_address', 36);
       table.bigInteger('type_hash');
       table.bigInteger('code_hash');
-      table.jsonb('tzips');
 
       table.index('level');
       table.index('implements');

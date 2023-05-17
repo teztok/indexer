@@ -2325,7 +2325,6 @@ test('sets the contract_creator_address to the initiator_address, if present', (
     sender_address: 'KT1Aq4wWmVanpQhq4TTfjZXB5AjFpx15iQMM',
     code_hash: 199145999,
     type_hash: -213411401,
-    tzips: ['fa2'],
   };
 
   const { token } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, [], 'unprocessed', undefined, originationEvent);
@@ -2347,7 +2346,6 @@ test('sets the contract_creator_address to the sender_address, if initiator_addr
     timestamp: '2021-08-26T18:55:16Z',
     type: 'CONTRACT_ORIGINATION',
     type_hash: 558799600,
-    tzips: ['fa2'],
   };
 
   const { token } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, [], 'unprocessed', undefined, originationEvent);
