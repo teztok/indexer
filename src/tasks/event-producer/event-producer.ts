@@ -40,6 +40,7 @@ interface EventProducerTaskPayload {
   filters: GetTransactionsFilters;
   overwriteEvents?: boolean;
   overwriteLevel?: boolean;
+  skipTransactions?: boolean;
 }
 
 interface Operation {
@@ -232,7 +233,7 @@ export async function addQuotesToEvents(events: Array<AnyEvent>) {
 }
 
 export async function produceEvents(payload: EventProducerTaskPayload) {
-  const transactions = await getTransactions(payload.filters);
+  const transactions = !payload.skipTransactions ? await getTransactions(payload.filters) : [];
   const originations = await getOriginations(payload.filters);
 
   let events = [
