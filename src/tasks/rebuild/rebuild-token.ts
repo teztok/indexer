@@ -40,6 +40,7 @@ import {
   TYPED_CONTRACT_MARKETPLACE,
   EIGHTSCRIBO_CONTRACT_MARKETPLACE,
   KALAMINT_CONTRACT_FA2,
+  TEIA_CAFE_FA2,
 } from '../../consts';
 
 export interface RebuildTokenTaskPayload {
@@ -177,8 +178,26 @@ export function compileToken(
 
   let royaltyReceivers = null;
 
+  let teiacafePlaylist = null;
+  let teiacafePlaylistDescription = null;
+  let teiacafePlaylistCover = null;
+
   if (metadata && metadata.royalties && is(metadata.royalties, RoyaltySharesSchema)) {
     royaltyReceivers = royaltySharesToRoyaltyReceivers(metadata.royalties);
+  }
+
+  if (fa2Address === TEIA_CAFE_FA2 && metadata && metadata.teiacafe_playlist) {
+    if (Array.isArray(get(metadata, 'teiacafe_playlist.playlist'))) {
+      teiacafePlaylist = get(metadata, 'teiacafe_playlist.playlist');
+    }
+
+    if (isString(get(metadata, 'teiacafe_playlist.playlist_description'))) {
+      teiacafePlaylistDescription = get(metadata, 'teiacafe_playlist.playlist_description');
+    }
+
+    if (isString(get(metadata, 'teiacafe_playlist.playlist_cover'))) {
+      teiacafePlaylistCover = get(metadata, 'teiacafe_playlist.playlist_cover');
+    }
   }
 
   if (contractOriginationEvent) {
@@ -1339,6 +1358,10 @@ export function compileToken(
     eightscribo_rowone: eightscriboRowone,
     eightscribo_rowtwo: eightscriboRowtwo,
     eightscribo_rowthree: eightscriboRowthree,
+
+    teiacafe_playlist: teiacafePlaylist,
+    teiacafe_playlist_description: teiacafePlaylistDescription,
+    teiacafe_playlist_cover: teiacafePlaylistCover,
   };
 
   return {

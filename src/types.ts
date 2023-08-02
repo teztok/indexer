@@ -239,6 +239,8 @@ export interface Attribute {
   type?: string;
 }
 
+type TeiaCafePlaylist = Array<{ contract_id: string; token_id: number }>;
+
 // the minimum on information a metadata data file needs to contain
 export interface MetadataBase {
   name: string;
@@ -273,6 +275,11 @@ export interface Metadata extends MetadataBase {
   attributes?: Array<Attribute>;
   assets?: Array<Metadata>;
   royalties?: RoyaltyShares;
+  teiacafe_playlist?: {
+    playlist_description: string;
+    playlist_cover: string;
+    playlist: TeiaCafePlaylist;
+  };
 }
 export interface RoyaltyShares {
   decimals: number;
@@ -367,6 +374,10 @@ export interface Token {
   eightscribo_rowone: string | null;
   eightscribo_rowtwo: string | null;
   eightscribo_rowthree: string | null;
+
+  teiacafe_playlist: TeiaCafePlaylist | null;
+  teiacafe_playlist_description: string | null;
+  teiacafe_playlist_cover: string | null;
 }
 
 export interface Listing {
