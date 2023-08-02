@@ -77,6 +77,11 @@ export async function up(knex: Knex): Promise<void> {
       table.text('eightscribo_rowone');
       table.text('eightscribo_rowtwo');
       table.text('eightscribo_rowthree');
+
+      table.text('teiacafe_playlist_description');
+      table.text('teiacafe_playlist_cover');
+      table.jsonb('teiacafe_playlist');
+
       table.boolean('is_verified_artist');
       table.timestamp('updated_at').defaultTo(knex.fn.now());
 

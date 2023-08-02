@@ -2421,6 +2421,58 @@ test('sets the token metadata correctly', () => {
   ]);
 });
 
+test('sets the teia cafe properties', () => {
+  const metadata = {
+    teiacafe_playlist: {
+      playlist_description: 'Mint 0 to kick off the TEIACAFE token!',
+      playlist_cover: 'ipfs://QmPGhW7soqrsoiQeBZLw8XSH742g8i1DVJJQk8kS4rsKu1',
+      playlist: [
+        {
+          contract_id: 'KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton',
+          token_id: 754267,
+        },
+        {
+          contract_id: 'KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton',
+          token_id: 793549,
+        },
+        {
+          contract_id: 'KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton',
+          token_id: 727395,
+        },
+        {
+          contract_id: 'KT1J6NY5AU61GzUX51n59wwiZcGJ9DrNTwbK',
+          token_id: 3676,
+        },
+      ],
+    },
+  };
+
+  const { token } = compileToken('KT1VsWWBsDRrrYveTuHrsULYfYu9VmA9fLRy', TEST_TOKEN_ID, [], 'processed', metadata as any);
+
+  expect(token).toMatchObject({
+    teiacafe_playlist_description: 'Mint 0 to kick off the TEIACAFE token!',
+    teiacafe_playlist_cover: 'ipfs://QmPGhW7soqrsoiQeBZLw8XSH742g8i1DVJJQk8kS4rsKu1',
+    teiacafe_playlist: [
+      {
+        contract_id: 'KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton',
+        token_id: 754267,
+      },
+      {
+        contract_id: 'KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton',
+        token_id: 793549,
+      },
+      {
+        contract_id: 'KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton',
+        token_id: 727395,
+      },
+      {
+        contract_id: 'KT1J6NY5AU61GzUX51n59wwiZcGJ9DrNTwbK',
+        token_id: 3676,
+      },
+    ],
+  });
+});
+
 test('accept attributes without a name property', () => {
   const metadata = {
     attributes: [
