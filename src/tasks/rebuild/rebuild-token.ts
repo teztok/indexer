@@ -178,9 +178,9 @@ export function compileToken(
 
   let royaltyReceivers = null;
 
-  let TeiacafePlaylist = null;
-  let TeiacafePlaylistDescription = null;
-  let TeiacafePlaylistCover = null;
+  let teiacafePlaylist = null;
+  let teiacafePlaylistDescription = null;
+  let teiacafePlaylistCover = null;
 
   if (metadata && metadata.royalties && is(metadata.royalties, RoyaltySharesSchema)) {
     royaltyReceivers = royaltySharesToRoyaltyReceivers(metadata.royalties);
@@ -191,15 +191,15 @@ export function compileToken(
 
     if (metadata && metadata.teiacafe_playlist) {
       if (Array.isArray(get(metadata, 'teiacafe_playlist.playlist'))) {
-        TeiacafePlaylist = get(metadata, 'teiacafe_playlist.playlist');
+        teiacafePlaylist = get(metadata, 'teiacafe_playlist.playlist');
       }
 
       if (isString(get(metadata, 'teiacafe_playlist.playlist_description'))) {
-        TeiacafePlaylistDescription = get(metadata, 'teiacafe_playlist.playlist_description');
+        teiacafePlaylistDescription = get(metadata, 'teiacafe_playlist.playlist_description');
       }
 
       if (isString(get(metadata, 'teiacafe_playlist.playlist_cover'))) {
-        TeiacafePlaylistCover = get(metadata, 'teiacafe_playlist.playlist_cover');
+        teiacafePlaylistCover = get(metadata, 'teiacafe_playlist.playlist_cover');
       }
     }
   }
@@ -1363,9 +1363,9 @@ export function compileToken(
     eightscribo_rowtwo: eightscriboRowtwo,
     eightscribo_rowthree: eightscriboRowthree,
 
-    teiacafe_playlist: TeiacafePlaylist,
-    teiacafe_playlist_description: TeiacafePlaylistDescription,
-    teiacafe_playlist_cover: TeiacafePlaylistCover,
+    teiacafe_playlist: teiacafePlaylist,
+    teiacafe_playlist_description: teiacafePlaylistDescription,
+    teiacafe_playlist_cover: teiacafePlaylistCover,
   };
 
   return {
@@ -1474,7 +1474,9 @@ export async function rebuildToken(payload: RebuildTokenTaskPayload) {
       return;
     }
 
-    const tokenRow = ['teiacafe_playlist', 'formats', 'creators', 'contributors', 'attributes', 'royalties', 'lowest_price_listing'].reduce<Record<string, any>>(
+    const tokenRow = ['teiacafe_playlist', 'formats', 'creators', 'contributors', 'attributes', 'royalties', 'lowest_price_listing'].reduce<
+      Record<string, any>
+    >(
       (memo, propName) => {
         if (memo[propName]) {
           memo[propName] = JSON.stringify(memo[propName]);
