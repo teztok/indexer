@@ -2421,7 +2421,7 @@ test('sets the token metadata correctly', () => {
   ]);
 });
 
-test('sets the teia cafe properties', () => {
+test('sets the teiacafe properties', () => {
   const metadata = {
     teiacafe_playlist: {
       playlist_description: 'Mint 0 to kick off the TEIACAFE token!',
@@ -2450,6 +2450,7 @@ test('sets the teia cafe properties', () => {
   const { token } = compileToken('KT1VsWWBsDRrrYveTuHrsULYfYu9VmA9fLRy', TEST_TOKEN_ID, [], 'processed', metadata as any);
 
   expect(token).toMatchObject({
+    platform: 'TEIACAFE',
     teiacafe_playlist_description: 'Mint 0 to kick off the TEIACAFE token!',
     teiacafe_playlist_cover: 'ipfs://QmPGhW7soqrsoiQeBZLw8XSH742g8i1DVJJQk8kS4rsKu1',
     teiacafe_playlist: [

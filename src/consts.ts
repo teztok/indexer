@@ -54,7 +54,7 @@ export const RARIBLE_CONTRACT_FA2 = 'KT18pVpRXKPY2c4U2yFEGSH3ZnhB2kL8kwXS';
 
 export const KALAMINT_CONTRACT_FA2 = 'KT1EpGgjQs73QfFJs9z7m1Mxm5MTnpC2tqse';
 
-export const TEIA_CAFE_FA2 = 'KT1VsWWBsDRrrYveTuHrsULYfYu9VmA9fLRy';
+export const TEIACAFE_FA2 = 'KT1VsWWBsDRrrYveTuHrsULYfYu9VmA9fLRy';
 
 export const BURN_ADDRESS = 'tz1burnburnburnburnburnburnburjAYjjX';
 

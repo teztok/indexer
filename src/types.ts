@@ -239,7 +239,7 @@ export interface Attribute {
   type?: string;
 }
 
-type TeiaCafePlaylist = Array<{ contract_id: string; token_id: number }>;
+type TeiacafePlaylist = Array<{ contract_id: string; token_id: number }>;
 
 // the minimum on information a metadata data file needs to contain
 export interface MetadataBase {
@@ -278,7 +278,7 @@ export interface Metadata extends MetadataBase {
   teiacafe_playlist?: {
     playlist_description: string;
     playlist_cover: string;
-    playlist: TeiaCafePlaylist;
+    playlist: TeiacafePlaylist;
   };
 }
 export interface RoyaltyShares {
@@ -286,7 +286,7 @@ export interface RoyaltyShares {
   shares: Record<string, string>;
 }
 
-export type Platform = 'HEN' | 'FXHASH' | 'OBJKT' | 'VERSUM' | '8BIDOU' | 'TYPED' | '8SCRIBO' | 'RARIBLE' | 'KALAMINT' | null;
+export type Platform = 'HEN' | 'FXHASH' | 'OBJKT' | 'VERSUM' | '8BIDOU' | 'TYPED' | '8SCRIBO' | 'RARIBLE' | 'KALAMINT' | 'TEIACAFE' | null;
 
 export interface Token {
   fa2_address: string;
@@ -375,7 +375,7 @@ export interface Token {
   eightscribo_rowtwo: string | null;
   eightscribo_rowthree: string | null;
 
-  teiacafe_playlist: TeiaCafePlaylist | null;
+  teiacafe_playlist: TeiacafePlaylist | null;
   teiacafe_playlist_description: string | null;
   teiacafe_playlist_cover: string | null;
 }
