@@ -1474,7 +1474,7 @@ export async function rebuildToken(payload: RebuildTokenTaskPayload) {
       return;
     }
 
-    const tokenRow = ['formats', 'creators', 'contributors', 'attributes', 'royalties', 'lowest_price_listing'].reduce<Record<string, any>>(
+    const tokenRow = ['teiacafe_playlist', 'formats', 'creators', 'contributors', 'attributes', 'royalties', 'lowest_price_listing'].reduce<Record<string, any>>(
       (memo, propName) => {
         if (memo[propName]) {
           memo[propName] = JSON.stringify(memo[propName]);
