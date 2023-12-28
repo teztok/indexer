@@ -42,6 +42,7 @@ import {
   KALAMINT_CONTRACT_FA2,
   TEIACAFE_FA2,
 } from '../../consts';
+import { isNumber } from 'lodash';
 
 export interface RebuildTokenTaskPayload {
   type: 'token';
@@ -180,6 +181,7 @@ export function compileToken(
 
   let teiacafePlaylist = null;
   let teiacafePlaylistDescription = null;
+  let teiacafePlaylistCuratorFee = null;
   let teiacafePlaylistCover = null;
 
   if (metadata && metadata.royalties && is(metadata.royalties, RoyaltySharesSchema)) {
@@ -196,6 +198,13 @@ export function compileToken(
 
       if (isString(get(metadata, 'teiacafe_playlist.playlist_description'))) {
         teiacafePlaylistDescription = get(metadata, 'teiacafe_playlist.playlist_description');
+      }
+
+      if (
+        isString(get(metadata, 'teiacafe_playlist.playlist_curator_fee')) ||
+        isNumber(get(metadata, 'teiacafe_playlist.playlist_curator_fee'))
+      ) {
+        teiacafePlaylistCuratorFee = `${get(metadata, 'teiacafe_playlist.playlist_curator_fee')}`;
       }
 
       if (isString(get(metadata, 'teiacafe_playlist.playlist_cover'))) {
@@ -1365,6 +1374,7 @@ export function compileToken(
 
     teiacafe_playlist: teiacafePlaylist,
     teiacafe_playlist_description: teiacafePlaylistDescription,
+    teiacafe_playlist_curator_fee: teiacafePlaylistCuratorFee,
     teiacafe_playlist_cover: teiacafePlaylistCover,
   };
 

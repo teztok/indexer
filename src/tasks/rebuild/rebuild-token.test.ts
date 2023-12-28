@@ -2425,6 +2425,7 @@ test('sets the teiacafe properties', () => {
   const metadata = {
     teiacafe_playlist: {
       playlist_description: 'Mint 0 to kick off the TEIACAFE token!',
+      playlist_curator_fee: '10',
       playlist_cover: 'ipfs://QmPGhW7soqrsoiQeBZLw8XSH742g8i1DVJJQk8kS4rsKu1',
       playlist: [
         {
@@ -2452,6 +2453,7 @@ test('sets the teiacafe properties', () => {
   expect(token).toMatchObject({
     platform: 'TEIACAFE',
     teiacafe_playlist_description: 'Mint 0 to kick off the TEIACAFE token!',
+    teiacafe_playlist_curator_fee: '10',
     teiacafe_playlist_cover: 'ipfs://QmPGhW7soqrsoiQeBZLw8XSH742g8i1DVJJQk8kS4rsKu1',
     teiacafe_playlist: [
       {

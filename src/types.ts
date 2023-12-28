@@ -377,6 +377,7 @@ export interface Token {
 
   teiacafe_playlist: TeiacafePlaylist | null;
   teiacafe_playlist_description: string | null;
+  teiacafe_playlist_curator_fee: string | null;
   teiacafe_playlist_cover: string | null;
 }
 

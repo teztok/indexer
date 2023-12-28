@@ -80,6 +80,7 @@ export async function up(knex: Knex): Promise<void> {
 
       table.text('teiacafe_playlist_description');
       table.text('teiacafe_playlist_cover');
+      table.text('teiacafe_playlist_curator_fee');
       table.jsonb('teiacafe_playlist');
 
       table.boolean('is_verified_artist');
