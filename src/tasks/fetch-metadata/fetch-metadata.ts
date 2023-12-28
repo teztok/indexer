@@ -43,12 +43,16 @@ export function validateMetadata(metadata: MetadataBase) {
 }
 
 export async function processMetadata(payload: FetchMetadataTaskPayload, helpers?: JobHelpers) {
-  const metadataUri = payload.metadata_uri;
+  let metadataUri = payload.metadata_uri;
   const workerUtils = await getWorkerUtils();
   const ipfsGateways = getIpfsGateways();
 
   try {
-    const metadataUriLowerCased = metadataUri.toLowerCase();
+    if (metadataUri.toLowerCase().startsWith('https://ipfs.io/ipfs/')) {
+      metadataUri = metadataUri.replace('https://ipfs.io/ipfs/', 'ipfs://');
+    }
+
+    let metadataUriLowerCased = metadataUri.toLowerCase();
     let metadata;
 
     if (metadataUriLowerCased.startsWith('ipfs://')) {
