@@ -137,6 +137,16 @@ const defaultConfig = {
     'KT1Edj7sMUFvrUetdDZLs2K9wusJjUF9Fm7P',
     'KT1Qhu6nFTJLno4YELMSZR5krwaFnaEg7Qv6', // unexistant token
     'KT1BRADdqGk2eLmMqvyWzqVmPQ1RCBCbW5dY', // McLaren F1 Collectible. rebuilding this token slows down the indexer too much. ignore for now.
+    'KT1UQVEDf4twF2eMbrCKQAxN7YYunTAiCTTm', // POLE
+    'KT1MczLJtJFaDR22eahgey72v5GYGm7uaBhG', // UCZINE
+    'KT1T15biMPfiuReaA6GJsqP4vJZmxCvomcBY', // COECON
+    'KT1MZg99PxMDEENwB4Fi64xkqAVh5d1rv8Z9', // PEPE
+    'KT1FCN8JPd2XegqnRm2N5ahwohe5oBnHXjaQ',
+    'KT1CNyTPmBJ5hcqDPbPkFtoe76LifXyHUvqc', // PLENTY Polygon bridge
+    'KT1BfEcswGhRWRSZS2at56f6XS7E7eAipGvD', // MONK
+    'KT1LBXXg9UFvyfdvPmRMc4JZQsYWdyPCS6ue', // Collect United
+    'KT1GtMSYTYrJs2jVVgoYgLXs4Fyb7avcLarY', // lgOTTZ
+    'KT1ShjB24tTXX8m5oDCrBHXqynCpmNJDxpD5', // TRASH
   ],
 };
 
