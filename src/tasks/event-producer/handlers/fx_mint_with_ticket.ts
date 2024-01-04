@@ -7,8 +7,10 @@ import { RoyaltySharesSchema } from '../../../lib/schemas';
 import { createEventId, findDiff, splitsToRoyaltyShares } from '../../../lib/utils';
 import { FX_CONTRACT_MINT_V4, FX_CONTRACT_FA2_V4, FX_CONTRACT_TICKET_FA2, SALE_INTERFACE } from '../../../consts';
 import {
-  tokenSaleEventFields,
+  tokenEventFields,
   artistAddressField,
+  sellerAddressField,
+  buyerAddressField,
   isVerifiedArtistField,
   royaltiesField,
   issuerIdField,
@@ -16,24 +18,26 @@ import {
   iterationField,
   metadataUriField,
   royaltySharesField,
+  ticketFa2AddressField,
+  ticketTokenIdField,
 } from '../event-fields-meta';
 
 export const EVENT_TYPE_FX_MINT_WITH_TICKET = 'FX_MINT_WITH_TICKET';
 
 export interface FxMintWithTicketEvent extends MintEvent {
   type: typeof EVENT_TYPE_FX_MINT_WITH_TICKET;
-  implements: SaleEventInterface;
   royalties: string;
   issuer_id: string;
   iteration: string;
-  price: string;
   metadata_uri: string;
   seller_address: string;
   buyer_address: string;
   royalty_shares: RoyaltyShares;
+  ticket_fa2_address: string;
+  ticket_token_id: string;
 }
 
-const FxMintWithTicketEventSchema: Describe<Omit<FxMintWithTicketEvent, 'type' | 'implements'>> = object({
+const FxMintWithTicketEventSchema: Describe<Omit<FxMintWithTicketEvent, 'type'>> = object({
   id: string(),
   opid: PgBigInt,
   timestamp: IsoDateString,
@@ -50,8 +54,9 @@ const FxMintWithTicketEventSchema: Describe<Omit<FxMintWithTicketEvent, 'type' |
   editions: PgBigInt,
   iteration: PgBigInt,
   metadata_uri: MetadataUri,
-  price: PgBigInt,
   royalty_shares: RoyaltySharesSchema,
+  ticket_fa2_address: ContractAddress,
+  ticket_token_id: string(),
 });
 
 const FxMintWithTicketHandler: TransactionHandler<FxMintWithTicketEvent> = {
@@ -62,7 +67,9 @@ const FxMintWithTicketHandler: TransactionHandler<FxMintWithTicketEvent> = {
   meta: {
     eventDescription: `A token was minted with a ticket on fxhash (mint contract: KT1Xpmp15KfqoePNW9HczFmqaGNHwadV2a3b).`,
     eventFields: [
-      ...tokenSaleEventFields,
+      ...tokenEventFields,
+      sellerAddressField,
+      buyerAddressField,
       artistAddressField,
       isVerifiedArtistField,
       royaltiesField,
@@ -71,6 +78,8 @@ const FxMintWithTicketHandler: TransactionHandler<FxMintWithTicketEvent> = {
       iterationField,
       metadataUriField,
       royaltySharesField,
+      ticketFa2AddressField,
+      ticketTokenIdField,
     ],
   },
 
@@ -110,15 +119,8 @@ const FxMintWithTicketHandler: TransactionHandler<FxMintWithTicketEvent> = {
     const splits = get(fa2MintTransaction, 'parameter.value.royalties_split');
     const diff = findDiff(transaction.diffs!, 411393, 'ledger', ['update_key'], issuerId);
     const artistAddress = get(diff, 'content.value.author');
-    const ticketDiff = findDiff(
-      ticketConsumeTransaction!.diffs!,
-      411412,
-      'token_data',
-      ['remove_key'],
-      get(ticketConsumeTransaction, 'parameter.value.token_id')
-    );
     const editions = '1';
-    const price = get(ticketDiff, 'content.value.price');
+    const ticketTokenId = get(ticketConsumeTransaction, 'parameter.value.token_id');
     const fa2Address = FX_CONTRACT_FA2_V4;
     const metadataUri = Buffer.from(get(fa2MintTransaction, 'parameter.value.metadata.'), 'hex').toString();
     const id = createEventId(EVENT_TYPE_FX_MINT_WITH_TICKET, transaction);
@@ -126,7 +128,6 @@ const FxMintWithTicketHandler: TransactionHandler<FxMintWithTicketEvent> = {
     const event: FxMintWithTicketEvent = {
       id,
       type: EVENT_TYPE_FX_MINT_WITH_TICKET,
-      implements: SALE_INTERFACE,
       opid: String(transaction.id),
       ophash: transaction.hash,
       timestamp: transaction.timestamp,
@@ -142,11 +143,12 @@ const FxMintWithTicketHandler: TransactionHandler<FxMintWithTicketEvent> = {
       editions: editions,
       iteration,
       metadata_uri: metadataUri,
-      price,
+      ticket_fa2_address: FX_CONTRACT_TICKET_FA2,
+      ticket_token_id: ticketTokenId,
       royalty_shares: splitsToRoyaltyShares(splits, royalties),
     };
 
-    assert(omit(event, ['type', 'implements']), FxMintWithTicketEventSchema);
+    assert(omit(event, ['type']), FxMintWithTicketEventSchema);
 
     return event;
   },
