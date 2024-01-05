@@ -3,6 +3,7 @@ import {
   HEN_CONTRACT_MARKETPLACE_V2,
   OBJKT_CONTRACT_MARKETPLACE,
   OBJKT_CONTRACT_MARKETPLACE_V2,
+  OBJKT_CONTRACT_MARKETPLACE_V3,
   FX_CONTRACT_MARKETPLACE,
   FX_CONTRACT_MARKETPLACE_V3,
   EIGHTBIDOU_8X8_COLOR_CONTRACT_MARKETPLACE,
@@ -431,7 +432,16 @@ export interface ObjktListing extends Listing {
 export interface ObjktListingV2 extends Listing {
   type: 'OBJKT_ASK_V2';
   ask_id: string;
+  end_time?: string;
   contract_address: typeof OBJKT_CONTRACT_MARKETPLACE_V2;
+  currency: string;
+}
+
+export interface ObjktListingV3 extends Listing {
+  type: 'OBJKT_ASK_V3';
+  ask_id: string;
+  end_time?: string;
+  contract_address: typeof OBJKT_CONTRACT_MARKETPLACE_V3;
   currency: string;
 }
 
@@ -485,6 +495,7 @@ export type AnyListing =
   | HenListingV2
   | ObjktListing
   | ObjktListingV2
+  | ObjktListingV3
   | FxListing
   | FxListingV3
   | VersumListing
@@ -515,6 +526,14 @@ export interface ObjktOffer extends Offer {
   type: 'OBJKT_OFFER';
   offer_id: string;
   contract_address: typeof OBJKT_CONTRACT_MARKETPLACE_V2;
+  end_time?: string;
+}
+
+export interface ObjktOfferV3 extends Offer {
+  type: 'OBJKT_OFFER_V3';
+  offer_id: string;
+  contract_address: typeof OBJKT_CONTRACT_MARKETPLACE_V3;
+  end_time?: string;
 }
 
 export interface VersumOffer extends Offer {
@@ -530,7 +549,7 @@ export interface FxOfferV3 extends Offer {
   contract_address: typeof FX_CONTRACT_MARKETPLACE_V3;
 }
 
-export type AnyOffer = ObjktBid | ObjktOffer | VersumOffer | FxOfferV3;
+export type AnyOffer = ObjktBid | ObjktOffer | ObjktOfferV3 | VersumOffer | FxOfferV3;
 
 export type Holders = Record<string, number>;
 

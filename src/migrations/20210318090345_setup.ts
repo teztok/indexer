@@ -175,6 +175,7 @@ export async function up(knex: Knex): Promise<void> {
       table.bigInteger('bid_id');
       table.bigInteger('offer_id');
       table.bigInteger('amount');
+      table.timestamp('end_time');
       table.text('currency');
 
       table.index('fa2_address');
