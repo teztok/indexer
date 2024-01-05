@@ -13,7 +13,20 @@ import { is } from 'superstruct';
 import db from '../../lib/db';
 import config from '../../lib/config';
 import { isTezLikeCurrency } from '../../lib/utils';
-import { Platform, Metadata, Token, AnyListing, AnyOffer, SaleEvent, ObjktListingV2, RoyaltyShares, Holding } from '../../types';
+import {
+  Platform,
+  Metadata,
+  Token,
+  AnyListing,
+  AnyOffer,
+  SaleEvent,
+  ObjktListingV2,
+  ObjktListingV3,
+  ObjktOffer,
+  ObjktOfferV3,
+  RoyaltyShares,
+  Holding,
+} from '../../types';
 import { isValidTezosAddress } from '../../lib/validators';
 import { cleanString, cleanUri, cleanAttributes, cleanTags, cleanCreators, cleanFormats, RoyaltySharesSchema } from '../../lib/schemas';
 import * as eventsDao from '../../lib/daos/events';
@@ -25,6 +38,7 @@ import {
   HEN_CONTRACT_MARKETPLACE_V2,
   OBJKT_CONTRACT_MARKETPLACE,
   OBJKT_CONTRACT_MARKETPLACE_V2,
+  OBJKT_CONTRACT_MARKETPLACE_V3,
   FX_CONTRACT_MARKETPLACE,
   FX_CONTRACT_MARKETPLACE_V3,
   VERSUM_CONTRACT_MARKETPLACE,
@@ -455,7 +469,9 @@ export function compileToken(
           break;
         }
 
-        listings[createListingKey(OBJKT_CONTRACT_MARKETPLACE_V2, event.ask_id)] = {
+        const listingKey = createListingKey(OBJKT_CONTRACT_MARKETPLACE_V2, event.ask_id);
+
+        const listing = (listings[listingKey] = {
           type: 'OBJKT_ASK_V2',
           contract_address: OBJKT_CONTRACT_MARKETPLACE_V2,
           created_at: event.timestamp,
@@ -466,7 +482,11 @@ export function compileToken(
           price: event.price,
           currency: event.currency,
           status: 'active',
-        };
+        } as ObjktListingV2);
+
+        if (event.end_time) {
+          listing.end_time = event.end_time;
+        }
 
         break;
       }
@@ -486,6 +506,65 @@ export function compileToken(
 
         if (listingKey in listings) {
           const amountLeft = listings[listingKey].amount_left - 1;
+          listings[listingKey].amount_left = amountLeft;
+
+          if (amountLeft <= 0) {
+            listings[listingKey].status = 'sold_out';
+          }
+        }
+
+        break;
+      }
+
+      case 'OBJKT_ASK_V3': {
+        if (
+          event.royalty_shares &&
+          royaltyReceivers &&
+          !areRoyaltyReceiversTheSame(royaltySharesToRoyaltyReceivers(event.royalty_shares), royaltyReceivers) &&
+          artistAddress !== event.seller_address
+        ) {
+          // potentially fraudulent swap, ignore
+          break;
+        }
+
+        const listingKey = createListingKey(OBJKT_CONTRACT_MARKETPLACE_V3, event.ask_id);
+
+        const listing = (listings[listingKey] = {
+          type: 'OBJKT_ASK_V3',
+          contract_address: OBJKT_CONTRACT_MARKETPLACE_V3,
+          created_at: event.timestamp,
+          ask_id: event.ask_id,
+          seller_address: event.seller_address,
+          amount: parseInt(event.amount, 10),
+          amount_left: parseInt(event.amount, 10),
+          price: event.price,
+          currency: event.currency,
+          end_time: event.end_time,
+          status: 'active',
+        } as ObjktListingV3);
+
+        if (event.end_time) {
+          listing.end_time = event.end_time;
+        }
+
+        break;
+      }
+
+      case 'OBJKT_RETRACT_ASK_V3': {
+        const listingKey = createListingKey(OBJKT_CONTRACT_MARKETPLACE_V3, event.ask_id);
+
+        if (listingKey in listings) {
+          listings[listingKey].status = 'canceled';
+        }
+
+        break;
+      }
+
+      case 'OBJKT_FULFILL_ASK_V3': {
+        const listingKey = createListingKey(OBJKT_CONTRACT_MARKETPLACE_V3, event.ask_id);
+
+        if (listingKey in listings) {
+          const amountLeft = listings[listingKey].amount_left - 1; // TODO: what if someone buys more than 1?
           listings[listingKey].amount_left = amountLeft;
 
           if (amountLeft <= 0) {
@@ -540,7 +619,7 @@ export function compileToken(
           break;
         }
 
-        offers[createListingKey(OBJKT_CONTRACT_MARKETPLACE_V2, event.offer_id)] = {
+        const offer = (offers[createListingKey(OBJKT_CONTRACT_MARKETPLACE_V2, event.offer_id)] = {
           type: 'OBJKT_OFFER',
           contract_address: OBJKT_CONTRACT_MARKETPLACE_V2,
           created_at: event.timestamp,
@@ -548,7 +627,11 @@ export function compileToken(
           buyer_address: event.buyer_address,
           price: event.price,
           status: 'active',
-        };
+        } as ObjktOffer);
+
+        if (event.end_time) {
+          offer.end_time = event.end_time;
+        }
 
         break;
       }
@@ -565,6 +648,53 @@ export function compileToken(
 
       case 'OBJKT_FULFILL_OFFER': {
         const offerKey = createListingKey(OBJKT_CONTRACT_MARKETPLACE_V2, event.offer_id);
+
+        if (offerKey in offers) {
+          offers[offerKey].status = 'fulfilled';
+        }
+
+        break;
+      }
+
+      case 'OBJKT_OFFER_V3': {
+        if (
+          event.royalty_shares &&
+          royaltyReceivers &&
+          !areRoyaltyReceiversTheSame(royaltySharesToRoyaltyReceivers(event.royalty_shares), royaltyReceivers)
+        ) {
+          // potentially fraudulent offer, ignore
+          break;
+        }
+
+        const offer = (offers[createListingKey(OBJKT_CONTRACT_MARKETPLACE_V3, event.offer_id)] = {
+          type: 'OBJKT_OFFER_V3',
+          contract_address: OBJKT_CONTRACT_MARKETPLACE_V3,
+          created_at: event.timestamp,
+          offer_id: event.offer_id,
+          buyer_address: event.buyer_address,
+          price: event.price,
+          status: 'active',
+        } as ObjktOfferV3);
+
+        if (event.end_time) {
+          offer.end_time = event.end_time;
+        }
+
+        break;
+      }
+
+      case 'OBJKT_RETRACT_OFFER_V3': {
+        const offerKey = createListingKey(OBJKT_CONTRACT_MARKETPLACE_V3, event.offer_id);
+
+        if (offerKey in offers) {
+          offers[offerKey].status = 'canceled';
+        }
+
+        break;
+      }
+
+      case 'OBJKT_FULFILL_OFFER_V3': {
+        const offerKey = createListingKey(OBJKT_CONTRACT_MARKETPLACE_V3, event.offer_id);
 
         if (offerKey in offers) {
           offers[offerKey].status = 'fulfilled';
@@ -1212,17 +1342,16 @@ export function compileToken(
   const lastEvent = events.length ? events[events.length - 1] : null;
   const listingsArr = orderBy(Object.values(listings), ({ price }) => parseInt(price, 10));
   const activeListings = listingsArr.filter(({ status }) => status === 'active');
-  const objktAskV2Listings = listingsArr.filter(({ type }) => type === 'OBJKT_ASK_V2') as Array<ObjktListingV2>;
+  const objktAskV2And3Listings = listingsArr.filter(({ type }) => type === 'OBJKT_ASK_V2' || type === 'OBJKT_ASK_V3') as Array<
+    ObjktListingV2 | ObjktListingV3
+  >;
 
-  for (const objktAskV2Listing of objktAskV2Listings) {
+  for (const listing of objktAskV2And3Listings) {
     // TODO: consider handling other currencies?
-    if (['tez', 'otez'].includes(objktAskV2Listing.currency)) {
-      objktAskV2Listing.amount_left = Math.min(
-        objktAskV2Listing.amount_left,
-        objktAskV2Listing.seller_address in holders ? holders[objktAskV2Listing.seller_address].amount : 0
-      );
-      if (objktAskV2Listing.amount_left <= 0 && objktAskV2Listing.status === 'active') {
-        objktAskV2Listing.status = 'sold_out';
+    if (['tez', 'otez'].includes(listing.currency)) {
+      listing.amount_left = Math.min(listing.amount_left, listing.seller_address in holders ? holders[listing.seller_address].amount : 0);
+      if (listing.amount_left <= 0 && listing.status === 'active') {
+        listing.status = 'sold_out';
       }
     }
   }

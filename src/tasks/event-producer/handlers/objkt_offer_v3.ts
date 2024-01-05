@@ -5,7 +5,7 @@ import { TezosAddress, ContractAddress, IsoDateString, PositiveInteger, PgBigInt
 import { TransactionHandler, TokenEvent, RoyaltyShares } from '../../../types';
 import { RoyaltySharesSchema } from '../../../lib/schemas';
 import { createEventId, transactionMatchesPattern, isTezLikeCurrency, extractObjktCurrency } from '../../../lib/utils';
-import { OBJKT_CONTRACT_MARKETPLACE_V2 } from '../../../consts';
+import { OBJKT_CONTRACT_MARKETPLACE_V3 } from '../../../consts';
 import {
   tokenEventFields,
   offerIdField,
@@ -17,9 +17,9 @@ import {
   royaltySharesField,
 } from '../event-fields-meta';
 
-export const EVENT_TYPE_OBJKT_OFFER = 'OBJKT_OFFER';
+export const EVENT_TYPE_OBJKT_OFFER = 'OBJKT_OFFER_V3';
 
-export interface ObjktOfferEvent extends TokenEvent {
+export interface ObjktOfferV3Event extends TokenEvent {
   type: typeof EVENT_TYPE_OBJKT_OFFER;
   offer_id: string;
   buyer_address: string;
@@ -30,7 +30,7 @@ export interface ObjktOfferEvent extends TokenEvent {
   end_time?: string;
 }
 
-const ObjktOfferEventSchema: Describe<Omit<ObjktOfferEvent, 'type'>> = object({
+const ObjktOfferEventSchema: Describe<Omit<ObjktOfferV3Event, 'type'>> = object({
   id: string(),
   opid: PgBigInt,
   timestamp: IsoDateString,
@@ -48,13 +48,13 @@ const ObjktOfferEventSchema: Describe<Omit<ObjktOfferEvent, 'type'>> = object({
   end_time: optional(IsoDateString),
 });
 
-const ObjktOfferHandler: TransactionHandler<ObjktOfferEvent> = {
+const ObjktOfferHandler: TransactionHandler<ObjktOfferV3Event> = {
   source: 'transaction',
 
   type: EVENT_TYPE_OBJKT_OFFER,
 
   meta: {
-    eventDescription: `An offer was created on objkt.com (marketplace contract: KT1WvzYHCNBvDSdwafTHv7nJ1dWmZ8GCYuuC).`,
+    eventDescription: `An offer was created on objkt.com (marketplace contract: KT1CePTyk6fk4cFr6fasY5YXPGks6ttjSLp4).`,
     eventFields: [
       ...tokenEventFields,
       offerIdField,
@@ -71,7 +71,7 @@ const ObjktOfferHandler: TransactionHandler<ObjktOfferEvent> = {
     if (
       !transactionMatchesPattern(transaction, {
         entrypoint: 'offer',
-        target_address: OBJKT_CONTRACT_MARKETPLACE_V2,
+        target_address: OBJKT_CONTRACT_MARKETPLACE_V3,
       })
     ) {
       return false;
@@ -89,13 +89,13 @@ const ObjktOfferHandler: TransactionHandler<ObjktOfferEvent> = {
     const currency = extractObjktCurrency(get(transaction, 'parameter.value.currency'));
     const price = get(transaction, 'parameter.value.amount');
     const id = createEventId(EVENT_TYPE_OBJKT_OFFER, transaction);
-    const shares: Array<{ amount: string; recipient: string }> = get(transaction, 'parameter.value.shares');
+    const shares: Record<string, string> = get(transaction, 'parameter.value.shares');
 
     if (!currency || !isTezLikeCurrency(currency)) {
       throw new Error(`unsupported currency`);
     }
 
-    const event: ObjktOfferEvent = {
+    const event: ObjktOfferV3Event = {
       id,
       type: EVENT_TYPE_OBJKT_OFFER,
       opid: String(transaction.id),
@@ -110,10 +110,7 @@ const ObjktOfferHandler: TransactionHandler<ObjktOfferEvent> = {
       price: price,
       royalty_shares: {
         decimals: 4,
-        shares: (shares || []).reduce<Record<string, string>>((memo, entry) => {
-          memo[entry.recipient] = entry.amount;
-          return memo;
-        }, {}),
+        shares: shares,
       },
     };
 

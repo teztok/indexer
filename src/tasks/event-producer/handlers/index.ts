@@ -9,17 +9,23 @@ import HenSwapHandler, { HenSwapEvent } from './hen_swap';
 import HenSwapHandlerV2, { HenSwapV2Event } from './hen_swap_v2';
 import ObjktAskHandler, { ObjktAskEvent } from './objkt_ask';
 import ObjktAskV2Handler, { ObjktAskV2Event } from './objkt_ask_v2';
+import ObjktAskV3Handler, { ObjktAskV3Event } from './objkt_ask_v3';
 import ObjktOfferHandler, { ObjktOfferEvent } from './objkt_offer';
+import ObjktOfferV3Handler, { ObjktOfferV3Event } from './objkt_offer_v3';
 import ObjktBidHandler, { ObjktBidEvent } from './objkt_bid';
 import ObjktFulfillAskHandler, { ObjktFulfillAskEvent } from './objkt_fulfill_ask';
 import ObjktFulfillAskV2Handler, { ObjktFulfillAskV2Event } from './objkt_fulfill_ask_v2';
+import ObjktFulfillAskV3Handler, { ObjktFulfillAskV3Event } from './objkt_fulfill_ask_v3';
 import ObjktFulfillOfferHandler, { ObjktFulfillOfferEvent } from './objkt_fulfill_offer';
+import ObjktFulfillOfferV3Handler, { ObjktFulfillOfferV3Event } from './objkt_fulfill_offer_v3';
 import ObjktMintArtistHandler, { ObjktMintArtistEvent } from './objkt_mint_artist';
 import ObjktRetractAskHandler, { ObjktRetractAskEvent } from './objkt_retract_ask';
 import ObjktRetractAskV2Handler, { ObjktRetractAskV2Event } from './objkt_retract_ask_v2';
+import ObjktRetractAskV3Handler, { ObjktRetractAskV3Event } from './objkt_retract_ask_v3';
 import ObjktFulfillBidHandler, { ObjktFulfillBidEvent } from './objkt_fulfill_bid';
 import ObjktRetractBidHandler, { ObjktRetractBidEvent } from './objkt_retract_bid';
 import ObjktRetractOfferHandler, { ObjktRetractOfferEvent } from './objkt_retract_offer';
+import ObjktRetractOfferV3Handler, { ObjktRetractOfferV3Event } from './objkt_retract_offer_v3';
 import FxMintIssuerHandler, { FxMintIssuerEvent } from './fx_mint_issuer';
 import FxMintIssuerV2Handler, { FxMintIssuerV2Event } from './fx_mint_issuer_v2';
 import FxMintIssuerV3Handler, { FxMintIssuerV3Event } from './fx_mint_issuer_v3';
@@ -105,17 +111,23 @@ export type AnyEvent =
   | HenSwapV2Event
   | ObjktAskEvent
   | ObjktAskV2Event
+  | ObjktAskV3Event
   | ObjktBidEvent
   | ObjktOfferEvent
+  | ObjktOfferV3Event
   | ObjktFulfillAskEvent
   | ObjktFulfillAskV2Event
+  | ObjktFulfillAskV3Event
   | ObjktMintArtistEvent
   | ObjktRetractAskEvent
   | ObjktRetractAskV2Event
+  | ObjktRetractAskV3Event
   | ObjktFulfillBidEvent
   | ObjktFulfillOfferEvent
+  | ObjktFulfillOfferV3Event
   | ObjktRetractBidEvent
   | ObjktRetractOfferEvent
+  | ObjktRetractOfferV3Event
   | ObjktSettleEnglishAuctionEvent
   | ObjktClaimEvent
   | ObjktObjktoneSettleAuctionEvent
@@ -200,17 +212,23 @@ export const handlers: Array<TransactionHandler<AnyEvent> | OriginationHandler<A
   HenSwapHandlerV2,
   ObjktAskHandler,
   ObjktAskV2Handler,
+  ObjktAskV3Handler,
   ObjktBidHandler,
   ObjktOfferHandler,
+  ObjktOfferV3Handler,
   ObjktFulfillAskHandler,
   ObjktFulfillAskV2Handler,
+  ObjktFulfillAskV3Handler,
   ObjktFulfillBidHandler,
   ObjktFulfillOfferHandler,
+  ObjktFulfillOfferV3Handler,
   ObjktMintArtistHandler,
   ObjktRetractAskHandler,
   ObjktRetractAskV2Handler,
+  ObjktRetractAskV3Handler,
   ObjktRetractBidHandler,
   ObjktRetractOfferHandler,
+  ObjktRetractOfferV3Handler,
   ObjktCreateEnglishAuctionHandler,
   ObjktBidEnglishAuctionHandler,
   ObjktCancelEnglishAuctionHandler,
