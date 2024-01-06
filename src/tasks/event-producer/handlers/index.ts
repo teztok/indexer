@@ -53,6 +53,7 @@ import ObjktCreateDutchAuctionHandler, { ObjktCreateDutchAuctionEvent } from './
 import ObjktCancelDutchAuctionHandler, { ObjktCancelDutchAuctionEvent } from './objkt_cancel_dutch_auction';
 import ObjktBuyDutchAuctionHandler, { ObjktBuyDutchAuctionEvent } from './objkt_buy_dutch_auction';
 import ObjktSettleEnglishAuctionHandler, { ObjktSettleEnglishAuctionEvent } from './objkt_settle_english_auction';
+import ObjktSettleEnglishAuctionV3Handler, { ObjktSettleEnglishAuctionV3Event } from './objkt_settle_english_auction_v3';
 import ObjktBuyDutchAuctionV2Handler, { ObjktBuyDutchAuctionV2Event } from './objkt_buy_dutch_auction_v2';
 import SetMetadataHandler, { SetMetadataEvent } from './set_metadata';
 import VersumMintHandler, { VersumMintEvent } from './versum_mint';
@@ -129,6 +130,7 @@ export type AnyEvent =
   | ObjktRetractOfferEvent
   | ObjktRetractOfferV3Event
   | ObjktSettleEnglishAuctionEvent
+  | ObjktSettleEnglishAuctionV3Event
   | ObjktClaimEvent
   | ObjktObjktoneSettleAuctionEvent
   | FxMintIssuerEvent
@@ -237,6 +239,7 @@ export const handlers: Array<TransactionHandler<AnyEvent> | OriginationHandler<A
   ObjktCancelDutchAuctionHandler,
   ObjktBuyDutchAuctionHandler,
   ObjktSettleEnglishAuctionHandler,
+  ObjktSettleEnglishAuctionV3Handler,
   ObjktBuyDutchAuctionV2Handler,
   ObjktClaimHandler,
   ObjktCreateTokenHandler,
