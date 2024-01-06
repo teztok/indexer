@@ -52,6 +52,47 @@ async function rebuildOutstandingTokens(max = 200) {
   isRebuildingTokens = false;
 }
 
+async function handleTimedoutOffersAndListings(max = 50) {
+  try {
+    const offerResults = await db
+      .select('fa2_address', 'token_id')
+      .from('offers')
+      .whereIn('type', ['OBJKT_OFFER', 'OBJKT_OFFER_V3'])
+      .whereNotNull('end_time')
+      .where('end_time', '<', new Date())
+      .where('status', '=', 'active')
+      .orderBy('end_time', 'desc')
+      .limit(max);
+
+    const listingResults = await db
+      .select('fa2_address', 'token_id')
+      .from('listings')
+      .whereIn('type', ['OBJKT_ASK_V3'])
+      .whereNotNull('end_time')
+      .where('end_time', '<', new Date())
+      .where('status', '=', 'active')
+      .orderBy('end_time', 'desc')
+      .limit(max);
+
+    const tokens = uniqBy([...offerResults, ...listingResults], ({ fa2_address, token_id }) => `${fa2_address}-${token_id}`) as Array<{
+      fa2_address: string;
+      token_id: string;
+    }>;
+
+    const workerUtils = await getWorkerUtils();
+
+    for (const token of tokens) {
+      await workerUtils.addJob(
+        getTaskName('rebuild'),
+        { type: 'token', fa2_address: token.fa2_address, token_id: token.token_id },
+        { jobKey: `rebuild-token-${token.fa2_address}-${token.token_id}`, maxAttempts: 2 }
+      );
+    }
+  } catch (err) {
+    console.log('failed to handle timed out offers and listings', err);
+  }
+}
+
 export async function run() {
   const connection = new HubConnectionBuilder().withUrl(`${config.tzktApiUrl}/events`).build();
   const workerUtils = await getWorkerUtils();
@@ -75,6 +116,11 @@ export async function run() {
 
       // TODO: sometimes some transactions get missed in the first run. this is a temporariy workaround.
       await workerUtils.addJob(getTaskName('event-producer'), { filters: { level: max - 5 } }, { jobKey: `index-level-${max - 5}` });
+
+      // every 10 blocks, check for timed out offers and listings
+      if (max % 10 === 0) {
+        await handleTimedoutOffersAndListings();
+      }
     } else if (msg.type === 2) {
       const lastValidBlock = msg.state;
       logger.info(`reorg: revert to level ${lastValidBlock}`);
