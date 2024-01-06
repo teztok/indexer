@@ -51,6 +51,7 @@ const ObjktFulfillAskV2Handler: TransactionHandler<ObjktFulfillAskV3Event> = {
 
   exec: (transaction) => {
     const askId = get(transaction, 'parameter.value.ask_id');
+    const amount = get(transaction, 'parameter.value.amount');
     const diff = findDiff(get(transaction, 'diffs')!, 574013, 'asks', ['remove_key', 'update_key'], askId);
     const price = String(get(transaction, 'amount'));
     const fa2Address = get(diff, 'content.value.token.address');
@@ -63,6 +64,10 @@ const ObjktFulfillAskV2Handler: TransactionHandler<ObjktFulfillAskV3Event> = {
 
     if (!isTezLikeCurrencyStrict(currency)) {
       throw new Error(`unsupported currency`);
+    }
+
+    if (amount != '1') {
+      throw new Error(`unsupported amount`);
     }
 
     const id = createEventId(EVENT_TYPE_OBJKT_FULFILL_ASK_V3, transaction);
