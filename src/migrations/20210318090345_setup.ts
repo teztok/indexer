@@ -158,6 +158,7 @@ export async function up(knex: Knex): Promise<void> {
 
       table.enum('status', ['active', 'sold_out', 'canceled']).notNullable();
 
+      table.index('end_time');
       table.index('fa2_address');
       table.index('token_id');
       table.index('status');
@@ -181,6 +182,7 @@ export async function up(knex: Knex): Promise<void> {
       table.index('fa2_address');
       table.index('token_id');
       table.index('status');
+      table.index('end_time');
       table.foreign(['fa2_address', 'token_id']).references(['fa2_address', 'token_id']).inTable('tokens').onDelete('CASCADE');
     })
     .createTable('events', (table) => {

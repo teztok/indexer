@@ -259,6 +259,90 @@ test('creates OBJKT_OFFER events', async () => {
       ],
       nonce: null,
     },
+    {
+      id: 506544210837504,
+      level: 3295525,
+      timestamp: '2023-04-03T11:10:55Z',
+      block: 'BLDa2E1172xMMkYwu41xjwEqivXNQv7FweSJxwsY6jbbhjFLbZ8',
+      hash: 'opKg8RZXqj6UtwJGnRJBb4APEJrFa1gkZPmMrApbV216LgCtLk7',
+      counter: 49518312,
+      nonce: null,
+      sender: {
+        address: 'tz1QMmx7rdQVM9CT52uUSqBaT1iWCrGJQ9Ej',
+      },
+      target: {
+        alias: 'objkt.com Marketplace v2',
+        address: 'KT1WvzYHCNBvDSdwafTHv7nJ1dWmZ8GCYuuC',
+      },
+      amount: 0,
+      parameter: {
+        entrypoint: 'offer',
+        value: {
+          proxy: null,
+          token: {
+            address: 'KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton',
+            token_id: '102434',
+          },
+          amount: '10000',
+          shares: [
+            {
+              amount: '2000',
+              recipient: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
+            },
+          ],
+          target: null,
+          currency: {
+            tez: {},
+          },
+          expiry_time: '2023-04-04T11:10:31Z',
+        },
+      },
+      status: 'applied',
+      hasInternals: false,
+      initiator: null,
+      storage: {
+        asks: 103258,
+        offers: 103260,
+        paused: false,
+        big_map: 103261,
+        metadata: 103259,
+        upgradable: false,
+        next_ask_id: '3299371',
+        next_offer_id: '1600028',
+        token_registry: 'KT1Pbj1uKjxZJLHyoQ2YUs4kukjvLJdheyfU',
+        permission_module: 'KT1DF2c7VUED7W3h5BnqUKdB87Ke7XdCjQiY',
+      },
+      diffs: [
+        {
+          bigmap: 103260,
+          path: 'offers',
+          action: 'add_key',
+          content: {
+            hash: 'exprvTHAP7EZ7hCbNE7YcWmY71UKVeXkbQV6aHJoxJcwfJX6boHaNa',
+            key: '1600027',
+            value: {
+              token: {
+                address: 'KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton',
+                token_id: '102434',
+              },
+              amount: '10000',
+              shares: [
+                {
+                  amount: '2000',
+                  recipient: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
+                },
+              ],
+              target: null,
+              creator: 'tz1QMmx7rdQVM9CT52uUSqBaT1iWCrGJQ9Ej',
+              currency: {
+                fa12: 'KT1Ha4yFVeyzw6KRAdkzq6TxDHB97KG4pZe8',
+              },
+              expiry_time: '2023-04-04T11:10:31Z',
+            },
+          },
+        },
+      ],
+    },
   ];
 
   const events = transactionsToEvents(transactions, [ObjktOfferHandler]);
@@ -283,6 +367,27 @@ test('creates OBJKT_OFFER events', async () => {
           tz1imc2GqQMk12cwj4LcQmiSaA9TBA1nn6FF: '1000',
         },
       },
+    },
+    {
+      buyer_address: 'tz1QMmx7rdQVM9CT52uUSqBaT1iWCrGJQ9Ej',
+      currency: 'tez',
+      end_time: '2023-04-04T11:10:31Z',
+      fa2_address: 'KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton',
+      id: '4088ca0e8c29d826f571151016456d08',
+      level: 3295525,
+      offer_id: '1600027',
+      ophash: 'opKg8RZXqj6UtwJGnRJBb4APEJrFa1gkZPmMrApbV216LgCtLk7',
+      opid: '506544210837504',
+      price: '10000',
+      royalty_shares: {
+        decimals: 4,
+        shares: {
+          tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu: '2000',
+        },
+      },
+      timestamp: '2023-04-03T11:10:55Z',
+      token_id: '102434',
+      type: 'OBJKT_OFFER',
     },
   ]);
 });

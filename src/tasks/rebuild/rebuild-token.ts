@@ -148,6 +148,14 @@ function royaltyReceiversToRecord(royaltyReceivers: RoyaltyReceivers) {
   }, {});
 }
 
+function isExpired(entTime: undefined | null | string) {
+  if (!entTime) {
+    return false;
+  }
+
+  return new Date(entTime) < new Date();
+}
+
 export function areRoyaltyReceiversTheSame(royaltyReceiversA: RoyaltyReceivers, royaltyReceiversB: RoyaltyReceivers) {
   return isEqual(royaltyReceiversToRecord(royaltyReceiversA), royaltyReceiversToRecord(royaltyReceiversB));
 }
@@ -481,7 +489,7 @@ export function compileToken(
           amount_left: parseInt(event.amount, 10),
           price: event.price,
           currency: event.currency,
-          status: 'active',
+          status: isExpired(event.end_time) ? 'canceled' : 'active',
         } as ObjktListingV2);
 
         if (event.end_time) {
@@ -540,7 +548,7 @@ export function compileToken(
           price: event.price,
           currency: event.currency,
           end_time: event.end_time,
-          status: 'active',
+          status: isExpired(event.end_time) ? 'canceled' : 'active',
         } as ObjktListingV3);
 
         if (event.end_time) {
@@ -626,7 +634,7 @@ export function compileToken(
           offer_id: event.offer_id,
           buyer_address: event.buyer_address,
           price: event.price,
-          status: 'active',
+          status: isExpired(event.end_time) ? 'canceled' : 'active',
         } as ObjktOffer);
 
         if (event.end_time) {
@@ -673,7 +681,7 @@ export function compileToken(
           offer_id: event.offer_id,
           buyer_address: event.buyer_address,
           price: event.price,
-          status: 'active',
+          status: isExpired(event.end_time) ? 'canceled' : 'active',
         } as ObjktOfferV3);
 
         if (event.end_time) {
