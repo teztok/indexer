@@ -57,7 +57,11 @@ export const MetadataUri = define<string>('MetadataUri', (value) => {
 
   if (lowerCasedValue.startsWith('tezos-storage:')) {
     // TODO: do further validation
-    true;
+    return true;
+  }
+
+  if (lowerCasedValue.startsWith('onchfs://')) {
+    return true;
   }
 
   if (lowerCasedValue.startsWith('ipfs://')) {

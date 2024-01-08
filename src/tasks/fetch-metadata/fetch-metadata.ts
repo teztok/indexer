@@ -29,6 +29,10 @@ function getIpfsGateways() {
   return process.env.IPFS_GATEWAY?.split(',').map((ipfsGateway) => ipfsGateway.trim());
 }
 
+function getOnchfsGateway() {
+  return process.env.ONCHFS_GATEWAY ? process.env.ONCHFS_GATEWAY.trim() : null;
+}
+
 export async function downloadMetadataFromIpfs(ipfsCid: string, ipfsGateway: string) {
   return downloadMetadata(`${ipfsGateway}${ipfsGateway?.endsWith('/') ? '' : '/'}${ipfsCid}`);
 }
@@ -74,6 +78,17 @@ export async function processMetadata(payload: FetchMetadataTaskPayload, helpers
           }
         }
       }
+    } else if (metadataUriLowerCased.startsWith('onchfs://')) {
+      const onchfsGateway = getOnchfsGateway();
+
+      if (!onchfsGateway) {
+        throw new Error('missing onchfs gateway');
+      }
+
+      const onchfsHash = metadataUri.substr(9);
+      const metadataUrl = `${onchfsGateway}${onchfsGateway?.endsWith('/') ? '' : '/'}${onchfsHash}`;
+
+      metadata = await downloadMetadata(metadataUrl);
     } else if (metadataUriLowerCased.startsWith('http://') || metadataUriLowerCased.startsWith('https://')) {
       metadata = await downloadMetadata(metadataUriLowerCased);
     } else {
