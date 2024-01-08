@@ -147,6 +147,7 @@ const defaultConfig = {
     'KT1LBXXg9UFvyfdvPmRMc4JZQsYWdyPCS6ue', // Collect United
     'KT1GtMSYTYrJs2jVVgoYgLXs4Fyb7avcLarY', // lgOTTZ
     'KT1ShjB24tTXX8m5oDCrBHXqynCpmNJDxpD5', // TRASH
+    'KT1DEzGbPCWTvhTtSUgBGBYsZQFhoAfN2RJn', // Atomic Mass Unit
   ],
 };
 

@@ -108,7 +108,12 @@ export async function getBlockQuotes(level: number, currencies: Array<string>) {
   return result.quote;
 }
 
-export async function getTransactions(filters: GetTransactionsFilters, perPage: number = 2000, maxPages: number = 20) {
+export async function getTransactions(
+  filters: GetTransactionsFilters,
+  perPage: number = 2000,
+  maxPages: number = 20,
+  select = 'id,level,timestamp,block,hash,counter,nonce,sender,target,amount,parameter,status,hasInternals,initiator,storage,diffs'
+) {
   const allTransactions: Transactions = [];
   let currentPage = 0;
 
@@ -119,8 +124,7 @@ export async function getTransactions(filters: GetTransactionsFilters, perPage: 
         offset: currentPage * perPage,
         limit: perPage,
         status: 'applied',
-        // TODO: give plugins the chance to extend this list?
-        select: 'id,level,timestamp,block,hash,counter,nonce,sender,target,amount,parameter,status,hasInternals,initiator,storage,diffs',
+        select,
       },
     }).json<Transactions>();
 
