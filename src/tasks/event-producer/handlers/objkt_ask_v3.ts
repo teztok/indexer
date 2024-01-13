@@ -4,8 +4,8 @@ import { optional, assert, object, string, Describe } from 'superstruct';
 import { TezosAddress, ContractAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
 import { RoyaltySharesSchema } from '../../../lib/schemas';
 import { TransactionHandler, TokenEvent, RoyaltyShares } from '../../../types';
-import { createEventId, extractObjktCurrency, isTezLikeCurrency } from '../../../lib/utils';
-import { OBJKT_CONTRACT_MARKETPLACE_V3 } from '../../../consts';
+import { createEventId, extractObjktCurrency, isTezLikeCurrency, transactionMatchesPattern } from '../../../lib/utils';
+import { OBJKT_CONTRACT_MARKETPLACE_V3, OBJKT_CONTRACT_MARKETPLACE_V3_PRE } from '../../../consts';
 import {
   tokenEventFields,
   askIdField,
@@ -18,10 +18,11 @@ import {
   royaltySharesField,
 } from '../event-fields-meta';
 
+export const EVENT_TYPE_OBJKT_ASK_V3_PRE = 'OBJKT_ASK_V3_PRE';
 export const EVENT_TYPE_OBJKT_ASK_V3 = 'OBJKT_ASK_V3';
 
 export interface ObjktAskV3Event extends TokenEvent {
-  type: typeof EVENT_TYPE_OBJKT_ASK_V3;
+  type: typeof EVENT_TYPE_OBJKT_ASK_V3_PRE | typeof EVENT_TYPE_OBJKT_ASK_V3;
   ask_id: string;
   seller_address: string;
   artist_address?: string;
@@ -56,7 +57,7 @@ const ObjktAskHandler: TransactionHandler<ObjktAskV3Event> = {
   type: EVENT_TYPE_OBJKT_ASK_V3,
 
   meta: {
-    eventDescription: `An ask was created on objkt.com (marketplace contract: KT1CePTyk6fk4cFr6fasY5YXPGks6ttjSLp4).`,
+    eventDescription: `An ask was created on objkt.com (marketplace contract: KT1CePTyk6fk4cFr6fasY5YXPGks6ttjSLp4 or KT1Xjap1TwmDR1d8yEd8ErkraAj2mbdMrPZY).`,
     eventFields: [
       ...tokenEventFields,
       askIdField,
@@ -70,9 +71,21 @@ const ObjktAskHandler: TransactionHandler<ObjktAskV3Event> = {
     ],
   },
 
-  accept: {
-    entrypoint: 'ask',
-    target_address: OBJKT_CONTRACT_MARKETPLACE_V3,
+  accept: (transaction) => {
+    if (
+      transactionMatchesPattern(transaction, {
+        entrypoint: 'ask',
+        target_address: OBJKT_CONTRACT_MARKETPLACE_V3_PRE,
+      }) ||
+      transactionMatchesPattern(transaction, {
+        entrypoint: 'ask',
+        target_address: OBJKT_CONTRACT_MARKETPLACE_V3,
+      })
+    ) {
+      return true;
+    } else {
+      return false;
+    }
   },
 
   exec: (transaction) => {
@@ -80,6 +93,7 @@ const ObjktAskHandler: TransactionHandler<ObjktAskV3Event> = {
     const tokenId = get(transaction, 'parameter.value.token.token_id');
     const askId = String(parseInt(get(transaction, 'storage.next_ask_id'), 10) - 1);
     const sellerAddress = get(transaction, 'sender.address');
+    const targetAddress = get(transaction, 'target.address');
     const amount = get(transaction, 'parameter.value.editions');
     const expiryTime = get(transaction, 'parameter.value.expiry_time');
     const currency = extractObjktCurrency(get(transaction, 'parameter.value.currency'));
@@ -93,7 +107,7 @@ const ObjktAskHandler: TransactionHandler<ObjktAskV3Event> = {
 
     const event: ObjktAskV3Event = {
       id,
-      type: EVENT_TYPE_OBJKT_ASK_V3,
+      type: targetAddress === OBJKT_CONTRACT_MARKETPLACE_V3_PRE ? EVENT_TYPE_OBJKT_ASK_V3_PRE : EVENT_TYPE_OBJKT_ASK_V3,
       opid: String(transaction.id),
       ophash: transaction.hash,
       level: transaction.level,

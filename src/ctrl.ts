@@ -57,7 +57,7 @@ async function handleTimedoutOffersAndListings(max = 50) {
     const offerResults = await db
       .select('fa2_address', 'token_id')
       .from('offers')
-      .whereIn('type', ['OBJKT_OFFER', 'OBJKT_OFFER_V3'])
+      .whereIn('type', ['OBJKT_OFFER', 'OBJKT_OFFER_V3_PRE', 'OBJKT_OFFER_V3'])
       .whereNotNull('end_time')
       .where('end_time', '<', new Date())
       .where('status', '=', 'active')
@@ -67,7 +67,7 @@ async function handleTimedoutOffersAndListings(max = 50) {
     const listingResults = await db
       .select('fa2_address', 'token_id')
       .from('listings')
-      .whereIn('type', ['OBJKT_ASK_V3'])
+      .whereIn('type', ['OBJKT_ASK_V3_PRE', 'OBJKT_ASK_V3'])
       .whereNotNull('end_time')
       .where('end_time', '<', new Date())
       .where('status', '=', 'active')

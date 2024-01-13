@@ -5,7 +5,7 @@ import { TezosAddress, ContractAddress, IsoDateString, PositiveInteger, PgBigInt
 import { TransactionHandler, TokenEvent, RoyaltyShares } from '../../../types';
 import { RoyaltySharesSchema } from '../../../lib/schemas';
 import { createEventId, transactionMatchesPattern, isTezLikeCurrency, extractObjktCurrency } from '../../../lib/utils';
-import { OBJKT_CONTRACT_MARKETPLACE_V3 } from '../../../consts';
+import { OBJKT_CONTRACT_MARKETPLACE_V3, OBJKT_CONTRACT_MARKETPLACE_V3_PRE } from '../../../consts';
 import {
   tokenEventFields,
   offerIdField,
@@ -17,10 +17,11 @@ import {
   royaltySharesField,
 } from '../event-fields-meta';
 
-export const EVENT_TYPE_OBJKT_OFFER = 'OBJKT_OFFER_V3';
+export const EVENT_TYPE_OBJKT_OFFER_V3_PRE = 'OBJKT_OFFER_V3_PRE';
+export const EVENT_TYPE_OBJKT_OFFER_V3 = 'OBJKT_OFFER_V3';
 
 export interface ObjktOfferV3Event extends TokenEvent {
-  type: typeof EVENT_TYPE_OBJKT_OFFER;
+  type: typeof EVENT_TYPE_OBJKT_OFFER_V3_PRE | typeof EVENT_TYPE_OBJKT_OFFER_V3;
   offer_id: string;
   buyer_address: string;
   artist_address?: string;
@@ -51,10 +52,10 @@ const ObjktOfferEventSchema: Describe<Omit<ObjktOfferV3Event, 'type'>> = object(
 const ObjktOfferHandler: TransactionHandler<ObjktOfferV3Event> = {
   source: 'transaction',
 
-  type: EVENT_TYPE_OBJKT_OFFER,
+  type: EVENT_TYPE_OBJKT_OFFER_V3,
 
   meta: {
-    eventDescription: `An offer was created on objkt.com (marketplace contract: KT1CePTyk6fk4cFr6fasY5YXPGks6ttjSLp4).`,
+    eventDescription: `An offer was created on objkt.com (marketplace contract: KT1CePTyk6fk4cFr6fasY5YXPGks6ttjSLp4 or KT1Xjap1TwmDR1d8yEd8ErkraAj2mbdMrPZY).`,
     eventFields: [
       ...tokenEventFields,
       offerIdField,
@@ -71,6 +72,10 @@ const ObjktOfferHandler: TransactionHandler<ObjktOfferV3Event> = {
     if (
       !transactionMatchesPattern(transaction, {
         entrypoint: 'offer',
+        target_address: OBJKT_CONTRACT_MARKETPLACE_V3_PRE,
+      }) &&
+      !transactionMatchesPattern(transaction, {
+        entrypoint: 'offer',
         target_address: OBJKT_CONTRACT_MARKETPLACE_V3,
       })
     ) {
@@ -82,13 +87,14 @@ const ObjktOfferHandler: TransactionHandler<ObjktOfferV3Event> = {
 
   exec: (transaction) => {
     const fa2Address = get(transaction, 'parameter.value.token.address');
+    const targetAddress = get(transaction, 'target.address');
     const tokenId = get(transaction, 'parameter.value.token.token_id');
     const offerId = String(parseInt(get(transaction, 'storage.next_offer_id'), 10) - 1);
     const buyerAddress = get(transaction, 'sender.address');
     const expiryTime = get(transaction, 'parameter.value.expiry_time');
     const currency = extractObjktCurrency(get(transaction, 'parameter.value.currency'));
     const price = get(transaction, 'parameter.value.amount');
-    const id = createEventId(EVENT_TYPE_OBJKT_OFFER, transaction);
+    const id = createEventId(EVENT_TYPE_OBJKT_OFFER_V3, transaction);
     const shares: Record<string, string> = get(transaction, 'parameter.value.shares');
 
     if (!currency || !isTezLikeCurrency(currency)) {
@@ -97,7 +103,7 @@ const ObjktOfferHandler: TransactionHandler<ObjktOfferV3Event> = {
 
     const event: ObjktOfferV3Event = {
       id,
-      type: EVENT_TYPE_OBJKT_OFFER,
+      type: targetAddress === OBJKT_CONTRACT_MARKETPLACE_V3_PRE ? EVENT_TYPE_OBJKT_OFFER_V3_PRE : EVENT_TYPE_OBJKT_OFFER_V3,
       opid: String(transaction.id),
       ophash: transaction.hash,
       level: transaction.level,
