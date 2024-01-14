@@ -5,21 +5,25 @@ import indexer from '../indexer';
 import { getTaskName } from '../lib/utils';
 import db from '../lib/db';
 
-const argv = minimist(process.argv.slice(2), { boolean: ['all'], default: { all: false } });
+const argv = minimist(process.argv.slice(2));
 
-if (!argv.fa2_address && !argv.all) {
-  console.log(`usage: ./build/scripts/add-tokens-to-rebuild-queue.js [--fa2_address=<fa2Address>] [--all]`);
+if (argv.help) {
+  console.log(`usage: ./build/scripts/add-tokens-to-rebuild-queue.js [--fa2_address=<fa2Address>] [--since_level] [--help]`);
   process.exit();
 }
 
 async function run() {
-  let tokens;
+  const tokens = await db('tokens')
+    .select('fa2_address', 'token_id')
+    .modify(function (queryBuilder) {
+      if (argv.fa2_address) {
+        queryBuilder.where('fa2_address', '=', argv.fa2_address);
+      }
 
-  if (argv.fa2_address) {
-    tokens = await db('tokens').select('fa2_address', 'token_id').where('fa2_address', '=', argv.fa2_address);
-  } else {
-    tokens = await db('tokens').select('fa2_address', 'token_id');
-  }
+      if (argv.since_level) {
+        queryBuilder.where('last_processed_event_level', '>=', argv.since_level);
+      }
+    });
 
   for (let i = 0; i < tokens.length; i++) {
     const token = tokens[i];
