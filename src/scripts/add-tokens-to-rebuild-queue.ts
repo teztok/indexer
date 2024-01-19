@@ -21,7 +21,7 @@ async function run() {
       }
 
       if (argv.since_level) {
-        queryBuilder.where('last_processed_event_level', '>=', argv.since_level);
+        queryBuilder.where('last_processed_event_level', '>=', +argv.since_level);
       }
     });
 
