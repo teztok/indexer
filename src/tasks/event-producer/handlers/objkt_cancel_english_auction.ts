@@ -69,7 +69,7 @@ const ObjktCancelEnglishAuctionHandler: TransactionHandler<ObjktCancelEnglishAuc
   type: EVENT_TYPE_OBJKT_CANCEL_ENGLISH_AUCTION,
 
   meta: {
-    eventDescription: `An english auction was canceled on objkt.com (marketplace contract: KT1ET45vnyEFMLS9wX1dYHEs9aCN3twDEiQw or KT1QJ71jypKGgyTNtXjkCAYJZNhCKWiHuT2r).`,
+    eventDescription: `An english auction was canceled on objkt.com (marketplace contract: KT1Wvk8fon9SgNEPQKewoSL2ziGGuCQebqZc or KT1XjcRq5MLAzMKQ3UHsrue2SeU2NbxUrzmU).`,
     eventFields: [
       ...tokenEventFields,
       sellerAddressField,
