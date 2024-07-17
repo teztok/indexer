@@ -3927,6 +3927,18 @@ test('sets the token metadata correctly', () => {
   ]);
 });
 
+test('uses rightsUri as fallback if there is no rightUri', () => {
+  const metadata = {
+    rightsUri: 'ipfs://fallback',
+  };
+
+  const { token } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, [], 'processed', metadata as any);
+
+  expect(token).toMatchObject({
+    right_uri: 'ipfs://fallback',
+  });
+});
+
 test('sets the teiacafe properties', () => {
   const metadata = {
     teiacafe_playlist: {

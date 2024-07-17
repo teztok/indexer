@@ -1569,7 +1569,7 @@ export function compileToken(
     contributors: cleanCreators(get(metadata, 'contributors')),
 
     rights: cleanString(get(metadata, 'rights')),
-    right_uri: cleanUri(get(metadata, 'rightUri')),
+    right_uri: cleanUri(get(metadata, 'rightUri')) || cleanUri(get(metadata, 'rightsUri')),
 
     formats: formats as any, // TODO: fix any
 
