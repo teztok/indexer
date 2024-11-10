@@ -134,6 +134,73 @@ test('creates OBJKT_FULFILL_OFFER_V3_PRE events', async () => {
         },
       ],
     },
+    {
+      id: 1417208624316416,
+      level: 7047346,
+      timestamp: '2024-11-06T16:33:35Z',
+      block: 'BLBzDqGsq68t5C4q66UntKKJ5J5wyhVZEZ3mQTc2bH1u528A2tn',
+      hash: 'ontgYdkKphdFFjK5wxT5D3p3Q2p8osU9BzKCjTxK7Y2tTHu7Nh5',
+      counter: 59525032,
+      nonce: null,
+      sender: {
+        address: 'tz1SX2pqKcSRv8UCsU6EtEJThsKci1bGw9FL',
+      },
+      target: {
+        address: 'KT1SwbTqhSKF6Pdokiu1K4Fpi17ahPPzmt1X',
+      },
+      amount: 0,
+      parameter: {
+        entrypoint: 'fulfill_offer',
+        value: {
+          offer_id: '12000025',
+          token_id: '48',
+          condition_extra: null,
+        },
+      },
+      status: 'applied',
+      hasInternals: true,
+      initiator: null,
+      storage: {
+        asks: 684371,
+        offers: 684373,
+        metadata: 684372,
+        next_ask_id: '12000260',
+        next_offer_id: '12000046',
+        gallery_factory: 'KT1Ksc2gAP4mpt7fzwoF9Miwp6qFdavpS25u',
+        permission_module: 'KT1N5x6wZXLqigVqGVHm3N2kHvyR6YWAD2Ta',
+        fee_sharing_registry: 'KT1KmfuowNSgq66T1kpqPEpp6rat89QnixvD',
+      },
+      diffs: [
+        {
+          bigmap: 684373,
+          path: 'offers',
+          action: 'remove_key',
+          content: {
+            hash: 'exprvNoEMo1aC8BYG8TjSWZgChJVcfXvxihfhr1mh5naJYPX8K9jov',
+            key: '12000025',
+            value: {
+              token: {
+                address: 'KT1VKVecbQX1PzZfBgXnqm57Fbek64A8jLW1',
+                token_id: '48',
+              },
+              amount: '6250000',
+              shares: {
+                tz28nGTKiZ6wo6ptz9rAj9s5KyN27p7akfQw: '1000',
+              },
+              target: null,
+              creator: 'tz1fESgbBoLdQMSwVEuDK97nicQQ74m6vGDo',
+              currency: {
+                tez: {},
+              },
+              condition: null,
+              referrers: {},
+              expiry_time: '2024-11-07T15:22:22Z',
+              platform_fee: '500',
+            },
+          },
+        },
+      ],
+    },
   ];
 
   const events = transactionsToEvents(transactions, [ObjktFulfillOfferV3Handler]);
@@ -168,6 +235,21 @@ test('creates OBJKT_FULFILL_OFFER_V3_PRE events', async () => {
       timestamp: '2024-01-10T16:55:43Z',
       token_id: '8',
       type: 'OBJKT_FULFILL_OFFER_V3',
+    },
+    {
+      buyer_address: 'tz1fESgbBoLdQMSwVEuDK97nicQQ74m6vGDo',
+      fa2_address: 'KT1VKVecbQX1PzZfBgXnqm57Fbek64A8jLW1',
+      id: 'e19224cf46dd308db9213257a611f9e9',
+      implements: 'SALE',
+      level: 7047346,
+      offer_id: '12000025',
+      ophash: 'ontgYdkKphdFFjK5wxT5D3p3Q2p8osU9BzKCjTxK7Y2tTHu7Nh5',
+      opid: '1417208624316416',
+      price: '6250000',
+      seller_address: 'tz1SX2pqKcSRv8UCsU6EtEJThsKci1bGw9FL',
+      timestamp: '2024-11-06T16:33:35Z',
+      token_id: '48',
+      type: 'OBJKT_FULFILL_OFFER_V3_2',
     },
   ]);
 });

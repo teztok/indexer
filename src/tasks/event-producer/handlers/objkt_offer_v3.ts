@@ -5,7 +5,7 @@ import { TezosAddress, ContractAddress, IsoDateString, PositiveInteger, PgBigInt
 import { TransactionHandler, TokenEvent, RoyaltyShares } from '../../../types';
 import { RoyaltySharesSchema } from '../../../lib/schemas';
 import { createEventId, transactionMatchesPattern, isTezLikeCurrency, extractObjktCurrency } from '../../../lib/utils';
-import { OBJKT_CONTRACT_MARKETPLACE_V3, OBJKT_CONTRACT_MARKETPLACE_V3_PRE } from '../../../consts';
+import { OBJKT_CONTRACT_MARKETPLACE_V3, OBJKT_CONTRACT_MARKETPLACE_V3_PRE, OBJKT_CONTRACT_MARKETPLACE_V3_2 } from '../../../consts';
 import {
   tokenEventFields,
   offerIdField,
@@ -19,9 +19,10 @@ import {
 
 export const EVENT_TYPE_OBJKT_OFFER_V3_PRE = 'OBJKT_OFFER_V3_PRE';
 export const EVENT_TYPE_OBJKT_OFFER_V3 = 'OBJKT_OFFER_V3';
+export const EVENT_TYPE_OBJKT_OFFER_V3_2 = 'OBJKT_OFFER_V3_2';
 
 export interface ObjktOfferV3Event extends TokenEvent {
-  type: typeof EVENT_TYPE_OBJKT_OFFER_V3_PRE | typeof EVENT_TYPE_OBJKT_OFFER_V3;
+  type: typeof EVENT_TYPE_OBJKT_OFFER_V3_PRE | typeof EVENT_TYPE_OBJKT_OFFER_V3 | typeof EVENT_TYPE_OBJKT_OFFER_V3_2;
   offer_id: string;
   buyer_address: string;
   artist_address?: string;
@@ -77,6 +78,10 @@ const ObjktOfferHandler: TransactionHandler<ObjktOfferV3Event> = {
       !transactionMatchesPattern(transaction, {
         entrypoint: 'offer',
         target_address: OBJKT_CONTRACT_MARKETPLACE_V3,
+      }) &&
+      !transactionMatchesPattern(transaction, {
+        entrypoint: 'offer',
+        target_address: OBJKT_CONTRACT_MARKETPLACE_V3_2,
       })
     ) {
       return false;
@@ -101,9 +106,21 @@ const ObjktOfferHandler: TransactionHandler<ObjktOfferV3Event> = {
       throw new Error(`unsupported currency`);
     }
 
+    let type: typeof EVENT_TYPE_OBJKT_OFFER_V3_PRE | typeof EVENT_TYPE_OBJKT_OFFER_V3 | typeof EVENT_TYPE_OBJKT_OFFER_V3_2;
+
+    if (targetAddress === OBJKT_CONTRACT_MARKETPLACE_V3_PRE) {
+      type = EVENT_TYPE_OBJKT_OFFER_V3_PRE;
+    } else if (targetAddress === OBJKT_CONTRACT_MARKETPLACE_V3) {
+      type = EVENT_TYPE_OBJKT_OFFER_V3;
+    } else if (targetAddress === OBJKT_CONTRACT_MARKETPLACE_V3_2) {
+      type = EVENT_TYPE_OBJKT_OFFER_V3_2;
+    } else {
+      throw new Error(`unsupported target address`);
+    }
+
     const event: ObjktOfferV3Event = {
       id,
-      type: targetAddress === OBJKT_CONTRACT_MARKETPLACE_V3_PRE ? EVENT_TYPE_OBJKT_OFFER_V3_PRE : EVENT_TYPE_OBJKT_OFFER_V3,
+      type,
       opid: String(transaction.id),
       ophash: transaction.hash,
       level: transaction.level,

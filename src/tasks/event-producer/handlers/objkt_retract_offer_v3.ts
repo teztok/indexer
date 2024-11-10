@@ -4,14 +4,18 @@ import { assert, object, string, Describe, optional } from 'superstruct';
 import { ContractAddress, TezosAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
 import { TransactionHandler, TokenEvent } from '../../../types';
 import { findDiff, createEventId, transactionMatchesPattern } from '../../../lib/utils';
-import { OBJKT_CONTRACT_MARKETPLACE_V3, OBJKT_CONTRACT_MARKETPLACE_V3_PRE } from '../../../consts';
+import { OBJKT_CONTRACT_MARKETPLACE_V3, OBJKT_CONTRACT_MARKETPLACE_V3_PRE, OBJKT_CONTRACT_MARKETPLACE_V3_2 } from '../../../consts';
 import { tokenEventFields, artistAddressField, buyerAddressField, offerIdField } from '../event-fields-meta';
 
 export const EVENT_TYPE_OBJKT_RETRACT_OFFER_V3_PRE = 'OBJKT_RETRACT_OFFER_V3_PRE';
 export const EVENT_TYPE_OBJKT_RETRACT_OFFER_V3 = 'OBJKT_RETRACT_OFFER_V3';
+export const EVENT_TYPE_OBJKT_RETRACT_OFFER_V3_2 = 'OBJKT_RETRACT_OFFER_V3_2';
 
 export interface ObjktRetractOfferV3Event extends TokenEvent {
-  type: typeof EVENT_TYPE_OBJKT_RETRACT_OFFER_V3_PRE | typeof EVENT_TYPE_OBJKT_RETRACT_OFFER_V3;
+  type:
+    | typeof EVENT_TYPE_OBJKT_RETRACT_OFFER_V3_PRE
+    | typeof EVENT_TYPE_OBJKT_RETRACT_OFFER_V3
+    | typeof EVENT_TYPE_OBJKT_RETRACT_OFFER_V3_2;
   offer_id: string;
   artist_address?: string;
   buyer_address: string;
@@ -50,6 +54,10 @@ const ObjktRetractOfferHandler: TransactionHandler<ObjktRetractOfferV3Event> = {
       !transactionMatchesPattern(transaction, {
         entrypoint: 'retract_offer',
         target_address: OBJKT_CONTRACT_MARKETPLACE_V3,
+      }) &&
+      !transactionMatchesPattern(transaction, {
+        entrypoint: 'retract_offer',
+        target_address: OBJKT_CONTRACT_MARKETPLACE_V3_2,
       })
     ) {
       return false;
@@ -70,9 +78,24 @@ const ObjktRetractOfferHandler: TransactionHandler<ObjktRetractOfferV3Event> = {
     const buyerAddress = get(diff, 'content.value.creator');
     const id = createEventId(EVENT_TYPE_OBJKT_RETRACT_OFFER_V3, transaction);
 
+    let type:
+      | typeof EVENT_TYPE_OBJKT_RETRACT_OFFER_V3_PRE
+      | typeof EVENT_TYPE_OBJKT_RETRACT_OFFER_V3
+      | typeof EVENT_TYPE_OBJKT_RETRACT_OFFER_V3_2;
+
+    if (targetAddress === OBJKT_CONTRACT_MARKETPLACE_V3_PRE) {
+      type = EVENT_TYPE_OBJKT_RETRACT_OFFER_V3_PRE;
+    } else if (targetAddress === OBJKT_CONTRACT_MARKETPLACE_V3) {
+      type = EVENT_TYPE_OBJKT_RETRACT_OFFER_V3;
+    } else if (targetAddress === OBJKT_CONTRACT_MARKETPLACE_V3_2) {
+      type = EVENT_TYPE_OBJKT_RETRACT_OFFER_V3_2;
+    } else {
+      throw new Error(`unsupported target address`);
+    }
+
     const event: ObjktRetractOfferV3Event = {
       id,
-      type: targetAddress === OBJKT_CONTRACT_MARKETPLACE_V3_PRE ? EVENT_TYPE_OBJKT_RETRACT_OFFER_V3_PRE : EVENT_TYPE_OBJKT_RETRACT_OFFER_V3,
+      type,
       opid: String(transaction.id),
       ophash: transaction.hash,
       level: transaction.level,

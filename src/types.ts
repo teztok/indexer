@@ -5,6 +5,7 @@ import {
   OBJKT_CONTRACT_MARKETPLACE_V2,
   OBJKT_CONTRACT_MARKETPLACE_V3,
   OBJKT_CONTRACT_MARKETPLACE_V3_PRE,
+  OBJKT_CONTRACT_MARKETPLACE_V3_2,
   FX_CONTRACT_MARKETPLACE,
   FX_CONTRACT_MARKETPLACE_V3,
   EIGHTBIDOU_8X8_COLOR_CONTRACT_MARKETPLACE,
@@ -439,10 +440,13 @@ export interface ObjktListingV2 extends Listing {
 }
 
 export interface ObjktListingV3 extends Listing {
-  type: 'OBJKT_ASK_V3' | 'OBJKT_ASK_V3_PRE';
+  type: 'OBJKT_ASK_V3' | 'OBJKT_ASK_V3_PRE' | 'OBJKT_ASK_V3_2';
   ask_id: string;
   end_time?: string;
-  contract_address: typeof OBJKT_CONTRACT_MARKETPLACE_V3_PRE | typeof OBJKT_CONTRACT_MARKETPLACE_V3;
+  contract_address:
+    | typeof OBJKT_CONTRACT_MARKETPLACE_V3_PRE
+    | typeof OBJKT_CONTRACT_MARKETPLACE_V3
+    | typeof OBJKT_CONTRACT_MARKETPLACE_V3_2;
   currency: string;
 }
 
@@ -531,9 +535,12 @@ export interface ObjktOffer extends Offer {
 }
 
 export interface ObjktOfferV3 extends Offer {
-  type: 'OBJKT_OFFER_V3' | 'OBJKT_OFFER_V3_PRE';
+  type: 'OBJKT_OFFER_V3' | 'OBJKT_OFFER_V3_PRE' | 'OBJKT_OFFER_V3_2';
   offer_id: string;
-  contract_address: typeof OBJKT_CONTRACT_MARKETPLACE_V3_PRE | typeof OBJKT_CONTRACT_MARKETPLACE_V3;
+  contract_address:
+    | typeof OBJKT_CONTRACT_MARKETPLACE_V3_PRE
+    | typeof OBJKT_CONTRACT_MARKETPLACE_V3
+    | typeof OBJKT_CONTRACT_MARKETPLACE_V3_2;
   end_time?: string;
 }
 
