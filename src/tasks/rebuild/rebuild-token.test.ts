@@ -2010,6 +2010,490 @@ test('handles OBJKT_ASK_V3_PRE events, case where the seller transferred the tok
   ]);
 });
 
+test('handles OBJKT_ASK_V3_2 and OBJKT_FULFILL_ASK_V3_2 events', () => {
+  const events: Array<AnyEvent> = [
+    {
+      id: 'bbbf0d6b108216ca4162179aed96f8f0',
+      type: 'SET_LEDGER',
+      opid: '1',
+      ophash: TEST_OPHASH,
+      timestamp: '2021-01-01T03:39:21Z',
+      level: 1365242,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      holder_address: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
+      amount: '10',
+      is_mint: true,
+      ledger_type: 'MULTI_ASSET',
+    },
+    {
+      id: '22af9d5162ba6343a8ebaefe8de0e606',
+      type: 'OBJKT_ASK_V3_2',
+      opid: '170773706',
+      ophash: TEST_OPHASH,
+      timestamp: '2022-02-10T13:01:54Z',
+      level: 2105745,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      ask_id: TEST_SWAP_ID,
+      seller_address: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
+      currency: 'tez',
+      price: TEST_PRICE,
+      amount: '10',
+      royalty_shares: {
+        decimals: 4,
+        shares: {
+          tz1P3LVXdgtMmWfvag98ELYvA45KsMaSCd3W: '2500',
+        },
+      },
+    },
+    {
+      id: '9909b01937459a2ba0d6facf413b5ee1',
+      type: 'OBJKT_FULFILL_ASK_V3_2',
+      implements: 'SALE',
+      opid: '170995822',
+      ophash: TEST_OPHASH,
+      timestamp: '2022-02-10T18:48:24Z',
+      level: 2106438,
+      price: TEST_PRICE,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      ask_id: TEST_SWAP_ID,
+      seller_address: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
+      buyer_address: 'tz1cgAJDiPHM8HYX8nfvRuXgaBEZeJFgGw3K',
+    },
+  ];
+
+  const { listings } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
+
+  expect(listings).toEqual([
+    {
+      type: 'OBJKT_ASK_V3_2',
+      contract_address: 'KT1SwbTqhSKF6Pdokiu1K4Fpi17ahPPzmt1X',
+      created_at: '2022-02-10T13:01:54Z',
+      ask_id: TEST_SWAP_ID,
+      seller_address: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
+      amount: 10,
+      amount_left: 9,
+      price: TEST_PRICE,
+      currency: 'tez',
+      status: 'active',
+    },
+  ]);
+});
+
+test('handles OBJKT_ASK_V3_2 and OBJKT_FULFILL_ASK_V3_2 events, sold out case', () => {
+  const events: Array<AnyEvent> = [
+    {
+      id: 'bbbf0d6b108216ca4162179aed96f8f0',
+      type: 'SET_LEDGER',
+      opid: '1',
+      ophash: TEST_OPHASH,
+      timestamp: '2021-01-01T03:39:21Z',
+      level: 1365242,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      holder_address: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
+      amount: '10',
+      is_mint: true,
+      ledger_type: 'MULTI_ASSET',
+    },
+    {
+      id: '22af9d5162ba6343a8ebaefe8de0e606',
+      type: 'OBJKT_ASK_V3_2',
+      opid: '170773706',
+      ophash: TEST_OPHASH,
+      timestamp: '2022-02-10T13:01:54Z',
+      level: 2105745,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      ask_id: TEST_SWAP_ID,
+      seller_address: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
+      currency: 'tez',
+      price: TEST_PRICE,
+      amount: '1',
+      royalty_shares: {
+        decimals: 4,
+        shares: {
+          tz1P3LVXdgtMmWfvag98ELYvA45KsMaSCd3W: '2500',
+        },
+      },
+    },
+    {
+      id: '9909b01937459a2ba0d6facf413b5ee1',
+      type: 'OBJKT_FULFILL_ASK_V3_2',
+      implements: 'SALE',
+      opid: '170995822',
+      ophash: TEST_OPHASH,
+      timestamp: '2022-02-10T18:48:24Z',
+      level: 2106438,
+      price: TEST_PRICE,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      ask_id: TEST_SWAP_ID,
+      seller_address: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
+      buyer_address: 'tz1cgAJDiPHM8HYX8nfvRuXgaBEZeJFgGw3K',
+    },
+  ];
+
+  const { listings } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
+
+  expect(listings).toEqual([
+    {
+      type: 'OBJKT_ASK_V3_2',
+      contract_address: 'KT1SwbTqhSKF6Pdokiu1K4Fpi17ahPPzmt1X',
+      created_at: '2022-02-10T13:01:54Z',
+      ask_id: TEST_SWAP_ID,
+      seller_address: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
+      amount: 1,
+      amount_left: 0,
+      price: TEST_PRICE,
+      currency: 'tez',
+      status: 'sold_out',
+    },
+  ]);
+});
+
+test('does create an OBJKT_ASK_V3_2 listing if the royalty shares between token and swap do match', () => {
+  const events: Array<AnyEvent> = [
+    {
+      id: 'bbbf0d6b108216ca4162179aed96f8f0',
+      type: 'SET_LEDGER',
+      opid: '1',
+      ophash: TEST_OPHASH,
+      timestamp: '2021-01-01T03:39:21Z',
+      level: 1365242,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      holder_address: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
+      amount: '10',
+      is_mint: true,
+      ledger_type: 'MULTI_ASSET',
+    },
+    {
+      id: '22af9d5162ba6343a8ebaefe8de0e606',
+      type: 'OBJKT_ASK_V3_2',
+      opid: '170773706',
+      ophash: TEST_OPHASH,
+      timestamp: '2022-02-10T13:01:54Z',
+      level: 2105745,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      ask_id: TEST_SWAP_ID,
+      seller_address: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
+      currency: 'tez',
+      price: TEST_PRICE,
+      amount: '1',
+      royalty_shares: {
+        decimals: 4,
+        shares: {
+          tz1P3LVXdgtMmWfvag98ELYvA45KsMaSCd3W: '2500',
+        },
+      },
+    },
+  ];
+
+  const { listings } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'processed', {
+    royalties: {
+      decimals: 4,
+      shares: {
+        tz1P3LVXdgtMmWfvag98ELYvA45KsMaSCd3W: '2500',
+      },
+    },
+  } as any);
+
+  expect(listings).toEqual([
+    {
+      type: 'OBJKT_ASK_V3_2',
+      contract_address: 'KT1SwbTqhSKF6Pdokiu1K4Fpi17ahPPzmt1X',
+      created_at: '2022-02-10T13:01:54Z',
+      ask_id: TEST_SWAP_ID,
+      seller_address: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
+      amount: 1,
+      amount_left: 1,
+      price: TEST_PRICE,
+      currency: 'tez',
+      status: 'active',
+    },
+  ]);
+});
+
+test('does not create an OBJKT_ASK_V3_2 listing if the royalty shares between token and swap do not match', () => {
+  const events: Array<AnyEvent> = [
+    {
+      id: 'bbbf0d6b108216ca4162179aed96f8f0',
+      type: 'SET_LEDGER',
+      opid: '1',
+      ophash: TEST_OPHASH,
+      timestamp: '2021-01-01T03:39:21Z',
+      level: 1365242,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      holder_address: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
+      amount: '10',
+      is_mint: true,
+      ledger_type: 'MULTI_ASSET',
+    },
+    {
+      id: '22af9d5162ba6343a8ebaefe8de0e606',
+      type: 'OBJKT_ASK_V3_2',
+      opid: '170773706',
+      ophash: TEST_OPHASH,
+      timestamp: '2022-02-10T13:01:54Z',
+      level: 2105745,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      ask_id: TEST_SWAP_ID,
+      seller_address: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
+      currency: 'tez',
+      price: TEST_PRICE,
+      amount: '1',
+      royalty_shares: {
+        decimals: 4,
+        shares: {
+          tz1P3LVXdgtMmWfvag98ELYvA45KsMaSCd3W: '2500',
+        },
+      },
+    },
+  ];
+
+  const { listings } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'processed', {
+    royalties: {
+      decimals: 4,
+      shares: {
+        tz1P3LVXdgtMmWfvag98ELYvA45KsMaSCd3W: '1000',
+      },
+    },
+  } as any);
+
+  expect(listings).toEqual([]);
+});
+
+test('does create an OBJKT_ASK_V3_2 listing if the royalty shares between token and swap do not match but the seller is the artist', () => {
+  const events: Array<AnyEvent> = [
+    {
+      id: 'fbf621a7b2f699d41a7a8ca205e1a1be',
+      type: 'HEN_MINT',
+      opid: '1',
+      ophash: TEST_OPHASH,
+      timestamp: '2021-11-20T08:09:22Z',
+      level: 1879134,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      editions: '10',
+      artist_address: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
+      is_verified_artist: true,
+      royalties: '150',
+      metadata_uri: 'ipfs://QmUuZ2GYamdpPE8TUYzQkQC2jjnq7oiYVeZwdKpB4SCarG',
+      royalty_shares: {
+        decimals: 3,
+        shares: {
+          tz1c8riGC9WHnrncStfM5jwKyhUwwRfb31hQ: '150',
+        },
+      },
+    },
+    {
+      id: 'bbbf0d6b108216ca4162179aed96f8f0',
+      type: 'SET_LEDGER',
+      opid: '2',
+      ophash: TEST_OPHASH,
+      timestamp: '2021-12-01T03:39:21Z',
+      level: 1365242,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      holder_address: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
+      amount: '10',
+      is_mint: true,
+      ledger_type: 'MULTI_ASSET',
+    },
+    {
+      id: '22af9d5162ba6343a8ebaefe8de0e606',
+      type: 'OBJKT_ASK_V3_2',
+      opid: '3',
+      ophash: TEST_OPHASH,
+      timestamp: '2022-02-10T13:01:54Z',
+      level: 2105745,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      ask_id: TEST_SWAP_ID,
+      seller_address: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
+      currency: 'tez',
+      price: TEST_PRICE,
+      amount: '1',
+      royalty_shares: {
+        decimals: 4,
+        shares: {
+          tz1P3LVXdgtMmWfvag98ELYvA45KsMaSCd3W: '2500',
+        },
+      },
+    },
+  ];
+
+  const { listings } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'processed', {
+    royalties: {
+      decimals: 4,
+      shares: {
+        tz1P3LVXdgtMmWfvag98ELYvA45KsMaSCd3W: '1000',
+      },
+    },
+  } as any);
+
+  expect(listings).toEqual([
+    {
+      type: 'OBJKT_ASK_V3_2',
+      contract_address: 'KT1SwbTqhSKF6Pdokiu1K4Fpi17ahPPzmt1X',
+      created_at: '2022-02-10T13:01:54Z',
+      ask_id: TEST_SWAP_ID,
+      seller_address: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
+      amount: 1,
+      amount_left: 1,
+      price: TEST_PRICE,
+      currency: 'tez',
+      status: 'active',
+    },
+  ]);
+});
+
+test('handles OBJKT_RETRACT_ASK_V3_2 events', () => {
+  const events: Array<AnyEvent> = [
+    {
+      id: 'bbbf0d6b108216ca4162179aed96f8f0',
+      type: 'SET_LEDGER',
+      opid: '1',
+      ophash: TEST_OPHASH,
+      timestamp: '2021-01-01T03:39:21Z',
+      level: 1365242,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      holder_address: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
+      amount: '10',
+      is_mint: true,
+      ledger_type: 'MULTI_ASSET',
+    },
+    {
+      id: '22af9d5162ba6343a8ebaefe8de0e606',
+      type: 'OBJKT_ASK_V3_2',
+      opid: '170773706',
+      ophash: TEST_OPHASH,
+      timestamp: '2022-02-10T13:01:54Z',
+      level: 2105745,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      ask_id: TEST_SWAP_ID,
+      seller_address: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
+      currency: 'tez',
+      price: TEST_PRICE,
+      amount: '10',
+      royalty_shares: {
+        decimals: 4,
+        shares: {
+          tz1P3LVXdgtMmWfvag98ELYvA45KsMaSCd3W: '2500',
+        },
+      },
+    },
+    {
+      id: 'fe0383a5510b522499102bf7be229feb',
+      type: 'OBJKT_RETRACT_ASK_V3_2',
+      opid: '170780901',
+      ophash: TEST_OPHASH,
+      timestamp: '2022-02-10T13:13:24Z',
+      level: 2105768,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      seller_address: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
+      ask_id: TEST_SWAP_ID,
+    },
+  ];
+
+  const { listings } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
+
+  expect(listings).toMatchObject([
+    {
+      type: 'OBJKT_ASK_V3_2',
+      contract_address: 'KT1SwbTqhSKF6Pdokiu1K4Fpi17ahPPzmt1X',
+      created_at: '2022-02-10T13:01:54Z',
+      ask_id: TEST_SWAP_ID,
+      seller_address: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
+      amount: 10,
+      amount_left: 10,
+      price: TEST_PRICE,
+      currency: 'tez',
+      status: 'canceled',
+    },
+  ]);
+});
+
+test('handles OBJKT_ASK_V3_2 events, case where the seller transferred the token while the listing is still active', () => {
+  const events: Array<AnyEvent> = [
+    {
+      id: 'bbbf0d6b108216ca4162179aed96f8f0',
+      type: 'SET_LEDGER',
+      opid: '1',
+      ophash: TEST_OPHASH,
+      timestamp: '2021-01-01T03:39:21Z',
+      level: 1365242,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      holder_address: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
+      amount: '10',
+      is_mint: true,
+      ledger_type: 'MULTI_ASSET',
+    },
+    {
+      id: '22af9d5162ba6343a8ebaefe8de0e606',
+      type: 'OBJKT_ASK_V3_2',
+      opid: '170773706',
+      ophash: TEST_OPHASH,
+      timestamp: '2022-02-10T13:01:54Z',
+      level: 2105745,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      ask_id: TEST_SWAP_ID,
+      seller_address: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
+      currency: 'tez',
+      price: TEST_PRICE,
+      amount: '10',
+      royalty_shares: {
+        decimals: 4,
+        shares: {
+          tz1P3LVXdgtMmWfvag98ELYvA45KsMaSCd3W: '2500',
+        },
+      },
+    },
+    {
+      id: 'bbbf0d6b108216ca4162179aed96f8f0',
+      type: 'SET_LEDGER',
+      opid: '1',
+      ophash: TEST_OPHASH,
+      timestamp: '2021-01-01T03:39:21Z',
+      level: 1365242,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      holder_address: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
+      amount: '0',
+      is_mint: false,
+      ledger_type: 'MULTI_ASSET',
+    },
+  ];
+
+  const { listings } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
+
+  expect(listings).toMatchObject([
+    {
+      type: 'OBJKT_ASK_V3_2',
+      contract_address: 'KT1SwbTqhSKF6Pdokiu1K4Fpi17ahPPzmt1X',
+      created_at: '2022-02-10T13:01:54Z',
+      ask_id: TEST_SWAP_ID,
+      seller_address: 'tz1XHhjLXQuG9rf9n7o1VbgegMkiggy1oktu',
+      amount: 10,
+      amount_left: 0,
+      price: TEST_PRICE,
+      currency: 'tez',
+      status: 'sold_out', // technically it's not sold_out, because the tokens were just transferred
+    },
+  ]);
+});
+
 test('handles OBJKT_ASK_V3 and OBJKT_FULFILL_ASK_V3 events', () => {
   const events: Array<AnyEvent> = [
     {
@@ -2967,6 +3451,193 @@ test('handles OBJKT_RETRACT_OFFER_V3_PRE events', () => {
   ]);
 });
 
+test('handles OBJKT_OFFER_V3_2 and OBJKT_FULFILL_OFFER_V3_2 events', () => {
+  const events: Array<AnyEvent> = [
+    {
+      id: '20d0768554f43551632182f124a1dcc3',
+      type: 'OBJKT_OFFER_V3_2',
+      opid: '170991604',
+      ophash: TEST_OPHASH,
+      timestamp: '2022-02-10T18:39:24Z',
+      level: 2106420,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      offer_id: TEST_SWAP_ID,
+      buyer_address: 'tz2A1H2nqwm2ZYzyRsFs1iWPsCjdmWd4Srmz',
+      price: TEST_PRICE,
+      currency: 'tez',
+      royalty_shares: {
+        decimals: 4,
+        shares: {
+          tz1imc2GqQMk12cwj4LcQmiSaA9TBA1nn6FF: '1000',
+        },
+      },
+    },
+    {
+      id: '6912624af7a500ed5b0fb043d1fc3b20',
+      type: 'OBJKT_FULFILL_OFFER_V3_2',
+      implements: 'SALE',
+      opid: '171012851',
+      ophash: TEST_OPHASH,
+      timestamp: '2022-02-10T19:35:24Z',
+      level: 2106532,
+      price: TEST_PRICE,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      offer_id: TEST_SWAP_ID,
+      seller_address: 'tz2PSYEYJff71Vi2qnUd5kUu7efMRzaCEnK2',
+      buyer_address: 'tz2A1H2nqwm2ZYzyRsFs1iWPsCjdmWd4Srmz',
+    },
+  ];
+
+  const { offers } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
+
+  expect(offers).toEqual([
+    {
+      type: 'OBJKT_OFFER_V3_2',
+      contract_address: 'KT1SwbTqhSKF6Pdokiu1K4Fpi17ahPPzmt1X',
+      created_at: '2022-02-10T18:39:24Z',
+      offer_id: TEST_SWAP_ID,
+      buyer_address: 'tz2A1H2nqwm2ZYzyRsFs1iWPsCjdmWd4Srmz',
+      price: TEST_PRICE,
+      status: 'fulfilled',
+    },
+  ]);
+});
+
+test('does not create an offer of type OBJKT_OFFER_V3_2 if royalties do not match', () => {
+  const events: Array<AnyEvent> = [
+    {
+      id: '20d0768554f43551632182f124a1dcc3',
+      type: 'OBJKT_OFFER_V3_2',
+      opid: '170991604',
+      ophash: TEST_OPHASH,
+      timestamp: '2022-02-10T18:39:24Z',
+      level: 2106420,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      offer_id: TEST_SWAP_ID,
+      buyer_address: 'tz2A1H2nqwm2ZYzyRsFs1iWPsCjdmWd4Srmz',
+      price: TEST_PRICE,
+      currency: 'tez',
+      royalty_shares: {
+        decimals: 4,
+        shares: {
+          tz1imc2GqQMk12cwj4LcQmiSaA9TBA1nn6FF: '1000',
+        },
+      },
+    },
+  ];
+
+  const { offers } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'processed', {
+    royalties: {
+      decimals: 4,
+      shares: {
+        tz1imc2GqQMk12cwj4LcQmiSaA9TBA1nn6FF: '2000',
+      },
+    },
+  } as any);
+
+  expect(offers).toEqual([]);
+});
+
+test('does create an offer of type OBJKT_OFFER_V3_2 if royalties match', () => {
+  const events: Array<AnyEvent> = [
+    {
+      id: '20d0768554f43551632182f124a1dcc3',
+      type: 'OBJKT_OFFER_V3_2',
+      opid: '170991604',
+      ophash: TEST_OPHASH,
+      timestamp: '2022-02-10T18:39:24Z',
+      level: 2106420,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      offer_id: TEST_SWAP_ID,
+      buyer_address: 'tz2A1H2nqwm2ZYzyRsFs1iWPsCjdmWd4Srmz',
+      price: TEST_PRICE,
+      currency: 'tez',
+      royalty_shares: {
+        decimals: 4,
+        shares: {
+          tz1imc2GqQMk12cwj4LcQmiSaA9TBA1nn6FF: '1000',
+        },
+      },
+    },
+  ];
+
+  const { offers } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'processed', {
+    royalties: {
+      decimals: 4,
+      shares: {
+        tz1imc2GqQMk12cwj4LcQmiSaA9TBA1nn6FF: '1000',
+      },
+    },
+  } as any);
+
+  expect(offers).toEqual([
+    {
+      type: 'OBJKT_OFFER_V3_2',
+      contract_address: 'KT1SwbTqhSKF6Pdokiu1K4Fpi17ahPPzmt1X',
+      created_at: '2022-02-10T18:39:24Z',
+      offer_id: TEST_SWAP_ID,
+      buyer_address: 'tz2A1H2nqwm2ZYzyRsFs1iWPsCjdmWd4Srmz',
+      price: TEST_PRICE,
+      status: 'active',
+    },
+  ]);
+});
+
+test('handles OBJKT_RETRACT_OFFER_V3_2 events', () => {
+  const events: Array<AnyEvent> = [
+    {
+      id: '20d0768554f43551632182f124a1dcc3',
+      type: 'OBJKT_OFFER_V3_2',
+      opid: '170991604',
+      ophash: TEST_OPHASH,
+      timestamp: '2022-02-10T18:39:24Z',
+      level: 2106420,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      offer_id: TEST_SWAP_ID,
+      buyer_address: 'tz2A1H2nqwm2ZYzyRsFs1iWPsCjdmWd4Srmz',
+      price: TEST_PRICE,
+      currency: 'tez',
+      royalty_shares: {
+        decimals: 4,
+        shares: {
+          tz1imc2GqQMk12cwj4LcQmiSaA9TBA1nn6FF: '1000',
+        },
+      },
+    },
+    {
+      id: 'bb47c9392cbb7ddbc34c57daa75ea11c',
+      type: 'OBJKT_RETRACT_OFFER_V3_2',
+      opid: '171015759',
+      ophash: TEST_OPHASH,
+      timestamp: '2022-02-10T19:42:54Z',
+      level: 2106547,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      buyer_address: 'tz1hCvVuMuQgbuii9QUcWRPcZZmdv988odhY',
+      offer_id: TEST_SWAP_ID,
+    },
+  ];
+
+  const { offers } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
+
+  expect(offers).toMatchObject([
+    {
+      type: 'OBJKT_OFFER_V3_2',
+      contract_address: 'KT1SwbTqhSKF6Pdokiu1K4Fpi17ahPPzmt1X',
+      created_at: '2022-02-10T18:39:24Z',
+      offer_id: TEST_SWAP_ID,
+      buyer_address: 'tz2A1H2nqwm2ZYzyRsFs1iWPsCjdmWd4Srmz',
+      price: TEST_PRICE,
+      status: 'canceled',
+    },
+  ]);
+});
+
 test('handles OBJKT_OFFER_V3 and OBJKT_FULFILL_OFFER_V3 events', () => {
   const events: Array<AnyEvent> = [
     {
@@ -3267,6 +3938,47 @@ test('marks expired OBJKT_OFFER_V3_PRE offers as canceled', () => {
     {
       type: 'OBJKT_OFFER_V3_PRE',
       contract_address: 'KT1CePTyk6fk4cFr6fasY5YXPGks6ttjSLp4',
+      created_at: '2022-02-10T18:39:24Z',
+      offer_id: TEST_SWAP_ID,
+      buyer_address: 'tz2A1H2nqwm2ZYzyRsFs1iWPsCjdmWd4Srmz',
+      price: TEST_PRICE,
+      status: 'canceled',
+      end_time: '2020-04-04T11:10:31Z',
+    },
+  ]);
+});
+
+test('marks expired OBJKT_OFFER_V3_2 offers as canceled', () => {
+  const events: Array<AnyEvent> = [
+    {
+      id: '20d0768554f43551632182f124a1dcc3',
+      type: 'OBJKT_OFFER_V3_2',
+      opid: '170991604',
+      ophash: TEST_OPHASH,
+      timestamp: '2022-02-10T18:39:24Z',
+      level: 2106420,
+      fa2_address: TEST_FA2_ADDRESS,
+      token_id: TEST_TOKEN_ID,
+      offer_id: TEST_SWAP_ID,
+      buyer_address: 'tz2A1H2nqwm2ZYzyRsFs1iWPsCjdmWd4Srmz',
+      price: TEST_PRICE,
+      currency: 'tez',
+      end_time: '2020-04-04T11:10:31Z',
+      royalty_shares: {
+        decimals: 4,
+        shares: {
+          tz1imc2GqQMk12cwj4LcQmiSaA9TBA1nn6FF: '1000',
+        },
+      },
+    },
+  ];
+
+  const { offers } = compileToken(TEST_FA2_ADDRESS, TEST_TOKEN_ID, events, 'unprocessed');
+
+  expect(offers).toMatchObject([
+    {
+      type: 'OBJKT_OFFER_V3_2',
+      contract_address: 'KT1SwbTqhSKF6Pdokiu1K4Fpi17ahPPzmt1X',
       created_at: '2022-02-10T18:39:24Z',
       offer_id: TEST_SWAP_ID,
       buyer_address: 'tz2A1H2nqwm2ZYzyRsFs1iWPsCjdmWd4Srmz',

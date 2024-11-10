@@ -208,6 +208,77 @@ test('creates OBJKT_FULFILL_ASK_V3_PRE events', async () => {
         },
       ],
     },
+    {
+      id: 1416974317912064,
+      level: 7046266,
+      timestamp: '2024-11-06T13:33:05Z',
+      block: 'BKyeBaeNtBvbTKVfWvVYJBbj75gUw88V5YsFd8pmpiHAtDMVfGA',
+      hash: 'oo2D6sb554QYXnhnpDEsmbAosYEu2UV2pHTy6Vm8asGCbqCsJs4',
+      counter: 17288899,
+      nonce: null,
+      sender: {
+        address: 'tz1WsREwyfd53rBUfd2tTyMDUxefokXzKpyP',
+      },
+      target: {
+        address: 'KT1SwbTqhSKF6Pdokiu1K4Fpi17ahPPzmt1X',
+      },
+      amount: 1600000,
+      parameter: {
+        entrypoint: 'fulfill_ask',
+        value: {
+          amount: '1',
+          ask_id: '12000002',
+          proxy_for: null,
+          referrers: {},
+          condition_extra: null,
+        },
+      },
+      status: 'applied',
+      hasInternals: true,
+      initiator: null,
+      storage: {
+        asks: 684371,
+        offers: 684373,
+        metadata: 684372,
+        next_ask_id: '12000005',
+        next_offer_id: '12000001',
+        gallery_factory: 'KT1Ksc2gAP4mpt7fzwoF9Miwp6qFdavpS25u',
+        permission_module: 'KT1N5x6wZXLqigVqGVHm3N2kHvyR6YWAD2Ta',
+        fee_sharing_registry: 'KT1KmfuowNSgq66T1kpqPEpp6rat89QnixvD',
+      },
+      diffs: [
+        {
+          bigmap: 684371,
+          path: 'asks',
+          action: 'update_key',
+          content: {
+            hash: 'exprvHK26kvZRVeEydA7ogPCHWp4578XXp9zFUt9qfA1QAg9YwBsfz',
+            key: '12000002',
+            value: {
+              token: {
+                address: 'KT1WJ46bKE9mTh5JCi9MkF7yvnc2Bn7Xdx6u',
+                token_id: '17',
+              },
+              amount: '1600000',
+              shares: {
+                tz1LKZUsxAe5U3YgfJ7pnMdCmazRn9AWnUk1: '2000',
+              },
+              creator: 'tz1LKZUsxAe5U3YgfJ7pnMdCmazRn9AWnUk1',
+              currency: {
+                tez: {},
+              },
+              editions: '9',
+              condition: null,
+              start_time: '2024-11-06T13:24:15Z',
+              expiry_time: null,
+              platform_fee: '500',
+              exhibition_id: null,
+              referral_bonus: '500',
+            },
+          },
+        },
+      ],
+    },
   ];
 
   const events = transactionsToEvents(transactions, [ObjktFulfillAskV3Handler]);
@@ -242,6 +313,21 @@ test('creates OBJKT_FULFILL_ASK_V3_PRE events', async () => {
       timestamp: '2024-01-10T17:25:58Z',
       token_id: '56',
       type: 'OBJKT_FULFILL_ASK_V3',
+    },
+    {
+      ask_id: '12000002',
+      buyer_address: 'tz1WsREwyfd53rBUfd2tTyMDUxefokXzKpyP',
+      fa2_address: 'KT1WJ46bKE9mTh5JCi9MkF7yvnc2Bn7Xdx6u',
+      id: '7da29ac2dd848c5c5ec2dea025a2eb34',
+      implements: 'SALE',
+      level: 7046266,
+      ophash: 'oo2D6sb554QYXnhnpDEsmbAosYEu2UV2pHTy6Vm8asGCbqCsJs4',
+      opid: '1416974317912064',
+      price: '1600000',
+      seller_address: 'tz1LKZUsxAe5U3YgfJ7pnMdCmazRn9AWnUk1',
+      timestamp: '2024-11-06T13:33:05Z',
+      token_id: '17',
+      type: 'OBJKT_FULFILL_ASK_V3_2',
     },
   ]);
 });

@@ -125,6 +125,70 @@ test('creates OBJKT_RETRACT_OFFER_V3_PRE events', async () => {
         },
       ],
     },
+    {
+      id: 1417065255665664,
+      level: 7046692,
+      timestamp: '2024-11-06T14:44:20Z',
+      block: 'BL6VXeV1W4ujnbTzC3AoTBDqKjvUqF7DdvxaBcnDKDLY5TC7prA',
+      hash: 'ooNKfysu6597SfDHnquYGJJMNjnuVCshfXRRAPfiwbyXsgTMjXa',
+      counter: 11582739,
+      nonce: null,
+      sender: {
+        alias: 'Sid Hiker Art',
+        address: 'tz1Vkoqo2ZQsVXBniYJDfX6F2NMfH5RoEuGn',
+      },
+      target: {
+        address: 'KT1SwbTqhSKF6Pdokiu1K4Fpi17ahPPzmt1X',
+      },
+      amount: 0,
+      parameter: {
+        entrypoint: 'retract_offer',
+        value: '12000010',
+      },
+      status: 'applied',
+      hasInternals: false,
+      initiator: null,
+      storage: {
+        asks: 684371,
+        offers: 684373,
+        metadata: 684372,
+        next_ask_id: '12000073',
+        next_offer_id: '12000015',
+        gallery_factory: 'KT1Ksc2gAP4mpt7fzwoF9Miwp6qFdavpS25u',
+        permission_module: 'KT1N5x6wZXLqigVqGVHm3N2kHvyR6YWAD2Ta',
+        fee_sharing_registry: 'KT1KmfuowNSgq66T1kpqPEpp6rat89QnixvD',
+      },
+      diffs: [
+        {
+          bigmap: 684373,
+          path: 'offers',
+          action: 'remove_key',
+          content: {
+            hash: 'exprvSLuSKrsPooVj4GEJ51oreV247xdV7csjTbjpcLokvpMKmUbqo',
+            key: '12000010',
+            value: {
+              token: {
+                address: 'KT1TAS2v3DnjNMjaHHH2gHd9cUgQptpWE3qN',
+                token_id: '3',
+              },
+              amount: '1290000',
+              shares: {
+                tz1iZ2TPEShFC8TqHsXLA9RXdV7tSv8E3aLe: '1000',
+              },
+              target: null,
+              creator: 'tz1Vkoqo2ZQsVXBniYJDfX6F2NMfH5RoEuGn',
+              currency: {
+                fa12: 'KT1TjnZYs5CGLbmV6yuW169P8Pnr9BiVwwjz',
+              },
+              condition: null,
+              referrers: {},
+              expiry_time: null,
+              platform_fee: '500',
+            },
+          },
+        },
+      ],
+    },
   ];
 
   const events = transactionsToEvents(transactions, [ObjktRetractOfferV3Handler]);
@@ -154,6 +218,18 @@ test('creates OBJKT_RETRACT_OFFER_V3_PRE events', async () => {
       timestamp: '2024-01-10T17:03:28Z',
       token_id: '747393',
       type: 'OBJKT_RETRACT_OFFER_V3',
+    },
+    {
+      buyer_address: 'tz1Vkoqo2ZQsVXBniYJDfX6F2NMfH5RoEuGn',
+      fa2_address: 'KT1TAS2v3DnjNMjaHHH2gHd9cUgQptpWE3qN',
+      id: 'befa99d90494acee2a0871750bd4893b',
+      level: 7046692,
+      offer_id: '12000010',
+      ophash: 'ooNKfysu6597SfDHnquYGJJMNjnuVCshfXRRAPfiwbyXsgTMjXa',
+      opid: '1417065255665664',
+      timestamp: '2024-11-06T14:44:20Z',
+      token_id: '3',
+      type: 'OBJKT_RETRACT_OFFER_V3_2',
     },
   ]);
 });

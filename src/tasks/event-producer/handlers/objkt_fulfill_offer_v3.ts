@@ -4,14 +4,23 @@ import { assert, object, string, Describe, optional } from 'superstruct';
 import { ContractAddress, TezosAddress, IsoDateString, PositiveInteger, PgBigInt } from '../../../lib/validators';
 import { TransactionHandler, TokenEvent, SaleEventInterface } from '../../../types';
 import { findDiff, createEventId, extractObjktCurrency, isTezLikeCurrencyStrict, transactionMatchesPattern } from '../../../lib/utils';
-import { OBJKT_CONTRACT_MARKETPLACE_V3, OBJKT_CONTRACT_MARKETPLACE_V3_PRE, SALE_INTERFACE } from '../../../consts';
+import {
+  OBJKT_CONTRACT_MARKETPLACE_V3,
+  OBJKT_CONTRACT_MARKETPLACE_V3_PRE,
+  OBJKT_CONTRACT_MARKETPLACE_V3_2,
+  SALE_INTERFACE,
+} from '../../../consts';
 import { tokenSaleEventFields, offerIdField, artistAddressField } from '../event-fields-meta';
 
 export const EVENT_TYPE_OBJKT_FULFILL_OFFER_V3_PRE = 'OBJKT_FULFILL_OFFER_V3_PRE';
 export const EVENT_TYPE_OBJKT_FULFILL_OFFER_V3 = 'OBJKT_FULFILL_OFFER_V3';
+export const EVENT_TYPE_OBJKT_FULFILL_OFFER_V3_2 = 'OBJKT_FULFILL_OFFER_V3_2';
 
 export interface ObjktFulfillOfferV3Event extends TokenEvent {
-  type: typeof EVENT_TYPE_OBJKT_FULFILL_OFFER_V3_PRE | typeof EVENT_TYPE_OBJKT_FULFILL_OFFER_V3;
+  type:
+    | typeof EVENT_TYPE_OBJKT_FULFILL_OFFER_V3_PRE
+    | typeof EVENT_TYPE_OBJKT_FULFILL_OFFER_V3
+    | typeof EVENT_TYPE_OBJKT_FULFILL_OFFER_V3_2;
   implements: SaleEventInterface;
   offer_id: string;
   seller_address: string;
@@ -54,6 +63,10 @@ const ObjktFulfillOfferHandler: TransactionHandler<ObjktFulfillOfferV3Event> = {
       transactionMatchesPattern(transaction, {
         entrypoint: 'fulfill_offer',
         target_address: OBJKT_CONTRACT_MARKETPLACE_V3,
+      }) ||
+      transactionMatchesPattern(transaction, {
+        entrypoint: 'fulfill_offer',
+        target_address: OBJKT_CONTRACT_MARKETPLACE_V3_2,
       })
     ) {
       return true;
@@ -80,9 +93,24 @@ const ObjktFulfillOfferHandler: TransactionHandler<ObjktFulfillOfferV3Event> = {
       throw new Error(`unsupported currency`);
     }
 
+    let type:
+      | typeof EVENT_TYPE_OBJKT_FULFILL_OFFER_V3_PRE
+      | typeof EVENT_TYPE_OBJKT_FULFILL_OFFER_V3
+      | typeof EVENT_TYPE_OBJKT_FULFILL_OFFER_V3_2;
+
+    if (targetAddress === OBJKT_CONTRACT_MARKETPLACE_V3_PRE) {
+      type = EVENT_TYPE_OBJKT_FULFILL_OFFER_V3_PRE;
+    } else if (targetAddress === OBJKT_CONTRACT_MARKETPLACE_V3) {
+      type = EVENT_TYPE_OBJKT_FULFILL_OFFER_V3;
+    } else if (targetAddress === OBJKT_CONTRACT_MARKETPLACE_V3_2) {
+      type = EVENT_TYPE_OBJKT_FULFILL_OFFER_V3_2;
+    } else {
+      throw new Error(`unsupported target address`);
+    }
+
     const event: ObjktFulfillOfferV3Event = {
       id,
-      type: targetAddress === OBJKT_CONTRACT_MARKETPLACE_V3_PRE ? EVENT_TYPE_OBJKT_FULFILL_OFFER_V3_PRE : EVENT_TYPE_OBJKT_FULFILL_OFFER_V3,
+      type,
       implements: SALE_INTERFACE,
       opid: String(transaction.id),
       ophash: transaction.hash,

@@ -160,6 +160,88 @@ test('creates OBJKT_ASK_V3_PRE events', async () => {
         },
       ],
     },
+    {
+      id: 1416959526699008,
+      level: 7046197,
+      timestamp: '2024-11-06T13:21:35Z',
+      block: 'BLXMmiE4bAGm2hvJqnJeSxND6N9imDLdqcaTVx1PLt26BZkRnQC',
+      hash: 'ony8mxizszg61Z2Mgoeq4eeDaoiM5Ry3EbgC6KvaD5XJGwiA5jR',
+      counter: 106349285,
+      nonce: null,
+      sender: {
+        address: 'tz1dfaWQrdVRaLgVkBbCbqtm3KahCtALFLU5',
+      },
+      target: {
+        address: 'KT1SwbTqhSKF6Pdokiu1K4Fpi17ahPPzmt1X',
+      },
+      amount: 0,
+      parameter: {
+        entrypoint: 'ask',
+        value: {
+          token: {
+            address: 'KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton',
+            token_id: '860490',
+          },
+          amount: '270000000',
+          shares: {
+            tz1gqaKjfQBhUMCE6LhbkpuittRiWv5Z6w38: '1000',
+          },
+          currency: {
+            tez: {},
+          },
+          editions: '1',
+          condition: null,
+          start_time: '2024-11-06T13:20:57Z',
+          expiry_time: null,
+          referral_bonus: '500',
+        },
+      },
+      status: 'applied',
+      hasInternals: false,
+      initiator: null,
+      storage: {
+        asks: 684371,
+        offers: 684373,
+        metadata: 684372,
+        next_ask_id: '12000001',
+        next_offer_id: '12000000',
+        gallery_factory: 'KT1Ksc2gAP4mpt7fzwoF9Miwp6qFdavpS25u',
+        permission_module: 'KT1N5x6wZXLqigVqGVHm3N2kHvyR6YWAD2Ta',
+        fee_sharing_registry: 'KT1KmfuowNSgq66T1kpqPEpp6rat89QnixvD',
+      },
+      diffs: [
+        {
+          bigmap: 684371,
+          path: 'asks',
+          action: 'add_key',
+          content: {
+            hash: 'expruHZPtfkwjJnybmrqgv9gEgXSQP7PQvp5pPxu5wms5aJvCAXpDJ',
+            key: '12000000',
+            value: {
+              token: {
+                address: 'KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton',
+                token_id: '860490',
+              },
+              amount: '270000000',
+              shares: {
+                tz1gqaKjfQBhUMCE6LhbkpuittRiWv5Z6w38: '1000',
+              },
+              creator: 'tz1dfaWQrdVRaLgVkBbCbqtm3KahCtALFLU5',
+              currency: {
+                tez: {},
+              },
+              editions: '1',
+              condition: null,
+              start_time: '2024-11-06T13:20:57Z',
+              expiry_time: null,
+              platform_fee: '500',
+              exhibition_id: null,
+              referral_bonus: '500',
+            },
+          },
+        },
+      ],
+    },
   ];
 
   const events = transactionsToEvents(transactions, [ObjktAskV3Handler]);
@@ -206,6 +288,27 @@ test('creates OBJKT_ASK_V3_PRE events', async () => {
       timestamp: '2024-01-10T15:55:20Z',
       token_id: '8',
       type: 'OBJKT_ASK_V3',
+    },
+    {
+      amount: '1',
+      ask_id: '12000000',
+      currency: 'tez',
+      fa2_address: 'KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton',
+      id: 'af08367c1a80a5c9cb5af04af938a586',
+      level: 7046197,
+      ophash: 'ony8mxizszg61Z2Mgoeq4eeDaoiM5Ry3EbgC6KvaD5XJGwiA5jR',
+      opid: '1416959526699008',
+      price: '270000000',
+      royalty_shares: {
+        decimals: 4,
+        shares: {
+          tz1gqaKjfQBhUMCE6LhbkpuittRiWv5Z6w38: '1000',
+        },
+      },
+      seller_address: 'tz1dfaWQrdVRaLgVkBbCbqtm3KahCtALFLU5',
+      timestamp: '2024-11-06T13:21:35Z',
+      token_id: '860490',
+      type: 'OBJKT_ASK_V3_2',
     },
   ]);
 });

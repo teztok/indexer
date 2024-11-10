@@ -129,6 +129,71 @@ test('creates OBJKT_RETRACT_ASK_V3_PRE events', async () => {
         },
       ],
     },
+    {
+      id: 1417062933069824,
+      level: 7046681,
+      timestamp: '2024-11-06T14:42:30Z',
+      block: 'BMDWbEY39aqDZxxgVdk5TPKzmkSgY8PbiHnnqaBAudRTtZJZUMA',
+      hash: 'ooZL7KUK315exLHZRPV2mkijeBkeiAfaS5JFvFJkWZyEugy7GUg',
+      counter: 32320819,
+      nonce: null,
+      sender: {
+        address: 'tz1MrS2Hj5kTwwK4p94HYzbtUCFNGJUuQFyd',
+      },
+      target: {
+        address: 'KT1SwbTqhSKF6Pdokiu1K4Fpi17ahPPzmt1X',
+      },
+      amount: 0,
+      parameter: {
+        entrypoint: 'retract_ask',
+        value: '12000067',
+      },
+      status: 'applied',
+      hasInternals: false,
+      initiator: null,
+      storage: {
+        asks: 684371,
+        offers: 684373,
+        metadata: 684372,
+        next_ask_id: '12000071',
+        next_offer_id: '12000015',
+        gallery_factory: 'KT1Ksc2gAP4mpt7fzwoF9Miwp6qFdavpS25u',
+        permission_module: 'KT1N5x6wZXLqigVqGVHm3N2kHvyR6YWAD2Ta',
+        fee_sharing_registry: 'KT1KmfuowNSgq66T1kpqPEpp6rat89QnixvD',
+      },
+      diffs: [
+        {
+          bigmap: 684371,
+          path: 'asks',
+          action: 'remove_key',
+          content: {
+            hash: 'expruSdpvZ2L7AZJV5pVKrbhafvzsMQh1panY7CgKQZ7WKyZYuCLHQ',
+            key: '12000067',
+            value: {
+              token: {
+                address: 'KT1MQGEuHspLgNR6iToGPhjcLU2kdjEBFzii',
+                token_id: '124',
+              },
+              amount: '33000000',
+              shares: {
+                tz1fEu4phJuJhqVQfpZj642ps9znYBarJDSf: '100',
+              },
+              creator: 'tz1MrS2Hj5kTwwK4p94HYzbtUCFNGJUuQFyd',
+              currency: {
+                tez: {},
+              },
+              editions: '1',
+              condition: null,
+              start_time: '2024-11-06T14:39:35Z',
+              expiry_time: null,
+              platform_fee: '500',
+              exhibition_id: null,
+              referral_bonus: '500',
+            },
+          },
+        },
+      ],
+    },
   ];
 
   const events = transactionsToEvents(transactions, [ObjktRetractAskV3Handler]);
@@ -157,6 +222,18 @@ test('creates OBJKT_RETRACT_ASK_V3_PRE events', async () => {
       timestamp: '2024-01-10T17:04:13Z',
       token_id: '71',
       type: 'OBJKT_RETRACT_ASK_V3',
+    },
+    {
+      ask_id: '12000067',
+      fa2_address: 'KT1MQGEuHspLgNR6iToGPhjcLU2kdjEBFzii',
+      id: '15043c595bcaa18d8d8cc9967624201c',
+      level: 7046681,
+      ophash: 'ooZL7KUK315exLHZRPV2mkijeBkeiAfaS5JFvFJkWZyEugy7GUg',
+      opid: '1417062933069824',
+      seller_address: 'tz1MrS2Hj5kTwwK4p94HYzbtUCFNGJUuQFyd',
+      timestamp: '2024-11-06T14:42:30Z',
+      token_id: '124',
+      type: 'OBJKT_RETRACT_ASK_V3_2',
     },
   ]);
 });

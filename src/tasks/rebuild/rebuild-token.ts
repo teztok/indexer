@@ -40,6 +40,7 @@ import {
   OBJKT_CONTRACT_MARKETPLACE_V2,
   OBJKT_CONTRACT_MARKETPLACE_V3,
   OBJKT_CONTRACT_MARKETPLACE_V3_PRE,
+  OBJKT_CONTRACT_MARKETPLACE_V3_2,
   FX_CONTRACT_MARKETPLACE,
   FX_CONTRACT_MARKETPLACE_V3,
   VERSUM_CONTRACT_MARKETPLACE,
@@ -584,6 +585,65 @@ export function compileToken(
         break;
       }
 
+      case 'OBJKT_ASK_V3_2': {
+        if (
+          event.royalty_shares &&
+          royaltyReceivers &&
+          !areRoyaltyReceiversTheSame(royaltySharesToRoyaltyReceivers(event.royalty_shares), royaltyReceivers) &&
+          artistAddress !== event.seller_address
+        ) {
+          // potentially fraudulent swap, ignore
+          break;
+        }
+
+        const listingKey = createListingKey(OBJKT_CONTRACT_MARKETPLACE_V3_2, event.ask_id);
+
+        const listing = (listings[listingKey] = {
+          type: 'OBJKT_ASK_V3_2',
+          contract_address: OBJKT_CONTRACT_MARKETPLACE_V3_2,
+          created_at: event.timestamp,
+          ask_id: event.ask_id,
+          seller_address: event.seller_address,
+          amount: parseInt(event.amount, 10),
+          amount_left: parseInt(event.amount, 10),
+          price: event.price,
+          currency: event.currency,
+          end_time: event.end_time,
+          status: isExpired(event.end_time) ? 'canceled' : 'active',
+        } as ObjktListingV3);
+
+        if (event.end_time) {
+          listing.end_time = event.end_time;
+        }
+
+        break;
+      }
+
+      case 'OBJKT_RETRACT_ASK_V3_2': {
+        const listingKey = createListingKey(OBJKT_CONTRACT_MARKETPLACE_V3_2, event.ask_id);
+
+        if (listingKey in listings) {
+          listings[listingKey].status = 'canceled';
+        }
+
+        break;
+      }
+
+      case 'OBJKT_FULFILL_ASK_V3_2': {
+        const listingKey = createListingKey(OBJKT_CONTRACT_MARKETPLACE_V3_2, event.ask_id);
+
+        if (listingKey in listings) {
+          const amountLeft = listings[listingKey].amount_left - 1; // TODO: what if someone buys more than 1?
+          listings[listingKey].amount_left = amountLeft;
+
+          if (amountLeft <= 0) {
+            listings[listingKey].status = 'sold_out';
+          }
+        }
+
+        break;
+      }
+
       case 'OBJKT_ASK_V3': {
         if (
           event.royalty_shares &&
@@ -763,6 +823,53 @@ export function compileToken(
 
       case 'OBJKT_FULFILL_OFFER_V3_PRE': {
         const offerKey = createListingKey(OBJKT_CONTRACT_MARKETPLACE_V3_PRE, event.offer_id);
+
+        if (offerKey in offers) {
+          offers[offerKey].status = 'fulfilled';
+        }
+
+        break;
+      }
+
+      case 'OBJKT_OFFER_V3_2': {
+        if (
+          event.royalty_shares &&
+          royaltyReceivers &&
+          !areRoyaltyReceiversTheSame(royaltySharesToRoyaltyReceivers(event.royalty_shares), royaltyReceivers)
+        ) {
+          // potentially fraudulent offer, ignore
+          break;
+        }
+
+        const offer = (offers[createListingKey(OBJKT_CONTRACT_MARKETPLACE_V3_2, event.offer_id)] = {
+          type: 'OBJKT_OFFER_V3_2',
+          contract_address: OBJKT_CONTRACT_MARKETPLACE_V3_2,
+          created_at: event.timestamp,
+          offer_id: event.offer_id,
+          buyer_address: event.buyer_address,
+          price: event.price,
+          status: isExpired(event.end_time) ? 'canceled' : 'active',
+        } as ObjktOfferV3);
+
+        if (event.end_time) {
+          offer.end_time = event.end_time;
+        }
+
+        break;
+      }
+
+      case 'OBJKT_RETRACT_OFFER_V3_2': {
+        const offerKey = createListingKey(OBJKT_CONTRACT_MARKETPLACE_V3_2, event.offer_id);
+
+        if (offerKey in offers) {
+          offers[offerKey].status = 'canceled';
+        }
+
+        break;
+      }
+
+      case 'OBJKT_FULFILL_OFFER_V3_2': {
+        const offerKey = createListingKey(OBJKT_CONTRACT_MARKETPLACE_V3_2, event.offer_id);
 
         if (offerKey in offers) {
           offers[offerKey].status = 'fulfilled';
@@ -1458,7 +1565,7 @@ export function compileToken(
   const listingsArr = orderBy(Object.values(listings), ({ price }) => parseInt(price, 10));
   const activeListings = listingsArr.filter(({ status }) => status === 'active');
   const objktAskV2And3Listings = listingsArr.filter(
-    ({ type }) => type === 'OBJKT_ASK_V2' || type === 'OBJKT_ASK_V3_PRE' || type === 'OBJKT_ASK_V3'
+    ({ type }) => type === 'OBJKT_ASK_V2' || type === 'OBJKT_ASK_V3_PRE' || type === 'OBJKT_ASK_V3' || type === 'OBJKT_ASK_V3_2'
   ) as Array<ObjktListingV2 | ObjktListingV3>;
 
   for (const listing of objktAskV2And3Listings) {
