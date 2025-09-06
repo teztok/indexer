@@ -94,7 +94,7 @@ async function handleTimedoutOffersAndListings(max = 50) {
 }
 
 export async function run() {
-  const connection = new HubConnectionBuilder().withUrl(`${config.tzktApiUrl}/events`).build();
+  const connection = new HubConnectionBuilder().withUrl(`${config.tzktApiUrl}/ws`).build();
   const workerUtils = await getWorkerUtils();
 
   async function init() {
