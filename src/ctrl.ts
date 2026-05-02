@@ -96,6 +96,7 @@ async function handleTimedoutOffersAndListings(max = 50) {
 export async function run() {
   const connection = new HubConnectionBuilder().withUrl(`${config.tzktApiUrl}/ws`).build();
   const workerUtils = await getWorkerUtils();
+  let lastBlock = (await eventsDao.getLatestLevel()) || config.startBlock - 1;
 
   async function init() {
     await connection.start();
@@ -106,7 +107,6 @@ export async function run() {
 
   connection.on('head', async (msg) => {
     if (msg.type === 1) {
-      const lastBlock = (await eventsDao.getLatestLevel()) || config.startBlock - 1;
       const startBlock = lastBlock + 1;
       const max = Math.min(startBlock + config.maxBlocksPerIteration, msg.state);
 
@@ -142,6 +142,7 @@ export async function run() {
       // temp workaround to the problem that indexer is sometimes lagging...
       rebuildOutstandingTokens(200);
     }
+    lastBlock++;
   });
 
   init();
