@@ -46,8 +46,11 @@ export async function up(knex: Knex): Promise<void> {
       table.text('eightbid_creator_name');
       table.text('eightbid_rgb');
       table.bigInteger('objkt_artist_collection_id');
+      table.boolean('fx_is_ticket');
       table.bigInteger('fx_issuer_id');
       table.bigInteger('fx_iteration');
+      table.string('fx_ticket_fa2_address', 36);
+      table.text('fx_ticket_token_id');
       table.text('fx_collection_name');
       table.text('fx_collection_description');
       table.text('fx_collection_display_uri');
@@ -253,6 +256,8 @@ export async function up(knex: Knex): Promise<void> {
       table.bigInteger('kalamint_edition');
       table.jsonb('custom_data');
       table.string('contract_address', 36);
+      table.string('ticket_fa2_address', 36);
+      table.text('ticket_token_id');
 
       table.string('sender_address', 36);
       table.string('initiator_address', 36);

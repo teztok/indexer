@@ -67,6 +67,10 @@ export const artistAddressField: EventField = ['artist_address', 'string', 'The 
 export const collectionIdField: EventField = ['collection_id', 'big integer', 'The ID of the artist collection on objkt.com.'];
 export const issuerIdField: EventField = ['issuer_id', 'big integer', 'The ID of the generative token.'];
 export const iterationField: EventField = ['iteration', 'big integer', ''];
+
+export const ticketFa2AddressField: EventField = ['ticket_fa2_address', 'string', 'The contract address of the ticket token.'];
+export const ticketTokenIdField: EventField = ['ticket_token_id', 'string', 'The ID of the ticket token.'];
+
 export const ownerAddressField: EventField = ['owner_address', 'string', 'The Tezos address of the owner.'];
 export const holderAddressField: EventField = ['holder_address', 'string', 'The Tezos address of the holder.'];
 export const currencyField: EventField = ['currency', 'string', 'Set to tez or otez (wrapped tez from objkt.com).'];

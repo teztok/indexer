@@ -195,6 +195,9 @@ export function compileToken(
   let objktArtistCollectionId = null;
   let fxIssuerId = null;
   let fxIteration = null;
+  let fxIsTicket = false;
+  let fxTicketFa2Address = null;
+  let fxTicketTokenId = null;
 
   let eightscriboTitle = null;
   let eightscriboRowone = null;
@@ -960,7 +963,13 @@ export function compileToken(
         artistAddress = event.artist_address;
         isVerifiedArtist = event.is_verified_artist;
         fxIssuerId = event.issuer_id;
-        fxIteration = event.iteration;
+
+        if (event.iteration !== undefined && event.iteration !== null) {
+          // this is only set if it's not a ticket mint
+          fxIteration = event.iteration;
+        } else {
+          fxIsTicket = true;
+        }
 
         if (!royaltyReceivers && event.royalty_shares) {
           royaltyReceivers = royaltySharesToRoyaltyReceivers(event.royalty_shares);
@@ -975,6 +984,11 @@ export function compileToken(
         isVerifiedArtist = event.is_verified_artist;
         fxIssuerId = event.issuer_id;
         fxIteration = event.iteration;
+
+        if (event.ticket_fa2_address && event.ticket_token_id) {
+          fxTicketFa2Address = event.ticket_fa2_address;
+          fxTicketTokenId = event.ticket_token_id;
+        }
 
         if (!royaltyReceivers && event.royalty_shares) {
           royaltyReceivers = royaltySharesToRoyaltyReceivers(event.royalty_shares);
@@ -1715,8 +1729,12 @@ export function compileToken(
 
     objkt_artist_collection_id: objktArtistCollectionId,
 
+    fx_is_ticket: fxIsTicket,
     fx_issuer_id: fxIssuerId,
     fx_iteration: fxIteration,
+
+    fx_ticket_fa2_address: fxTicketFa2Address,
+    fx_ticket_token_id: fxTicketTokenId,
 
     eightscribo_title: eightscriboTitle,
     eightscribo_rowone: eightscriboRowone,

@@ -1039,5 +1039,31 @@ test('creates FX_MINT_V4 events', async () => {
       token_id: '14648',
       type: 'FX_MINT_V4',
     },
+    {
+      artist_address: 'tz1foswFmZBNUFDkLTL6TxTruedN6gNZZdMQ',
+      buyer_address: 'tz1VnNAKxCcK2W8MLPUPWqK24CUCwaANVZwV',
+      editions: '1',
+      fa2_address: 'KT19etLCjCCzTLFFAxsxLFsVYMRPetr2bTD5',
+      id: 'd40b2dbf15cd7a7ca1e5cefdccf4f808',
+      implements: 'SALE',
+      is_verified_artist: false,
+      issuer_id: '26499',
+      level: 3317935,
+      metadata_uri: 'ipfs://QmRKQrWyh19nji59J5frk6pEXGdiaLEkY4daRM9AYuFP81',
+      ophash: 'oofjLzFcHXRkqchmgdUGwkpyYfTpfm1rF7nD3fjoLqVBDgCUutE',
+      opid: '512414439178240',
+      price: '0',
+      royalties: '170',
+      royalty_shares: {
+        decimals: 6,
+        shares: {
+          tz1foswFmZBNUFDkLTL6TxTruedN6gNZZdMQ: '170000',
+        },
+      },
+      seller_address: 'tz1foswFmZBNUFDkLTL6TxTruedN6gNZZdMQ',
+      timestamp: '2023-04-07T09:31:42Z',
+      token_id: '5088',
+      type: 'FX_MINT_V4',
+    },
   ]);
 });

@@ -366,6 +366,10 @@ export interface Token {
 
   fx_issuer_id: string | null;
   fx_iteration: string | null;
+  fx_is_ticket: boolean;
+
+  fx_ticket_fa2_address: string | null;
+  fx_ticket_token_id: string | null;
 
   fx_collection_name?: string | null;
   fx_collection_description?: string | null;
