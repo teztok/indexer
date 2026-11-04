@@ -24,7 +24,7 @@
     "axios": "1.2.2",
     "create-hmac": "^1.1.7",
     "dotenv": "^10.0.0",
-    "got": "^11.8.2",
+    "got": "^11.8.6",
     "graphile-worker": "^0.12.2",
     "ipfs-http-client": "^55.0.0",
     "is-ipfs": "^6.0.2",
