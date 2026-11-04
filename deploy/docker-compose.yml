@@ -8,7 +8,8 @@ x-indexer: &indexer
   networks:
     - default
   depends_on:
-    - teztok_database
+    teztok_database:
+      condition: service_healthy
 
 services:
   # The mount is /var/lib/postgresql, not /var/lib/postgresql/data. From 18 the
@@ -57,6 +58,14 @@ services:
       - random_page_cost=1.1
     volumes:
       - ./db/:/var/lib/postgresql/
+    # Without this, depends_on only waits for the container to start, not for
+    # postgres to accept connections, and every worker crash-loops on boot.
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
 
   teztok_ctrl:
     <<: *indexer
@@ -65,7 +74,8 @@ services:
     <<: *indexer
     command: npm run start-worker:event-producer
     depends_on:
-      - teztok_ctrl
+      teztok_ctrl:
+        condition: service_started
     deploy:
       replicas: 4
 
@@ -73,7 +83,8 @@ services:
     <<: *indexer
     command: npm run start-worker:fetch-metadata
     depends_on:
-      - teztok_ctrl
+      teztok_ctrl:
+        condition: service_started
     deploy:
       replicas: 2
 
@@ -81,7 +92,8 @@ services:
     <<: *indexer
     command: npm run start-worker:rebuild-token
     depends_on:
-      - teztok_ctrl
+      teztok_ctrl:
+        condition: service_started
     deploy:
       replicas: 2
 
@@ -89,7 +101,8 @@ services:
     <<: *indexer
     command: npm run start-teia-worker:teia-warmup-thumbnail
     depends_on:
-      - teztok_ctrl
+      teztok_ctrl:
+        condition: service_started
 
   # No ingress is configured here: the api is reachable only on the compose
   # network. Add a reverse proxy with an overlay file -- see
@@ -98,7 +111,8 @@ services:
     image: hasura/graphql-engine:v2.51.4
     restart: unless-stopped
     depends_on:
-      - teztok_database
+      teztok_database:
+        condition: service_healthy
     env_file:
       - .env
     networks:
@@ -112,7 +126,8 @@ services:
     image: ghcr.io/teia-community/indexer-backup:${INDEXER_TAG:?set INDEXER_TAG in .env}
     restart: unless-stopped
     depends_on:
-      - teztok_database
+      teztok_database:
+        condition: service_healthy
     env_file:
       - .env
     environment:
@@ -151,7 +166,8 @@ services:
     image: curlimages/curl:8.11.1
     restart: "no"
     depends_on:
-      - teztok_hasura
+      teztok_hasura:
+        condition: service_started
     env_file:
       - .env
     volumes:
@@ -196,7 +212,8 @@ services:
       - restore
     restart: "no"
     depends_on:
-      - teztok_database
+      teztok_database:
+        condition: service_healthy
     env_file:
       - .env
     command: ["restore"]
