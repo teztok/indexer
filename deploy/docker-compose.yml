@@ -15,12 +15,46 @@ services:
   # image puts the cluster in a version-numbered subdirectory of that path, so
   # that pg_upgrade --link does not have to cross a mount boundary. Mounting the
   # old path makes 18 refuse to start.
+  #
+  # max_connections is raised well above the default 100. Each worker process
+  # opens three pools, not one: the knex pool from knexfile, graphile-worker's
+  # own pool in run(), and another from makeWorkerUtils(). That is 9-12
+  # connections per container, so the default replica counts alone reach ~95
+  # and workers start failing with "too many clients already". Hasura adds its
+  # own pool on top, capped below.
   teztok_database:
     image: postgres:18
     restart: unless-stopped
     container_name: teztok_database
     env_file:
       - .env
+    # The stock postgres defaults assume a far smaller machine than this runs
+    # on: 128MB shared_buffers and 1GB max_wal_size make indexing database
+    # bound long before the workers are. Sized here for a ~16GB host; scale
+    # shared_buffers to roughly a quarter of RAM and effective_cache_size to
+    # about three quarters.
+    command:
+      - postgres
+      - -c
+      - max_connections=300
+      - -c
+      - shared_buffers=4GB
+      - -c
+      - effective_cache_size=12GB
+      - -c
+      - work_mem=64MB
+      - -c
+      - maintenance_work_mem=1GB
+      - -c
+      - wal_buffers=64MB
+      - -c
+      - max_wal_size=16GB
+      - -c
+      - checkpoint_timeout=1800
+      - -c
+      - checkpoint_completion_target=0.9
+      - -c
+      - random_page_cost=1.1
     volumes:
       - ./db/:/var/lib/postgresql/
 

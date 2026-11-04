@@ -1,6 +1,9 @@
 import { Knex } from 'knex';
 
 export async function up(knex: Knex): Promise<void> {
+  // Needed by the trigram index on tags below.
+  await knex.raw(`CREATE EXTENSION IF NOT EXISTS pg_trgm;`);
+
   await knex.raw(`
     CREATE OR REPLACE FUNCTION update_timestamp() RETURNS TRIGGER
     LANGUAGE plpgsql
@@ -102,7 +105,27 @@ export async function up(knex: Knex): Promise<void> {
       table.index('minter_address');
       table.index('artist_address');
       table.index('mime_type');
+
+      // Not written by the indexer, but tracked by the hasura metadata and so
+      // required for it to apply.
+      table.jsonb('assets');
+      table.bigInteger('mint_price');
+      table.jsonb('royalties');
+
       table.primary(['fa2_address', 'token_id']);
+    })
+    .createTable('assets', (table) => {
+      table.text('artifact_uri').notNullable();
+      table.text('filename').notNullable();
+      table.integer('filesize');
+      table.text('mime_type');
+      table.integer('width');
+      table.integer('height');
+      table.integer('duration');
+      table.text('codec');
+      table.text('type').notNullable();
+
+      table.primary(['artifact_uri', 'filename']);
     })
     .createTable('holdings', (table) => {
       table.string('fa2_address', 36).notNullable();
@@ -279,6 +302,10 @@ export async function up(knex: Knex): Promise<void> {
       table.index('token_id');
       table.index(['opid']);
       table.index('contract_address');
+
+      // Not written by the indexer, but tracked by the hasura metadata.
+      table.bigInteger('total_price');
+
       table.foreign(['fa2_address', 'token_id']).references(['fa2_address', 'token_id']).inTable('tokens').deferrable('deferred');
       table.primary(['id']);
     })
@@ -297,6 +324,30 @@ export async function up(knex: Knex): Promise<void> {
       FOR EACH ROW
       EXECUTE PROCEDURE update_timestamp();
     `);
+
+  // knex's table.index() only produces ascending btrees. Feeds order by
+  // minted_at descending, and tags are searched by similarity and full text.
+  await knex.raw(`
+    CREATE INDEX IF NOT EXISTS tokens_minted_at_desc_index ON tokens USING btree (minted_at DESC);
+    CREATE INDEX IF NOT EXISTS idx_gin_tags ON tags USING gin (tag gin_trgm_ops);
+    CREATE INDEX IF NOT EXISTS idx_gin_tag ON tags USING gin (to_tsvector('english'::regconfig, tag));
+  `);
+
+  // Tracked by the hasura metadata. It returns rows of graphile_worker.jobs,
+  // so that schema has to exist first -- init-db installs it before migrating.
+  // Skipped rather than failing if it is somehow absent, since nothing in the
+  // indexer depends on this function.
+  const hasJobsTable = await knex.raw(`SELECT to_regclass('graphile_worker.jobs') IS NOT NULL AS present;`);
+  if (hasJobsTable?.rows?.[0]?.present) {
+    await knex.raw(`
+      CREATE OR REPLACE FUNCTION public.last_level() RETURNS SETOF graphile_worker.jobs
+      LANGUAGE sql STABLE AS $$
+        select * from graphile_worker.jobs
+        where task_identifier = 'event-producer' and max_attempts < 25
+        order by id desc limit 1;
+      $$;
+    `);
+  }
 }
 
 export async function down(knex: Knex): Promise<void> {
@@ -304,8 +355,11 @@ export async function down(knex: Knex): Promise<void> {
     DROP FUNCTION IF EXISTS update_timestamp() CASCADE;
   `);
 
+  await knex.raw(`DROP FUNCTION IF EXISTS public.last_level();`);
+
   return knex.schema
     .dropTableIfExists('tokens')
+    .dropTableIfExists('assets')
     .dropTableIfExists('holdings')
     .dropTableIfExists('tags')
     .dropTableIfExists('listings')
