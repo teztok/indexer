@@ -14,7 +14,7 @@ const stringIsAValidUrl = (value: string, protocols: Array<string>) => {
   }
 };
 
-export const isValidTezosAddress = (value: unknown) => validateAddress(value) === ValidationResult.VALID;
+export const isValidTezosAddress = (value: unknown) => typeof value === 'string' && validateAddress(value) === ValidationResult.VALID;
 
 // for now we will treat bigints as string.
 export const PgBigInt = define<string>('PgBigInt', (value) => {
@@ -25,7 +25,7 @@ export const PgBigInt = define<string>('PgBigInt', (value) => {
   }
 });
 
-export const TezosAddress = define<string>('TezosAddress', (value) => validateAddress(value) === ValidationResult.VALID);
+export const TezosAddress = define<string>('TezosAddress', (value) => isValidTezosAddress(value));
 
 export const ContractAddress = define<string>('ContractAddress', (value) => isValidTezosAddress(value));
 

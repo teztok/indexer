@@ -20,7 +20,7 @@
   "author": "TezTok",
   "dependencies": {
     "@microsoft/signalr": "^8.0.29",
-    "@taquito/utils": "^11.0.1",
+    "@taquito/utils": "^25.1.0",
     "axios": "^1.21.0",
     "create-hmac": "^1.1.7",
     "dotenv": "^10.0.0",
