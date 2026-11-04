@@ -1,0 +1,132 @@
+x-indexer: &indexer
+  image: ghcr.io/teia-community/indexer:${INDEXER_TAG:?set INDEXER_TAG in .env}
+  restart: unless-stopped
+  env_file:
+    - .env
+  volumes:
+    - ./data/:/usr/src/app/data/
+  networks:
+    - default
+  depends_on:
+    - teztok_database
+
+services:
+  # The mount is /var/lib/postgresql, not /var/lib/postgresql/data. From 18 the
+  # image puts the cluster in a version-numbered subdirectory of that path, so
+  # that pg_upgrade --link does not have to cross a mount boundary. Mounting the
+  # old path makes 18 refuse to start.
+  teztok_database:
+    image: postgres:18
+    restart: unless-stopped
+    container_name: teztok_database
+    env_file:
+      - .env
+    volumes:
+      - ./db/:/var/lib/postgresql/
+
+  teztok_ctrl:
+    <<: *indexer
+
+  teztok_event-producer:
+    <<: *indexer
+    command: npm run start-worker:event-producer
+    depends_on:
+      - teztok_ctrl
+    deploy:
+      replicas: 4
+
+  teztok_fetch-metadata:
+    <<: *indexer
+    command: npm run start-worker:fetch-metadata
+    depends_on:
+      - teztok_ctrl
+    deploy:
+      replicas: 2
+
+  teztok_rebuild-token:
+    <<: *indexer
+    command: npm run start-worker:rebuild-token
+    depends_on:
+      - teztok_ctrl
+    deploy:
+      replicas: 2
+
+  teztok_warmup_thumbnailcache:
+    <<: *indexer
+    command: npm run start-teia-worker:teia-warmup-thumbnail
+    depends_on:
+      - teztok_ctrl
+
+  # No ingress is configured here: the api is reachable only on the compose
+  # network. Add a reverse proxy with an overlay file -- see
+  # docker-compose.site.example.yml.
+  teztok_hasura:
+    image: hasura/graphql-engine:v2.37.0
+    restart: unless-stopped
+    depends_on:
+      - teztok_database
+    env_file:
+      - .env
+    networks:
+      - default
+
+  # Built from deploy/backup. pg_dump must be at least the server version, so
+  # this image tracks the postgres major above; bump them together. Dumps are
+  # pg_dump custom format named <database>_<timestamp>.dump, matching what the
+  # previous backup image produced, so old backups stay restorable.
+  backup:
+    image: ghcr.io/teia-community/indexer-backup:${INDEXER_TAG:?set INDEXER_TAG in .env}
+    restart: unless-stopped
+    depends_on:
+      - teztok_database
+    env_file:
+      - .env
+    environment:
+      SCHEDULE: '@daily'
+      BACKUP_KEEP_DAYS: 7
+    networks:
+      - default
+
+  # One-shot: create the schema on an empty database, or bring a restored
+  # database up to the current migration state.
+  #   docker compose --profile init run --rm db_init
+  #
+  # Runs the knex migrations, then creates the teia plugin tables. The plugin
+  # is always enabled in this fork, and its tables are not part of the
+  # migrations, so both steps are needed for a usable database.
+  #
+  # The migrations are idempotent. The plugin step is not: on a database that
+  # already has the tables it reports "failed to create tables" and exits 0,
+  # which is expected after a restore.
+  db_init:
+    <<: *indexer
+    profiles:
+      - init
+    restart: "no"
+    command: >
+      sh -c "node build/scripts/init-db.js &&
+             node build/scripts/create-plugin-tables.js teia"
+
+  # One-shot: restore from S3. No argument restores the newest backup; pass a
+  # timestamp to pick one. Run db_init afterwards so the schema is current.
+  #   docker compose --profile restore run --rm db_restore
+  #   docker compose --profile restore run --rm db_restore restore 2026-11-04T00:08:30
+  #
+  # The object name is derived from POSTGRES_DATABASE, so this restores
+  # <POSTGRES_DATABASE>_<timestamp>.dump back into that same database. Restoring
+  # a dump into a differently named database is not supported.
+  db_restore:
+    image: ghcr.io/teia-community/indexer-backup:${INDEXER_TAG:?set INDEXER_TAG in .env}
+    profiles:
+      - restore
+    restart: "no"
+    depends_on:
+      - teztok_database
+    env_file:
+      - .env
+    command: ["restore"]
+    networks:
+      - default
+
+networks:
+  default:
