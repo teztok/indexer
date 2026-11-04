@@ -6,6 +6,7 @@ on:
       - main
     tags:
       - 'v*'
+  pull_request:
   workflow_dispatch:
 
 env:
@@ -26,8 +27,11 @@ jobs:
       - run: npm run build
       - run: npm test
 
+  # Pull requests run the tests above but publish nothing: an image is only
+  # built for main and for release tags.
   build:
     needs: test
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     permissions:
       contents: read
