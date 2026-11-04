@@ -14,3 +14,6 @@ deploy/docker-compose.*.yml
 # runtime state, if the deploy dir is used in place
 deploy/db/
 deploy/data/
+
+# hasura console exports; the tracked copy is deploy/hasura/metadata.json
+hasura_metadata_*.json
