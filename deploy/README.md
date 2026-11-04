@@ -9,45 +9,59 @@ Images are built by `.github/workflows/build-image.yml` and published to
 
 ## Layout on the host
 
-Copy `docker-compose.yml`, `.env.sample` and (if you need ingress)
-`docker-compose.ingress.example.yml` to the deploy directory
+Copy `docker-compose.yml`, `.env.sample` and (if you need a site overlay)
+`docker-compose.site.example.yml` to the deploy directory
 (e.g. `/opt/teztok`), then:
 
 ```
 /opt/teztok/
   docker-compose.yml
-  docker-compose.ingress.yml   # optional, your own; gitignored
-  .env                         # from .env.sample, never committed
-  db/                          # postgres data
-  data/                        # app data (logs, teztok.json)
+  docker-compose.site.yml   # optional, your own; gitignored
+  .env                      # from .env.sample, never committed
+  db/                       # postgres data
+  data/                     # app data (logs, teztok.json)
 ```
 
-The external `ipfs` network must already exist on the host.
+The base compose is self-contained: it creates its own network, publishes
+nothing, and assumes every external service is reachable over the internet. It
+needs no pre-existing networks.
 
-## Ingress
+## Site overlay
 
-The base compose publishes no ports: the api is reachable only on the compose
-network. Deployment-specific routing lives in an overlay, so that hostnames,
-certificate resolvers and named middlewares stay out of this repo.
+Anything that depends on where this runs goes in an overlay, so that hostnames,
+network names, certificate resolvers and named middlewares stay out of this
+repo. Two common cases:
+
+- **Egress** — joining a network that already exists so the workers can reach a
+  service on it directly, such as an ipfs gateway, rather than leaving the host
+  and coming back in.
+- **Ingress** — putting the api behind a reverse proxy.
 
 ```sh
-cp docker-compose.ingress.example.yml docker-compose.ingress.yml
-$EDITOR docker-compose.ingress.yml
+cp docker-compose.site.example.yml docker-compose.site.yml
+$EDITOR docker-compose.site.yml
+```
+
+Any external network the overlay references has to exist before `up -d`:
+
+```sh
+docker network create gateway
+docker network create proxy
 ```
 
 Then pass both files on **every** command, including `pull`, `stop`, `logs` and
 the profile runs below:
 
 ```sh
-docker compose -f docker-compose.yml -f docker-compose.ingress.yml up -d
+docker compose -f docker-compose.yml -f docker-compose.site.yml up -d
 ```
 
-Compose merges the files in order, so omitting the overlay silently drops the
-ingress on the next `up -d`. Setting `COMPOSE_FILE` in `.env` avoids repeating
-the flags:
+Compose merges the files in order, so omitting the overlay silently drops
+everything in it on the next `up -d`. Setting `COMPOSE_FILE` in `.env` avoids
+repeating the flags:
 
 ```
-COMPOSE_FILE=docker-compose.yml:docker-compose.ingress.yml
+COMPOSE_FILE=docker-compose.yml:docker-compose.site.yml
 ```
 
 The examples below omit the flags for brevity; add them, or set `COMPOSE_FILE`.
@@ -101,10 +115,10 @@ registry and fail.
 ```sh
 # from the repo root
 docker build -t ghcr.io/teia-community/indexer:local .
-
-# the base compose joins this external network
-docker network create ipfs
 ```
+
+The base compose needs no external networks, so nothing else is required. Test
+it without a site overlay unless you are specifically testing the overlay.
 
 Run from a directory outside the repo, which is also how a host uses it:
 

@@ -6,7 +6,6 @@ x-indexer: &indexer
   volumes:
     - ./data/:/usr/src/app/data/
   networks:
-    - ipfs
     - default
   depends_on:
     - teztok_database
@@ -56,7 +55,7 @@ services:
 
   # No ingress is configured here: the api is reachable only on the compose
   # network. Add a reverse proxy with an overlay file -- see
-  # docker-compose.ingress.example.yml.
+  # docker-compose.site.example.yml.
   teztok_hasura:
     image: hasura/graphql-engine:v2.37.0
     restart: unless-stopped
@@ -122,6 +121,4 @@ services:
       - default
 
 networks:
-  ipfs:
-    external: true
   default:

@@ -1,0 +1,98 @@
+# Example site overlay: everything that depends on where this is deployed.
+#
+# The base compose is self-contained -- it creates its own network, publishes
+# nothing, and assumes every external service is reachable over the internet.
+# Anything beyond that (joining a network that already exists, putting the api
+# behind a proxy) belongs here, because hostnames, network names, certificate
+# resolvers and named middlewares differ per deployment.
+#
+# Copy it, edit it, and keep your copy out of the repo:
+#
+#   cp docker-compose.site.example.yml docker-compose.site.yml
+#   $EDITOR docker-compose.site.yml
+#   docker compose -f docker-compose.yml -f docker-compose.site.yml up -d
+#
+# docker-compose.site.yml is gitignored.
+#
+# Pass both -f flags on every command, including pull, stop, logs and the
+# db_init / db_restore profiles, or set COMPOSE_FILE in .env. Compose merges
+# the files in order, so omitting the overlay silently drops everything here
+# on the next `up -d`.
+
+x-joins-gateway: &joins-gateway
+  networks:
+    - gateway
+    - default
+
+services:
+  # ---- egress ---------------------------------------------------------------
+  # Join a network that already exists, so the workers can reach a service on
+  # it directly -- an ipfs gateway, for instance -- instead of leaving the host
+  # and coming back in. Set IPFS_GATEWAY in .env to the name that resolves on
+  # that network. Only the services that fetch metadata need this, but applying
+  # it to all of them is simpler and harmless.
+  teztok_ctrl:
+    <<: *joins-gateway
+  teztok_event-producer:
+    <<: *joins-gateway
+  teztok_fetch-metadata:
+    <<: *joins-gateway
+  teztok_rebuild-token:
+    <<: *joins-gateway
+  teztok_warmup_thumbnailcache:
+    <<: *joins-gateway
+
+  # db_init and db_restore only touch postgres, so they are left alone.
+
+  # ---- ingress --------------------------------------------------------------
+  # Traefik with label-based discovery. Any proxy works -- with nginx or Caddy
+  # you would publish a port here and point the proxy at it instead.
+  teztok_hasura:
+    networks:
+      - proxy
+      - default
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.teztok_hasura.loadbalancer.server.port=8080"
+
+      - "traefik.http.routers.teztok_hasura.rule=Host(`api.example.com`)"
+      - "traefik.http.routers.teztok_hasura.tls=true"
+      # Name of a certificate resolver from your Traefik static config.
+      - "traefik.http.routers.teztok_hasura.tls.certresolver=myresolver"
+      # Middlewares from your Traefik file provider need the @file suffix.
+      # Drop this line if you have not defined one.
+      - "traefik.http.routers.teztok_hasura.middlewares=my-security-headers@file"
+
+      # Optional: a second, higher priority router that rate limits one class of
+      # client, matched on a header or origin, while everything else stays on
+      # the router above. Both point at the same service.
+      #
+      # - "traefik.http.routers.teztok_hasura_limited.rule=Host(`api.example.com`) && Headers(`X-Client`, `some-app`)"
+      # - "traefik.http.routers.teztok_hasura_limited.priority=100"
+      # - "traefik.http.routers.teztok_hasura_limited.service=teztok_hasura"
+      # - "traefik.http.routers.teztok_hasura_limited.tls=true"
+      # - "traefik.http.routers.teztok_hasura_limited.tls.certresolver=myresolver"
+      # - "traefik.http.routers.teztok_hasura_limited.middlewares=client-ratelimit"
+      #
+      # Keying the limiter on the header gives one shared bucket for all traffic
+      # carrying it, rather than a bucket per source ip.
+      # - "traefik.http.middlewares.client-ratelimit.ratelimit.average=10"
+      # - "traefik.http.middlewares.client-ratelimit.ratelimit.period=1s"
+      # - "traefik.http.middlewares.client-ratelimit.ratelimit.burst=30"
+      # - "traefik.http.middlewares.client-ratelimit.ratelimit.sourcecriterion.requestheadername=X-Client"
+
+networks:
+  # Networks that already exist. Both must be created before `up -d`:
+  #   docker network create gateway
+  #   docker network create proxy
+  gateway:
+    external: true
+  proxy:
+    external: true
+
+  # Optional: give the compose network ipv6. Pick a ULA subnet of your own.
+  # default:
+  #   enable_ipv6: true
+  #   ipam:
+  #     config:
+  #       - subnet: fd00:0:0:1::/64
