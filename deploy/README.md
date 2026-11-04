@@ -91,6 +91,47 @@ Then start everything:
 docker compose up -d
 ```
 
+## Testing this locally
+
+The compose file pulls by tag and never builds, so build the image yourself and
+tag it with whatever `INDEXER_TAG` you set. Compose uses a local image if one
+with that exact name exists; just do not run `pull`, which would try the
+registry and fail.
+
+```sh
+# from the repo root
+docker build -t ghcr.io/teia-community/indexer:local .
+
+# the base compose joins this external network
+docker network create ipfs
+```
+
+Run from a directory outside the repo, which is also how a host uses it:
+
+```sh
+mkdir -p ~/teztok-test && cd ~/teztok-test
+cp /path/to/repo/deploy/docker-compose.yml .
+cp /path/to/repo/deploy/.env.sample .env
+```
+
+In `.env` set `INDEXER_TAG=local`, a `POSTGRES_PASSWORD`, the three
+`postgres://` urls to match it, and a `TZKT_API`. Then follow **First run**
+above. A fresh database starts at the beginning of the indexed range and has a
+large backlog, so expect it to stay busy.
+
+If you want it alongside another stack, set `COMPOSE_PROJECT_NAME` and change
+`container_name` on the database, since a fixed container name cannot be shared.
+
+To tear it down, including the postgres volume:
+
+```sh
+docker-compose down -v
+```
+
+Note on compose versions: `docker-compose` v1 works here, including
+`--profile`, and does honour `deploy.replicas`. `docker compose` v2 is what
+runs in production.
+
 ## Deploying a new version
 
 `INDEXER_TAG` in `.env` is the only thing that changes. Use an immutable tag —

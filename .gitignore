@@ -10,3 +10,7 @@ docker-compose.override*.yml
 # deployment-specific overlays; only the .example.yml files are tracked
 deploy/docker-compose.*.yml
 !deploy/docker-compose.*.example.yml
+
+# runtime state, if the deploy dir is used in place
+deploy/db/
+deploy/data/

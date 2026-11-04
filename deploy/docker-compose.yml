@@ -81,14 +81,24 @@ services:
       - default
 
   # One-shot: create the schema on an empty database, or bring a restored
-  # database up to the current migration state. Idempotent.
+  # database up to the current migration state.
   #   docker compose --profile init run --rm db_init
+  #
+  # Runs the knex migrations, then creates the teia plugin tables. The plugin
+  # is always enabled in this fork, and its tables are not part of the
+  # migrations, so both steps are needed for a usable database.
+  #
+  # The migrations are idempotent. The plugin step is not: on a database that
+  # already has the tables it reports "failed to create tables" and exits 0,
+  # which is expected after a restore.
   db_init:
     <<: *indexer
     profiles:
       - init
     restart: "no"
-    command: npm run init:db
+    command: >
+      sh -c "node build/scripts/init-db.js &&
+             node build/scripts/create-plugin-tables.js teia"
 
   # One-shot: restore from S3. No argument restores the newest backup; pass a
   # timestamp to pick one. Run db_init afterwards so the schema is current.
