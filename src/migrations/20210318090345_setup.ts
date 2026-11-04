@@ -99,7 +99,9 @@ export async function up(knex: Knex): Promise<void> {
       table.index('last_processed_event_timestamp');
       table.index('last_processed_event_level');
       table.index('metadata_uri');
-      table.index('artifact_uri');
+      // No index on artifact_uri: nothing filters on it, and a btree entry
+      // over ~2704 bytes is rejected, which fails the whole token update and
+      // leaves tokens with a long uri permanently unrebuildable.
       table.index('metadata_status');
       table.index('contract_creator_address');
       table.index('minter_address');
