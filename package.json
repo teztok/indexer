@@ -31,7 +31,7 @@
     "iso-datestring-validator": "^2.2.0",
     "knex": "^0.95.11",
     "lodash": "^4.17.21",
-    "metrohash": "^2.8.0",
+    "metrohash": "^3.2.0",
     "mime-types": "^2.1.34",
     "minimist": "^1.2.5",
     "pg": "^8.7.1",
@@ -51,13 +51,13 @@
     "@types/mime-types": "^2.1.1",
     "@types/minimist": "^1.2.2",
     "@types/mmmagic": "^0.4.30",
-    "@types/node": "^16.11.9",
+    "@types/node": "^26.0.0",
     "babel-jest": "^27.3.1",
     "concurrently": "^7.0.0",
     "jest": "^27.3.1",
     "prettier": "^2.4.1",
     "ts-node": "^10.4.0",
-    "typescript": "^4.5.2"
+    "typescript": "^5.9.3"
   },
   "jest": {
     "testPathIgnorePatterns": [
