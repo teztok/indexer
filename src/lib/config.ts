@@ -5,8 +5,7 @@ require('dotenv').config();
 const defaultConfig = {
   eventProducerConcurrency: 4, // TODO: 1?
   fetchMetadataConcurrency: 4,
-  eventProcessorConcurrency: 4,
-  rebuildConcurrency: 1,
+  rebuildConcurrency: 4,
   rebuildPollInterval: 500,
   workerPollInterval: 500,
   startBlock: 1365000,
