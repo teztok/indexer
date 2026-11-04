@@ -95,7 +95,7 @@ services:
   # network. Add a reverse proxy with an overlay file -- see
   # docker-compose.site.example.yml.
   teztok_hasura:
-    image: hasura/graphql-engine:v2.37.0
+    image: hasura/graphql-engine:v2.51.4
     restart: unless-stopped
     depends_on:
       - teztok_database
@@ -140,6 +140,47 @@ services:
     command: >
       sh -c "node build/scripts/init-db.js &&
              node build/scripts/create-plugin-tables.js teia"
+
+  # One-shot: tell hasura which tables to expose. Without this a new instance
+  # has a working database but an empty api, since hasura tracks nothing by
+  # default. Safe to re-run; replace_metadata is idempotent.
+  #   docker compose --profile init run --rm hasura_init
+  hasura_init:
+    profiles:
+      - init
+    image: curlimages/curl:8.11.1
+    restart: "no"
+    depends_on:
+      - teztok_hasura
+    env_file:
+      - .env
+    volumes:
+      - ./hasura/metadata.json:/metadata.json:ro
+    entrypoint:
+      - sh
+      - -c
+      - |
+        set -e
+        printf '{"type":"replace_metadata","args":' > /tmp/body.json
+        cat /metadata.json >> /tmp/body.json
+        printf '}' >> /tmp/body.json
+        echo "waiting for hasura..."
+        until curl -sf -o /dev/null http://teztok_hasura:8080/healthz; do sleep 2; done
+        echo "applying metadata..."
+        # Deliberately not curl -f: on a rejection the body names the
+        # offending object, and -f would discard it and report only exit 22.
+        code=$$(curl -s -o /tmp/resp.json -w '%{http_code}' \
+          -X POST http://teztok_hasura:8080/v1/metadata \
+          -H "x-hasura-admin-secret: $$HASURA_GRAPHQL_ADMIN_SECRET" \
+          -H 'content-type: application/json' \
+          --data-binary @/tmp/body.json)
+        cat /tmp/resp.json; echo
+        if [ "$$code" != "200" ]; then
+          echo "metadata apply failed with HTTP $$code" >&2
+          echo "if it names graphile_worker.jobs, run db_init first: the" >&2
+          echo "metadata tracks that table and db_init installs its schema." >&2
+          exit 1
+        fi
 
   # One-shot: restore from S3. No argument restores the newest backup; pass a
   # timestamp to pick one. Run db_init afterwards so the schema is current.

@@ -1,0 +1,940 @@
+{
+  "sources": [
+    {
+      "configuration": {
+        "connection_info": {
+          "database_url": {
+            "from_env": "HASURA_GRAPHQL_DATABASE_URL"
+          },
+          "isolation_level": "read-committed",
+          "use_prepared_statements": false
+        }
+      },
+      "customization": {
+        "naming_convention": "hasura-default"
+      },
+      "functions": [
+        {
+          "function": {
+            "name": "last_level",
+            "schema": "public"
+          }
+        }
+      ],
+      "kind": "postgres",
+      "name": "TezTok Teia",
+      "tables": [
+        {
+          "select_permissions": [
+            {
+              "comment": "",
+              "permission": {
+                "allow_aggregations": true,
+                "columns": [
+                  "id",
+                  "payload"
+                ],
+                "filter": {},
+                "query_root_fields": [
+                  "select_aggregate",
+                  "select",
+                  "select_by_pk"
+                ],
+                "subscription_root_fields": [
+                  "select_aggregate",
+                  "select",
+                  "select_by_pk"
+                ]
+              },
+              "role": "webuser"
+            }
+          ],
+          "table": {
+            "name": "jobs",
+            "schema": "graphile_worker"
+          }
+        },
+        {
+          "object_relationships": [
+            {
+              "name": "buyer_profile",
+              "using": {
+                "manual_configuration": {
+                  "column_mapping": {
+                    "buyer_address": "user_address"
+                  },
+                  "insertion_order": null,
+                  "remote_table": {
+                    "name": "teia_users",
+                    "schema": "public"
+                  }
+                }
+              }
+            },
+            {
+              "name": "from_profile",
+              "using": {
+                "manual_configuration": {
+                  "column_mapping": {
+                    "from_address": "user_address"
+                  },
+                  "insertion_order": null,
+                  "remote_table": {
+                    "name": "teia_users",
+                    "schema": "public"
+                  }
+                }
+              }
+            },
+            {
+              "name": "seller_profile",
+              "using": {
+                "manual_configuration": {
+                  "column_mapping": {
+                    "seller_address": "user_address"
+                  },
+                  "insertion_order": null,
+                  "remote_table": {
+                    "name": "teia_users",
+                    "schema": "public"
+                  }
+                }
+              }
+            },
+            {
+              "name": "to_profile",
+              "using": {
+                "manual_configuration": {
+                  "column_mapping": {
+                    "to_address": "user_address"
+                  },
+                  "insertion_order": null,
+                  "remote_table": {
+                    "name": "teia_users",
+                    "schema": "public"
+                  }
+                }
+              }
+            },
+            {
+              "name": "token",
+              "using": {
+                "manual_configuration": {
+                  "column_mapping": {
+                    "fa2_address": "fa2_address",
+                    "token_id": "token_id"
+                  },
+                  "insertion_order": null,
+                  "remote_table": {
+                    "name": "tokens",
+                    "schema": "public"
+                  }
+                }
+              }
+            }
+          ],
+          "select_permissions": [
+            {
+              "permission": {
+                "allow_aggregations": true,
+                "columns": [
+                  "amount",
+                  "artist_address",
+                  "ask_id",
+                  "auction_id",
+                  "bid",
+                  "bid_id",
+                  "bidder_address",
+                  "burn_on_end",
+                  "buyer_address",
+                  "collection_id",
+                  "contract_address",
+                  "creator_name",
+                  "currency",
+                  "current_price",
+                  "custom_data",
+                  "editions",
+                  "end_price",
+                  "end_time",
+                  "extension_time",
+                  "fa2_address",
+                  "from_address",
+                  "highest_bidder_address",
+                  "holder_address",
+                  "id",
+                  "implements",
+                  "is_mint",
+                  "is_verified_artist",
+                  "issuer_id",
+                  "iteration",
+                  "kalamint_on_sale",
+                  "ledger_type",
+                  "level",
+                  "metadata",
+                  "metadata_uri",
+                  "offer_id",
+                  "ophash",
+                  "opid",
+                  "owner_address",
+                  "price",
+                  "price_in_cny",
+                  "price_in_eur",
+                  "price_in_gbp",
+                  "price_in_jpy",
+                  "price_in_krw",
+                  "price_in_usd",
+                  "price_increment",
+                  "quotes",
+                  "reserve",
+                  "royalties",
+                  "royalty_shares",
+                  "seller_address",
+                  "start_price",
+                  "start_time",
+                  "swap_id",
+                  "timestamp",
+                  "to_address",
+                  "token_description",
+                  "token_id",
+                  "token_name",
+                  "total_price",
+                  "type"
+                ],
+                "filter": {},
+                "limit": 10000
+              },
+              "role": "webuser"
+            }
+          ],
+          "table": {
+            "name": "events",
+            "schema": "public"
+          }
+        },
+        {
+          "object_relationships": [
+            {
+              "name": "holder_profile",
+              "using": {
+                "manual_configuration": {
+                  "column_mapping": {
+                    "holder_address": "user_address"
+                  },
+                  "insertion_order": null,
+                  "remote_table": {
+                    "name": "teia_users",
+                    "schema": "public"
+                  }
+                }
+              }
+            },
+            {
+              "name": "token",
+              "using": {
+                "manual_configuration": {
+                  "column_mapping": {
+                    "fa2_address": "fa2_address",
+                    "token_id": "token_id"
+                  },
+                  "insertion_order": null,
+                  "remote_table": {
+                    "name": "tokens",
+                    "schema": "public"
+                  }
+                }
+              }
+            }
+          ],
+          "select_permissions": [
+            {
+              "permission": {
+                "allow_aggregations": true,
+                "columns": [
+                  "amount",
+                  "fa2_address",
+                  "holder_address",
+                  "token_id",
+                  "first_received_at",
+                  "last_received_at"
+                ],
+                "filter": {},
+                "limit": 10000
+              },
+              "role": "webuser"
+            }
+          ],
+          "table": {
+            "name": "holdings",
+            "schema": "public"
+          }
+        },
+        {
+          "object_relationships": [
+            {
+              "name": "seller_profile",
+              "using": {
+                "manual_configuration": {
+                  "column_mapping": {
+                    "seller_address": "user_address"
+                  },
+                  "insertion_order": null,
+                  "remote_table": {
+                    "name": "teia_users",
+                    "schema": "public"
+                  }
+                }
+              }
+            },
+            {
+              "name": "token",
+              "using": {
+                "manual_configuration": {
+                  "column_mapping": {
+                    "fa2_address": "fa2_address",
+                    "token_id": "token_id"
+                  },
+                  "insertion_order": null,
+                  "remote_table": {
+                    "name": "tokens",
+                    "schema": "public"
+                  }
+                }
+              }
+            }
+          ],
+          "select_permissions": [
+            {
+              "permission": {
+                "allow_aggregations": true,
+                "columns": [
+                  "amount",
+                  "amount_left",
+                  "ask_id",
+                  "end_price",
+                  "offer_id",
+                  "price",
+                  "start_price",
+                  "swap_id",
+                  "burn_on_end",
+                  "contract_address",
+                  "fa2_address",
+                  "seller_address",
+                  "currency",
+                  "status",
+                  "token_id",
+                  "type",
+                  "created_at",
+                  "end_time"
+                ],
+                "filter": {},
+                "limit": 10000
+              },
+              "role": "webuser"
+            }
+          ],
+          "table": {
+            "name": "listings",
+            "schema": "public"
+          }
+        },
+        {
+          "object_relationships": [
+            {
+              "name": "token",
+              "using": {
+                "manual_configuration": {
+                  "column_mapping": {
+                    "fa2_address": "fa2_address",
+                    "token_id": "token_id"
+                  },
+                  "insertion_order": null,
+                  "remote_table": {
+                    "name": "tokens",
+                    "schema": "public"
+                  }
+                }
+              }
+            }
+          ],
+          "select_permissions": [
+            {
+              "permission": {
+                "allow_aggregations": true,
+                "columns": [
+                  "amount",
+                  "bid_id",
+                  "offer_id",
+                  "price",
+                  "buyer_address",
+                  "contract_address",
+                  "fa2_address",
+                  "currency",
+                  "status",
+                  "token_id",
+                  "type",
+                  "created_at"
+                ],
+                "filter": {},
+                "limit": 10000
+              },
+              "role": "webuser"
+            }
+          ],
+          "table": {
+            "name": "offers",
+            "schema": "public"
+          }
+        },
+        {
+          "object_relationships": [
+            {
+              "name": "token",
+              "using": {
+                "manual_configuration": {
+                  "column_mapping": {
+                    "fa2_address": "fa2_address",
+                    "token_id": "token_id"
+                  },
+                  "insertion_order": null,
+                  "remote_table": {
+                    "name": "tokens",
+                    "schema": "public"
+                  }
+                }
+              }
+            }
+          ],
+          "select_permissions": [
+            {
+              "permission": {
+                "columns": [
+                  "royalties",
+                  "fa2_address",
+                  "receiver_address",
+                  "token_id"
+                ],
+                "filter": {},
+                "limit": 10000
+              },
+              "role": "webuser"
+            }
+          ],
+          "table": {
+            "name": "royalty_receivers",
+            "schema": "public"
+          }
+        },
+        {
+          "object_relationships": [
+            {
+              "name": "token",
+              "using": {
+                "manual_configuration": {
+                  "column_mapping": {
+                    "fa2_address": "fa2_address",
+                    "token_id": "token_id"
+                  },
+                  "insertion_order": null,
+                  "remote_table": {
+                    "name": "tokens",
+                    "schema": "public"
+                  }
+                }
+              }
+            }
+          ],
+          "select_permissions": [
+            {
+              "permission": {
+                "columns": [
+                  "fa2_address",
+                  "tag",
+                  "token_id"
+                ],
+                "filter": {},
+                "limit": 10000
+              },
+              "role": "webuser"
+            }
+          ],
+          "table": {
+            "name": "tags",
+            "schema": "public"
+          }
+        },
+        {
+          "array_relationships": [
+            {
+              "name": "signatures",
+              "using": {
+                "manual_configuration": {
+                  "column_mapping": {
+                    "shareholder_address": "shareholder_address"
+                  },
+                  "insertion_order": null,
+                  "remote_table": {
+                    "name": "teia_signatures",
+                    "schema": "public"
+                  }
+                }
+              }
+            }
+          ],
+          "object_relationships": [
+            {
+              "name": "shareholder_profile",
+              "using": {
+                "manual_configuration": {
+                  "column_mapping": {
+                    "shareholder_address": "user_address"
+                  },
+                  "insertion_order": null,
+                  "remote_table": {
+                    "name": "teia_users",
+                    "schema": "public"
+                  }
+                }
+              }
+            },
+            {
+              "name": "split_contract",
+              "using": {
+                "manual_configuration": {
+                  "column_mapping": {
+                    "contract_address": "contract_address"
+                  },
+                  "insertion_order": null,
+                  "remote_table": {
+                    "name": "teia_split_contracts",
+                    "schema": "public"
+                  }
+                }
+              }
+            }
+          ],
+          "select_permissions": [
+            {
+              "permission": {
+                "columns": [
+                  "shares",
+                  "contract_address",
+                  "holder_type",
+                  "shareholder_address"
+                ],
+                "filter": {},
+                "limit": 10000
+              },
+              "role": "webuser"
+            }
+          ],
+          "table": {
+            "name": "teia_shareholders",
+            "schema": "public"
+          }
+        },
+        {
+          "select_permissions": [
+            {
+              "permission": {
+                "columns": [
+                  "fa2_address",
+                  "token_id",
+                  "shareholder_address"
+                ],
+                "filter": {},
+                "limit": 10000
+              },
+              "role": "webuser"
+            }
+          ],
+          "table": {
+            "name": "teia_signatures",
+            "schema": "public"
+          }
+        },
+        {
+          "array_relationships": [
+            {
+              "name": "created_tokens",
+              "using": {
+                "manual_configuration": {
+                  "column_mapping": {
+                    "contract_address": "artist_address"
+                  },
+                  "insertion_order": null,
+                  "remote_table": {
+                    "name": "tokens",
+                    "schema": "public"
+                  }
+                }
+              }
+            },
+            {
+              "name": "shareholders",
+              "using": {
+                "manual_configuration": {
+                  "column_mapping": {
+                    "contract_address": "contract_address"
+                  },
+                  "insertion_order": null,
+                  "remote_table": {
+                    "name": "teia_shareholders",
+                    "schema": "public"
+                  }
+                }
+              }
+            }
+          ],
+          "object_relationships": [
+            {
+              "name": "contract_profile",
+              "using": {
+                "manual_configuration": {
+                  "column_mapping": {
+                    "contract_address": "user_address"
+                  },
+                  "insertion_order": null,
+                  "remote_table": {
+                    "name": "teia_users",
+                    "schema": "public"
+                  }
+                }
+              }
+            }
+          ],
+          "select_permissions": [
+            {
+              "permission": {
+                "columns": [
+                  "administrator_address",
+                  "contract_address",
+                  "total_shares"
+                ],
+                "filter": {},
+                "limit": 10000
+              },
+              "role": "webuser"
+            }
+          ],
+          "table": {
+            "name": "teia_split_contracts",
+            "schema": "public"
+          }
+        },
+        {
+          "select_permissions": [
+            {
+              "permission": {
+                "columns": [
+                  "accessibility",
+                  "content_rating",
+                  "fa2_address",
+                  "is_signed",
+                  "preview_uri",
+                  "token_id"
+                ],
+                "filter": {},
+                "limit": 10000
+              },
+              "role": "webuser"
+            }
+          ],
+          "table": {
+            "name": "teia_tokens_meta",
+            "schema": "public"
+          }
+        },
+        {
+          "object_relationships": [
+            {
+              "name": "metadata",
+              "using": {
+                "manual_configuration": {
+                  "column_mapping": {
+                    "metadata_uri": "uri"
+                  },
+                  "insertion_order": null,
+                  "remote_table": {
+                    "name": "token_metadata",
+                    "schema": "public"
+                  }
+                }
+              }
+            },
+            {
+              "name": "split_contract",
+              "using": {
+                "manual_configuration": {
+                  "column_mapping": {
+                    "user_address": "contract_address"
+                  },
+                  "insertion_order": null,
+                  "remote_table": {
+                    "name": "teia_split_contracts",
+                    "schema": "public"
+                  }
+                }
+              }
+            }
+          ],
+          "select_permissions": [
+            {
+              "permission": {
+                "columns": [
+                  "is_split",
+                  "user_address",
+                  "metadata_uri",
+                  "name"
+                ],
+                "filter": {},
+                "limit": 10000
+              },
+              "role": "webuser"
+            }
+          ],
+          "table": {
+            "name": "teia_users",
+            "schema": "public"
+          }
+        },
+        {
+          "select_permissions": [
+            {
+              "permission": {
+                "columns": [
+                  "data",
+                  "status",
+                  "uri"
+                ],
+                "filter": {},
+                "limit": 10000
+              },
+              "role": "webuser"
+            }
+          ],
+          "table": {
+            "name": "token_metadata",
+            "schema": "public"
+          }
+        },
+        {
+          "array_relationships": [
+            {
+              "name": "events",
+              "using": {
+                "manual_configuration": {
+                  "column_mapping": {
+                    "fa2_address": "fa2_address",
+                    "token_id": "token_id"
+                  },
+                  "insertion_order": null,
+                  "remote_table": {
+                    "name": "events",
+                    "schema": "public"
+                  }
+                }
+              }
+            },
+            {
+              "name": "holdings",
+              "using": {
+                "manual_configuration": {
+                  "column_mapping": {
+                    "fa2_address": "fa2_address",
+                    "token_id": "token_id"
+                  },
+                  "insertion_order": null,
+                  "remote_table": {
+                    "name": "holdings",
+                    "schema": "public"
+                  }
+                }
+              }
+            },
+            {
+              "name": "listings",
+              "using": {
+                "manual_configuration": {
+                  "column_mapping": {
+                    "fa2_address": "fa2_address",
+                    "token_id": "token_id"
+                  },
+                  "insertion_order": null,
+                  "remote_table": {
+                    "name": "listings",
+                    "schema": "public"
+                  }
+                }
+              }
+            },
+            {
+              "name": "offers",
+              "using": {
+                "manual_configuration": {
+                  "column_mapping": {
+                    "fa2_address": "fa2_address",
+                    "token_id": "token_id"
+                  },
+                  "insertion_order": null,
+                  "remote_table": {
+                    "name": "offers",
+                    "schema": "public"
+                  }
+                }
+              }
+            },
+            {
+              "name": "royalty_receivers",
+              "using": {
+                "manual_configuration": {
+                  "column_mapping": {
+                    "fa2_address": "fa2_address",
+                    "token_id": "token_id"
+                  },
+                  "insertion_order": null,
+                  "remote_table": {
+                    "name": "royalty_receivers",
+                    "schema": "public"
+                  }
+                }
+              }
+            },
+            {
+              "name": "signatures",
+              "using": {
+                "manual_configuration": {
+                  "column_mapping": {
+                    "fa2_address": "fa2_address",
+                    "token_id": "token_id"
+                  },
+                  "insertion_order": null,
+                  "remote_table": {
+                    "name": "teia_signatures",
+                    "schema": "public"
+                  }
+                }
+              }
+            },
+            {
+              "name": "tags",
+              "using": {
+                "manual_configuration": {
+                  "column_mapping": {
+                    "fa2_address": "fa2_address",
+                    "token_id": "token_id"
+                  },
+                  "insertion_order": null,
+                  "remote_table": {
+                    "name": "tags",
+                    "schema": "public"
+                  }
+                }
+              }
+            }
+          ],
+          "object_relationships": [
+            {
+              "name": "artist_profile",
+              "using": {
+                "manual_configuration": {
+                  "column_mapping": {
+                    "artist_address": "user_address"
+                  },
+                  "insertion_order": null,
+                  "remote_table": {
+                    "name": "teia_users",
+                    "schema": "public"
+                  }
+                }
+              }
+            },
+            {
+              "name": "teia_meta",
+              "using": {
+                "manual_configuration": {
+                  "column_mapping": {
+                    "fa2_address": "fa2_address",
+                    "token_id": "token_id"
+                  },
+                  "insertion_order": null,
+                  "remote_table": {
+                    "name": "teia_tokens_meta",
+                    "schema": "public"
+                  }
+                }
+              }
+            }
+          ],
+          "select_permissions": [
+            {
+              "permission": {
+                "allow_aggregations": true,
+                "columns": [
+                  "artifact_metadata",
+                  "artifact_uri",
+                  "artist_address",
+                  "assets",
+                  "attributes",
+                  "burned_editions",
+                  "contributors",
+                  "creators",
+                  "current_price_to_first_sales_price_diff",
+                  "current_price_to_first_sales_price_pct",
+                  "current_price_to_highest_sales_price_diff",
+                  "current_price_to_highest_sales_price_pct",
+                  "current_price_to_last_sales_price_diff",
+                  "current_price_to_last_sales_price_pct",
+                  "current_price_to_lowest_sales_price_diff",
+                  "current_price_to_lowest_sales_price_pct",
+                  "description",
+                  "display_uri",
+                  "editions",
+                  "external_uri",
+                  "fa2_address",
+                  "first_sales_price",
+                  "formats",
+                  "highest_offer_price",
+                  "highest_sales_price",
+                  "is_verified_artist",
+                  "last_processed_event_id",
+                  "last_processed_event_level",
+                  "last_processed_event_timestamp",
+                  "last_sale_at",
+                  "last_sales_price",
+                  "lowest_price_listing",
+                  "lowest_sales_price",
+                  "metadata_status",
+                  "metadata_uri",
+                  "mime_type",
+                  "mint_price",
+                  "minted_at",
+                  "name",
+                  "platform",
+                  "price",
+                  "right_uri",
+                  "rights",
+                  "royalties",
+                  "royalties_total",
+                  "sales_count",
+                  "sales_volume",
+                  "symbol",
+                  "thumbnail_uri",
+                  "token_id",
+                  "updated_at"
+                ],
+                "filter": {},
+                "limit": 10000
+              },
+              "role": "webuser"
+            }
+          ],
+          "table": {
+            "name": "tokens",
+            "schema": "public"
+          }
+        }
+      ]
+    }
+  ],
+  "version": 3
+}

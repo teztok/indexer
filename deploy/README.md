@@ -81,11 +81,27 @@ docker compose up -d teztok_database
 docker compose --profile init run --rm db_init
 ```
 
+Then start hasura and tell it which tables to expose. Without this the database
+is fine but the api is empty, because hasura tracks nothing by default:
+
+```sh
+docker compose up -d teztok_hasura
+docker compose --profile init run --rm hasura_init
+```
+
+`hasura/metadata.json` is the tracked tables, relationships and `webuser`
+permissions. It refers to the database through `HASURA_GRAPHQL_DATABASE_URL`
+rather than a literal connection string, so it is portable between instances.
+Applying it is idempotent. After changing anything through the hasura console,
+export the metadata and commit it, or the next instance will not have it.
+
 **From the newest S3 backup:**
 
 ```sh
 docker compose --profile restore run --rm db_restore
 docker compose --profile init run --rm db_init     # bring schema up to date
+docker compose up -d teztok_hasura
+docker compose --profile init run --rm hasura_init
 ```
 
 To restore a specific backup, pass its timestamp as it appears in the object
