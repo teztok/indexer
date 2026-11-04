@@ -185,7 +185,23 @@ still runs against the current schema before relying on it.
 
 - `docker compose logs -f --tail=100 teztok_ctrl` to follow the controller.
 - The `backup` service runs `@daily` and keeps 7 days. It starts with
-  `up -d` and needs no manual step.
+  `up -d` and needs no manual step. To take one immediately:
+  `docker compose run --rm backup backup`.
+- `SCHEDULE` accepts `@daily`, `@hourly`, or `@every <seconds>`. Anything else
+  fails at startup rather than silently never running.
+- Backup and restore both come from `deploy/backup`, built alongside the
+  indexer and sharing `INDEXER_TAG`. `pg_dump` has to be at least the server
+  version, so its base image tracks the postgres major in
+  `docker-compose.yml` — **bump both together**. The previous off-the-shelf
+  image only published up to 16 and silently could not dump an 18 server.
+- Dumps are `pg_dump` custom format named `<database>_<timestamp>.dump`, the
+  same convention as before, so older backups restore unchanged.
+- The object name comes from `POSTGRES_DATABASE`, so a dump restores into the
+  database it came from. Restoring into a differently named database is not
+  supported.
+- `PASSPHRASE` is rejected rather than ignored. The previous image could
+  gpg-encrypt dumps; this one does not, and writing plaintext when encryption
+  was requested would be the wrong failure.
 - On restart the controller resumes from `MAX(events.level)`, so it re-indexes
   the trailing run of blocks that contained no events. That is expected and
   self-correcting.

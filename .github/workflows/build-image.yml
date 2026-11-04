@@ -50,6 +50,27 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
+      # The backup image is tagged in lockstep with the indexer so that one
+      # INDEXER_TAG in .env selects both. It changes rarely, so the build is
+      # almost always a cache hit.
+      - id: meta-backup
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ github.repository }}-backup
+          tags: |
+            type=sha,prefix=sha-,format=short
+            type=semver,pattern=v{{version}}
+            type=semver,pattern=v{{major}}.{{minor}}
+
+      - uses: docker/build-push-action@v6
+        with:
+          context: deploy/backup
+          push: true
+          tags: ${{ steps.meta-backup.outputs.tags }}
+          labels: ${{ steps.meta-backup.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
       - name: deployable tags
         run: |
           echo "Set INDEXER_TAG in deploy/.env to one of:" >> $GITHUB_STEP_SUMMARY
