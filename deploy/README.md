@@ -9,18 +9,48 @@ Images are built by `.github/workflows/build-image.yml` and published to
 
 ## Layout on the host
 
-Copy `docker-compose.yml` and `.env.sample` to the deploy directory
+Copy `docker-compose.yml`, `.env.sample` and (if you need ingress)
+`docker-compose.ingress.example.yml` to the deploy directory
 (e.g. `/opt/teztok`), then:
 
 ```
 /opt/teztok/
   docker-compose.yml
-  .env            # from .env.sample, never committed
-  db/             # postgres data
-  data/           # app data (logs, teztok.json)
+  docker-compose.ingress.yml   # optional, your own; gitignored
+  .env                         # from .env.sample, never committed
+  db/                          # postgres data
+  data/                        # app data (logs, teztok.json)
 ```
 
-The external `ipfs` and `web` networks must already exist on the host.
+The external `ipfs` network must already exist on the host.
+
+## Ingress
+
+The base compose publishes no ports: the api is reachable only on the compose
+network. Deployment-specific routing lives in an overlay, so that hostnames,
+certificate resolvers and named middlewares stay out of this repo.
+
+```sh
+cp docker-compose.ingress.example.yml docker-compose.ingress.yml
+$EDITOR docker-compose.ingress.yml
+```
+
+Then pass both files on **every** command, including `pull`, `stop`, `logs` and
+the profile runs below:
+
+```sh
+docker compose -f docker-compose.yml -f docker-compose.ingress.yml up -d
+```
+
+Compose merges the files in order, so omitting the overlay silently drops the
+ingress on the next `up -d`. Setting `COMPOSE_FILE` in `.env` avoids repeating
+the flags:
+
+```
+COMPOSE_FILE=docker-compose.yml:docker-compose.ingress.yml
+```
+
+The examples below omit the flags for brevity; add them, or set `COMPOSE_FILE`.
 
 ## First run
 

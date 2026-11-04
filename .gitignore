@@ -5,3 +5,8 @@ node_modules/
 build/
 data/postgres-dev/
 docker-compose.custom*.yml
+docker-compose.override*.yml
+
+# deployment-specific overlays; only the .example.yml files are tracked
+deploy/docker-compose.*.yml
+!deploy/docker-compose.*.example.yml

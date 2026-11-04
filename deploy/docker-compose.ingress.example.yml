@@ -1,0 +1,67 @@
+# Example ingress overlay. The base compose exposes nothing outside the compose
+# network, so add a file like this to put the api behind a reverse proxy.
+#
+# Copy it, edit it, and keep your copy out of the repo:
+#
+#   cp docker-compose.ingress.example.yml docker-compose.ingress.yml
+#   $EDITOR docker-compose.ingress.yml
+#   docker compose -f docker-compose.yml -f docker-compose.ingress.yml up -d
+#
+# docker-compose.ingress.yml is gitignored, since hostnames, certificate
+# resolvers and named middlewares are specific to one deployment.
+#
+# Pass both -f flags on every command, including pull, stop, logs and the
+# db_init / db_restore profiles. Compose merges the files in order, so omitting
+# the overlay silently drops the ingress on the next `up -d`.
+#
+# The example below is Traefik with label-based discovery. Any proxy works --
+# with nginx or Caddy you would instead publish a port here and point the proxy
+# at it.
+
+services:
+  teztok_hasura:
+    networks:
+      - proxy
+      - default
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.teztok_hasura.loadbalancer.server.port=8080"
+
+      - "traefik.http.routers.teztok_hasura.rule=Host(`api.example.com`)"
+      - "traefik.http.routers.teztok_hasura.tls=true"
+      # Name of a certificate resolver defined in your Traefik static config.
+      - "traefik.http.routers.teztok_hasura.tls.certresolver=myresolver"
+      # Middlewares defined in your Traefik file provider need the @file suffix.
+      # Drop this line if you have not defined one.
+      - "traefik.http.routers.teztok_hasura.middlewares=my-security-headers@file"
+
+      # Optional: a second, higher priority router that rate limits one class of
+      # client, matched on a header or origin, while leaving everything else on
+      # the router above. Both routers point at the same service.
+      #
+      # - "traefik.http.routers.teztok_hasura_limited.rule=Host(`api.example.com`) && Headers(`X-Client`, `some-app`)"
+      # - "traefik.http.routers.teztok_hasura_limited.priority=100"
+      # - "traefik.http.routers.teztok_hasura_limited.service=teztok_hasura"
+      # - "traefik.http.routers.teztok_hasura_limited.tls=true"
+      # - "traefik.http.routers.teztok_hasura_limited.tls.certresolver=myresolver"
+      # - "traefik.http.routers.teztok_hasura_limited.middlewares=client-ratelimit"
+      #
+      # One shared bucket for all traffic carrying that header, rather than
+      # per source ip, by keying the limiter on the header itself.
+      # - "traefik.http.middlewares.client-ratelimit.ratelimit.average=10"
+      # - "traefik.http.middlewares.client-ratelimit.ratelimit.period=1s"
+      # - "traefik.http.middlewares.client-ratelimit.ratelimit.burst=30"
+      # - "traefik.http.middlewares.client-ratelimit.ratelimit.sourcecriterion.requestheadername=X-Client"
+
+networks:
+  # The network your proxy already runs on. Must exist:
+  #   docker network create proxy
+  proxy:
+    external: true
+
+  # Optional: give the compose network ipv6. Pick a ULA subnet of your own.
+  # default:
+  #   enable_ipv6: true
+  #   ipam:
+  #     config:
+  #       - subnet: fd00:0:0:1::/64

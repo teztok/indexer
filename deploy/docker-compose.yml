@@ -54,6 +54,9 @@ services:
     depends_on:
       - teztok_ctrl
 
+  # No ingress is configured here: the api is reachable only on the compose
+  # network. Add a reverse proxy with an overlay file -- see
+  # docker-compose.ingress.example.yml.
   teztok_hasura:
     image: hasura/graphql-engine:v2.37.0
     restart: unless-stopped
@@ -62,29 +65,7 @@ services:
     env_file:
       - .env
     networks:
-      - web
       - default
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.teztok_hasura.rule=Host(`teztok.teia.rocks`, `teztok2.teia.rocks`, `teztok.teia.art`)"
-      - "traefik.http.routers.teztok_hasura.tls=true"
-      - "traefik.http.routers.teztok_hasura.tls.certresolver=cloudflare"
-      - "traefik.http.routers.teztok_hasura.middlewares=hsts-headers@file"
-      - "traefik.http.services.teztok_hasura.loadbalancer.server.port=8080"
-
-      # hic.af router (rate limited)
-      - "traefik.http.routers.teztok_hasura_hicaf.rule=Host(`teztok.teia.rocks`, `teztok2.teia.rocks`, `teztok.teia.art`) && (Headers(`X-Hicaf-Client`, `hic.af-web`) || Headers(`Origin`, `https://hic.af`)) && !Method(`OPTIONS`)"
-      - "traefik.http.routers.teztok_hasura_hicaf.priority=100"
-      - "traefik.http.routers.teztok_hasura_hicaf.tls=true"
-      - "traefik.http.routers.teztok_hasura_hicaf.tls.certresolver=cloudflare"
-      - "traefik.http.routers.teztok_hasura_hicaf.middlewares=hicaf-ratelimit,hsts-headers@file"
-      - "traefik.http.routers.teztok_hasura_hicaf.service=teztok_hasura"
-
-      # Rate limit: one shared bucket for all hic.af traffic
-      - "traefik.http.middlewares.hicaf-ratelimit.ratelimit.average=10"
-      - "traefik.http.middlewares.hicaf-ratelimit.ratelimit.period=1s"
-      - "traefik.http.middlewares.hicaf-ratelimit.ratelimit.burst=30"
-      - "traefik.http.middlewares.hicaf-ratelimit.ratelimit.sourcecriterion.requestheadername=X-Hicaf-Client"
 
   backup:
     image: eeshugerman/postgres-backup-s3:16
@@ -133,10 +114,4 @@ services:
 networks:
   ipfs:
     external: true
-  web:
-    external: true
   default:
-    enable_ipv6: true
-    ipam:
-      config:
-        - subnet: fd00:201:121::/64
