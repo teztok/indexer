@@ -121,6 +121,8 @@ export async function run() {
       if (max % 10 === 0) {
         await handleTimedoutOffersAndListings();
       }
+
+      lastBlock = max;
     } else if (msg.type === 2) {
       const lastValidBlock = msg.state;
       logger.info(`reorg: revert to level ${lastValidBlock}`);
@@ -136,13 +138,15 @@ export async function run() {
           { jobKey: `rebuild-token-${event.fa2_address}-${event.token_id}`, maxAttempts: 2 }
         );
       }
+
+      // rewind so the reverted levels get re-indexed
+      lastBlock = Math.min(lastBlock, lastValidBlock);
     }
 
     if (!isRebuildingTokens) {
       // temp workaround to the problem that indexer is sometimes lagging...
       rebuildOutstandingTokens(200);
     }
-    lastBlock++;
   });
 
   init();
